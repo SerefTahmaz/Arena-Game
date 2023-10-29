@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class cRefreshLobbyButton : MonoBehaviour
+{
+    [SerializeField] private cButton m_Button;
+
+    public void RefreshLobby()
+    {
+        m_Button.DeActivate();
+        cLobbyListUI.Instance.PopulateList(OnRefresh);
+    }
+
+    public void OnRefresh()
+    {
+        Debug.Log("Updated Lobby");
+        m_Button.Activate();
+    }
+}

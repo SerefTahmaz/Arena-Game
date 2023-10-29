@@ -1,0 +1,119 @@
+using System;
+using DemoBlast.Utils;
+using DG.Tweening;
+using FiniteStateMachine;
+using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
+
+public class cPlayerStateMachineV2 : cCharacterStateMachine
+    {
+        #region PritaveFields
+
+        [SerializeField] private ParticleSystem m_DustExpo;
+        [SerializeField] private ParticleSystem m_BloodExpo;
+        [SerializeField] private cPlayerCharacter m_Character;
+
+        private MovementUserController m_MovementUserController;
+        private IInputManager m_InputManager;
+
+        [SerializeField] private float m_YDistance;
+        [SerializeField] private LayerMask m_LayerMask;
+
+        #endregion
+
+        #region States
+
+        #endregion
+
+        #region Properties
+        public AnimationController AnimationController => Character.AnimationController;
+        public MovementUserController MovementUserController => m_MovementUserController;
+        public IInputManager InputManager => m_InputManager;
+
+        public cCharacterNetworkController CharacterNetworkController => Character.CharacterNetworkController;
+
+        public cPlayerCharacter Character => m_Character;
+
+        #endregion
+
+        private void Awake()
+        {
+            m_InputManager = GetComponentInChildren<IInputManager>();
+            m_MovementUserController = GetComponentInChildren<MovementUserController>();
+            m_MovementUserController.InputManager = m_InputManager;
+            Character.InventoryManager.InitInventory(TeamID);
+        }
+
+        protected override void Start()
+        {
+            Debug.Log(CharacterNetworkController.IsOwner);
+            if (!CharacterNetworkController.IsOwner)
+            {
+                MovementUserController.enabled = false;
+                return;
+            }
+            
+            Empty.InitializeState("Empty", this);
+            FreeRoam.InitializeState("FreeRoam", this);
+            Fight.InitializeState("Fight", this);
+            Dead.InitializeState("Dead", this);
+            base.Start();
+            
+            cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(this.transform);
+            
+            Character.HealthBar.m_OnDied += () =>
+            {
+                ChangeState(Dead);
+            };
+        }
+
+        protected override void Update()
+        {
+            if(!CharacterNetworkController.IsOwner) return;
+            base.Update();
+
+            if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
+            {
+                if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                {
+                    var pos = transform.position;
+                    transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                }
+            }
+        }
+
+        protected override cStateBase GetInitialState()
+        {
+            return FreeRoam;
+        }
+
+        private bool m_Damaged = false;
+
+        public override void Damage(int amount, Vector3 pos,bool isHeavyDamage)
+        {
+            if(!CharacterNetworkController.IsOwner) return;
+            
+            if(CurrentState == Dead) return; 
+            
+            base.Damage(amount, pos,isHeavyDamage);
+
+            if (m_Damaged == false)
+            {
+                Character.HealthBar.OnDamage(10);
+                Character.PlayerCharacterNetworkController.TakeDamageServerRpc();
+
+                AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage);
+                AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
+                m_Damaged = true;
+                DOVirtual.DelayedCall(.2f, () => m_Damaged = false);
+            }
+        }
+
+        public void OnDamageAnim()
+        {
+            m_BloodExpo.PlayWithClear();
+            Character.SoundEffectController.PlayDamageGrunt();
+            // m_DustExpo.PlayWithClear();
+        }
+    }

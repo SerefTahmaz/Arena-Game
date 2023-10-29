@@ -1,0 +1,336 @@
+fileFormatVersion: 2
+guid: 3e4ddc5df1b556440b29e39335bec792
+ModelImporter:
+  serializedVersion: 21202
+  internalIDToNameTable:
+  - first:
+      74: 1243818437521308493
+    second: RIG-Armature.002|RIG-Armature.002Action
+  - first:
+      74: 5438640797731567756
+    second: RIG-Armature.002|RIG-Armature.002Action.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body.002
+    second: {fileID: 2100000, guid: 4c42c74307734ef4c9899416a3a1b5a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FrontLeftLeg.002
+    second: {fileID: 2100000, guid: 81e3ea0d2cd65d34b94250dc2265894f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FrontRightLeg.002
+    second: {fileID: 2100000, guid: 95ecd2107c5e89e42b90bcd664a21e0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head.002
+    second: {fileID: 2100000, guid: 6e0da9de26f3d65499ece33820f257d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LeftWing.002
+    second: {fileID: 2100000, guid: ba0a570a45e9a8b45ad913e9ab1ba5c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RearLeftLeg.002
+    second: {fileID: 2100000, guid: 85007539c4e8d2b499e092b42a37e0a8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RearRightLeg.002
+    second: {fileID: 2100000, guid: 948c9c134b176f648b1ea520c98a09b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RightWing.002
+    second: {fileID: 2100000, guid: ce5db12457250384fae5c7f14c090b3c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tail.002
+    second: {fileID: 2100000, guid: 45d72f8a58a54664491a62d13a9b3cd2, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_BaseColor
+    second: {fileID: 2800000, guid: 56a1e9601ca59e2429c807b15e12a72e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_Metallic
+    second: {fileID: 2800000, guid: fc02773b306ac4a4d92a2aac9a6b3f6d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_Normal
+    second: {fileID: 2800000, guid: a0ef59c4276fef844993fdb4fd116f44, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_Roughness
+    second: {fileID: 2800000, guid: b21b9b42adf50aa4db7ebca434ba0f76, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontLeftLeg_BaseColor
+    second: {fileID: 2800000, guid: 9542a2d90ee673649adb2508d2425271, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontLeftLeg_Metallic
+    second: {fileID: 2800000, guid: 2e1cbec8022117d46969dc978190c447, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontLeftLeg_Normal
+    second: {fileID: 2800000, guid: 4caf7f35bf42b6242a86e24e9a646f4a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontLeftLeg_Roughness
+    second: {fileID: 2800000, guid: 787d81e3d0f02004fb533f093ca00a66, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontRightLeg_BaseColor
+    second: {fileID: 2800000, guid: 1e6deb7723d8db645983b9b79ecd3619, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontRightLeg_Metallic
+    second: {fileID: 2800000, guid: 0aa247cd68b19fb48b7b5365082fb1d6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontRightLeg_Normal
+    second: {fileID: 2800000, guid: a7c68b24fcc2a4b42a4889df4f302a8d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FrontRightLeg_Roughness
+    second: {fileID: 2800000, guid: 59b9eccd6afa03841bc4236ab3efc127, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Head_BaseColor
+    second: {fileID: 2800000, guid: a3b3797fa047a2442afa38aebbc06eb4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Head_Metallic
+    second: {fileID: 2800000, guid: 94640e92856b6934585ee545dfe36b91, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Head_Normal
+    second: {fileID: 2800000, guid: 6ef430995c033264894e16a669ec1761, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Head_Roughness
+    second: {fileID: 2800000, guid: 18c2c6dd6b4b5944490ebc1424885223, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: LeftWing_BaseColor
+    second: {fileID: 2800000, guid: b622d1c34fc92bc4bb9944fe0b01ccd1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: LeftWing_Metallic
+    second: {fileID: 2800000, guid: e2a3a6444df804f499605b0ba215c149, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: LeftWing_Normal
+    second: {fileID: 2800000, guid: a882095e9a10f074d9d699c5d6f5805c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: LeftWing_Roughness
+    second: {fileID: 2800000, guid: aabbf7ec6c3036145959668647b3a890, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearLeftLeg_BaseColor
+    second: {fileID: 2800000, guid: 26305666f47f3d642b9ee8e46ad2820b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearLeftLeg_Metallic
+    second: {fileID: 2800000, guid: fa40679132b492f4d8cc6789437525ff, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearLeftLeg_Normal
+    second: {fileID: 2800000, guid: 520779af98df01047a7e52b441b8bbeb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearLeftLeg_Roughness
+    second: {fileID: 2800000, guid: 043619eac2f2d6a41ba5c83f40c4a910, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearRightLeg_BaseColor
+    second: {fileID: 2800000, guid: 41d8407beeb57814b809b72dd5c7e031, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearRightLeg_Metallic
+    second: {fileID: 2800000, guid: e78ef341b29ba2f4ebfecd24e051dc10, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearRightLeg_Normal
+    second: {fileID: 2800000, guid: 6999e91579f443142a7aece818d25fc8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RearRightLeg_Roughness
+    second: {fileID: 2800000, guid: 8941417fd518a3a4f86c374d4fc99bc6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RightWing_BaseColor
+    second: {fileID: 2800000, guid: b48287d86430e22468edc20a3e061b18, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RightWing_Metallic
+    second: {fileID: 2800000, guid: fe48806f9ba7be347b11bc71a1f0a708, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RightWing_Normal
+    second: {fileID: 2800000, guid: 274e7dc1528893e4f93f1d6a091e9cde, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RightWing_Roughness
+    second: {fileID: 2800000, guid: 67a1020f13eb2fe4797848674a4ff022, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tail_BaseColor
+    second: {fileID: 2800000, guid: 02cee1c06c7905e4c9ee20b7bb70a216, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tail_Metallic
+    second: {fileID: 2800000, guid: 4930b88b709610840804e62d95f23052, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tail_Normal
+    second: {fileID: 2800000, guid: af0379589ae58fd47b28e32b9cbd39ec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tail_Roughness
+    second: {fileID: 2800000, guid: 05061788d4ba4e947b02e153710033d2, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
