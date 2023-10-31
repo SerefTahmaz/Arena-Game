@@ -21,16 +21,27 @@ public class cDragonNetworkController : cCharacterNetworkController
         m_DragonCharacter.DragonSoundController.PlayBossMusicClientRpc();
         m_DragonCharacter.DragonSoundController.StopAmbient();
     }
-    
-    [ServerRpc]
-    public void OnEndFightServerRpc()
+
+    [ServerRpc(RequireOwnership = false)]
+    public override void TakeDamageServerRpc(Vector3 pos)
     {
-        OnEndFightClientRpc();
+        TakeDamageClientRpc(pos);
     }
-    
-    
+
     [ClientRpc]
-    public void OnEndFightClientRpc()
+    protected override void TakeDamageClientRpc(Vector3 pos)
+    {
+        m_DragonCharacter.DragonDamageController.DamageAnim(pos);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public override void OnDeathServerRpc()
+    {
+        OnDeathClientRpc();
+    }
+
+    [ClientRpc]
+    protected override void OnDeathClientRpc()
     {
         DOVirtual.DelayedCall(2, () => m_DragonCharacter.HealthBar.SetVisibilty(false));
         m_DragonCharacter.DragonSoundController.StopBossMusic();

@@ -103,7 +103,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             if (m_Damaged == false)
             {
                 Character.HealthBar.OnDamage(10);
-                Character.PlayerCharacterNetworkController.TakeDamageServerRpc();
+                Character.PlayerCharacterNetworkController.TakeDamageServerRpc(pos);
 
                 AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
                     resetable: true);

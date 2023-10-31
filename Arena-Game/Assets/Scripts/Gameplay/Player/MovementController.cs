@@ -13,8 +13,8 @@ namespace PlayerCharacter
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
 
-		Rigidbody m_Rigidbody;
-		Animator m_Animator;
+		[SerializeField] Rigidbody m_Rigidbody;
+		[SerializeField] Animator m_Animator;
 		bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
 		const float k_Half = 0.5f;
@@ -23,15 +23,12 @@ namespace PlayerCharacter
 		Vector3 m_GroundNormal;
 		float m_CapsuleHeight;
 		Vector3 m_CapsuleCenter;
-		CapsuleCollider m_Capsule;
+		[SerializeField] CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
 
 		void Start()
 		{
-			m_Animator = GetComponentInChildren<Animator>();
-			m_Rigidbody = GetComponent<Rigidbody>();
-			m_Capsule = GetComponent<CapsuleCollider>();
 			m_CapsuleHeight = m_Capsule.height;
 			m_CapsuleCenter = m_Capsule.center;
 

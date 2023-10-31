@@ -18,7 +18,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             AnimationController.SetTrigger(cAnimationController.eAnimationType.Death);
-            StateMachine.Character.DragonNetworkController.OnEndFightServerRpc();
+            StateMachine.Character.DragonNetworkController.OnDeathServerRpc();
         }
 
         public override void Exit()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DemoBlast.Utils;
 using DG.Tweening;
 using RootMotion.FinalIK;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -42,6 +43,12 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
     [ContextMenu("Punch")]
     public void DamageLeg(Vector3 pos)
     {
+        m_Dragon.HealthBar.OnDamage(10);
+        m_Dragon.CharacterNetworkController.TakeDamageServerRpc(pos);
+    }
+
+    public void DamageAnim(Vector3 pos)
+    {
         m_Target.DOComplete();
         m_Tween.Complete();
         m_LimbTween.Complete();
@@ -62,12 +69,11 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
         m_Punching = true;
         
         m_AudioSource.PlayOneShot(m_DamageClip);
-        m_Dragon.HealthBar.OnDamage(10);
+        
 
         var ins =Instantiate(m_DamageParticle, pos, Quaternion.identity);
         ins.PlayWithClear();
-        
-        
+
     }
 
     public void Damage(int amount, Vector3 pos, bool isHeavy)

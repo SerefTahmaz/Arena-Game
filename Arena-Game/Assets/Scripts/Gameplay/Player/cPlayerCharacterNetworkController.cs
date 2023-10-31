@@ -50,25 +50,25 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     }
     
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamageServerRpc()
+    public override void TakeDamageServerRpc(Vector3 pos)
     {
-        TakeDamageClientRpc();
+        TakeDamageClientRpc(pos);
     }
 
     [ClientRpc]
-    public void TakeDamageClientRpc()
+    protected override void TakeDamageClientRpc(Vector3 pos)
     {
         m_PlayerCharacter.PlayerStateMachineV2.OnDamageAnim();
     }
     
     [ServerRpc(RequireOwnership = false)]
-    public void OnDeathServerRpc()
+    public override void OnDeathServerRpc()
     {
         OnDeathClientRpc();
     }
-
+    
     [ClientRpc]
-    public void OnDeathClientRpc()
+    protected override void OnDeathClientRpc()
     {
         DOVirtual.DelayedCall(2, () => m_PlayerCharacter.HealthBar.SetVisibilty(false));
         m_PlayerCharacter.SoundEffectController.PlayDead();

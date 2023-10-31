@@ -5,7 +5,7 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
-public class cCharacterNetworkController : NetworkBehaviour
+public abstract class cCharacterNetworkController : NetworkBehaviour
 {
     [SerializeField] private NetworkAnimator m_NetworkAnimator;
 
@@ -33,4 +33,16 @@ public class cCharacterNetworkController : NetworkBehaviour
     {
         if(!IsOwner) return;
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void TakeDamageServerRpc(Vector3 pos){}
+
+    [ClientRpc]
+    protected virtual void TakeDamageClientRpc(Vector3 pos){}
+
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void OnDeathServerRpc(){}
+
+    [ClientRpc]
+    protected virtual void OnDeathClientRpc(){}
 }

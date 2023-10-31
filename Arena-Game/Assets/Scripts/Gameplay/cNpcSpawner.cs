@@ -11,10 +11,11 @@ using UnityEditor;
 public class cNpcSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject m_Dragon;
+    [SerializeField] private Transform m_SpawnPoint;
 
     public void Spawn()
     {
-        GameObject go = Instantiate(m_Dragon, transform.position, Quaternion.identity);
+        GameObject go = Instantiate(m_Dragon, m_SpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
     }
 
