@@ -13,7 +13,7 @@ namespace FiniteStateMachine
         [SerializeField] private float m_FlyStart;
         [SerializeField] private float m_FlyDuration;
         [SerializeField] private float m_Distance;
-        [SerializeField] private Transform m_Pivot;
+        // [SerializeField] private Transform m_Pivot;
 
         private Transform m_MovementTransform => StateMachine.Character.MovementTransform;
         
@@ -29,9 +29,8 @@ namespace FiniteStateMachine
 
             DOVirtual.DelayedCall(m_FlyStart, () =>
             {
-                var pos = m_Pivot.position;
+                var pos = m_MovementTransform.position;
                 pos += m_MovementTransform.forward * m_Distance;
-                pos.y = m_MovementTransform.position.y;
 
                 Vector3 dir = pos - m_MovementTransform.position;
                 dir.y = 0;
@@ -60,15 +59,12 @@ namespace FiniteStateMachine
         
         private void OnDrawGizmosSelected()
         {
-            if (m_Pivot)
-            {
-                var color = Gizmos.color;
-                Gizmos.color = Color.blue;
+            var color = Gizmos.color;
+            Gizmos.color = Color.blue;
             
-                var pos = m_Pivot.position;
-                Gizmos.DrawWireSphere(pos, m_Distance);
-                Gizmos.color = color;
-            }
+            var pos = transform.position;
+            Gizmos.DrawWireSphere(pos, m_Distance);
+            Gizmos.color = color;
         }
     }
 }

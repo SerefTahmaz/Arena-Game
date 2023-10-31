@@ -136,7 +136,7 @@ namespace FiniteStateMachine
                     {
                         AnimationController.SetTrigger(cAnimationController.eAttackType.FlyBreathing);
                         StateMachine.ChangeState(StateMachine.m_DragonEmpty);
-                    }, 10));
+                    }, 5));
                 }
 
                 if (StateMachine.AvailableAttacks.HasFlag(cAnimationController.eAttackType.ForwardBashBreathingAttack))
@@ -145,7 +145,7 @@ namespace FiniteStateMachine
                     {
                         AnimationController.SetTrigger(cAnimationController.eAttackType.ForwardBashBreathingAttack);
                         StateMachine.ChangeState(StateMachine.m_DragonEmpty);
-                    }, 20));
+                    }, 5));
                 }
 
                 if (StateMachine.AvailableAttacks.HasFlag(cAnimationController.eAttackType.MeleeAttack))
@@ -154,7 +154,7 @@ namespace FiniteStateMachine
                     {
                         AnimationController.SetTrigger(cAnimationController.eAttackType.MeleeAttack);
                         StateMachine.ChangeState(StateMachine.m_DragonEmpty);
-                    }, 30));
+                    }, 5));
                 }
                 
                 if (StateMachine.AvailableAttacks.HasFlag(cAnimationController.eAttackType.ForwardJump))
@@ -163,7 +163,7 @@ namespace FiniteStateMachine
                     {
                         AnimationController.SetTrigger(cAnimationController.eAttackType.ForwardJump);
                         StateMachine.ChangeState(StateMachine.m_DragonEmpty);
-                    }, 10));
+                    }, 5));
                 }
 
                 if (m_MeleeActions.Any())
