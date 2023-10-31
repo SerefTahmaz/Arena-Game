@@ -77,18 +77,6 @@ namespace FiniteStateMachine
             
         }
 
-        private int? m_TeamId;
-        public int TeamID
-        {
-            get
-            {
-                if (m_TeamId.HasValue == false)
-                {
-                    m_TeamId = Random.Range(0, 1000000);
-                }
-
-                return m_TeamId.Value;
-            }
-        }
+        public abstract int TeamID { get; }
     }
 }

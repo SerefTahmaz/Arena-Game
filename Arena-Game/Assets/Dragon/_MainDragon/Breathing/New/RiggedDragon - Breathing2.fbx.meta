@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 316429975be13984392fe4db4e403099
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: -975758227175210946
@@ -84,36 +84,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.99418604
-        functionName: OnAnimEnd
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
       - time: 0
         functionName: PlayMeleeAttackClip
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.30795848
-        functionName: ShakeCam
-        data: 
-        objectReferenceParameter: {fileID: 11400000, guid: d46e9acd515d9274484c4093e349d143, type: 2}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.650519
-        functionName: ShakeCam
-        data: 
-        objectReferenceParameter: {fileID: 11400000, guid: d46e9acd515d9274484c4093e349d143, type: 2}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.30267063
-        functionName: SetActiveLeg
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -125,6 +97,21 @@ ModelImporter:
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 1
+        messageOptions: 0
+      - time: 0.30267063
+        functionName: SetActiveLeg
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.30795848
+        functionName: ShakeCam
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: d46e9acd515d9274484c4093e349d143,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       - time: 0.31948563
         functionName: SetDeActiveLeg
@@ -139,6 +126,14 @@ ModelImporter:
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 1
+        messageOptions: 0
+      - time: 0.650519
+        functionName: ShakeCam
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: d46e9acd515d9274484c4093e349d143,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       - time: 0.65578634
         functionName: SetActiveLeg
@@ -161,12 +156,19 @@ ModelImporter:
         floatParameter: 0
         intParameter: 3
         messageOptions: 0
-      - time: 0.67655784
+      - time: 0.67716503
         functionName: SetDeActiveLeg
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 2
+        messageOptions: 0
+      - time: 0.99418604
+        functionName: OnAnimEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
         messageOptions: 0
       transformMask: []
       maskType: 3
@@ -206,6 +208,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0
         functionName: PlayMeleeAttack2Clip
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4907539
+        functionName: MeleeAttack2Start
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.65576106
+        functionName: MeleeAttack2End
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -372,7 +388,24 @@ ModelImporter:
       - time: 0.5882353
         functionName: ShakeCam
         data: 
-        objectReferenceParameter: {fileID: 11400000, guid: 509817dbd5f57af4d84b79d0b596dcb4, type: 2}
+        objectReferenceParameter: {fileID: 11400000, guid: 509817dbd5f57af4d84b79d0b596dcb4,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.428165
+        functionName: ForwardJumpStart
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 509817dbd5f57af4d84b79d0b596dcb4,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.56899005
+        functionName: ForwardJumpEnd
+        data: 
+        objectReferenceParameter: {fileID: 11400000, guid: 509817dbd5f57af4d84b79d0b596dcb4,
+          type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -496,6 +529,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -523,6 +557,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -549,12 +584,15 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 93d9bebbde2281e41baeff0c87747acc, type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 93d9bebbde2281e41baeff0c87747acc,
+    type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

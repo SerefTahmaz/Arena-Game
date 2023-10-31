@@ -35,6 +35,8 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
 
         public cPlayerCharacter Character => m_Character;
 
+        public override int TeamID => m_Character.TeamID;
+
         #endregion
 
         private void Awake()
@@ -42,7 +44,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             m_InputManager = GetComponentInChildren<IInputManager>();
             m_MovementUserController = GetComponentInChildren<MovementUserController>();
             m_MovementUserController.InputManager = m_InputManager;
-            Character.InventoryManager.InitInventory(TeamID);
+            Character.InventoryManager.InitInventory(Character.TeamID);
         }
 
         protected override void Start()
@@ -103,7 +105,8 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
                 Character.HealthBar.OnDamage(10);
                 Character.PlayerCharacterNetworkController.TakeDamageServerRpc();
 
-                AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage);
+                AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
+                    resetable: true);
                 AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
                 m_Damaged = true;
                 DOVirtual.DelayedCall(.2f, () => m_Damaged = false);

@@ -72,6 +72,7 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
 
     public void Damage(int amount, Vector3 pos, bool isHeavy)
     {
+        if(m_Dragon.CharacterNetworkController.IsOwner == false) return;
         if(m_Punching == false) DamageLeg(pos);
     }
 

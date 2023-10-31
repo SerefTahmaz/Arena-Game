@@ -21,6 +21,34 @@ public class cDragonDamageEvents : MonoBehaviour
         m_LegActivation[leg] = false;
     }
 
+    public void MeleeAttack2Start()
+    {
+        m_LegActivation[0] = true;
+        m_LegActivation[1] = true;
+    }
+    
+    public void MeleeAttack2End()
+    {
+        m_LegActivation[0] = false;
+        m_LegActivation[1] = false;
+    }
+    
+    public void ForwardJumpStart()
+    {
+        for (int i = 0; i < m_LegActivation.Count; i++)
+        {
+            m_LegActivation[i] = true;
+        }
+    }
+    
+    public void ForwardJumpEnd()
+    {
+        for (int i = 0; i < m_LegActivation.Count; i++)
+        {
+            m_LegActivation[i] = false;
+        }
+    }
+
     private void Update()
     {
         for (int i = 0; i < m_LegActivation.Count; i++)

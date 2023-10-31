@@ -97,7 +97,7 @@ public class AnimationController : MonoBehaviour
         });
     }
 
-    public void SetTrigger(AnimationState state, float? value = null)
+    public void SetTrigger(AnimationState state, float? value = null, bool resetable = false)
     {
         if (value.HasValue)
         {
@@ -106,6 +106,12 @@ public class AnimationController : MonoBehaviour
         else
         {
             _animator.SetTrigger(animatorStates[state]);
+            
+            if (resetable)
+            {
+                DOVirtual.DelayedCall(0.01f,
+                    () => ResetTrigger(state));
+            }
         }
     }
     
