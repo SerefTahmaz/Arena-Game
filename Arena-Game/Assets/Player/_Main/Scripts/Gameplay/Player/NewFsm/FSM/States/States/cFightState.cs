@@ -130,6 +130,7 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Slash);
             DOVirtual.DelayedCall(0.01f,
                 () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.Slash));
+            Debug.Log("Slashing");
         }
         
         void OnSpace()
