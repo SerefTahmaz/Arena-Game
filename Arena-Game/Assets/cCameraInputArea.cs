@@ -22,7 +22,7 @@ public class cCameraInputArea : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            DOVirtual.DelayedCall(.01f, () =>
+            DOVirtual.DelayedCall(.2f, () =>
             {
                 if (m_Selected == false) CameraManager.Instance.StopCameraMovement();
             });

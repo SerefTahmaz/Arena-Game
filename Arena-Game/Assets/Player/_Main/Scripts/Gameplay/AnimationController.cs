@@ -108,7 +108,7 @@ public class AnimationController : MonoBehaviour
             
             if (resetable)
             {
-                DOVirtual.DelayedCall(0.01f,
+                DOVirtual.DelayedCall(0.1f,
                     () => ResetTrigger(state));
             }
         }

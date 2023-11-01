@@ -61,30 +61,22 @@ namespace FiniteStateMachine
 
         private void OnChargeBoth()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeBoth);
-            DOVirtual.DelayedCall(0.01f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.ChargeBoth));
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeBoth, resetable: true);
         }
 
         private void OnHeavyAttack()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.HeavySlash);
-            DOVirtual.DelayedCall(0.01f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.HeavySlash));
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.HeavySlash, resetable: true);
         }
 
         public void OnChargeLeft()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeLeft);
-            DOVirtual.DelayedCall(0.01f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.ChargeLeft));
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeLeft, resetable: true);
         }
         
         public void OnChargeRight()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeRight);
-            DOVirtual.DelayedCall(0.01f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.ChargeRight));
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeRight, resetable: true);
         }
 
         public void SwitchLeftSword()
@@ -127,10 +119,7 @@ namespace FiniteStateMachine
 
         void OnClick()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Slash);
-            DOVirtual.DelayedCall(0.1f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.Slash));
-            Debug.Log("Slashing");
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Slash, resetable: true);
         }
         
         void OnSpace()
@@ -140,9 +129,7 @@ namespace FiniteStateMachine
     
         void OnRightClickDown()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.LeftSlash);
-            DOVirtual.DelayedCall(0.01f,
-                () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.LeftSlash));
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.LeftSlash, resetable: true);
         }
     
         void OnRKey()
