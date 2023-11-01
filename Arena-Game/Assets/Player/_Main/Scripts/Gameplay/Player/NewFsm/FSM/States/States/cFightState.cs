@@ -180,8 +180,8 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawLeftItem(SwitchLeftSword);
             m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawRightItemEvent(SwitchRightSword);
             
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(OnChargeRight);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(OnChargeRight);
             
             m_PlayerStateMachine.InputManager.RemoveListenerToOnTwoHandedAttackEvent(OnHeavyAttack);
             
