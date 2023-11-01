@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace FiniteStateMachine
 {
-    public class cTrollStateMachine : cStateMachine
+    public class cTrollStateMachine : cCharacterStateMachine
     {
         #region PritaveFields
         

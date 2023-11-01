@@ -1,17 +1,9 @@
 ﻿using FiniteStateMachine;
 using UnityEngine;
 
-public abstract class cCharacterStateMachine:cStateMachine
+public abstract class cCharacterStateMachine:cStateMachine,IDamagable
 {
-    [SerializeField] private cStatesBlackBoard m_BlackBoard;
-
-    // #region Properties
-
-    public cStateBase Empty => m_BlackBoard.m_Empty;
-
-    public cStateBase FreeRoam => m_BlackBoard.m_FreeRoam;
-
-    public cStateBase Fight => m_BlackBoard.m_Fight;
-
-    public cStateBase Dead => m_BlackBoard.m_Dead;
+    [SerializeField] private Transform m_FocusTransform;
+    public abstract int TeamID { get; }
+    public Transform FocusPoint => m_FocusTransform;
 }

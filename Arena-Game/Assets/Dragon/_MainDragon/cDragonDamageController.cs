@@ -12,7 +12,7 @@ using UnityEngine.Animations;
 using UnityEditor;
 #endif
 
-public class cDragonDamageController : MonoBehaviour, IDamagable
+public class cDragonDamageController : NetworkBehaviour, IDamagable
 {
 
     [SerializeField] private float m_Strength =0.0002f;
@@ -48,7 +48,21 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
     public void DamageLeg(Vector3 pos)
     {
         m_Dragon.HealthBar.OnDamage(10);
-        m_Dragon.CharacterNetworkController.TakeDamageServerRpc(pos);
+        TakeDamageServerRpc(pos);
+    }
+    
+    
+
+    [ServerRpc(RequireOwnership = false)]
+    public void TakeDamageServerRpc(Vector3 pos)
+    {
+        TakeDamageClientRpc(pos);
+    }
+
+    [ClientRpc]
+    public void TakeDamageClientRpc(Vector3 pos)
+    {
+        DamageAnim(pos);
     }
 
     public void DamageAnim(Vector3 pos)

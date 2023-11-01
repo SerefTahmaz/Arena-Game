@@ -112,6 +112,11 @@ public class CameraManager : cSingleton<CameraManager>
         Cursor.visible = false;
         EnableGameplayCam();
     }
+
+    public GameObject GetCam(CameraType cam)
+    {
+        return cams[(int)cam];
+    }
 }
 
 

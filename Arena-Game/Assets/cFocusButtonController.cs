@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using TMPro;
 using UnityEngine;
 
@@ -32,6 +33,10 @@ public class cFocusButtonController : MonoBehaviour
         }
         else
         {
+            var goCam =CameraManager.Instance.GetCam(CameraManager.CameraType.Gameplay);
+            var focusCam =CameraManager.Instance.GetCam(CameraManager.CameraType.Focus);
+            var cam =goCam.GetComponent<CinemachineVirtualCameraBase>();
+            cam.ForceCameraPosition(focusCam.transform.position, focusCam.transform.rotation);
             CameraManager.Instance.EnableGameplayCam();
         }
     }

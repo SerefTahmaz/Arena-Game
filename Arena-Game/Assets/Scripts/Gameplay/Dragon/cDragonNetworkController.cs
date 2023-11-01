@@ -23,18 +23,6 @@ public class cDragonNetworkController : cCharacterNetworkController
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public override void TakeDamageServerRpc(Vector3 pos)
-    {
-        TakeDamageClientRpc(pos);
-    }
-
-    [ClientRpc]
-    protected override void TakeDamageClientRpc(Vector3 pos)
-    {
-        m_DragonCharacter.DragonDamageController.DamageAnim(pos);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
     public override void OnDeathServerRpc()
     {
         OnDeathClientRpc();

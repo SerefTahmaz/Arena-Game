@@ -11,11 +11,19 @@ using UnityEditor;
 public class cNpcSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject m_Dragon;
-    [SerializeField] private Transform m_SpawnPoint;
-
-    public void Spawn()
+    [SerializeField] private GameObject m_Troll;
+    [SerializeField] private Transform m_TrollSpawnPoint;
+    [SerializeField] private Transform m_DragonSpawnPoint;
+    
+    public void SpawnDragon()
     {
-        GameObject go = Instantiate(m_Dragon, m_SpawnPoint.position, Quaternion.identity);
+        GameObject go = Instantiate(m_Dragon, m_DragonSpawnPoint.position, Quaternion.identity);
+        go.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void SpawnTroll()
+    {
+        GameObject go = Instantiate(m_Troll, m_TrollSpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
     }
 
@@ -23,7 +31,12 @@ public class cNpcSpawner : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.T))
         {
-            Spawn();
+            SpawnDragon();
+            Destroy(gameObject);
+        }
+        if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.Y))
+        {
+            SpawnTroll();
             Destroy(gameObject);
         }
     }
@@ -40,7 +53,7 @@ public class cNpcSpawnerEditor : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Click"))
         {
-            (target as cNpcSpawner).Spawn();
+            (target as cNpcSpawner).SpawnDragon();
         }
     }
 }

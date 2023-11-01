@@ -9,16 +9,13 @@ using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
 {
-    public abstract class cStateMachine : MonoBehaviour, IDamagable
+    public abstract class cStateMachine : MonoBehaviour
     {
         #region Fields
 
         [SerializeField] private string m_CurrentStateName;
         [SerializeField] private string m_CurrentSubState;
-        [SerializeField] private Transform m_FocusTransform;
         
-        public abstract int TeamID { get; }
-        public Transform FocusPoint => m_FocusTransform;
 
         public bool m_ShowStates;
 

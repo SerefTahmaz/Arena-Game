@@ -13,6 +13,7 @@ namespace FiniteStateMachine
         
         public override void Enter()
         {
+            WakeUp();
             base.Enter();
         }
         
@@ -20,10 +21,10 @@ namespace FiniteStateMachine
         {
             base.StateMachineFixedUpdate();
             
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                WakeUp();
-            }
+            // if (Input.GetKeyDown(KeyCode.T))
+            // {
+            //     WakeUp();
+            // }
         }
 
         public void WakeUp()

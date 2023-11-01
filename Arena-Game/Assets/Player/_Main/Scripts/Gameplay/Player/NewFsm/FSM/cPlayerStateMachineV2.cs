@@ -13,6 +13,17 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
         [SerializeField] private ParticleSystem m_DustExpo;
         [SerializeField] private ParticleSystem m_BloodExpo;
         [SerializeField] private cPlayerCharacter m_Character;
+        [SerializeField] private cStatesBlackBoard m_BlackBoard;
+
+        // #region Properties
+
+        public cStateBase Empty => m_BlackBoard.m_Empty;
+
+        public cStateBase FreeRoam => m_BlackBoard.m_FreeRoam;
+
+        public cStateBase Fight => m_BlackBoard.m_Fight;
+
+        public cStateBase Dead => m_BlackBoard.m_Dead;
 
         private MovementUserController m_MovementUserController;
         private IInputManager m_InputManager;

@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 public class cCamShake : cSingleton<cCamShake>
 {
-    [SerializeField] private CinemachineFreeLook m_CinemachineVirtualCamera;
+    [SerializeField] private CinemachineVirtualCameraBase m_CinemachineVirtualCamera;
     private float m_ShakerTimer;
     private float m_ShakeTimerTotal;
     private float m_StartingIntensity;
@@ -38,7 +38,7 @@ public class cCamShake : cSingleton<cCamShake>
     {
         if (m_CinemachineVirtualCamera == null)
         {
-            m_CinemachineVirtualCamera = GetComponent<CinemachineFreeLook>();
+            m_CinemachineVirtualCamera = GetComponent<CinemachineVirtualCameraBase>();
         }
         
         var cinemachineBasicMultiChannelPerlin = 

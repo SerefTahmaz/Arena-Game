@@ -9,7 +9,6 @@ public class cDragonCharacter : cCharacter
     [SerializeField] private cAnimationController m_AnimationController;
     [SerializeField] private cDragonNetworkController m_DragonNetworkController;
     [SerializeField] private cDragonAnimationEvents m_DragonAnimationEvents;
-    [SerializeField] private cDragonDamageController m_DragonDamageController;
 
     public cDragonController DragonController => m_DragonController;
     public LookAtIK HeadLookAtIk => m_HeadLookAtIk;
@@ -20,6 +19,4 @@ public class cDragonCharacter : cCharacter
     public cDragonNetworkController DragonNetworkController => m_DragonNetworkController;
 
     public cDragonAnimationEvents DragonAnimationEvents => m_DragonAnimationEvents;
-
-    public cDragonDamageController DragonDamageController => m_DragonDamageController;
 }

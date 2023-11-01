@@ -66,8 +66,6 @@ namespace FiniteStateMachine
         #endregion
 
         #region Properties
-        
-        public override int TeamID => m_DragonCharacter.TeamID;
 
         #endregion
 
