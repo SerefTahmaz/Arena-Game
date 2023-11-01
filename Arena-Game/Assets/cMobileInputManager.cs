@@ -23,6 +23,7 @@ public class cMobileInputManager : MonoBehaviour
     public void OnRightLightAttackButton()
     {
         _onRightLightAttackEvent.Invoke();
+        Debug.Log("Attack");
     }
     
     public void OnLeftLightAttackButton()

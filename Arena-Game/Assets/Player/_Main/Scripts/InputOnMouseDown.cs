@@ -10,7 +10,7 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
  
     public float GetAxisValue(int axis)
     {
-        Debug.Log(_disableMovement);
+        // Debug.Log(_disableMovement);
         // No input unless right mouse is down
         if (_disableMovement)
             return 0;
