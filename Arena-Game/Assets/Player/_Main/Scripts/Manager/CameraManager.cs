@@ -20,13 +20,13 @@ public class CameraManager : MonoBehaviour
         {
             _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = transform1;
             _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = transform1;
+            Cursor.visible = false;
         };
     }
 
     private void Start()
     {
         cams.Add(_gameplayCam);
-        Cursor.visible = false;
     }
 
     public void SetCamera(CameraType cam)

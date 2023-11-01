@@ -162,6 +162,7 @@ public class cTrollAnimationController : MonoBehaviour
         Attack2=16,
         Attack3=32,
         Attack4=64,
-        Dead=128
+        Dead=128,
+        Damage = 256
     }
 }

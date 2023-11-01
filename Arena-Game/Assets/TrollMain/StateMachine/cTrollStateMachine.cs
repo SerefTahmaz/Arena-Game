@@ -94,6 +94,7 @@ namespace FiniteStateMachine
             {
                 TrollCharacter.HealthBar.OnDamage(10);
                 TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(pos);
+                TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);
                 
                 m_Damaged = true;
                 DOVirtual.DelayedCall(.2f, () => m_Damaged = false);
