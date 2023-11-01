@@ -30,7 +30,6 @@ public class AnimationController : MonoBehaviour
         animatorStates.Add(AnimationState.Empty, "Empty");
         animatorStates.Add(AnimationState.Jump, "Jump");
         animatorStates.Add(AnimationState.Block, "Block");
-        animatorStates.Add(AnimationState.ClashEmpty, "ClashEmpty");
         animatorStates.Add(AnimationState.TakeDamage, "TakeDamage");
         animatorStates.Add(AnimationState.Combo, "Combo");
         animatorStates.Add(AnimationState.Dodge, "Dodge");
@@ -214,7 +213,6 @@ public class AnimationController : MonoBehaviour
         Empty,
         Jump,
         Block,
-        ClashEmpty,
         TakeDamage,
         Combo,
         Dodge,

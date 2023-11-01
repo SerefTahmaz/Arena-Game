@@ -6,12 +6,13 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
     public string HorizontalInput = "Mouse X";
     public string VerticalInput = "Mouse Y";
 
-    private bool _isMovement = false;
+    private bool _disableMovement = true;
  
     public float GetAxisValue(int axis)
     {
+        Debug.Log(_disableMovement);
         // No input unless right mouse is down
-        if (_isMovement)
+        if (_disableMovement)
             return 0;
  
         switch (axis)
@@ -24,11 +25,11 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 
     public void StopCamMovement()
     {
-        _isMovement = true;
+        _disableMovement = true;
     }
     
     public void StartCamMovement()
     {
-        _isMovement = false;
+        _disableMovement = false;
     }
 }

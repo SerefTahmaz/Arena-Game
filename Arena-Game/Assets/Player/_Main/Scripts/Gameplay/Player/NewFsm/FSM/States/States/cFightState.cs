@@ -30,19 +30,18 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.FightIdle);
             
             Debug.Log("FightState");
-            m_PlayerStateMachine.InputManager.AddListenerToOnClickEvent(OnClick);
-            m_PlayerStateMachine.InputManager.AddListenerToOnRKeyEvent(OnRKey);
-            m_PlayerStateMachine.InputManager.AddListenerToOnRightDownClickEvent(OnRightClickDown);
-            m_PlayerStateMachine.InputManager.AddListenerToOnRightUpClickEvent(OnRightClickUp);
-            m_PlayerStateMachine.InputManager.AddListenerToOnSpaceKeyEvent(OnSpace);
+            m_PlayerStateMachine.InputManager.AddListenerToOnRightLightAttackEvent(OnClick);
+            m_PlayerStateMachine.InputManager.AddListenerToOnUnArmEvent(OnRKey);
+            m_PlayerStateMachine.InputManager.AddListenerToOnLeftLightAttackEvent(OnRightClickDown);
+            m_PlayerStateMachine.InputManager.AddListenerToOnJumpEvent(OnSpace);
             
-            m_PlayerStateMachine.InputManager.AddListenerToOnNum2Event(SwitchLeftSword);
-            m_PlayerStateMachine.InputManager.AddListenerToOnNum1Event(SwitchRightSword);
+            m_PlayerStateMachine.InputManager.AddListenerToOnDrawLeftItem(SwitchLeftSword);
+            m_PlayerStateMachine.InputManager.AddListenerToOnDrawRightItem(SwitchRightSword);
             
-            m_PlayerStateMachine.InputManager.AddListenerToOnCtrlRightClickEvent(OnChargeRight);
-            m_PlayerStateMachine.InputManager.AddListenerToOnCtrlLeftClickEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.AddListenerToOnEnableLeftHandBuffEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.AddListenerToOnEnableRightHandBuffEvent(OnChargeRight);
             
-            m_PlayerStateMachine.InputManager.AddListenerToOnShiftLeftClickEvent(OnHeavyAttack);
+            m_PlayerStateMachine.InputManager.AddListenerToOnTwoHandedAttackEvent(OnHeavyAttack);
             
             m_PlayerStateMachine.InputManager.AddListenerToOnFKeyDownEvent(OnChargeBoth);
             
@@ -145,11 +144,6 @@ namespace FiniteStateMachine
                 () => m_PlayerStateMachine.AnimationController.ResetTrigger(AnimationController.AnimationState.LeftSlash));
         }
     
-        void OnRightClickUp()
-        {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ClashEmpty);
-        }
-    
         void OnRKey()
         {
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.SheathRightSword);
@@ -178,19 +172,18 @@ namespace FiniteStateMachine
         public override void Exit()
         {
             base.Exit();
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnClickEvent(OnClick);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnRKeyEvent(OnRKey);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnRightDownClickEvent(OnRightClickDown);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnRightUpClickEvent(OnRightClickUp);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnSpaceKeyEvent(OnSpace);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnRightLightAttackEvent(OnClick);
+            m_PlayerStateMachine.InputManager.RemoveListenerToUnArmEvent(OnRKey);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnLeftLightAttackEvent(OnRightClickDown);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnJumpEvent(OnSpace);
             
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnNum2Event(SwitchLeftSword);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnNum1Event(SwitchRightSword);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawLeftItem(SwitchLeftSword);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawRightItemEvent(SwitchRightSword);
             
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnCtrlRightClickEvent(OnChargeRight);
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnCtrlLeftClickEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(OnChargeRight);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(OnChargeLeft);
             
-            m_PlayerStateMachine.InputManager.RemoveListenerToOnShiftLeftClickEvent(OnHeavyAttack);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnTwoHandedAttackEvent(OnHeavyAttack);
             
             m_PlayerStateMachine.InputManager.RemoveListenerToOnFKeyDownEvent(OnChargeBoth);
             

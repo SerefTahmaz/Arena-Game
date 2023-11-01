@@ -41,7 +41,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
 
         private void Awake()
         {
-            m_InputManager = GetComponentInChildren<IInputManager>();
+            m_InputManager = global::InputManager.Instance.GetComponent<IInputManager>();
             m_MovementUserController = GetComponentInChildren<MovementUserController>();
             m_MovementUserController.InputManager = m_InputManager;
             Character.InventoryManager.InitInventory(Character.TeamID);

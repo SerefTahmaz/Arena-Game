@@ -23,11 +23,11 @@ public class MovementUserController : MonoBehaviour
     private void Start()
     {
         _movementController = GetComponent<MovementController>();
-        _inputManager.AddListenerToOnShiftKeyDownEvent((() =>
+        _inputManager.AddListenerToOnWalkSpeedUpEvent((() =>
         {
             _moveScale = .5f;
         }));
-        _inputManager.AddListenerToOnShiftKeyUpEvent((() =>
+        _inputManager.AddListenerToOnWalkSpeedNormalEvent((() =>
         {
             _moveScale = 1;
         }));

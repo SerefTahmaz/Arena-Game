@@ -20,16 +20,20 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
     [SerializeField] private float m_Duration =0.5f;
     [SerializeField] private LimbIK m_LimbIK;
     [SerializeField] private AnimationCurve m_AnimationCurve;
-    private Transform m_FootPos;
     [SerializeField] private AudioSource m_AudioSource;
     [SerializeField] private AudioClip m_DamageClip;
     [SerializeField] private ParticleSystem m_DamageParticle;
     [SerializeField] private cCharacter m_Dragon;
+    [SerializeField] private Transform m_FocusTransform;
+
+    public int TeamID => 10;
+    public Transform FocusPoint => m_FocusTransform;
 
     private bool m_Punching = false;
     private Tween m_Tween;
     private Tween m_LimbTween;
     private Transform m_Target;
+    private Transform m_FootPos;
 
     private void Awake()
     {
@@ -81,8 +85,6 @@ public class cDragonDamageController : MonoBehaviour, IDamagable
         if(m_Dragon.CharacterNetworkController.IsOwner == false) return;
         if(m_Punching == false) DamageLeg(pos);
     }
-
-    public int TeamID => 10;
 }
 #if UNITY_EDITOR
 [CustomEditor(typeof(cDragonDamageController)), CanEditMultipleObjects]

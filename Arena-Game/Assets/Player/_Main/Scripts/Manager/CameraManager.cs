@@ -2,31 +2,58 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using DemoBlast.Utils;
+using RootMotion;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CameraManager : MonoBehaviour
+public class CameraManager : cSingleton<CameraManager>
 {
     [SerializeField] private GameObject _gameplayCam;
     [SerializeField] private InputOnMouseDown _gameplayCamInput;
-    [SerializeField] private CinemachineFreeLookZoom _cinemachineFreeLookZoom;
-    
+    [SerializeField] private GameObject m_focusCam;
+    [SerializeField] private CinemachineFreeLook m_CinemachineFreeLook;
 
     private List<GameObject> cams = new List<GameObject>();
     private bool _isEscaped = false;
+    
+    private Action<CameraType> m_OnCameraChange = delegate(CameraType type) {  };
+    private CameraType m_CurrentCam = CameraType.Gameplay;
+    
+    public enum CameraType
+    {
+        Gameplay,
+        Focus,
+        NpcCam
+    }
+
+    public Action<CameraType> OnCameraChange
+    {
+        get => m_OnCameraChange;
+        set => m_OnCameraChange = value;
+    }
+
+    public CameraType CurrentCam => m_CurrentCam;
 
     private void Awake()
     {
-        cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
+        cMobileInputManager._onFocusEvent += () =>
         {
-            _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = transform1;
-            _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = transform1;
-            Cursor.visible = false;
+            if (_gameplayCam.activeSelf)
+            {
+                SetCamera(CameraType.Focus);
+            }
+            else
+            {
+                SetCamera(CameraType.Gameplay);
+            }
         };
     }
 
     private void Start()
     {
         cams.Add(_gameplayCam);
+        cams.Add(m_focusCam);
     }
 
     public void SetCamera(CameraType cam)
@@ -37,6 +64,19 @@ public class CameraManager : MonoBehaviour
         }
         
         cams[(int)cam].SetActive(true);
+
+        m_CurrentCam = cam;
+        OnCameraChange.Invoke(cam);
+    }
+    
+    public void EnableGameplayCam()
+    {
+        SetCamera(CameraType.Gameplay);
+    }
+
+    public void EnableFocusCam()
+    {
+        SetCamera(CameraType.Focus);
     }
 
     public void StopCameraMovement()
@@ -56,7 +96,7 @@ public class CameraManager : MonoBehaviour
             StopCameraMovement();
             _isEscaped = true;
         }
-
+        
         if (Input.GetMouseButtonDown(0)&& _isEscaped)
         {
             _isEscaped = false;
@@ -64,11 +104,13 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public enum CameraType
+    public void OnPlayerSpawn()
     {
-        Gameplay,
-        Player,
-        NpcCam
+        var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
+        _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
+        _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
+        Cursor.visible = false;
+        EnableGameplayCam();
     }
 }
 

@@ -15,6 +15,10 @@ namespace FiniteStateMachine
 
         [SerializeField] private string m_CurrentStateName;
         [SerializeField] private string m_CurrentSubState;
+        [SerializeField] private Transform m_FocusTransform;
+        
+        public abstract int TeamID { get; }
+        public Transform FocusPoint => m_FocusTransform;
 
         public bool m_ShowStates;
 
@@ -76,7 +80,5 @@ namespace FiniteStateMachine
         {
             
         }
-
-        public abstract int TeamID { get; }
     }
 }

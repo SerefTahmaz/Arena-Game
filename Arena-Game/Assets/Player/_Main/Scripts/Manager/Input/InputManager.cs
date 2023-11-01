@@ -1,199 +1,245 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DemoBlast.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InputManager : MonoBehaviour, IInputManager
+public class InputManager : cSingleton<InputManager>, IInputManager
 {
+    [SerializeField] private bool m_MobileInput;
+    [SerializeField] private bool m_PCInput;
+
     public float HorizontalAxis => _horizontalAxis;
     public float VerticalAxis => _verticalAxis;
     
     private float _horizontalAxis;
     private float _verticalAxis;
 
-    private Action _onClickEvent;
-    private Action _onRKeyEvent;
-    private Action _onSpaceKeyEvent;
-    private Action _onRightClickDownEvent;
+    private Action _onRightLightAttackEvent;
+    private Action _onUnArmEvent;
+    private Action _onJumpEvent;
+    private Action _onLeftLightAttackEvent;
     private Action _onRightClickUpEvent;
-    private Action _onShiftKeyDownEvent;
-    private Action _onShiftKeyUpEvent;
+    private Action _onWalkSpeedUpEvent;
+    private Action _onWalkSpeedNormalEvent;
     private Action _onEKeyDownEvent;
-    private Action _onNum1Event;
-    private Action _onNum2Event;
+    private Action _onDrawRightItem;
+    private Action _onDrawLeftItem;
     private Action _onNum3Event;
     private Action _onNum4Event;
     private Action _onShiftRightClickEvent;
-    private Action _onShiftLeftClickEvent;
-    private Action _onCtrlLeftClickEvent;
-    private Action _onCtrlRightClickEvent;
+    private Action _onTwoHandedAttackEvent;
+    private Action _onEnableRightHandBuffEvent;
+    private Action _onEnableLeftHandBuffEvent;
     private Action _onFKeyDownEvent;
+
+    private void Start()
+    {
+        if (m_MobileInput)
+        {
+            cMobileInputManager._onLeftLightAttackEvent += () =>
+            {
+                _onLeftLightAttackEvent?.Invoke();
+            };
+            cMobileInputManager._onRightLightAttackEvent += () =>
+            {
+                _onRightLightAttackEvent?.Invoke();
+            };
+            cMobileInputManager._onJumpEvent += () =>
+            {
+                _onJumpEvent?.Invoke();
+            };
+            cMobileInputManager._onDrawLeftItem += () =>
+            {
+                _onDrawLeftItem?.Invoke();
+            };
+            cMobileInputManager._onDrawRightItem += () =>
+            {
+                _onDrawRightItem?.Invoke();
+            };
+            cMobileInputManager._onEnableRightHandBuffEvent += () =>
+            {
+                _onEnableRightHandBuffEvent?.Invoke();
+            };
+            cMobileInputManager._onEnableLeftHandBuffEvent += () =>
+            {
+                _onEnableLeftHandBuffEvent?.Invoke();
+            };
+            cMobileInputManager._onWalkSpeedUpEvent += () =>
+            {
+                _onWalkSpeedUpEvent?.Invoke();
+            };
+            cMobileInputManager._onWalkSpeedNormalEvent += () =>
+            {
+                _onWalkSpeedNormalEvent?.Invoke();
+            };
+            cMobileInputManager._onTwoHandedAttackEvent += () =>
+            {
+                _onTwoHandedAttackEvent?.Invoke();
+            };
+        }
+    }
 
     private void Update()
     {
-        _horizontalAxis = Input.GetAxis("Horizontal");
-        _verticalAxis = Input.GetAxis("Vertical");
+        if (m_MobileInput)
+        {
+            _horizontalAxis = cMobileInputManager._input.x;
+            _verticalAxis = cMobileInputManager._input.y;
+        }
+       
+
+        if (m_PCInput)
+        {
+            _horizontalAxis += Input.GetAxis("Horizontal");
+            _verticalAxis += Input.GetAxis("Vertical");
+            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                _onUnArmEvent?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _onJumpEvent?.Invoke();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                _onLeftLightAttackEvent?.Invoke();
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                _onRightClickUpEvent?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _onWalkSpeedUpEvent?.Invoke();
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                _onWalkSpeedNormalEvent?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                _onEKeyDownEvent?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                _onDrawRightItem?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _onDrawLeftItem?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _onNum3Event?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                _onNum4Event?.Invoke();
+            }
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(1))
+            {
+                _onShiftRightClickEvent?.Invoke();
+            }
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
+            {
+                _onTwoHandedAttackEvent?.Invoke();
+            }
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(1))
+            {
+                _onEnableLeftHandBuffEvent?.Invoke();
+            }
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(0))
+            {
+                _onEnableRightHandBuffEvent?.Invoke();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                _onRightLightAttackEvent?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                _onFKeyDownEvent?.Invoke();
+            }
+        }
         
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            _onRKeyEvent?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _onSpaceKeyEvent?.Invoke();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            _onRightClickDownEvent?.Invoke();
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            _onRightClickUpEvent?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            _onShiftKeyDownEvent?.Invoke();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            _onShiftKeyUpEvent?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _onEKeyDownEvent?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            _onNum1Event?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            _onNum2Event?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            _onNum3Event?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            _onNum4Event?.Invoke();
-        }
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(1))
-        {
-            _onShiftRightClickEvent?.Invoke();
-        }
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
-        {
-            _onShiftLeftClickEvent?.Invoke();
-        }
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(1))
-        {
-            _onCtrlRightClickEvent?.Invoke();
-        }
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(0))
-        {
-            _onCtrlLeftClickEvent?.Invoke();
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            _onClickEvent?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            _onFKeyDownEvent?.Invoke();
-        }
+        _horizontalAxis = Mathf.Clamp(_horizontalAxis,-1,1);
+        _verticalAxis = Mathf.Clamp(_verticalAxis,-1,1);
     }
 
-    public void AddListenerToOnClickEvent(Action listener)
+    public void AddListenerToOnRightLightAttackEvent(Action listener)
     {
-        _onClickEvent += listener;
+        _onRightLightAttackEvent += listener;
     }
-    public void RemoveListenerToOnClickEvent(Action listener)
+    public void RemoveListenerToOnRightLightAttackEvent(Action listener)
     {
-        _onClickEvent -= listener;
+        _onRightLightAttackEvent -= listener;
     }
-    public void AddListenerToOnRKeyEvent(Action listener)
+    public void AddListenerToOnUnArmEvent(Action listener)
     {
-        _onRKeyEvent += listener;
+        _onUnArmEvent += listener;
     }
-    public void RemoveListenerToOnRKeyEvent(Action listener)
+    public void RemoveListenerToUnArmEvent(Action listener)
     {
-        _onRKeyEvent -= listener;
+        _onUnArmEvent -= listener;
     }
-    public void AddListenerToOnSpaceKeyEvent(Action listener)
+    public void AddListenerToOnJumpEvent(Action listener)
     {
-        _onSpaceKeyEvent += listener;
+        _onJumpEvent += listener;
     }
-    public void RemoveListenerToOnSpaceKeyEvent(Action listener)
+    public void RemoveListenerToOnJumpEvent(Action listener)
     {
-        _onSpaceKeyEvent -= listener;
+        _onJumpEvent -= listener;
     }
-    public void AddListenerToOnRightDownClickEvent(Action listener)
+    public void AddListenerToOnLeftLightAttackEvent(Action listener)
     {
-        _onRightClickDownEvent += listener;
+        _onLeftLightAttackEvent += listener;
     }
-    public void RemoveListenerToOnRightDownClickEvent(Action listener)
+    public void RemoveListenerToOnLeftLightAttackEvent(Action listener)
     {
-        _onRightClickDownEvent -= listener;
-    }
-    public void AddListenerToOnRightUpClickEvent(Action listener)
-    {
-        _onRightClickUpEvent += listener;
-    }
-    public void RemoveListenerToOnRightUpClickEvent(Action listener)
-    {
-        _onRightClickUpEvent -= listener;
+        _onLeftLightAttackEvent -= listener;
     }
 
-    public void AddListenerToOnShiftKeyDownEvent(Action listener)
+    public void AddListenerToOnWalkSpeedUpEvent(Action listener)
     {
-        _onShiftKeyDownEvent += listener;
+        _onWalkSpeedUpEvent += listener;
     }
 
-    public void RemoveListenerToOnShiftKeyDownEvent(Action listener)
+    public void RemoveListenerToOnWalkSpeedUpEvent(Action listener)
     {
-        _onShiftKeyDownEvent -= listener;
+        _onWalkSpeedUpEvent -= listener;
     }
 
-    public void AddListenerToOnShiftKeyUpEvent(Action listener)
+    public void AddListenerToOnWalkSpeedNormalEvent(Action listener)
     {
-        _onShiftKeyUpEvent += listener;
+        _onWalkSpeedNormalEvent += listener;
     }
 
-    public void RemoveListenerToOnShiftKeyUpEvent(Action listener)
+    public void RemoveListenerToOnWalkSpeedNormalEvent(Action listener)
     {
-        _onShiftKeyUpEvent -= listener;
-    }
-
-    public void AddListenerToOnEKeyDownEvent(Action listener)
-    {
-        _onEKeyDownEvent += listener;
-    }
-
-    public void RemoveListenerToOnEKeyDownEvent(Action listener)
-    {
-        _onEKeyDownEvent -= listener;
+        _onWalkSpeedNormalEvent -= listener;
     }
     
-    public void AddListenerToOnNum1Event(Action listener)
+    public void AddListenerToOnDrawRightItem(Action listener)
     {
-        _onNum1Event += listener;
+        _onDrawRightItem += listener;
     }
 
-    public void RemoveListenerToOnNum1Event(Action listener)
+    public void RemoveListenerToOnDrawRightItemEvent(Action listener)
     {
-        _onNum1Event -= listener;
+        _onDrawRightItem -= listener;
     }
     
-    public void AddListenerToOnNum2Event(Action listener)
+    public void AddListenerToOnDrawLeftItem(Action listener)
     {
-        _onNum2Event += listener;
+        _onDrawLeftItem += listener;
     }
 
-    public void RemoveListenerToOnNum2Event(Action listener)
+    public void RemoveListenerToOnDrawLeftItem(Action listener)
     {
-        _onNum2Event -= listener;
+        _onDrawLeftItem -= listener;
     }
     
     public void AddListenerToOnNum3Event(Action listener)
@@ -215,44 +261,34 @@ public class InputManager : MonoBehaviour, IInputManager
     {
         _onNum4Event -= listener;
     }
-    
-    public void AddListenerToOnShiftRightClickEvent(Action listener)
+    public void AddListenerToOnTwoHandedAttackEvent(Action listener)
     {
-        _onShiftRightClickEvent += listener;
+        _onTwoHandedAttackEvent += listener;
     }
 
-    public void RemoveListenerToOnShiftRightClickEvent(Action listener)
+    public void RemoveListenerToOnTwoHandedAttackEvent(Action listener)
     {
-        _onShiftRightClickEvent -= listener;
-    }
-    public void AddListenerToOnShiftLeftClickEvent(Action listener)
-    {
-        _onShiftLeftClickEvent += listener;
-    }
-
-    public void RemoveListenerToOnShiftLeftClickEvent(Action listener)
-    {
-        _onShiftLeftClickEvent -= listener;
+        _onTwoHandedAttackEvent -= listener;
     }
     
-    public void AddListenerToOnCtrlLeftClickEvent(Action listener)
+    public void AddListenerToOnEnableRightHandBuffEvent(Action listener)
     {
-        _onCtrlLeftClickEvent += listener;
+        _onEnableRightHandBuffEvent += listener;
     }
 
-    public void RemoveListenerToOnCtrlLeftClickEvent(Action listener)
+    public void RemoveListenerToOnEnableRightHandBuffEvent(Action listener)
     {
-        _onCtrlLeftClickEvent -= listener;
+        _onEnableRightHandBuffEvent -= listener;
     }
     
-    public void AddListenerToOnCtrlRightClickEvent(Action listener)
+    public void AddListenerToOnEnableLeftHandBuffEvent(Action listener)
     {
-        _onCtrlRightClickEvent += listener;
+        _onEnableLeftHandBuffEvent += listener;
     }
 
-    public void RemoveListenerToOnCtrlRightClickEvent(Action listener)
+    public void RemoveListenerToOnEnableLeftHandBuffEvent(Action listener)
     {
-        _onCtrlRightClickEvent -= listener;
+        _onEnableLeftHandBuffEvent -= listener;
     }
     
     public void AddListenerToOnFKeyDownEvent(Action listener)
