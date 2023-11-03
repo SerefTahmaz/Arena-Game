@@ -83,6 +83,9 @@ public class InputManager : cSingleton<InputManager>, IInputManager
 
     private void Update()
     {
+        _horizontalAxis = 0;
+        _verticalAxis = 0;
+        
         if (m_MobileInput)
         {
             _horizontalAxis = cMobileInputManager._input.x;
