@@ -41,6 +41,14 @@ namespace FiniteStateMachine
         {
             base.StateMachineUpdate();
 
+            if (StateMachine.Target == null)
+            {
+                AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,0);
+                return;
+            }
+            
+            AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,1);
+
             if (m_IsAttackDelayFinished)
             {
                 if (StateMachine.ZKeyPressed)

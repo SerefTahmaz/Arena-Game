@@ -46,7 +46,7 @@ namespace FiniteStateMachine
 
         protected override void Start()
         {
-            // if(IsHost == false) return;
+            if(IsHost == false) return;
             
             m_Idle.InitializeState("Idle", this);
             m_Walk.InitializeState("Walk", this);
@@ -79,26 +79,14 @@ namespace FiniteStateMachine
         {
             return m_Idle;
         }
-        
-        private bool m_Damaged = false;
 
-        public override void Damage(int amount, Vector3 pos,bool isHeavyDamage)
+        public override void OnDamage(DamageWrapper damageWrapper)
         {
-            // if(!m_TrollCharacter.CharacterNetworkController.IsOwner) return;
+            if(CurrentState == m_Death) return;
             
-            if(CurrentState == m_Death) return; 
-            
-            base.Damage(amount, pos,isHeavyDamage);
-
-            if (m_Damaged == false)
-            {
-                TrollCharacter.HealthBar.OnDamage(10);
-                TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(pos);
-                TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);
-                
-                m_Damaged = true;
-                DOVirtual.DelayedCall(.2f, () => m_Damaged = false);
-            }
+            TrollCharacter.HealthBar.OnDamage(10);
+            TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
+            TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);
         }
 
         // private void OnTriggerEnter(Collider other)

@@ -21,20 +21,23 @@ public class cDragonController : MonoBehaviour
     private LookAtIK m_LookAtIK => m_Character.HeadLookAtIk;
     
     public Action m_ActionEnd = delegate {  };
-
+    
     public void SnapToIdle()
     {
-        
-        m_ActionEnd.Invoke();
-
         DOVirtual.Float(transform.localPosition.y, 0, .1f,
             value => transform.localPosition =
                 new Vector3(transform.localPosition.x, value, transform.localPosition.z));
     }
-
+    
+    
     public void OnAnimEnd()
     {
+    }
+    
+    public void OnActionEnd()
+    {
         m_ActionEnd.Invoke();
+        Debug.Log("ANIM ENDED!!");
     }
     
     public void Breahting()

@@ -28,6 +28,7 @@ public class cAnimationController : MonoBehaviour
         FlyIdle,
         FlyToGround,
         Death,
+        Forward,
         Count
     }
     

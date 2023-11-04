@@ -39,7 +39,13 @@ public class SwordController : cInventoryItem
     {
         if (collision.rigidbody && collision.rigidbody.TryGetComponent(out IDamagable damagable))
         {
-            if(damagable.TeamID != TeamId) damagable.Damage(1, collision.contacts[0].point, false);
+            if(damagable.TeamID != TeamId) damagable.Damage(new DamageWrapper()
+            {
+                amount = 1, 
+                pos = collision.contacts[0].point, 
+                isHeavyDamage = false,
+                damager = transform
+            });
         }
     }
 }

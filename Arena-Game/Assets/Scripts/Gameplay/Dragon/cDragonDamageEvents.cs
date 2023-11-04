@@ -62,7 +62,13 @@ public class cDragonDamageEvents : MonoBehaviour
                 {
                     if (VARIABLE.attachedRigidbody &&VARIABLE.attachedRigidbody.TryGetComponent(out IDamagable damagable))
                     {
-                        damagable.Damage(20,Vector3.zero, true);
+                        damagable.Damage(new DamageWrapper()
+                        {
+                            amount = 20, 
+                            pos = Vector3.zero, 
+                            isHeavyDamage = true,
+                            damager = transform
+                        });
                     }
                 }
             }

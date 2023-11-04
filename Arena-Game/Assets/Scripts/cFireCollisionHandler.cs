@@ -11,7 +11,13 @@ public class cFireCollisionHandler : MonoBehaviour
     {
         if (other.TryGetComponent(out IDamagable damagable))
         {
-            if(damagable.TeamID != m_Character.TeamID) damagable.Damage(10, Vector3.zero, false);
+            if(damagable.TeamID != m_Character.TeamID) damagable.Damage(new DamageWrapper()
+            {
+                amount = 10, 
+                pos = Vector3.zero, 
+                isHeavyDamage = false,
+                damager = transform
+            });
         }
     }
 }

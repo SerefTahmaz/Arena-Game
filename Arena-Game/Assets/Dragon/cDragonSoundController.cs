@@ -26,12 +26,12 @@ public class cDragonSoundController : MonoBehaviour
     [ClientRpc]
     public void PlayBossMusicClientRpc()
     {
-        m_BossAudioSource.PlayOneShot(m_BossMusic);
+        // m_BossAudioSource.PlayOneShot(m_BossMusic);
     }
     
     public void StopBossMusic()
     {
-        m_BossAudioSource.Stop();
+        // m_BossAudioSource.Stop();
     }
 
     public void PlayShout()

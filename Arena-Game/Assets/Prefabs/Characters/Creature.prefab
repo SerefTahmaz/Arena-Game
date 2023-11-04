@@ -9916,6 +9916,8 @@ GameObject:
   - component: {fileID: 5964819060509780106}
   - component: {fileID: 1614312097073441580}
   - component: {fileID: 8563812734129725030}
+  - component: {fileID: 3161446782867599309}
+  - component: {fileID: 485665121009816389}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -10098,7 +10100,6 @@ MonoBehaviour:
   m_CurrentStateName: 
   m_CurrentSubState: 
   m_ShowStates: 0
-  m_FocusTransform: {fileID: 4516118352244988308}
   m_AvailableAttacks: -1
   m_CooldownDurationRange: {x: 0.1, y: 2}
   m_TrollCharacter: {fileID: 3767187384813378727}
@@ -10122,8 +10123,10 @@ MonoBehaviour:
   m_MovementTransform: {fileID: 5903405936648288368}
   m_Animator: {fileID: 3698630494902020446}
   m_HealthBar: {fileID: 7489234822941964781}
-  m_CharacterName: Troll
+  m_CharacterName: Creature
   m_StartHealth: 100
+  m_DamageManager: {fileID: 485665121009816389}
+  m_TeamId: 1
   m_TrollNetworkController: {fileID: 4058094379627410914}
   m_AnimationController: {fileID: 8563812734129725030}
   m_MovementController: {fileID: 7253059257712080819}
@@ -10299,6 +10302,50 @@ MonoBehaviour:
     m_BurntMat: {fileID: 0}
     m_FlameParticle: {fileID: 0}
   m_WildFire: []
+--- !u!114 &3161446782867599309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575602511312586637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bd8c230776823429901b9028da5364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &485665121009816389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575602511312586637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70b5c27357604d488423fb248dffd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4926305348586763731}
+        m_TargetAssemblyTypeName: FiniteStateMachine.cTrollStateMachine, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_DamageHandlers:
+  - {fileID: 3161446782867599309}
 --- !u!1 &5682105853630328167
 GameObject:
   m_ObjectHideFlags: 0
@@ -21562,6 +21609,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].x
+      value: 0.070114434
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].y
+      value: 0.52186656
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].z
+      value: -0.20982575
+      objectReference: {fileID: 0}
+    - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 3369649916021158978}
@@ -22144,17 +22206,17 @@ PrefabInstance:
     - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.032753676
+      value: -0.067207634
       objectReference: {fileID: 0}
     - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
-      value: 0.25055826
+      value: 0.5141239
       objectReference: {fileID: 0}
     - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].z
-      value: -0.09900355
+      value: -0.20314717
       objectReference: {fileID: 0}
     - target: {fileID: 1924273455468671268, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}

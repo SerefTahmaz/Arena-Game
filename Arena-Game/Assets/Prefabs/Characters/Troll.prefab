@@ -14756,6 +14756,8 @@ GameObject:
   - component: {fileID: 3203961506063621806}
   - component: {fileID: 2411749399705835986}
   - component: {fileID: 6540206458435252148}
+  - component: {fileID: 441612947193080595}
+  - component: {fileID: 1904541981851620238}
   m_Layer: 0
   m_Name: Troll
   m_TagString: Untagged
@@ -14934,7 +14936,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentStateName: 
   m_CurrentSubState: 
-  m_FocusTransform: {fileID: 4981131143631506321}
   m_ShowStates: 0
   m_AvailableAttacks: -1
   m_CooldownDurationRange: {x: 0.1, y: 2}
@@ -15030,6 +15031,8 @@ MonoBehaviour:
   m_HealthBar: {fileID: 6286236930141001319}
   m_CharacterName: Troll
   m_StartHealth: 100
+  m_DamageManager: {fileID: 1904541981851620238}
+  m_TeamId: 2
   m_TrollNetworkController: {fileID: 6540206458435252148}
   m_AnimationController: {fileID: 7644089366080706776}
   m_MovementController: {fileID: 7786495622156826054}
@@ -15154,6 +15157,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NetworkAnimator: {fileID: 2411749399705835986}
   m_TrollCharacter: {fileID: 5771096420572015554}
+--- !u!114 &441612947193080595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028557131865585024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bd8c230776823429901b9028da5364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1904541981851620238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028557131865585024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70b5c27357604d488423fb248dffd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7177881264917544825}
+        m_TargetAssemblyTypeName: FiniteStateMachine.cTrollStateMachine, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_DamageHandlers:
+  - {fileID: 441612947193080595}
 --- !u!1 &6808509550087803709
 GameObject:
   m_ObjectHideFlags: 0

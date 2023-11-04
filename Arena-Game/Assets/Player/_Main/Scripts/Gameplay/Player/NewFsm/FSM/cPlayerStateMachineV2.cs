@@ -101,27 +101,18 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             return FreeRoam;
         }
 
-        private bool m_Damaged = false;
-
-        public override void Damage(int amount, Vector3 pos,bool isHeavyDamage)
+        public override void OnDamage(DamageWrapper damageWrapper)
         {
             if(!CharacterNetworkController.IsOwner) return;
             
-            if(CurrentState == Dead) return; 
+            if(CurrentState == Dead) return;
             
-            base.Damage(amount, pos,isHeavyDamage);
+            Character.HealthBar.OnDamage(10);
+            Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 
-            if (m_Damaged == false)
-            {
-                Character.HealthBar.OnDamage(10);
-                Character.PlayerCharacterNetworkController.TakeDamageServerRpc(pos);
-
-                AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
-                    resetable: true);
-                AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
-                m_Damaged = true;
-                DOVirtual.DelayedCall(.2f, () => m_Damaged = false);
-            }
+            AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
+                resetable: true);
+            AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
         }
 
         public void OnDamageAnim()

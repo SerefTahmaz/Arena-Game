@@ -1214,6 +1214,7 @@ GameObject:
   - component: {fileID: 7258918145173286554}
   - component: {fileID: 9177722678912662921}
   - component: {fileID: 1721282922682385691}
+  - component: {fileID: 1121443536584031720}
   m_Layer: 0
   m_Name: Foot
   m_TagString: Untagged
@@ -1415,6 +1416,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1121443536584031720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8506294799436974521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bd8c230776823429901b9028da5364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9177722678912662921}
+        m_TargetAssemblyTypeName: cDragonDamageController, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2115694443689714783
 PrefabInstance:
   m_ObjectHideFlags: 0

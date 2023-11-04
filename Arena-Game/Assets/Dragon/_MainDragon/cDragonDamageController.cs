@@ -12,7 +12,7 @@ using UnityEngine.Animations;
 using UnityEditor;
 #endif
 
-public class cDragonDamageController : NetworkBehaviour, IDamagable
+public class cDragonDamageController : NetworkBehaviour
 {
 
     [SerializeField] private float m_Strength =0.0002f;
@@ -47,7 +47,6 @@ public class cDragonDamageController : NetworkBehaviour, IDamagable
     [ContextMenu("Punch")]
     public void DamageLeg(Vector3 pos)
     {
-        m_Dragon.HealthBar.OnDamage(10);
         TakeDamageServerRpc(pos);
     }
     
@@ -87,17 +86,15 @@ public class cDragonDamageController : NetworkBehaviour, IDamagable
         m_Punching = true;
         
         m_AudioSource.PlayOneShot(m_DamageClip);
-        
 
         var ins =Instantiate(m_DamageParticle, pos, Quaternion.identity);
         ins.PlayWithClear();
-
     }
 
-    public void Damage(int amount, Vector3 pos, bool isHeavy)
+    public void OnDamage(DamageWrapper damageWrapper)
     {
         if(m_Dragon.CharacterNetworkController.IsOwner == false) return;
-        if(m_Punching == false) DamageLeg(pos);
+        if(m_Punching == false) DamageLeg(damageWrapper.pos);
     }
 }
 #if UNITY_EDITOR

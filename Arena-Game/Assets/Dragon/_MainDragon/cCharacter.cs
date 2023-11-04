@@ -1,4 +1,6 @@
-﻿using RootMotion.FinalIK;
+﻿using System;
+using System.Collections.Generic;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 public abstract class cCharacter: MonoBehaviour
@@ -8,6 +10,8 @@ public abstract class cCharacter: MonoBehaviour
     [SerializeField] private cHealthBar m_HealthBar;
     [SerializeField] private string m_CharacterName;
     [SerializeField] private int m_StartHealth;
+    [SerializeField] private cDamageManager m_DamageManager;
+    [SerializeField] private int m_TeamId;
 
     public Transform MovementTransform => m_MovementTransform;
     public Animator Animator => m_Animator;
@@ -26,18 +30,13 @@ public abstract class cCharacter: MonoBehaviour
     }
 
     public int StartHealth => m_StartHealth;
-    
-    private int? m_TeamId;
-    public int TeamID
-    {
-        get
-        {
-            if (m_TeamId.HasValue == false)
-            {
-                m_TeamId = Random.Range(0, 1000000);
-            }
 
-            return m_TeamId.Value;
-        }
+    public int TeamID => m_TeamId;
+
+    public cDamageManager DamageManager => m_DamageManager;
+
+    private void Awake()
+    {
+        DamageManager.Init(TeamID);
     }
 }

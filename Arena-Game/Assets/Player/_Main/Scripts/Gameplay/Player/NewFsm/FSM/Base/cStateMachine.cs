@@ -15,9 +15,12 @@ namespace FiniteStateMachine
 
         [SerializeField] private string m_CurrentStateName;
         [SerializeField] private string m_CurrentSubState;
-        
+
+        protected List<Transform> m_enemies = new List<Transform>();
 
         public bool m_ShowStates;
+        
+        public abstract int TeamID { get; }
 
         #endregion
         
@@ -72,10 +75,12 @@ namespace FiniteStateMachine
             return null;
         }
 
-
-        public virtual void Damage(int amount, Vector3 pos,bool isHeavyDamage)
+        public virtual void OnDamage(DamageWrapper damageWrapper)
         {
-            
+            if (m_enemies.Contains(damageWrapper.damager) == false)
+            {
+                m_enemies.Add(damageWrapper.damager);
+            }
         }
     }
 }

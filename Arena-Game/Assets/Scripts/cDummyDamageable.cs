@@ -6,9 +6,8 @@ public class cDummyDamageable : MonoBehaviour, IDamagable
 {
     [SerializeField] private Transform m_FocusPoint;
 
-    public void Damage(int amount, Vector3 pos, bool isHeavyDamage)
+    public void Damage(DamageWrapper damageWrapper)
     {
-        throw new System.NotImplementedException();
     }
 
     public int TeamID { get; }

@@ -22,7 +22,7 @@ namespace FiniteStateMachine
 
         public cDragonCharacter Character => DragonCharacter;
 
-        public Transform Target => FindObjectsOfType<cPlayerStateMachineV2>().OrderBy((v2 => Vector3.Distance(transform.position,v2.transform.position))).FirstOrDefault().transform;
+        public Transform Target => m_enemies.OrderBy((v2 => Vector3.Distance(transform.position,v2.position))).FirstOrDefault();
 
         public LookAtIK LookAtIK => m_LookAtIK;
 
@@ -68,6 +68,8 @@ namespace FiniteStateMachine
         #region Properties
 
         #endregion
+
+        public override int TeamID => Character.TeamID;
 
         protected override void Start()
         {
@@ -119,6 +121,13 @@ namespace FiniteStateMachine
         protected override cStateBase GetInitialState()
         {
             return m_DragonSleep;
+        }
+
+        public override void OnDamage(DamageWrapper damageWrapper)
+        {
+            if(m_DragonCharacter.CharacterNetworkController.IsOwner == false) return;
+            base.OnDamage(damageWrapper);
+            m_DragonCharacter.HealthBar.OnDamage(10);
         }
 
         // private void OnTriggerEnter(Collider other)
