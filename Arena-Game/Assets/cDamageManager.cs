@@ -8,7 +8,8 @@ public class cDamageManager : MonoBehaviour
 {
     public UnityEvent<DamageWrapper> m_OnDamage;
 
-    public List<cDamageHandler> m_DamageHandlers;
+    public List<cDamageReicever> m_DamageHandlers;
+    public List<cDamageEffectorBase> m_DamageEffectors;
 
     public void Init(int teamId)
     {
@@ -16,6 +17,10 @@ public class cDamageManager : MonoBehaviour
         {
             VARIABLE.TeamID = teamId;
             VARIABLE.OnDamage.AddListener(OnDamage);
+        }
+        foreach (var VARIABLE in m_DamageEffectors)
+        {
+            VARIABLE.TeamID = teamId;
         }
     }
 

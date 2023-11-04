@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: c1680da52aac44347baf67d9a007b158
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -80,6 +80,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0
         functionName: OnAttack1Start
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.22848666
+        functionName: EnableWeaponDamageEffector
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6617211
+        functionName: DisableWeaponDamageEffector
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -408,6 +422,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -435,6 +450,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -557,7 +573,8 @@ ModelImporter:
     - name: c_eye.l
       parentName: c_eye_offset.l
       position: {x: -0.000000014305114, y: -0.000000007152557, z: 0.00000005483627}
-      rotation: {x: -0.00000005774198, y: -0.00000007450578, z: -0.00000010430809, w: 1}
+      rotation: {x: -0.00000005774198, y: -0.00000007450578, z: -0.00000010430809,
+        w: 1}
       scale: {x: 1.0000018, y: 1.0000012, z: 1.0000005}
     - name: c_eye_ref_track.l
       parentName: c_eye_offset.l
@@ -622,7 +639,8 @@ ModelImporter:
     - name: c_eye.r
       parentName: c_eye_offset.r
       position: {x: 0.000000023841856, y: 0.0000000047683715, z: 0.000000077486035}
-      rotation: {x: 0.00000003539024, y: -0.000000089406925, z: -0.00000020861616, w: 1}
+      rotation: {x: 0.00000003539024, y: -0.000000089406925, z: -0.00000020861616,
+        w: 1}
       scale: {x: 0.9999998, y: 1, z: 1.0000001}
     - name: c_eye_ref_track.r
       parentName: c_eye_offset.r
@@ -877,7 +895,8 @@ ModelImporter:
     - name: arm_twist.l
       parentName: arm_stretch.l
       position: {x: -0.000000014305114, y: -0.000000006556511, z: -0.000000019073486}
-      rotation: {x: 0.000000029802315, y: -0.00000014901158, z: 0.000000044703473, w: 1}
+      rotation: {x: 0.000000029802315, y: -0.00000014901158, z: 0.000000044703473,
+        w: 1}
       scale: {x: 1.0000018, y: 1.0000018, z: 1.0000007}
     - name: forearm_stretch.l
       parentName: arm_stretch.l
@@ -982,7 +1001,8 @@ ModelImporter:
     - name: arm_twist.r
       parentName: arm_stretch.r
       position: {x: 0.0000000047683715, y: -0.000000034570693, z: 0.000000038146972}
-      rotation: {x: -0.00000008940694, y: 0.000000029802312, z: -0.00000007450578, w: 1}
+      rotation: {x: -0.00000008940694, y: 0.000000029802312, z: -0.00000007450578,
+        w: 1}
       scale: {x: 1.0000001, y: 0.9999996, z: 1.0000001}
     - name: forearm_stretch.r
       parentName: arm_stretch.r
@@ -1132,12 +1152,14 @@ ModelImporter:
     - name: leg_twist.r
       parentName: leg_stretch.r
       position: {x: -0.0000000062584875, y: 0.07635681, z: -0.000000008018687}
-      rotation: {x: -0.00000007948572, y: -0.00000017428663, z: -0.000000014902003, w: 1}
+      rotation: {x: -0.00000007948572, y: -0.00000017428663, z: -0.000000014902003,
+        w: 1}
       scale: {x: 1.0000007, y: 1.0000019, z: 1.0000013}
     - name: thigh_twist.r
       parentName: thigh_stretch.r
       position: {x: 0.000000004470348, y: 0.00000006943941, z: 0.0000000052154063}
-      rotation: {x: 0.000000055879347, y: 0.00000009452923, z: -0.000000026077029, w: 1}
+      rotation: {x: 0.000000055879347, y: 0.00000009452923, z: -0.000000026077029,
+        w: 1}
       scale: {x: 0.9999997, y: 0.99999994, z: 1.0000001}
     - name: ShoulderArmor_low.001
       parentName: Troll(Clone)
@@ -1166,12 +1188,15 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 9786b1379f7eb594ba838fbbed224434, type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 9786b1379f7eb594ba838fbbed224434,
+    type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

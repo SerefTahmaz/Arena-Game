@@ -25,6 +25,10 @@ public class cAnimationEventsController : MonoBehaviour
     [SerializeField] private AudioSource m_WalkSource;
     
     [SerializeField] private List<AudioClip> m_StepAudioClips;
+    
+    [SerializeField] private GameObject m_WeaponDamageEffector;
+    [SerializeField] private GameObject m_AreaDamageEffector;
+
     private AudioClip m_CurrentStep;
 
     public void OnLeftStep()
@@ -37,6 +41,13 @@ public class cAnimationEventsController : MonoBehaviour
     {
         m_RightStompDustPar.PlayWithClear();
         OnStep();
+    }
+    
+    public void OnStep()
+    {
+        m_CurrentStep = m_StepAudioClips.Except(new[] { m_CurrentStep }).OrderBy((clip => Random.Range(0, 1000)))
+            .FirstOrDefault();
+        m_WalkSource.PlayOneShot(m_CurrentStep);
     }
 
     public void OnGroundAttack()
@@ -96,10 +107,23 @@ public class cAnimationEventsController : MonoBehaviour
         m_RoarParticle.PlayWithClear();
     }
 
-    public void OnStep()
+    public void EnableWeaponDamageEffector()
     {
-        m_CurrentStep = m_StepAudioClips.Except(new[] { m_CurrentStep }).OrderBy((clip => Random.Range(0, 1000)))
-            .FirstOrDefault();
-        m_WalkSource.PlayOneShot(m_CurrentStep);
+        m_WeaponDamageEffector.SetActive(true);
+    }
+    
+    public void DisableWeaponDamageEffector()
+    {
+        m_WeaponDamageEffector.SetActive(false);
+    }
+    
+    public void EnableAreaDamageEffector()
+    {
+        m_AreaDamageEffector.SetActive(true);
+    }
+    
+    public void DisableAreaDamageEffector()
+    {
+        m_AreaDamageEffector.SetActive(false);
     }
 }

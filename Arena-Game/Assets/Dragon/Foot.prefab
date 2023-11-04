@@ -1215,6 +1215,7 @@ GameObject:
   - component: {fileID: 9177722678912662921}
   - component: {fileID: 1721282922682385691}
   - component: {fileID: 1121443536584031720}
+  - component: {fileID: 3905477039569207155}
   m_Layer: 0
   m_Name: Foot
   m_TagString: Untagged
@@ -1443,6 +1444,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3905477039569207155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8506294799436974521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2115694443689714783
 PrefabInstance:
   m_ObjectHideFlags: 0

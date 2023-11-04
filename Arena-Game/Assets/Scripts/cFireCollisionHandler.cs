@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cFireCollisionHandler : MonoBehaviour
+public class cFireCollisionHandler : cDamageEffectorBase
 {
-    [SerializeField] private cCharacter m_Character;
-    
     private void OnParticleCollision(GameObject other)
     {
         if (other.TryGetComponent(out IDamagable damagable))
         {
-            if(damagable.TeamID != m_Character.TeamID) damagable.Damage(new DamageWrapper()
+            DamageIt(damagable, new DamageWrapper()
             {
                 amount = 10, 
                 pos = Vector3.zero, 

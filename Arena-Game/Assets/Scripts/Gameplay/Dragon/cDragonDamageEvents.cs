@@ -6,72 +6,43 @@ using UnityEngine;
 
 public class cDragonDamageEvents : MonoBehaviour
 {
-    [SerializeField] private List<Transform> m_Transforms;
-    [SerializeField] private LayerMask m_LayerMask;
-
-    private List<bool> m_LegActivation = new List<bool>() { false, false, false, false };
+    [SerializeField] private List<GameObject> m_DamageEffectors;
 
     public void SetActiveLeg(int leg)
     {
-        m_LegActivation[leg] = true;
+        m_DamageEffectors[leg].SetActive(true);
     }
     
     public void SetDeActiveLeg(int leg)
     {
-        m_LegActivation[leg] = false;
+        m_DamageEffectors[leg].SetActive(false);
     }
 
     public void MeleeAttack2Start()
     {
-        m_LegActivation[0] = true;
-        m_LegActivation[1] = true;
+        m_DamageEffectors[0].SetActive(true);
+        m_DamageEffectors[1].SetActive(true);
     }
     
     public void MeleeAttack2End()
     {
-        m_LegActivation[0] = false;
-        m_LegActivation[1] = false;
+        m_DamageEffectors[0].SetActive(false);
+        m_DamageEffectors[1].SetActive(false);
     }
     
     public void ForwardJumpStart()
     {
-        for (int i = 0; i < m_LegActivation.Count; i++)
+        for (int i = 0; i < m_DamageEffectors.Count; i++)
         {
-            m_LegActivation[i] = true;
+            m_DamageEffectors[i].SetActive(true);
         }
     }
     
     public void ForwardJumpEnd()
     {
-        for (int i = 0; i < m_LegActivation.Count; i++)
+        for (int i = 0; i < m_DamageEffectors.Count; i++)
         {
-            m_LegActivation[i] = false;
-        }
-    }
-
-    private void Update()
-    {
-        for (int i = 0; i < m_LegActivation.Count; i++)
-        {
-            if(m_LegActivation[i] == false) continue;
-
-            var colliders = Physics.OverlapSphere(m_Transforms[i].position, 2, m_LayerMask);
-            if (colliders.Any())
-            {
-                foreach (var VARIABLE in colliders)
-                {
-                    if (VARIABLE.attachedRigidbody &&VARIABLE.attachedRigidbody.TryGetComponent(out IDamagable damagable))
-                    {
-                        damagable.Damage(new DamageWrapper()
-                        {
-                            amount = 20, 
-                            pos = Vector3.zero, 
-                            isHeavyDamage = true,
-                            damager = transform
-                        });
-                    }
-                }
-            }
+            m_DamageEffectors[i].SetActive(false);
         }
     }
 }

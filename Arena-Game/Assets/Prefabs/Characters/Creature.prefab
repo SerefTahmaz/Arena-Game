@@ -9935,7 +9935,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6677664307540814985}
@@ -10085,6 +10085,8 @@ MonoBehaviour:
   m_RightTrailRenderer: {fileID: 708393949412973472}
   m_LeftTrailRenderer: {fileID: 2626368838632323603}
   m_RollImpact: {fileID: 3249567518291136992}
+  m_RightDamageEffector: {fileID: 2248403918083632621}
+  m_LeftDamageEffector: {fileID: 3645078354340007006}
 --- !u!114 &4926305348586763731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10346,6 +10348,9 @@ MonoBehaviour:
         m_CallState: 2
   m_DamageHandlers:
   - {fileID: 3161446782867599309}
+  m_DamageEffectors:
+  - {fileID: 1423013555562059500}
+  - {fileID: 4474760854877370207}
 --- !u!1 &5682105853630328167
 GameObject:
   m_ObjectHideFlags: 0
@@ -21632,6 +21637,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftHandTrail
       objectReference: {fileID: 0}
+    - target: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21692,6 +21702,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85f0aa2a90067094cb9c114d9966b8a0, type: 3}
+--- !u!114 &1423013555562059500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6047416998346621854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3645078354340007006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!96 &2626368838632323603 stripped
 TrailRenderer:
   m_CorrespondingSourceObject: {fileID: 8619328055401888141, guid: 85f0aa2a90067094cb9c114d9966b8a0,
@@ -21701,6 +21723,12 @@ TrailRenderer:
 --- !u!4 &2717452250736225764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6047416998346621854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3645078354340007006 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
     type: 3}
   m_PrefabInstance: {fileID: 6047416998346621854}
   m_PrefabAsset: {fileID: 0}
@@ -22228,6 +22256,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightHandTrail
       objectReference: {fileID: 0}
+    - target: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22300,3 +22333,21 @@ TrailRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 9100290197836423725}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2248403918083632621 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 9100290197836423725}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4474760854877370207 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 9100290197836423725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2248403918083632621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
