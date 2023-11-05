@@ -16,7 +16,7 @@ namespace FiniteStateMachine
         [SerializeField] private string m_CurrentStateName;
         [SerializeField] private string m_CurrentSubState;
 
-        protected List<Transform> m_enemies = new List<Transform>();
+        public List<Transform> m_enemies = new List<Transform>();
 
         public bool m_ShowStates;
         

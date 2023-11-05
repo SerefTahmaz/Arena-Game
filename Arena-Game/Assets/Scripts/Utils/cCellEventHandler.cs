@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 namespace DemoBlast.Utils
 {
-    public class cCellEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
+    public class cCellEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler, IPointerClickHandler
     {
         [SerializeField] private UnityEvent m_OnEnter;
         [SerializeField] private UnityEvent m_OnDown;
+        [SerializeField] private UnityEvent m_OnClick;
         [SerializeField] private UnityEvent m_OnExit;
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -25,6 +26,11 @@ namespace DemoBlast.Utils
         public void OnPointerDown(PointerEventData eventData)
         {
             m_OnDown.Invoke();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            m_OnClick.Invoke();
         }
     }
 }

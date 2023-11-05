@@ -17,7 +17,7 @@ namespace FiniteStateMachine
         [SerializeField] private cTrollCharacter m_TrollCharacter;
         [SerializeField] private ParticleSystem m_BloodExpo;
 
-        public Transform Target => FindObjectsOfType<cPlayerStateMachineV2>().OrderBy((v2 => Vector3.Distance(transform.position,v2.transform.position))).FirstOrDefault()?.transform;
+        public Transform Target => m_enemies.OrderBy((v2 => Vector3.Distance(transform.position,v2.position))).FirstOrDefault();
 
         public cTrollAnimationController.TrollAnimationState AvailableAttacks => m_AvailableAttacks;
 
@@ -84,6 +84,7 @@ namespace FiniteStateMachine
         {
             if(CurrentState == m_Death) return;
             
+            base.OnDamage(damageWrapper);
             TrollCharacter.HealthBar.OnDamage(10);
             TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
             TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);

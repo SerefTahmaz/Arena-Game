@@ -107,6 +107,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             
             if(CurrentState == Dead) return;
             
+            base.OnDamage(damageWrapper);
             Character.HealthBar.OnDamage(10);
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 
