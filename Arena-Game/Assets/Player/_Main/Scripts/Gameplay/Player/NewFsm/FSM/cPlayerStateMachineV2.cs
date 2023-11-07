@@ -60,6 +60,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
 
         protected override void Start()
         {
+            
             Debug.Log(CharacterNetworkController.IsOwner);
             if (!CharacterNetworkController.IsOwner)
             {
@@ -75,7 +76,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             
             cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(this.transform);
             
-            Character.HealthBar.m_OnDied += () =>
+            Character.HealthManager.m_OnDied += () =>
             {
                 ChangeState(Dead);
             };
@@ -108,7 +109,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             if(CurrentState == Dead) return;
             
             base.OnDamage(damageWrapper);
-            Character.HealthBar.OnDamage(10);
+            Character.HealthManager.OnDamage(10);
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 
             AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 

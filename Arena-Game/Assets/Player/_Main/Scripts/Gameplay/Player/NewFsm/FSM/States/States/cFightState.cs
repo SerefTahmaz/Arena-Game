@@ -178,5 +178,26 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.InputManager.RemoveListenerToOnNum3Event(OnHelloEveryone);
             m_PlayerStateMachine.InputManager.RemoveListenerToOnNum4Event(OnStretching);
         }
+
+        private void OnDestroy()
+        {
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnRightLightAttackEvent(OnClick);
+            m_PlayerStateMachine.InputManager.RemoveListenerToUnArmEvent(OnRKey);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnLeftLightAttackEvent(OnRightClickDown);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnJumpEvent(OnSpace);
+            
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawLeftItem(SwitchLeftSword);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawRightItemEvent(SwitchRightSword);
+            
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(OnChargeLeft);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(OnChargeRight);
+            
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnTwoHandedAttackEvent(OnHeavyAttack);
+            
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnFKeyDownEvent(OnChargeBoth);
+            
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnNum3Event(OnHelloEveryone);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnNum4Event(OnStretching);
+        }
     }
 }

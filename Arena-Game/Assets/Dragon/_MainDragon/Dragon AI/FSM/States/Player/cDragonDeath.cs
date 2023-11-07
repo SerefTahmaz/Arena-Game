@@ -18,6 +18,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             AnimationController.SetTrigger(cAnimationController.eAnimationType.Death);
+            cGameManager.Instance.m_OnNpcDied.Invoke();
             StateMachine.Character.DragonNetworkController.OnDeathServerRpc();
         }
 

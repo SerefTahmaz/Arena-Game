@@ -16,8 +16,7 @@ public class cTrollNetworkController : cCharacterNetworkController
     [ClientRpc]
     public void OnStartFightClientRpc()
     {
-        m_TrollCharacter.HealthBar.InitHealthBar(m_TrollCharacter.CharacterName, m_TrollCharacter.StartHealth);
-        m_TrollCharacter.HealthBar.SetVisibilty(true);
+        m_TrollCharacter.HealthManager.SetVisibility(true);
     }
     
     [ServerRpc(RequireOwnership = false)]
@@ -41,6 +40,6 @@ public class cTrollNetworkController : cCharacterNetworkController
     [ClientRpc]
     protected override void OnDeathClientRpc()
     {
-        DOVirtual.DelayedCall(2, () => m_TrollCharacter.HealthBar.SetVisibilty(false));
+        DOVirtual.DelayedCall(2, () => m_TrollCharacter.HealthManager.SetVisibility(false));
     }
 }

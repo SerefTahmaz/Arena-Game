@@ -21,12 +21,13 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
         {
             PlayerName.Value = cLobbyManager.Instance.PlayerName;
         }
-        m_PlayerCharacter.HealthBar.InitHealthBar(PlayerName.Value.Value, m_PlayerCharacter.StartHealth);
-        m_PlayerCharacter.HealthBar.SetVisibilty(true);
+
+        m_PlayerCharacter.CharacterName = PlayerName.Value.Value;
+        m_PlayerCharacter.HealthManager.SetVisibility(true);
 
         PlayerName.OnValueChanged += (value, newValue) =>
         {
-            m_PlayerCharacter.HealthBar.UpdateName(newValue.Value);
+            m_PlayerCharacter.HealthManager.UpdateUIClientRpc();
         };
     }
 
@@ -70,7 +71,7 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     [ClientRpc]
     protected override void OnDeathClientRpc()
     {
-        DOVirtual.DelayedCall(2, () => m_PlayerCharacter.HealthBar.SetVisibilty(false));
+        DOVirtual.DelayedCall(2, () => m_PlayerCharacter.HealthManager.SetVisibility(false));
         m_PlayerCharacter.SoundEffectController.PlayDead();
         m_PlayerCharacter.SoundEffectController.PlayDamageGrunt();
     }

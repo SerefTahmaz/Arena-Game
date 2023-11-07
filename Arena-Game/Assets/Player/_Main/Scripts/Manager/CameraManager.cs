@@ -110,6 +110,7 @@ public class CameraManager : cSingleton<CameraManager>
         _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
         _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         EnableGameplayCam();
     }
 

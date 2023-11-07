@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class cCreateLobbyButton : MonoBehaviour
 {
-    [SerializeField] private cCreateLobbyUIController m_CreateLobbyUIController;
-
     public void CreateLobby()
     {
         cLobbyListUI.Instance.OnCreateLobby();
-        Instantiate(m_CreateLobbyUIController, cUIManager.Instance.transform);
+        cLevelSelectView.Instance.Activate();
     }
 
     public void OnCreated()

@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
 {
-    public class cDead : cStateBase
+    public class cDead : cDeath
     {
         cPlayerStateMachineV2 StateMachine => m_StateMachine as cPlayerStateMachineV2;
         

@@ -41,6 +41,7 @@ public class cRelayManager : cSingleton<cRelayManager>
             
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
+            cGameManager.Instance.StartGame();
             return joinCode;
         }
         catch (RelayServiceException e)

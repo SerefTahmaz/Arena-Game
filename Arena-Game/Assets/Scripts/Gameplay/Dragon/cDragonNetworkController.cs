@@ -16,8 +16,7 @@ public class cDragonNetworkController : cCharacterNetworkController
     [ClientRpc]
     public void OnStartFightClientRpc()
     {
-        m_DragonCharacter.HealthBar.InitHealthBar(m_DragonCharacter.CharacterName, m_DragonCharacter.StartHealth);
-        m_DragonCharacter.HealthBar.SetVisibilty(true);
+        m_DragonCharacter.HealthManager.SetVisibility(true);
         m_DragonCharacter.DragonSoundController.PlayBossMusicClientRpc();
         m_DragonCharacter.DragonSoundController.StopAmbient();
     }
@@ -31,7 +30,7 @@ public class cDragonNetworkController : cCharacterNetworkController
     [ClientRpc]
     protected override void OnDeathClientRpc()
     {
-        DOVirtual.DelayedCall(2, () => m_DragonCharacter.HealthBar.SetVisibilty(false));
+        DOVirtual.DelayedCall(2, () => m_DragonCharacter.HealthManager.SetVisibility(false));
         m_DragonCharacter.DragonSoundController.StopBossMusic();
     }
 }

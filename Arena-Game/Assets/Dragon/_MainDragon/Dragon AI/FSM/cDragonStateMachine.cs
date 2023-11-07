@@ -82,7 +82,7 @@ namespace FiniteStateMachine
             m_DragonFly.InitializeState("DragonFly", this);
             m_DragonDeath.InitializeState("DragonDeath", this);
 
-            Character.HealthBar.m_OnDied += () =>
+            Character.HealthManager.m_OnDied += () =>
             {
                 ChangeState(m_DragonDeath);
             };
@@ -127,7 +127,7 @@ namespace FiniteStateMachine
         {
             if(m_DragonCharacter.CharacterNetworkController.IsOwner == false) return;
             base.OnDamage(damageWrapper);
-            m_DragonCharacter.HealthBar.OnDamage(10);
+            m_DragonCharacter.HealthManager.OnDamage(10);
         }
 
         // private void OnTriggerEnter(Collider other)

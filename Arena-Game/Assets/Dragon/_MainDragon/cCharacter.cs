@@ -7,7 +7,7 @@ public abstract class cCharacter: MonoBehaviour
 {
     [SerializeField] private Transform m_MovementTransform;
     [SerializeField] private Animator m_Animator;
-    [SerializeField] private cHealthBar m_HealthBar;
+    [SerializeField] private cHealthManager m_HealthManager;
     [SerializeField] private string m_CharacterName;
     [SerializeField] private int m_StartHealth;
     [SerializeField] private cDamageManager m_DamageManager;
@@ -15,7 +15,7 @@ public abstract class cCharacter: MonoBehaviour
 
     public Transform MovementTransform => m_MovementTransform;
     public Animator Animator => m_Animator;
-    public cHealthBar HealthBar => m_HealthBar;
+    public cHealthManager HealthManager => m_HealthManager;
     public bool IsHost => CharacterNetworkController.IsHost;
 
     public abstract cCharacterNetworkController CharacterNetworkController

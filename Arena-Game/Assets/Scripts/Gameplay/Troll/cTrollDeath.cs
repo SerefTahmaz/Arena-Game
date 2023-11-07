@@ -16,6 +16,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Dead);
+            cGameManager.Instance.m_OnNpcDied.Invoke();
             // StateMachine.Character.DragonNetworkController.OnEndFightServerRpc();
             StateMachine.TrollCharacter.TrollNetworkController.OnDeathServerRpc();
         }

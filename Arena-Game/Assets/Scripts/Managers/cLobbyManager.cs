@@ -160,6 +160,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     {
         try
         {
+            m_GameStarted = false;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions()
             {
                 IsPrivate = isPrivate,

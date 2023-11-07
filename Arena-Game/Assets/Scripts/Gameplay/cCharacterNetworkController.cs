@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -10,6 +11,8 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
     [SerializeField] private NetworkAnimator m_NetworkAnimator;
 
     public NetworkAnimator NetworkAnimator => m_NetworkAnimator;
+    
+    private Action m_OnSpawn = delegate {  };
 
     public NetworkVariable<float> CurrentHealth
     {
@@ -23,11 +26,23 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
         set => m_PlayerName = value;
     }
 
+    public Action OnSpawn
+    {
+        get => m_OnSpawn;
+        set => m_OnSpawn = value;
+    }
+
     private NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(100,NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
     
     private NetworkVariable<FixedString128Bytes> m_PlayerName = new NetworkVariable<FixedString128Bytes>("Player",NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        m_OnSpawn.Invoke();
+    }
 
     private void Update()
     {

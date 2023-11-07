@@ -53,7 +53,7 @@ namespace FiniteStateMachine
             m_Empty.InitializeState("Empty", this);
             m_Death.InitializeState("Death", this);
 
-            TrollCharacter.HealthBar.m_OnDied += () =>
+            TrollCharacter.HealthManager.m_OnDied += () =>
             {
             ChangeState(m_Death);
             };
@@ -85,7 +85,7 @@ namespace FiniteStateMachine
             if(CurrentState == m_Death) return;
             
             base.OnDamage(damageWrapper);
-            TrollCharacter.HealthBar.OnDamage(10);
+            TrollCharacter.HealthManager.OnDamage(10);
             TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
             TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);
         }

@@ -72,14 +72,26 @@ public class AnimationController : MonoBehaviour
         {
             DOVirtual.Float(0,  m_EyeballCurve.Evaluate(Random.Range(-1.0f, 1.0f)), .3f, value =>
             {
+                if (_animator == null)
+                {
+                    return;    
+                }
                 _animator.SetFloat("EyeballHorizontal", value);
             });
 
             DOVirtual.Float(0, m_EyeballCurve.Evaluate(Random.Range(-1.0f, 1.0f)), .3f, value =>
             {
+                if (_animator == null)
+                {
+                    return;    
+                }
                 _animator.SetFloat("EyeballVertical", value);
             });
 
+            if (_animator == null)
+            {
+                return;    
+            }
             EyeBallMovement();
         });
     }
@@ -90,8 +102,16 @@ public class AnimationController : MonoBehaviour
         {
             DOVirtual.Float(0, 1, .2f, value =>
             {
+                if (_animator == null)
+                {
+                    return;    
+                }
                 _animator.SetFloat("Eyelid", value);
             }).SetLoops(2, LoopType.Yoyo);
+            if (_animator == null)
+            {
+                return;    
+            }
             BlinkEye();
         });
     }
