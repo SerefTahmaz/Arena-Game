@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using RootMotion.FinalIK;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class cCharacter: MonoBehaviour
 {
@@ -12,6 +13,7 @@ public abstract class cCharacter: MonoBehaviour
     [SerializeField] private int m_StartHealth;
     [SerializeField] private cDamageManager m_DamageManager;
     [SerializeField] private int m_TeamId;
+    [SerializeField] private NavMeshAgent m_NavMeshAgent;
 
     public Transform MovementTransform => m_MovementTransform;
     public Animator Animator => m_Animator;
@@ -34,6 +36,8 @@ public abstract class cCharacter: MonoBehaviour
     public int TeamID => m_TeamId;
 
     public cDamageManager DamageManager => m_DamageManager;
+
+    public NavMeshAgent MeshAgent => m_NavMeshAgent;
 
     private void Awake()
     {

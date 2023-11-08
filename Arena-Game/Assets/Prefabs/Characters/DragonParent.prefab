@@ -54648,6 +54648,7 @@ MonoBehaviour:
   m_StartHealth: 100
   m_DamageManager: {fileID: 8716070377892071603}
   m_TeamId: 3
+  m_NavMeshAgent: {fileID: 0}
   m_DragonController: {fileID: 7166414534433915095}
   m_HeadLookAtIk: {fileID: 7166414534433915099}
   m_DragonSoundController: {fileID: 419063547}
@@ -100108,10 +100109,10 @@ ParentConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: 0.030000001, y: 11.59, z: 0.17}
+  m_TranslationAtRest: {x: 0.03, y: 11.59, z: 0.17}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0.030000001, y: 11.59, z: 0.17000008}
+  - {x: 0.03, y: 11.59, z: 0.17000008}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1

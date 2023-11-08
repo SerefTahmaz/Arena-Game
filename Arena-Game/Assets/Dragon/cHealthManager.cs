@@ -15,7 +15,7 @@ public class cHealthManager : MonoBehaviour
     [SerializeField] private cCharacter m_Character;
     [SerializeField] private cHealthBar m_WorldHealthBar;
     [SerializeField] private cHealthController m_HealthController;
-    [SerializeField] private HealthBarState m_HealthBarState;
+    [SerializeField] private eHealthBarState m_HealthBarState;
 
     public string PlayerName => m_Character.CharacterName;
     
@@ -28,10 +28,16 @@ public class cHealthManager : MonoBehaviour
     public Action m_OnDied = delegate { };
 
     public cCharacterNetworkController CharacterNetworkController => m_Character.CharacterNetworkController;
-    
+
+    public eHealthBarState HealthBarState
+    {
+        get => m_HealthBarState;
+        set => m_HealthBarState = value;
+    }
+
     private cHealthBar m_HealthBar;
     
-    public enum HealthBarState
+    public enum eHealthBarState
     {
         World,
         UIBoss,
@@ -68,10 +74,10 @@ public class cHealthManager : MonoBehaviour
         cHealthBar healthBar;
         switch (m_HealthBarState)
         {
-            case HealthBarState.World:
+            case eHealthBarState.World:
                 m_HealthBar = m_WorldHealthBar;
                 break;
-            case HealthBarState.UIBoss:
+            case eHealthBarState.UIBoss:
                 healthBar = cGameManager.Instance.GiveMeBossUIHealthBar();
                 if (healthBar != null)
                 {
@@ -79,12 +85,15 @@ public class cHealthManager : MonoBehaviour
                     m_HealthBar.HealthManager = this;
                 }
                 break;
-            case HealthBarState.UIPlayer:
-                healthBar = cGameManager.Instance.GiveMePlayerUIHealthBar();
-                if (healthBar != null)
+            case eHealthBarState.UIPlayer:
+                if (CharacterNetworkController.IsOwner)
                 {
-                    m_HealthBar = healthBar;
-                    m_HealthBar.HealthManager = this;
+                    healthBar = cGameManager.Instance.GiveMePlayerUIHealthBar();
+                    if (healthBar != null)
+                    {
+                        m_HealthBar = healthBar;
+                        m_HealthBar.HealthManager = this;
+                    }
                 }
                 break;
             default:

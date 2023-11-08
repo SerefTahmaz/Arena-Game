@@ -8,6 +8,7 @@ public class cNpcSpawnerProxy : NetworkBehaviour
 {
     [SerializeField] private GameObject m_NetworkPrefab;
     [SerializeField] private Transform m_SpawnPoint;
+    [SerializeField] private cHealthManager.eHealthBarState m_HealthBarState;
 
     public override void OnNetworkSpawn()
     {
@@ -21,6 +22,11 @@ public class cNpcSpawnerProxy : NetworkBehaviour
         {
             GameObject go = Instantiate(m_NetworkPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
             go.GetComponent<NetworkObject>().Spawn();
+            foreach (var VARIABLE in  go.GetComponentsInChildren<cHealthManager>())
+            {
+                VARIABLE.HealthBarState = m_HealthBarState;
+            }
+           
             cNpcManager.Instance.m_Npcs.Add(go);
         }
         gameObject.SetActive(false);

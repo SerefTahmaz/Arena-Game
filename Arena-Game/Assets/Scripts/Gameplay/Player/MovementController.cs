@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PlayerCharacter
 {
@@ -12,6 +13,7 @@ namespace PlayerCharacter
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
+		[SerializeField] private PhysicMaterial m_PhysicMaterial;
 
 		[SerializeField] Rigidbody m_Rigidbody;
 		[SerializeField] Animator m_Animator;
@@ -25,6 +27,7 @@ namespace PlayerCharacter
 		Vector3 m_CapsuleCenter;
 		[SerializeField] CapsuleCollider m_Capsule;
 		bool m_Crouching;
+		private bool m_HasInput = false;
 
 
 		void Start()
@@ -36,9 +39,28 @@ namespace PlayerCharacter
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
+		private void Update()
+		{
+			if (m_HasInput)
+			{
+				m_Capsule.material = null;
+			}
+			else
+			{
+				m_Capsule.material = m_PhysicMaterial;
+			}
+		}
 
 		public void Move(Vector3 move, bool crouch = false, bool jump = false)
 		{
+			if (move.magnitude > 0)
+			{
+				m_HasInput = true;
+			}
+			else
+			{
+				m_HasInput = false;
+			}
 
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired

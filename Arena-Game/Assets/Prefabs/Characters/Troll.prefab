@@ -15022,7 +15022,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -15069,6 +15069,7 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1.5
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.25
+  m_PhysicMaterial: {fileID: 0}
   m_Rigidbody: {fileID: 4279231040548864758}
   m_Animator: {fileID: 211114692697353439}
   m_Capsule: {fileID: 8629437958519135270}
@@ -15249,6 +15250,7 @@ MonoBehaviour:
   m_StartHealth: 20
   m_DamageManager: {fileID: 1904541981851620238}
   m_TeamId: 2
+  m_NavMeshAgent: {fileID: 0}
   m_TrollNetworkController: {fileID: 6540206458435252148}
   m_AnimationController: {fileID: 7644089366080706776}
   m_MovementController: {fileID: 7786495622156826054}
