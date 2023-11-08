@@ -59,7 +59,7 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
     {
         Touch controllingTouch = new Touch();
         var clicked = false;
-        for (int i = 0; i < Input.touchCount && i < 2; i++)
+        for (int i = 0; i < Input.touchCount; i++)
         {
             if (Input.GetTouch(i).fingerId == m_Id)
             {
@@ -82,7 +82,6 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
             input.x /= Screen.width;
             input.y /= Screen.height;
             m_JoystickValue = input*m_FingerInputSpeed;
-            Debug.Log(m_JoystickValue);
         }
         else
         {

@@ -95,10 +95,10 @@ public class cGameManager : cSingleton<cGameManager>
 
     public void StartGame()
     {
-        StartRound().Forget();
+        StartRound();
     }
 
-    public async UniTaskVoid StartRound()
+    private async UniTask StartRound()
     {
         await UniTask.WaitForSeconds(10);
         m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);

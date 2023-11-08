@@ -35,7 +35,7 @@ public class cJoystickController : cSingleton<cJoystickController>
     {
         Touch controllingTouch = new Touch();
         var clicked = false;
-        for (int i = 0; i < Input.touchCount && i < 2; i++)
+        for (int i = 0; i < Input.touchCount; i++)
         {
             if (Input.GetTouch(i).fingerId == m_Id)
             {
@@ -45,7 +45,6 @@ public class cJoystickController : cSingleton<cJoystickController>
                     return;
                 }
                 controllingTouch = Input.GetTouch(i);
-                Debug.Log(m_Id);
                 clicked = true;
             }
         }
