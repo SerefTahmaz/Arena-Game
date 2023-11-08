@@ -8,6 +8,7 @@ public class MergeTest : MonoBehaviour
     void Start()
     {
         Debug.Log("TestPC");
+        Debug.Log("testMac");
     }
 
     // Update is called once per frame
