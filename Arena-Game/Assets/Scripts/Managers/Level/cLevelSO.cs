@@ -19,7 +19,7 @@ public class cLevelSO : ScriptableObject
 #endif
     [SerializeField] private Sprite m_Icon;
     [SerializeField] private string m_NameText;
-    private string m_SceneName;
+    [SerializeField] private string m_SceneName;
 
     public Sprite Icon => m_Icon;
 

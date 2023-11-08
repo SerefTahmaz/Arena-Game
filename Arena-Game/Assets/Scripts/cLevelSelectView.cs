@@ -43,6 +43,8 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
                 OnSelect(ins);
             }
         }
+
+        m_SelectedLevelUnit = m_LevelSelectUnits[0];
     }
 
     public void OnSelect(cLevelSelectUnit selectedUnit)
