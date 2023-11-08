@@ -24,13 +24,14 @@ public class cGameManager : cSingleton<cGameManager>
     [SerializeField] private bool m_IsPlayerUIBeingUsed;
 
     private ISaveManager m_SaveManager;
-
-    public cPlayerIconList PlayerIconList => m_PlayerIconList;
+    private int m_SpawnOffset;
+    private eGameMode m_CurrentGameMode;
+    
     public Transform m_OwnerPlayer;
     public int m_OwnerPlayerId;
-
     public Action m_OnNpcDied = delegate {  };
-
+    
+    public cPlayerIconList PlayerIconList => m_PlayerIconList;
     public ISaveManager SaveManager
     {
         get
@@ -44,7 +45,17 @@ public class cGameManager : cSingleton<cGameManager>
         }
     }
 
-    private int m_SpawnOffset;
+    public eGameMode CurrentGameMode
+    {
+        get => m_CurrentGameMode;
+        set => m_CurrentGameMode = value;
+    }
+
+    public enum eGameMode
+    {
+        PvE,
+        PvP
+    }
 
     private void Start()
     {

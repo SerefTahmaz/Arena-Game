@@ -89,20 +89,20 @@ public class CameraManager : cSingleton<CameraManager>
         _gameplayCamInput.StartCamMovement();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && !_isEscaped)
-        {
-            StopCameraMovement();
-            _isEscaped = true;
-        }
-        
-        if (Input.GetMouseButtonDown(0)&& _isEscaped)
-        {
-            _isEscaped = false;
-            StartCameraMovement();
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Escape) && !_isEscaped)
+    //     {
+    //         StopCameraMovement();
+    //         _isEscaped = true;
+    //     }
+    //     
+    //     if (Input.GetMouseButtonDown(0)&& _isEscaped)
+    //     {
+    //         _isEscaped = false;
+    //         StartCameraMovement();
+    //     }
+    // }
 
     public void OnPlayerSpawn()
     {
