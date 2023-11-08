@@ -12,8 +12,8 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
     {
         // Debug.Log(_disableMovement);
         // No input unless right mouse is down
-        if (_disableMovement)
-            return 0;
+        // if (_disableMovement)
+        //     return 0;
 
 #if UNITY_EDITOR
         switch (axis)
@@ -51,6 +51,8 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
         }
     }
 
+    [SerializeField] private float m_FingerInputSpeed;
+    
     private Vector2 m_JoystickValue;
 
     private void Update()
@@ -76,8 +78,11 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 
         if (clicked)
         {
-            m_JoystickValue = controllingTouch.deltaPosition;
-            // Debug.Log(controllingTouch.deltaPosition);
+            Vector2 input = controllingTouch.deltaPosition;
+            input.x /= Screen.width;
+            input.y /= Screen.height;
+            m_JoystickValue = input*m_FingerInputSpeed;
+            Debug.Log(m_JoystickValue);
         }
         else
         {
