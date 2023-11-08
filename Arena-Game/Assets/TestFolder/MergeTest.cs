@@ -7,7 +7,7 @@ public class MergeTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("TestPC");
     }
 
     // Update is called once per frame
