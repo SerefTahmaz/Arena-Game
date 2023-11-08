@@ -128,8 +128,15 @@ public class AnimationController : MonoBehaviour
             
             if (resetable)
             {
-                DOVirtual.DelayedCall(0.1f,
-                    () => ResetTrigger(state));
+                StartCoroutine(FrameDelay());
+                IEnumerator FrameDelay()
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        yield return null;
+                    }
+                    ResetTrigger(state);
+                }
             }
         }
     }

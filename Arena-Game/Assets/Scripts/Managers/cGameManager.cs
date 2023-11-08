@@ -98,16 +98,29 @@ public class cGameManager : cSingleton<cGameManager>
         StartRound();
     }
 
-    private async UniTask StartRound()
+    private void StartRound()
     {
-        await UniTask.WaitForSeconds(10);
-        m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
-        if (NetworkManager.Singleton.IsHost)
+        DOVirtual.DelayedCall(10, () =>
         {
-            m_OnNpcDied = delegate {  };
-            m_OnNpcDied += CheckSuccess;
-        }
+            m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
+            if (NetworkManager.Singleton.IsHost)
+            {
+                m_OnNpcDied = delegate { };
+                m_OnNpcDied += CheckSuccess;
+            }
+        });
     }
+
+    // private async UniTask StartRound()
+    // {
+    //     await UniTask.WaitForSeconds(10);
+    //     m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
+    //     if (NetworkManager.Singleton.IsHost)
+    //     {
+    //         m_OnNpcDied = delegate {  };
+    //         m_OnNpcDied += CheckSuccess;
+    //     }
+    // }
 
     private void CheckSuccess()
     {
@@ -147,7 +160,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedContinueButton;
         cLevelSelectView.Instance.SelectNext();
-        StartRound().Forget();
+        StartRound();
     }
 
     public void MainMenuButton()

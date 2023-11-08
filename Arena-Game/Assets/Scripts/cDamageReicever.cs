@@ -11,8 +11,8 @@ public class cDamageReicever : MonoBehaviour,IDamagable
     private int m_TeamId;
     
     private bool m_Damaged = false;
-    
-    public Transform FocusPoint { get; }
+
+    public Transform FocusPoint => transform;
 
     public UnityEvent<DamageWrapper> OnDamage
     {
