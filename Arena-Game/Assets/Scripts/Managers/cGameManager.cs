@@ -102,6 +102,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         DOVirtual.DelayedCall(10, () =>
         {
+            Debug.Log("CALLLEEDDD!!!");
             m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
             if (NetworkManager.Singleton.IsHost)
             {

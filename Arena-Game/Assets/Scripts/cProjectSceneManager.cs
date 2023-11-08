@@ -22,7 +22,9 @@ public class ProjectSceneManager : NetworkBehaviour
     public void SpawnScene(string sceneName)
     {
         m_SceneName = sceneName;
-        if (IsServer && !string.IsNullOrEmpty(m_SceneName))
+        Debug.Log($"IS SERVER {IsServer} name {m_SceneName}");
+        // if (IsServer && !string.IsNullOrEmpty(m_SceneName))
+        if (true)
         {
             NetworkManager.SceneManager.OnSceneEvent += SceneManager_OnSceneEvent;
             var status = NetworkManager.SceneManager.LoadScene(m_SceneName, LoadSceneMode.Additive);
