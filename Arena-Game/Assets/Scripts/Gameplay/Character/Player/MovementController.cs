@@ -41,26 +41,26 @@ namespace PlayerCharacter
 
 		private void Update()
 		{
-			if (m_HasInput)
-			{
-				m_Capsule.material = null;
-			}
-			else
-			{
-				m_Capsule.material = m_PhysicMaterial;
-			}
+			// if (m_HasInput)
+			// {
+			// 	m_Capsule.material = null;
+			// }
+			// else
+			// {
+			// 	m_Capsule.material = m_PhysicMaterial;
+			// }
 		}
 
 		public void Move(Vector3 move, bool crouch = false, bool jump = false)
 		{
-			if (move.magnitude > 0)
-			{
-				m_HasInput = true;
-			}
-			else
-			{
-				m_HasInput = false;
-			}
+			// if (move.magnitude > 0)
+			// {
+			// 	m_HasInput = true;
+			// }
+			// else
+			// {
+			// 	m_HasInput = false;
+			// }
 
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
