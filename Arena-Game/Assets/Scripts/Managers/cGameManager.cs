@@ -11,6 +11,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum eGameMode
+{
+    PvE,
+    PvP
+}
+
 public class cGameManager : cSingleton<cGameManager>
 {
     [SerializeField] private cPlayerIconList m_PlayerIconList;
@@ -25,7 +31,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     private ISaveManager m_SaveManager;
     private int m_SpawnOffset;
-    private eGameMode m_CurrentGameMode;
+    private eGameMode m_CurrentGameMode = eGameMode.PvE;
     
     public Transform m_OwnerPlayer;
     public int m_OwnerPlayerId;
@@ -49,12 +55,6 @@ public class cGameManager : cSingleton<cGameManager>
     {
         get => m_CurrentGameMode;
         set => m_CurrentGameMode = value;
-    }
-
-    public enum eGameMode
-    {
-        PvE,
-        PvP
     }
 
     private void Start()

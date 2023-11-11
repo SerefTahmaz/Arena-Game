@@ -12,6 +12,7 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     [SerializeField] private Transform m_Layout;
     [SerializeField] private cView m_View;
     [SerializeField] private cCreateLobbyUIController m_CreateLobbyUIController;
+    [SerializeField] private bool m_IsSinglePlayer;
 
     private List<cLevelSelectUnit> m_LevelSelectUnits = new List<cLevelSelectUnit>();
 
@@ -59,7 +60,30 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     public void OnStartSelected()
     {
         m_View.Deactivate();
-        Instantiate(m_CreateLobbyUIController, cUIManager.Instance.transform);
+
+        if (m_IsSinglePlayer)
+        {
+            OnStartSelectedSinglePlayer();
+        }
+        else
+        {
+            Instantiate(m_CreateLobbyUIController, cUIManager.Instance.transform);
+        }
+    }
+
+    private void OnStartSelectedSinglePlayer()
+    {
+        void Created()
+        {
+            cLobbyManager.Instance.UpdateIsPlayerReady(true);
+        }
+        cLobbyCreationManager.Instance.OnCreate(new cLobbyCreationManager.LobbyCreationSettingWrapper()
+        {
+            m_LobbyName = "SinglePlayerLobby", 
+            m_PlayerCount = 1, 
+            m_IsPrivate = true, 
+            m_GameMode = eGameMode.PvE
+        }, Created);
     }
 
     public void Activate()

@@ -15,14 +15,15 @@ public class cCreateLobbyUIController : MonoBehaviour
         {
             cLobbyUI.Instance.EnableLobby();
         }
-        
-        cLobbyManager.Instance.CreateLobby(m_LobbyNameInputAreaController.LobbyName
-            , m_PlayerCountButton.PlayerCount, 
-            m_VisibilityButton.isPrivate, 
-            m_GameModeButton.GameMode, 
-            Created);
-        
-        
+
+        var gameMode = cGameManager.Instance.CurrentGameMode;
+        cLobbyCreationManager.Instance.OnCreate(new cLobbyCreationManager.LobbyCreationSettingWrapper()
+        {
+            m_LobbyName = m_LobbyNameInputAreaController.LobbyName, 
+            m_PlayerCount = m_PlayerCountButton.PlayerCount, 
+            m_IsPrivate = m_VisibilityButton.isPrivate, 
+            m_GameMode = gameMode
+        }, Created);
         gameObject.SetActive(false);
     }
 }

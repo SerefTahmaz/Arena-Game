@@ -143,20 +143,13 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         Public
     }
     
-    public enum GameMode
-    {
-        PvP,
-        PvE
-    }
-
-
     public void CreateLobby(Action onCreated = null)
     {
-        CreateLobby("myLobby", 4, false, GameMode.PvP, onCreated);
+        CreateLobby("myLobby", 4, false, eGameMode.PvP, onCreated);
     }
 
     [Command]
-    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, GameMode gameMode, Action onCreated = null)
+    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, eGameMode gameMode, Action onCreated = null)
     {
         try
         {
@@ -167,7 +160,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                 Player = GetPlayer(),
                 Data = new Dictionary<string, DataObject>()
                 {
-                    {GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString())},
+                    {GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString(), DataObject.IndexOptions.S1)},
                     {KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")},
                     {"Map", new DataObject(DataObject.VisibilityOptions.Public, "de_dust2")}
                 }

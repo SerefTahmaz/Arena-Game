@@ -24,7 +24,17 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
                 Destroy(VARIABLE.gameObject);
             }
         
-            var queryResponses=await LobbyService.Instance.QueryLobbiesAsync();
+            QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions()
+            {
+                Count = 25,
+                Filters = new List<QueryFilter>()
+                {
+                    new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT),
+                    new QueryFilter(QueryFilter.FieldOptions.S1, cGameManager.Instance.CurrentGameMode.ToString(), QueryFilter.OpOptions.EQ)
+                },
+                Order = new List<QueryOrder>(){new QueryOrder(false, QueryOrder.FieldOptions.Created)}
+            };
+            var queryResponses=await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
 
             foreach (var VARIABLE in queryResponses.Results)
             {
