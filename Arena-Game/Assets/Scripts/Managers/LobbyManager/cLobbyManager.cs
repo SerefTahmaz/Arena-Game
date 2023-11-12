@@ -90,7 +90,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                     }
                     else if(cLobbyUI.Instance.m_Active)
                     {
-                        cLobbyUI.Instance.DisableLobby();
+                        cLobbyUI.Instance.DisableLobbyUI();
                         cLobbyListUI.Instance.EnableLobbyListUI();
                         JoinedLobby = null;
                     }
@@ -104,7 +104,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
                         JoinedLobby = null;
                         m_GameStarted = true;
-                        cLobbyUI.Instance.DisableLobby();
+                        cLobbyUI.Instance.DisableLobbyUI();
                     }
                     
                     if (IsHost&&m_GameStarted== false)
@@ -419,7 +419,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             throw;
         }
     }
-
+    
     public async void StartGame()
     {
         if (IsHost)

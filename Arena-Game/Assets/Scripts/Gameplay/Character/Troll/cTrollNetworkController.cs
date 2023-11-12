@@ -6,6 +6,8 @@ using UnityEngine;
 public class cTrollNetworkController : cCharacterNetworkController
 {
     [SerializeField] private cTrollCharacter m_TrollCharacter;
+    
+    protected override cCharacter m_Character => m_TrollCharacter;
 
     [ServerRpc]
     public void OnStartFightServerRpc()
@@ -18,7 +20,7 @@ public class cTrollNetworkController : cCharacterNetworkController
     {
         m_TrollCharacter.HealthManager.SetVisibility(true);
     }
-    
+
     [ServerRpc(RequireOwnership = false)]
     public override void TakeDamageServerRpc(Vector3 pos)
     {

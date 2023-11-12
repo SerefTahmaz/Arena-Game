@@ -5,6 +5,7 @@ using DemoBlast.UI;
 using DemoBlast.Utils;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class cLobbyUI : cSingleton<cLobbyUI>
 {
@@ -12,6 +13,7 @@ public class cLobbyUI : cSingleton<cLobbyUI>
     [SerializeField] private cPlayerUnit m_PlayerUnit;
     [SerializeField] private Transform m_LayoutTransform;
     [SerializeField] private cView m_View;
+    [SerializeField] private UnityEvent m_OnDisableLobby;
 
     public bool m_Active => m_View.m_IsActive;
 
@@ -32,6 +34,11 @@ public class cLobbyUI : cSingleton<cLobbyUI>
     public void DisableLobby()
     {
         m_View.Deactivate(true);
+    }
+    
+    public void DisableLobbyUI()
+    {
+        m_OnDisableLobby.Invoke();
     }
 
     public void UpdateUI(Lobby lobby)

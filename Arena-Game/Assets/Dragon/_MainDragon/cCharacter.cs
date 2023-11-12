@@ -33,14 +33,20 @@ public abstract class cCharacter: MonoBehaviour
 
     public int StartHealth => m_StartHealth;
 
-    public int TeamID => m_TeamId;
-
     public cDamageManager DamageManager => m_DamageManager;
 
     public NavMeshAgent MeshAgent => m_NavMeshAgent;
 
-    private void Awake()
+    public int TeamID => CharacterNetworkController.m_TeamId.Value;
+
+    public int DefaultTeamId => m_TeamId;
+
+    private void Start()
     {
         DamageManager.Init(TeamID);
+        CharacterNetworkController.m_TeamId.OnValueChanged += (value, newValue) =>
+        {
+            DamageManager.UpdateTeamId(TeamID);
+        };
     }
 }

@@ -7,7 +7,7 @@ public class cReturnToLobbyButton : MonoBehaviour
 {
     public void ReturnToLobby()
     {
-        cLobbyUI.Instance.DisableLobby();
+        cLobbyUI.Instance.DisableLobbyUI();
         cLobbyListUI.Instance.EnableLobbyListUI();
         cLobbyManager.Instance.KickPlayer(AuthenticationService.Instance.PlayerId);
     }

@@ -18,14 +18,16 @@ public class cGameManager : cSingleton<cGameManager>
 {
     [SerializeField] private cPlayerIconList m_PlayerIconList;
     [SerializeField] private cSaveManager m_InstanceSaveManager;
-    [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     [SerializeField] private NetworkObject m_NetworkObject;
-    [SerializeField] private GameObject m_Player;
     [SerializeField] private cHealthBar m_BossUIHealthBar;
     [SerializeField] private cHealthBar m_PlayerUIHealthBar;
     [SerializeField] private bool m_IsBossUIBeingUsed;
     [SerializeField] private bool m_IsPlayerUIBeingUsed;
+    [SerializeField] private cPvPManager m_PvPManager;
+    [SerializeField] private cPvEManager m_PvEManager;
 
+
+    private IGameModeHandler m_GameModeHandler;
     private ISaveManager m_SaveManager;
     private int m_SpawnOffset;
     private eGameMode m_CurrentGameMode = eGameMode.PvE;
@@ -33,6 +35,7 @@ public class cGameManager : cSingleton<cGameManager>
     public Transform m_OwnerPlayer;
     public int m_OwnerPlayerId;
     public Action m_OnNpcDied = delegate {  };
+    public Action m_OnPlayerDied = delegate {  };
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
     public ISaveManager SaveManager
@@ -64,13 +67,7 @@ public class cGameManager : cSingleton<cGameManager>
         };
         NetworkManager.Singleton.OnClientConnectedCallback += obj =>
         {
-            if (NetworkManager.Singleton.IsHost)
-            {
-                var pos = m_SpawnOffset*2 * Vector3.right;
-                var go = Instantiate(m_Player,pos, Quaternion.identity);
-                go.GetComponent<NetworkObject>().SpawnAsPlayerObject(obj);
-                m_SpawnOffset++;
-            }
+         
         };
 
         m_BossUIHealthBar.m_OnVisibleUpdate += b =>
@@ -92,21 +89,19 @@ public class cGameManager : cSingleton<cGameManager>
 
     public void StartGame()
     {
-        StartRound();
-    }
-
-    private void StartRound()
-    {
-        DOVirtual.DelayedCall(10, () =>
+        switch (m_CurrentGameMode)
         {
-            Debug.Log("CALLLEEDDD!!!");
-            m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
-            if (NetworkManager.Singleton.IsHost)
-            {
-                m_OnNpcDied = delegate { };
-                m_OnNpcDied += CheckSuccess;
-            }
-        });
+            case eGameMode.PvE:
+                m_GameModeHandler = m_PvEManager;
+                break;
+            case eGameMode.PvP:
+                m_GameModeHandler = m_PvPManager;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        m_GameModeHandler.StartGame();
     }
 
     // private async UniTask StartRound()
@@ -119,15 +114,7 @@ public class cGameManager : cSingleton<cGameManager>
     //         m_OnNpcDied += CheckSuccess;
     //     }
     // }
-
-    private void CheckSuccess()
-    {
-        if (cNpcManager.Instance.CheckIsAllNpcsDied())
-        {
-            DOVirtual.DelayedCall(5, ContinueButton);
-        }
-    }
-
+    
     private Scene loadedScene;
 
     private int clientCount;
@@ -142,37 +129,6 @@ public class cGameManager : cSingleton<cGameManager>
         Debug.Log("Loaded!!!!");
     }
     
-    public void UnloadLevel()
-    {
-        cNpcManager.Instance.DestroyNpcs();
-        m_ProjectSceneManager.UnloadScene();
-    }
-
-    public void ContinueButton()
-    {
-        UnloadLevel();
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted += OnUnloadCompletedContinueButton;
-    }
-    
-    private void OnUnloadCompletedContinueButton(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    {
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedContinueButton;
-        cLevelSelectView.Instance.SelectNext();
-        StartRound();
-    }
-
-    public void MainMenuButton()
-    {
-        UnloadLevel();
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted += OnUnloadCompletedMainMenu;
-    }
-
-    private void OnUnloadCompletedMainMenu(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    {
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedMainMenu;
-        NetworkManager.Singleton.Shutdown();
-    }
-
     public cHealthBar GiveMeBossUIHealthBar()
     {
         if (m_IsBossUIBeingUsed)

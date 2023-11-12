@@ -60,6 +60,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
 
         protected override void Start()
         {
+            cPlayerManager.Instance.m_Players.Add(gameObject);
             
             Debug.Log(CharacterNetworkController.IsOwner);
             if (!CharacterNetworkController.IsOwner)

@@ -12,6 +12,8 @@ using UnityEditor;
 public class cPlayerCharacterNetworkController:cCharacterNetworkController
 {
     [SerializeField] private cPlayerCharacter m_PlayerCharacter;
+    
+    protected override cCharacter m_Character => m_PlayerCharacter;
 
     public override void OnNetworkSpawn()
     {
@@ -66,6 +68,7 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     public override void OnDeathServerRpc()
     {
         OnDeathClientRpc();
+        cGameManager.Instance.m_OnPlayerDied.Invoke();
     }
     
     [ClientRpc]

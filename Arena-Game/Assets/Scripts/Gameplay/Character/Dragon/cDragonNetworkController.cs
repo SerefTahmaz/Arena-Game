@@ -6,6 +6,8 @@ using UnityEngine;
 public class cDragonNetworkController : cCharacterNetworkController
 {
     [SerializeField] private cDragonCharacter m_DragonCharacter;
+    
+    protected override cCharacter m_Character => m_DragonCharacter;
 
     [ServerRpc]
     public void OnStartFightServerRpc()
