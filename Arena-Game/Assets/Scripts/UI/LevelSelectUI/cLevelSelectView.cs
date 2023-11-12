@@ -11,16 +11,12 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     [SerializeField] private cLevelSelectUnit m_LevelSelectUnitPrefab;
     [SerializeField] private Transform m_Layout;
     [SerializeField] private cView m_View;
-    [SerializeField] private cCreateLobbyUIController m_CreateLobbyUIController;
-    [SerializeField] private bool m_IsSinglePlayer;
-
-    private List<cLevelSelectUnit> m_LevelSelectUnits = new List<cLevelSelectUnit>();
-
-    private cLevelSelectUnit m_SelectedLevelUnit;
-
-    public cLevelSelectUnit SelectedLevelUnit => m_SelectedLevelUnit;
 
     private int m_CurrentIndex;
+    private List<cLevelSelectUnit> m_LevelSelectUnits = new List<cLevelSelectUnit>();
+    private cLevelSelectUnit m_SelectedLevelUnit;
+    
+    public cLevelSelectUnit SelectedLevelUnit => m_SelectedLevelUnit;
 
     // Start is called before the first frame update
     void Start()
@@ -59,16 +55,7 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
 
     public void OnStartSelected()
     {
-        m_View.Deactivate();
-
-        if (m_IsSinglePlayer)
-        {
-            OnStartSelectedSinglePlayer();
-        }
-        else
-        {
-            Instantiate(m_CreateLobbyUIController, cUIManager.Instance.transform);
-        }
+        OnStartSelectedSinglePlayer();
     }
 
     private void OnStartSelectedSinglePlayer()
