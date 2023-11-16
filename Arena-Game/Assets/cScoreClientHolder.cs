@@ -1,20 +1,28 @@
 ﻿using System.Collections.Generic;
+using DefaultNamespace;
 using DemoBlast.Utils;
+using Unity.Netcode;
+using UnityEngine;
 
-namespace DefaultNamespace
+public class cScoreClientHolder : cSingleton<cScoreClientHolder>
 {
-    public class cScoreClientHolder : cSingleton<cScoreClientHolder>
+    public cScoreboardController m_ScoreboardController;
+    
+    public Dictionary<ulong, cClientScoreController> m_ClientScoreUnitsDic =
+        new Dictionary<ulong, cClientScoreController>();
+
+    public cClientScoreController ClientScoreUnit { get; set; }
+
+    public void AddDead(DamageWrapper damageWrapper)
     {
-        private List<cClientScoreController> m_ClientScoreUnits = new List<cClientScoreController>();
+        ClientScoreUnit.DeadCount.Value++;
+        m_ScoreboardController.AddKillServerRpc(damageWrapper.Character.CharacterNetworkController.OwnerClientId);
+    }
 
-        public List<cClientScoreController> ClientScoreUnits => m_ClientScoreUnits;
-        public cClientScoreController ClientScoreUnit { get; set; }
-
-        public void AddDead()
-        {
-            ClientScoreUnit.DeadCount.Value++;
-        }
-        public void AddKill()
+    public void AddKillClientRpc(ulong ownerId)
+    {
+        Debug.Log($"{ownerId} {ClientScoreUnit.OwnerClientId}");
+        if (ownerId == ClientScoreUnit.OwnerClientId)
         {
             ClientScoreUnit.KillCount.Value++;
         }

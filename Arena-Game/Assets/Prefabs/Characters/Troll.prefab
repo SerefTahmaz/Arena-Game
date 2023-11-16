@@ -15374,6 +15374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkAnimator: {fileID: 2411749399705835986}
+  m_TeamId:
+    m_InternalValue: 0
   m_TrollCharacter: {fileID: 5771096420572015554}
 --- !u!114 &441612947193080595
 MonoBehaviour:
@@ -15402,6 +15404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70b5c27357604d488423fb248dffd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Character: {fileID: 5771096420572015554}
   m_OnDamage:
     m_PersistentCalls:
       m_Calls:

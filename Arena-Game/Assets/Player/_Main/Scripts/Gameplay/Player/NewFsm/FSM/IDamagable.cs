@@ -13,4 +13,5 @@ public class DamageWrapper
     public Vector3 pos;
     public bool isHeavyDamage;
     public Transform damager;
+    public cCharacter Character;
 }

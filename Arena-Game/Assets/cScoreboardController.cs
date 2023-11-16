@@ -62,12 +62,24 @@ public class cScoreboardController : NetworkBehaviour
         }
         m_GeneratedUIUnits.Clear();
 
-        var orderedUnits = cScoreClientHolder.Instance.ClientScoreUnits.OrderByDescending((controller => controller.KillCount.Value)).ThenBy((controller => controller.DeadCount.Value));
+        var orderedUnits = cScoreClientHolder.Instance.m_ClientScoreUnitsDic.Values.OrderByDescending((controller => controller.KillCount.Value)).ThenBy((controller => controller.DeadCount.Value));
         foreach (var VARIABLE in orderedUnits)
         {
             var ins = Instantiate(m_ScoreboardUIUnitController, m_UITransform);
             ins.Init(VARIABLE.PlayerName.Value.Value, VARIABLE.KillCount.Value, VARIABLE.DeadCount.Value, VARIABLE.IconIndex.Value);
             m_GeneratedUIUnits.Add(ins);
         }
+    }
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void AddKillServerRpc(ulong ownerId)
+    {
+        AddKillClientRpc(ownerId);
+    }
+
+    [ClientRpc]
+    public void AddKillClientRpc(ulong ownerId)
+    {
+        cScoreClientHolder.Instance.AddKillClientRpc(ownerId);
     }
 }

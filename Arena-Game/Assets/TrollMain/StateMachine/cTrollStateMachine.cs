@@ -55,7 +55,7 @@ namespace FiniteStateMachine
 
             TrollCharacter.HealthManager.m_OnDied += () =>
             {
-            ChangeState(m_Death);
+                ChangeState(m_Death);
             };
             
             TrollCharacter.TrollNetworkController.OnStartFightServerRpc();
@@ -80,12 +80,15 @@ namespace FiniteStateMachine
             return m_Idle;
         }
 
+        private DamageWrapper m_LastDamager;
+
         public override void OnDamage(DamageWrapper damageWrapper)
         {
             if(CurrentState == m_Death) return;
             
             base.OnDamage(damageWrapper);
             TrollCharacter.HealthManager.OnDamage(10);
+            m_LastDamager = damageWrapper;
             TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
             TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);
         }

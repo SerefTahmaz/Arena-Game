@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class cDamageManager : MonoBehaviour
 {
+    public cCharacter m_Character;
     public UnityEvent<DamageWrapper> m_OnDamage;
 
     public List<cDamageReicever> m_DamageHandlers;
@@ -18,6 +19,11 @@ public class cDamageManager : MonoBehaviour
             VARIABLE.OnDamage.AddListener(OnDamage);
         }
         UpdateTeamId(teamId);
+        
+        foreach (var VARIABLE in m_DamageEffectors)
+        {
+            VARIABLE.Character = m_Character;
+        }
     }
 
     public void UpdateTeamId(int teamId)
