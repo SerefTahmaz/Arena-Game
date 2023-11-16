@@ -21,12 +21,6 @@ public class cLobbyUnit : MonoBehaviour
 
     public void OnClick()
     {
-        void OnJoined()
-        {
-            cLobbyUI.Instance.EnableLobby();
-        }
-        cLobbyListUI.Instance.DisableLobbyListUI();
-        Debug.Log(m_Lobby.LobbyCode);
-        cLobbyManager.Instance.JoinLobbyById(m_Lobby.Id, OnJoined);
+        cLobbyListUI.Instance.OnLobbySelected(m_Lobby);
     }
 }

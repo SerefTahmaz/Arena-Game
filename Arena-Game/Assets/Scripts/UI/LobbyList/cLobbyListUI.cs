@@ -7,6 +7,7 @@ using QFSW.QC;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class cLobbyListUI : cSingleton<cLobbyListUI>
 {
@@ -66,5 +67,17 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
     {
         m_View.Activate(true);
         PopulateList();
+    }
+
+    [SerializeField] private UnityEvent m_OnJoined;
+
+    public void OnLobbySelected(Lobby lobby)
+    {
+        void OnJoined()
+        {
+            m_OnJoined.Invoke();
+        }
+        Debug.Log(lobby.LobbyCode);
+        cLobbyManager.Instance.JoinLobbyById(lobby.Id, OnJoined);
     }
 }

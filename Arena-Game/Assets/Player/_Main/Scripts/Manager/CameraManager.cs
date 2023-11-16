@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DemoBlast.Utils;
+using DG.Tweening;
 using RootMotion;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -107,8 +108,13 @@ public class CameraManager : cSingleton<CameraManager>
     public void OnPlayerSpawn()
     {
         var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
-        _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
+
         _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
+        _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
+        _gameplayCam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
+            -instanceOwnerPlayer.forward * 5 + instanceOwnerPlayer.position + Vector3.up*2
+            , instanceOwnerPlayer.rotation);
+        
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         EnableGameplayCam();
