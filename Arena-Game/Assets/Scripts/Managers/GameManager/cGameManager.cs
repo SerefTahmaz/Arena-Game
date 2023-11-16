@@ -57,6 +57,8 @@ public class cGameManager : cSingleton<cGameManager>
         set => m_CurrentGameMode = value;
     }
 
+    public IGameModeHandler GameModeHandler => m_GameModeHandler;
+
     private void Start()
     {
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
@@ -101,7 +103,7 @@ public class cGameManager : cSingleton<cGameManager>
                 throw new ArgumentOutOfRangeException();
         }
         
-        m_GameModeHandler.StartGame();
+        GameModeHandler.StartGame();
     }
 
     // private async UniTask StartRound()

@@ -12,8 +12,21 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     
     private int m_SpawnOffset;
     
-    public Action OnGameEnd { get; }
-    
+    private Action m_OnGameStart = delegate {  };
+    private Action m_OnGameEnd = delegate {  };
+
+    public Action OnGameEnd
+    {
+        get => m_OnGameEnd;
+        set => m_OnGameEnd = value;
+    }
+
+    public Action OnGameStart
+    {
+        get => m_OnGameStart;
+        set => m_OnGameStart = value;
+    }
+
     public void StartGame()
     {
         cGameManager.Instance.m_OnNpcDied = delegate { };
@@ -24,15 +37,14 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
             Vector3 pos;
-            GameObject go;
             pos = m_SpawnOffset*2 * Vector3.right;
-            go = cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity);
-            go.GetComponent<NetworkObject>().SpawnAsPlayerObject(VARIABLE.Key);
-                    
+            cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity,VARIABLE.Key);
+            
             m_SpawnOffset++;
         }
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        OnGameStart.Invoke();
             
         DOVirtual.DelayedCall(5, (() =>
         {
@@ -43,10 +55,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     private void OnClientConnected(ulong obj)
     {
         Vector3 pos;
-        GameObject go;
         pos = m_SpawnOffset*2 * Vector3.right;
-        go = cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity);
-        go.GetComponent<NetworkObject>().SpawnAsPlayerObject(obj);
+        cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity,obj);
                     
         m_SpawnOffset++;
     }

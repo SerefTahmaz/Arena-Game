@@ -8,9 +8,21 @@ using UnityEngine;
 public class cPvPManager : MonoBehaviour,IGameModeHandler
 {
     private int m_SpawnOffset;
-    
-    public Action OnGameEnd { get; }
-    
+    private Action m_OnGameStart = delegate {  };
+    private Action m_OnGameEnd = delegate {  };
+
+    public Action OnGameEnd
+    {
+        get => m_OnGameEnd;
+        set => m_OnGameEnd = value;
+    }
+
+    public Action OnGameStart
+    {
+        get => m_OnGameStart;
+        set => m_OnGameStart = value;
+    }
+
     public void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
@@ -27,6 +39,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             
+            OnGameStart.Invoke();
+            
             DOVirtual.DelayedCall(5, (() =>
             {
                 StartNextGame();
@@ -41,8 +55,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         pos = (Vector3.right * Mathf.Cos(m_SpawnOffset*90) + Vector3.forward * Mathf.Sin(m_SpawnOffset*90))*5;
         Vector3 dir = Vector3.zero - pos;
         var lookRot = Quaternion.LookRotation(dir.normalized);
-        go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot);
-        go.GetComponent<NetworkObject>().SpawnAsPlayerObject(obj);
+        go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot, obj);
         go.GetComponent<cPlayerCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
         m_SpawnOffset++;
     }
@@ -64,6 +77,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
 public interface IGameModeHandler
 {
-    public Action OnGameEnd { get; }
+    public Action OnGameEnd { get; set; }
+    public Action OnGameStart { get; set; }
     public void StartGame();
 }

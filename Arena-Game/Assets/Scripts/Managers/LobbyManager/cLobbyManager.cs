@@ -30,6 +30,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     public string PlayerName => m_PlayerName;
 
+    public string IconIndex => m_IconIndex;
+
     public Action m_OnLobbyUpdate= delegate {  };
     
     
@@ -280,7 +282,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         return new Player(data: new Dictionary<string, PlayerDataObject>()
         {
             { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName) },
-            { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IconIndex) },
+            { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, IconIndex) },
             { "IsReady", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IsPlayerReady.ToString()) }
         });
     }

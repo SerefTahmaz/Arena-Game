@@ -45,7 +45,7 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        m_TeamId.Value = m_Character.DefaultTeamId;
+        if(IsHost) m_TeamId.Value = m_Character.DefaultTeamId;
         m_OnSpawn.Invoke();
     }
 

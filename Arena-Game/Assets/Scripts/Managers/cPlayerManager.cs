@@ -33,8 +33,10 @@ public class cPlayerManager : cSingleton<cPlayerManager>
         m_Players.Clear();
     }
 
-    public GameObject SpawnPlayer(Vector3 pos, Quaternion rot)
+    public GameObject SpawnPlayer(Vector3 pos, Quaternion rot, ulong id)
     {
-        return Instantiate(m_Player,pos, rot);
+        var go = Instantiate(m_Player,pos, rot);
+        go.GetComponent<NetworkObject>().SpawnAsPlayerObject(id);
+        return go;
     }
 }
