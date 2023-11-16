@@ -36,6 +36,7 @@ public class cGameManager : cSingleton<cGameManager>
     public int m_OwnerPlayerId;
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };
+    public Action m_GameStarted = delegate {  };
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
     public ISaveManager SaveManager
@@ -103,6 +104,7 @@ public class cGameManager : cSingleton<cGameManager>
                 throw new ArgumentOutOfRangeException();
         }
         
+        m_GameStarted.Invoke();
         GameModeHandler.StartGame();
     }
 

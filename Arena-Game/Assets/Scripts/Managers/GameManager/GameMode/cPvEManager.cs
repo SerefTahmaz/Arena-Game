@@ -12,19 +12,14 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     
     private int m_SpawnOffset;
     private bool m_isActive;
-    
-    private void Awake()
+
+    private void OnMainMenuButton()
     {
-        if (NetworkManager.Singleton.IsHost)
+        if (m_isActive)
         {
-            cGameManager.Instance.m_OnMainMenuButton += () =>
-            {
-                if (m_isActive)
-                {
-                    m_isActive = false;
-                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-                }
-            };
+            m_isActive = false;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
         }
     }
 
@@ -36,6 +31,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
 
         m_isActive = true;
+        
+        cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
             
         LoopStart();
     }

@@ -10,18 +10,13 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     private int m_SpawnOffset;
     private bool m_isActive;
 
-    private void Awake()
+    private void OnMainMenuButton()
     {
-        if (NetworkManager.Singleton.IsHost)
+        if (m_isActive)
         {
-            cGameManager.Instance.m_OnMainMenuButton += () =>
-            {
-                if (m_isActive)
-                {
-                    m_isActive = false;
-                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-                }
-            };
+            m_isActive = false;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
         }
     }
 
@@ -33,6 +28,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
             
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
             m_isActive = true;
             

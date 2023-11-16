@@ -28,4 +28,9 @@ public class cScoreClientHolder : cSingleton<cScoreClientHolder>
             ClientScoreUnit.KillCount.Value++;
         }
     }
+    
+    public void ClearDict()
+    {
+        m_ClientScoreUnitsDic.Clear();
+    }
 }

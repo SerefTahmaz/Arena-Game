@@ -17,21 +17,40 @@ public class cScoreboardController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        // if(IsHost) cGameManager.Instance.GameModeHandler.OnGameStart += OnRoundStart;
-        if(IsHost) OnRoundStart();
+        cGameManager.Instance.m_GameStarted += OnRoundStart;
     }
 
     public void OnRoundStart()
     {
-        NetworkManager.Singleton.OnClientConnectedCallback += obj =>
+        foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
-            var go = Spawn(transform.position, transform.rotation, obj);
-            go.PlayerName.OnValueChanged += UpdateUI;
-            go.KillCount.OnValueChanged += UpdateUI;
-            go.DeadCount.OnValueChanged += UpdateUI;
-            go.IconIndex.OnValueChanged += UpdateUI;
-            UpdateUIClientRpc();
-        };
+            SpawnPlayerScoreData(VARIABLE.Key);
+        }
+        NetworkManager.Singleton.OnClientConnectedCallback += SpawnPlayerScoreData;
+        cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
+    }
+
+    private void OnMainMenuButton()
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback -= SpawnPlayerScoreData;
+        cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        ClearScoreDataDictClientRpc();
+    }
+
+    [ClientRpc]
+    public void ClearScoreDataDictClientRpc()
+    {
+        cScoreClientHolder.Instance.ClearDict();
+    }
+
+    private void SpawnPlayerScoreData(ulong obj)
+    {
+        var go = Spawn(transform.position, transform.rotation, obj);
+        go.PlayerName.OnValueChanged += UpdateUI;
+        go.KillCount.OnValueChanged += UpdateUI;
+        go.DeadCount.OnValueChanged += UpdateUI;
+        go.IconIndex.OnValueChanged += UpdateUI;
+        UpdateUIClientRpc();
     }
 
     private void UpdateUI(FixedString128Bytes previousvalue, FixedString128Bytes newvalue)
