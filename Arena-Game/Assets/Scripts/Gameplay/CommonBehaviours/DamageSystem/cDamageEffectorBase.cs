@@ -8,6 +8,7 @@ public abstract class cDamageEffectorBase : MonoBehaviour
     [SerializeField] private UnityEvent<DamageWrapper> m_OnDamage;
 
     private int m_TeamId;
+    private cCharacter m_Character;
     
     private bool m_Damaged = false;
 
@@ -23,8 +24,18 @@ public abstract class cDamageEffectorBase : MonoBehaviour
         set => m_TeamId = value;
     }
 
+    public cCharacter Character
+    {
+        get => m_Character;
+        set => m_Character = value;
+    }
+
     public void DamageIt(IDamagable damagable, DamageWrapper damageWrapper)
     {
-        if(damagable.TeamID != m_TeamId) damagable.Damage(damageWrapper);
+        if (damagable.TeamID != m_TeamId)
+        {
+            damageWrapper.Character = Character;
+            damagable.Damage(damageWrapper);
+        }
     }
 }

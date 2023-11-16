@@ -49578,6 +49578,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkAnimator: {fileID: 5298340864046552671}
+  m_TeamId:
+    m_InternalValue: 0
   m_DragonCharacter: {fileID: 680570455067607334}
 --- !u!1 &7166414534355490700
 GameObject:
@@ -54628,6 +54630,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkAnimator: {fileID: 5298340864046552671}
+  m_TeamId:
+    m_InternalValue: 0
   m_DragonCharacter: {fileID: 680570455067607334}
 --- !u!114 &680570455067607334
 MonoBehaviour:
@@ -54667,6 +54671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70b5c27357604d488423fb248dffd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Character: {fileID: 680570455067607334}
   m_OnDamage:
     m_PersistentCalls:
       m_Calls:

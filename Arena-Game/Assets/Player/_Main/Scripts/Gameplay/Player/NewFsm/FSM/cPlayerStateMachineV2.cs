@@ -79,6 +79,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             
             Character.HealthManager.m_OnDied += () =>
             {
+                cScoreClientHolder.Instance.AddDead(m_LastDamager);
                 ChangeState(Dead);
             };
         }
@@ -102,6 +103,8 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
         {
             return FreeRoam;
         }
+        
+        private DamageWrapper m_LastDamager;
 
         public override void OnDamage(DamageWrapper damageWrapper)
         {
@@ -111,6 +114,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             
             base.OnDamage(damageWrapper);
             Character.HealthManager.OnDamage(10);
+            m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 
             AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 

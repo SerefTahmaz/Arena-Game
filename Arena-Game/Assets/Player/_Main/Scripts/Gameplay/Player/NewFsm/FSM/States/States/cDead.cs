@@ -17,7 +17,6 @@ namespace FiniteStateMachine
         {
             base.Enter();
             StateMachine.Character.AnimationController.SetTrigger(AnimationController.AnimationState.Dead);
-            cScoreClientHolder.Instance.AddDead();
             StateMachine.Character.PlayerCharacterNetworkController.OnDeathServerRpc();
         }
 
