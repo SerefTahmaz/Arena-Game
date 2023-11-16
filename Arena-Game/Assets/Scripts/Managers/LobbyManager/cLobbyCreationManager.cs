@@ -20,7 +20,8 @@ public class cLobbyCreationManager : cSingleton<cLobbyCreationManager>
         {
             onCreated?.Invoke();
         }
-        
+
+        Debug.Log("Main Change");
         cLobbyManager.Instance.CreateLobby(setting.m_LobbyName
             , setting.m_PlayerCount, 
             setting.m_IsPrivate, 
