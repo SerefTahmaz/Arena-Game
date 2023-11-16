@@ -156,4 +156,12 @@ public class cGameManager : cSingleton<cGameManager>
             return m_PlayerUIHealthBar;
         }
     }
+    
+    public Action m_OnMainMenuButton = delegate {  };
+
+    public void OnMainMenuButtonClick()
+    {
+        NetworkManager.Singleton.Shutdown();
+        m_OnMainMenuButton.Invoke();
+    }
 }

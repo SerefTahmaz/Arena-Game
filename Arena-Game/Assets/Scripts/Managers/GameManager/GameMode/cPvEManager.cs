@@ -11,27 +11,37 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     
     private int m_SpawnOffset;
+    private bool m_isActive;
     
-    private Action m_OnGameStart = delegate {  };
-    private Action m_OnGameEnd = delegate {  };
-
-    public Action OnGameEnd
+    private void Awake()
     {
-        get => m_OnGameEnd;
-        set => m_OnGameEnd = value;
-    }
-
-    public Action OnGameStart
-    {
-        get => m_OnGameStart;
-        set => m_OnGameStart = value;
+        if (NetworkManager.Singleton.IsHost)
+        {
+            cGameManager.Instance.m_OnMainMenuButton += () =>
+            {
+                if (m_isActive)
+                {
+                    m_isActive = false;
+                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+                }
+            };
+        }
     }
 
     public void StartGame()
     {
         cGameManager.Instance.m_OnNpcDied = delegate { };
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
-        
+
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+        m_isActive = true;
+            
+        LoopStart();
+    }
+
+    private void LoopStart()
+    {
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
@@ -42,13 +52,13 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             
             m_SpawnOffset++;
         }
-
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        OnGameStart.Invoke();
-            
+        
         DOVirtual.DelayedCall(5, (() =>
         {
-            StartNextGame();
+            if (m_isActive)
+            {
+                StartNextGame();
+            }
         }));
     }
 
@@ -70,7 +80,13 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     {
         if (cNpcManager.Instance.CheckIsAllNpcsDied())
         {
-            DOVirtual.DelayedCall(5, ContinueButton);
+            DOVirtual.DelayedCall(5, (() =>
+            {
+                if (m_isActive)
+                {
+                    ContinueButton();
+                }
+            }));
         }
     }
     
@@ -95,7 +111,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     {
         NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedContinueButton;
         cLevelSelectView.Instance.SelectNext();
-        StartNextGame();
+        LoopStart();
     }
 
     // public void MainMenuButton()

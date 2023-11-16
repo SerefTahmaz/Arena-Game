@@ -8,19 +8,21 @@ using UnityEngine;
 public class cPvPManager : MonoBehaviour,IGameModeHandler
 {
     private int m_SpawnOffset;
-    private Action m_OnGameStart = delegate {  };
-    private Action m_OnGameEnd = delegate {  };
+    private bool m_isActive;
 
-    public Action OnGameEnd
+    private void Awake()
     {
-        get => m_OnGameEnd;
-        set => m_OnGameEnd = value;
-    }
-
-    public Action OnGameStart
-    {
-        get => m_OnGameStart;
-        set => m_OnGameStart = value;
+        if (NetworkManager.Singleton.IsHost)
+        {
+            cGameManager.Instance.m_OnMainMenuButton += () =>
+            {
+                if (m_isActive)
+                {
+                    m_isActive = false;
+                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+                }
+            };
+        }
     }
 
     public void StartGame()
@@ -30,24 +32,24 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             cGameManager.Instance.m_OnPlayerDied = delegate { };
             cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
             
-            m_SpawnOffset = 0;
-            cPlayerManager.Instance.DestroyPlayers();
-            foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
-            {
-                OnClientConnected(VARIABLE.Key);
-            }
-            
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+            m_isActive = true;
             
-            OnGameStart.Invoke();
-            
-            DOVirtual.DelayedCall(5, (() =>
-            {
-                StartNextGame();
-            }));
+            LoopStart();
         }
     }
 
+    private void LoopStart()
+    {
+        m_SpawnOffset = 0;
+        cPlayerManager.Instance.DestroyPlayers();
+        foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
+        {
+            OnClientConnected(VARIABLE.Key);
+        }
+    }
+    
     private void OnClientConnected(ulong obj)
     {
         Vector3 pos;
@@ -60,24 +62,22 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         m_SpawnOffset++;
     }
 
-    public void StartNextGame()
-    {
-       
-    }
-
     private void CheckPvPSuccess()
     {
         if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
         {
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-            DOVirtual.DelayedCall(5, () => StartGame());
+            DOVirtual.DelayedCall(5, () =>
+            {
+                if (m_isActive)
+                {
+                    LoopStart();
+                }
+            });
         }
     }
 }
 
 public interface IGameModeHandler
 {
-    public Action OnGameEnd { get; set; }
-    public Action OnGameStart { get; set; }
     public void StartGame();
 }
