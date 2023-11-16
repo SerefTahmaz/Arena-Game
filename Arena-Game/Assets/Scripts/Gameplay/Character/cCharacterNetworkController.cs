@@ -11,6 +11,7 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
     [SerializeField] private NetworkAnimator m_NetworkAnimator;
 
     public NetworkAnimator NetworkAnimator => m_NetworkAnimator;
+    protected abstract cCharacter m_Character { get; }
     
     private Action m_OnSpawn = delegate {  };
 
@@ -35,12 +36,16 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
     private NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(100,NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
     
+    public NetworkVariable<int> m_TeamId = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
+    
     private NetworkVariable<FixedString128Bytes> m_PlayerName = new NetworkVariable<FixedString128Bytes>("Player",NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        if(IsHost) m_TeamId.Value = m_Character.DefaultTeamId;
         m_OnSpawn.Invoke();
     }
 

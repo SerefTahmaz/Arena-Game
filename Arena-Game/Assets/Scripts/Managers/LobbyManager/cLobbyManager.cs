@@ -30,6 +30,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     public string PlayerName => m_PlayerName;
 
+    public string IconIndex => m_IconIndex;
+
     public Action m_OnLobbyUpdate= delegate {  };
     
     
@@ -90,7 +92,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                     }
                     else if(cLobbyUI.Instance.m_Active)
                     {
-                        cLobbyUI.Instance.DisableLobby();
+                        cLobbyUI.Instance.DisableLobbyUI();
                         cLobbyListUI.Instance.EnableLobbyListUI();
                         JoinedLobby = null;
                     }
@@ -104,7 +106,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
                         JoinedLobby = null;
                         m_GameStarted = true;
-                        cLobbyUI.Instance.DisableLobby();
+                        cLobbyUI.Instance.DisableLobbyUI();
                     }
                     
                     if (IsHost&&m_GameStarted== false)
@@ -280,7 +282,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         return new Player(data: new Dictionary<string, PlayerDataObject>()
         {
             { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName) },
-            { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IconIndex) },
+            { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, IconIndex) },
             { "IsReady", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IsPlayerReady.ToString()) }
         });
     }
@@ -419,7 +421,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             throw;
         }
     }
-
+    
     public async void StartGame()
     {
         if (IsHost)

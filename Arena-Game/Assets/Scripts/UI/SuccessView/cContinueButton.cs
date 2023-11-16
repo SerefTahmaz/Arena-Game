@@ -6,6 +6,5 @@ public class cContinueButton : MonoBehaviour
 {
    public void OnClick()
    {
-      cGameManager.Instance.ContinueButton();
    }
 }

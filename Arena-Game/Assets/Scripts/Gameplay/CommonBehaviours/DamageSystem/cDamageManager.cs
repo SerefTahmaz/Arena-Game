@@ -15,8 +15,16 @@ public class cDamageManager : MonoBehaviour
     {
         foreach (var VARIABLE in m_DamageHandlers)
         {
-            VARIABLE.TeamID = teamId;
             VARIABLE.OnDamage.AddListener(OnDamage);
+        }
+        UpdateTeamId(teamId);
+    }
+
+    public void UpdateTeamId(int teamId)
+    {
+        foreach (var VARIABLE in m_DamageHandlers)
+        {
+            VARIABLE.TeamID = teamId;
         }
         foreach (var VARIABLE in m_DamageEffectors)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using DefaultNamespace;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,6 +17,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             StateMachine.Character.AnimationController.SetTrigger(AnimationController.AnimationState.Dead);
+            cScoreClientHolder.Instance.AddDead();
             StateMachine.Character.PlayerCharacterNetworkController.OnDeathServerRpc();
         }
 

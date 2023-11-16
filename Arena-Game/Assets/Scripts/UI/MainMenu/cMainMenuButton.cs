@@ -7,6 +7,6 @@ public class cMainMenuButton : MonoBehaviour
 {
     public void OnClick()
     {
-        cGameManager.Instance.MainMenuButton();
+        
     }
 }
