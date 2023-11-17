@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DefaultNamespace;
 using DemoBlast.Utils;
 using Unity.Netcode;
@@ -26,5 +27,10 @@ public class cScoreClientHolder : cSingleton<cScoreClientHolder>
         {
             ClientScoreUnit.KillCount.Value++;
         }
+    }
+    
+    public void ClearDict()
+    {
+        m_ClientScoreUnitsDic.Clear();
     }
 }

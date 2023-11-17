@@ -25,6 +25,11 @@ public class cClientScoreController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        if (cScoreClientHolder.Instance.m_ClientScoreUnitsDic.ContainsKey(OwnerClientId))
+        {
+            cScoreClientHolder.Instance.m_ClientScoreUnitsDic.Remove(OwnerClientId);
+        }
         cScoreClientHolder.Instance.m_ClientScoreUnitsDic.Add(OwnerClientId, this);
 
         if (IsOwner)

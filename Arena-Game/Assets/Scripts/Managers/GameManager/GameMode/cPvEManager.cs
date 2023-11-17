@@ -11,27 +11,34 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     
     private int m_SpawnOffset;
-    
-    private Action m_OnGameStart = delegate {  };
-    private Action m_OnGameEnd = delegate {  };
+    private bool m_isActive;
 
-    public Action OnGameEnd
+    private void OnMainMenuButton()
     {
-        get => m_OnGameEnd;
-        set => m_OnGameEnd = value;
-    }
-
-    public Action OnGameStart
-    {
-        get => m_OnGameStart;
-        set => m_OnGameStart = value;
+        if (m_isActive)
+        {
+            m_isActive = false;
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        }
     }
 
     public void StartGame()
     {
         cGameManager.Instance.m_OnNpcDied = delegate { };
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
+
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+        m_isActive = true;
         
+        cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
+            
+        LoopStart();
+    }
+
+    private void LoopStart()
+    {
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
@@ -42,13 +49,13 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             
             m_SpawnOffset++;
         }
-
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        OnGameStart.Invoke();
-            
+        
         DOVirtual.DelayedCall(5, (() =>
         {
-            StartNextGame();
+            if (m_isActive)
+            {
+                StartNextGame();
+            }
         }));
     }
 
@@ -64,49 +71,32 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     public void StartNextGame()
     {
         m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnLoadCompleted;
+    }
+
+    private void OnLoadCompleted(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnLoadCompleted;
+        DOVirtual.DelayedCall(1, () =>
+        {
+            m_ProjectSceneManager.UnloadScene();
+        });
     }
 
     private void CheckSuccess()
     {
         if (cNpcManager.Instance.CheckIsAllNpcsDied())
         {
-            DOVirtual.DelayedCall(5, ContinueButton);
+            DOVirtual.DelayedCall(5, (() =>
+            {
+                if (m_isActive)
+                {
+                    cLevelSelectView.Instance.SelectNext();
+                    cNpcManager.Instance.DestroyNpcs();
+                    LoopStart();
+                }
+            }));
         }
     }
-    
-    private void OnLoaded(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    {
-        Debug.Log("Loaded!!!!");
-    }
-    
-    public void UnloadLevel()
-    {
-        cNpcManager.Instance.DestroyNpcs();
-        m_ProjectSceneManager.UnloadScene();
-    }
 
-    public void ContinueButton()
-    {
-        UnloadLevel();
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted += OnUnloadCompletedContinueButton;
-    }
-    
-    private void OnUnloadCompletedContinueButton(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    {
-        NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedContinueButton;
-        cLevelSelectView.Instance.SelectNext();
-        StartNextGame();
-    }
-
-    // public void MainMenuButton()
-    // {
-    //     UnloadLevel();
-    //     NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted += OnUnloadCompletedMainMenu;
-    // }
-    //
-    // private void OnUnloadCompletedMainMenu(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    // {
-    //     NetworkManager.Singleton.SceneManager.OnUnloadEventCompleted -= OnUnloadCompletedMainMenu;
-    //     NetworkManager.Singleton.Shutdown();
-    // }
 }

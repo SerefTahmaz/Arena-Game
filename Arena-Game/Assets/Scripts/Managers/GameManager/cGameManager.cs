@@ -36,6 +36,7 @@ public class cGameManager : cSingleton<cGameManager>
     public int m_OwnerPlayerId;
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };
+    public Action m_GameStarted = delegate {  };
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
     public ISaveManager SaveManager
@@ -103,6 +104,7 @@ public class cGameManager : cSingleton<cGameManager>
                 throw new ArgumentOutOfRangeException();
         }
         
+        m_GameStarted.Invoke();
         GameModeHandler.StartGame();
     }
 
@@ -155,5 +157,27 @@ public class cGameManager : cSingleton<cGameManager>
             m_IsPlayerUIBeingUsed = true;
             return m_PlayerUIHealthBar;
         }
+    }
+    
+    public Action m_OnMainMenuButton = delegate {  };
+    [SerializeField] private cGameManagerNetworkBehaviour m_GameManagerNetworkBehaviour;
+
+    public void OnMainMenuButtonClick()
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+            m_GameManagerNetworkBehaviour.OnHostLeaveClientRpc();
+            LeaveGame();
+        }
+        else
+        {
+            LeaveGame();
+        }
+    }
+    
+    public void LeaveGame()
+    {
+        NetworkManager.Singleton.Shutdown();
+        m_OnMainMenuButton.Invoke();
     }
 }
