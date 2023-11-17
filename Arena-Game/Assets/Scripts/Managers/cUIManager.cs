@@ -29,6 +29,6 @@ public class cUIManager : cSingleton<cUIManager>
 public enum Page
 {
     MainMenu,
-    Lobby,
+    Loading,
     Empty
 }

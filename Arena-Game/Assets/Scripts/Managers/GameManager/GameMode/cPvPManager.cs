@@ -38,12 +38,18 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
     private void LoopStart()
     {
+        cUIManager.Instance.ShowPage(Page.Loading);
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
             OnClientConnected(VARIABLE.Key);
         }
+
+        DOVirtual.DelayedCall(5, () =>
+        {
+            cUIManager.Instance.HidePage(Page.Loading);
+        });
     }
     
     private void OnClientConnected(ulong obj)
