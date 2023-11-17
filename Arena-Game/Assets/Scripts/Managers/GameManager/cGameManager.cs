@@ -88,6 +88,11 @@ public class cGameManager : cSingleton<cGameManager>
                 m_IsPlayerUIBeingUsed = false;
             }
         };
+
+        DOVirtual.DelayedCall(2, () =>
+        {
+            cUIManager.Instance.HidePage(Page.Loading);
+        });
     }
 
     public void StartGame()
@@ -103,7 +108,6 @@ public class cGameManager : cSingleton<cGameManager>
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
         m_GameStarted.Invoke();
         GameModeHandler.StartGame();
     }

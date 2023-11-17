@@ -39,6 +39,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     private void LoopStart()
     {
+        cUIManager.Instance.ShowPage(Page.Loading);
+        
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
@@ -80,6 +82,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         DOVirtual.DelayedCall(1, () =>
         {
             m_ProjectSceneManager.UnloadScene();
+            cUIManager.Instance.HidePage(Page.Loading);
         });
     }
 
