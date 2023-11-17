@@ -18,4 +18,9 @@ public class cGameplayMenuUIController : MonoBehaviour
             m_MenuView.Activate();
         }
     }
+
+    public void DeactivateView()
+    {
+        m_MenuView.Deactivate();
+    }
 }

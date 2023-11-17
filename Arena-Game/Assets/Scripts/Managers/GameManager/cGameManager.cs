@@ -160,8 +160,22 @@ public class cGameManager : cSingleton<cGameManager>
     }
     
     public Action m_OnMainMenuButton = delegate {  };
+    [SerializeField] private cGameManagerNetworkBehaviour m_GameManagerNetworkBehaviour;
 
     public void OnMainMenuButtonClick()
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+            m_GameManagerNetworkBehaviour.OnHostLeaveClientRpc();
+            LeaveGame();
+        }
+        else
+        {
+            LeaveGame();
+        }
+    }
+    
+    public void LeaveGame()
     {
         NetworkManager.Singleton.Shutdown();
         m_OnMainMenuButton.Invoke();
