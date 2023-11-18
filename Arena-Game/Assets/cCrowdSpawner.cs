@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DemoBlast.Utils;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,7 +45,16 @@ public class cCrowdSpawner : MonoBehaviour
                     if (m_Random >= Random.value)
                     {
                         Quaternion lookRot = Quaternion.LookRotation(-pos);
-                        var ins = Instantiate(m_Model.RandomItem(), pos, lookRot, transform);
+                        if (Application.isPlaying)
+                        {
+                            var ins = Instantiate(m_Model.RandomItem(), pos, lookRot, transform);
+                        }
+                        else
+                        {
+                            var ins = PrefabUtility.InstantiatePrefab(m_Model.RandomItem(),transform) as GameObject;
+                            ins.transform.position = pos;
+                            ins.transform.rotation = lookRot;
+                        }
                     }
                 }
             }

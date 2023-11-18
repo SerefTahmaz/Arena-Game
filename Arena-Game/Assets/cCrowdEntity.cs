@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DemoBlast.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [ExecuteAlways]
 public class cCrowdEntity : MonoBehaviour
@@ -14,6 +15,12 @@ public class cCrowdEntity : MonoBehaviour
             VARIABLE.gameObject.SetActive(false);
         }
             
-        transform.gameObject.GetChilds().RandomItem().gameObject.SetActive(true);
+        var selected = transform.gameObject.GetChilds().RandomItem();
+        selected.gameObject.SetActive(true);
+
+        if (Application.isPlaying)
+        {
+            selected.GetComponent<Animator>().SetFloat("Offset", Random.value);
+        }
     }
 }

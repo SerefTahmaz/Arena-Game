@@ -27,7 +27,6 @@ Material:
   m_ValidKeywords:
   - EFFECT_BILLBOARD
   - EFFECT_BUMP
-  - EFFECT_EXTRA_TEX
   - EFFECT_HUE_VARIATION
   - _WINDQUALITY_NONE
   m_InvalidKeywords: []
@@ -46,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ExtraTex:
-        m_Texture: {fileID: 2800000, guid: 86b1e2a859c1e994fba9162cfec220b8, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -61,11 +60,11 @@ Material:
     m_Floats:
     - _BillboardKwToggle: 1
     - _BillboardShadowFade: 0.5
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _HueVariationKwToggle: 1
     - _Metallic: 0
     - _NormalMapKwToggle: 1
-    - _SubsurfaceIndirect: 0.25
+    - _SubsurfaceIndirect: 0
     - _SubsurfaceKwToggle: 0
     - _TwoSided: 2
     - _WindQuality: 0

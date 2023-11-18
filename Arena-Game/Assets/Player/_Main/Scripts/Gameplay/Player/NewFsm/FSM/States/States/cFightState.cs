@@ -63,6 +63,27 @@ namespace FiniteStateMachine
         {
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeBoth, resetable: true);
         }
+        
+        void OnClick()
+        {
+            if (m_IsLeftSwordDrawn && m_IsRightSwordDrawn)
+            {
+                OnHeavyAttack();
+            }
+            else if (m_IsRightSwordDrawn)
+            {
+                m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Slash, resetable: true);
+            }
+            else if (m_IsLeftSwordDrawn)
+            {
+                OnRightClickDown();
+            }
+        }
+        
+        void OnRightClickDown()
+        {
+            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.LeftSlash, resetable: true);
+        }
 
         private void OnHeavyAttack()
         {
@@ -117,21 +138,11 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.AnimationController.SetTrigger(sword);
         }
 
-        void OnClick()
-        {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Slash, resetable: true);
-        }
-        
         void OnSpace()
         {
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.Jump);
         }
-    
-        void OnRightClickDown()
-        {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.LeftSlash, resetable: true);
-        }
-    
+
         void OnRKey()
         {
             m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.SheathRightSword);
