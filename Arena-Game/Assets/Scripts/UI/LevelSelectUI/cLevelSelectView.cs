@@ -13,15 +13,20 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     [SerializeField] private cView m_View;
 
     private int m_CurrentIndex;
-    private List<cLevelSelectUnit> m_LevelSelectUnits = new List<cLevelSelectUnit>();
-    private cLevelSelectUnit m_SelectedLevelUnit;
+    public List<cLevelSelectUnit> m_LevelSelectUnits = new List<cLevelSelectUnit>();
+    public cLevelSelectUnit m_SelectedLevelUnit;
     
     public cLevelSelectUnit SelectedLevelUnit => m_SelectedLevelUnit;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        int currentLevel = 1;
+        foreach (var VARIABLE in m_LevelSelectUnits)
+        {
+            Destroy(VARIABLE.gameObject);
+        }
+        m_LevelSelectUnits.Clear();
+        
+        int currentLevel = cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel;
         m_CurrentIndex = currentLevel;
         for (var index = 0; index < m_LevelListSo.LevelList.Count; index++)
         {
@@ -30,18 +35,14 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
             ins.Init(levelSO, index+1);
             ins.m_OnClick += OnSelect;
             m_LevelSelectUnits.Add(ins);
-            if (currentLevel <= index)
+            if (currentLevel < index)
             {
                 ins.SetLock(true);
             }
-
-            if (index + 1 == currentLevel)
-            {
-                OnSelect(ins);
-            }
         }
 
-        m_SelectedLevelUnit = m_LevelSelectUnits[0];
+        m_SelectedLevelUnit = m_LevelSelectUnits[currentLevel % m_LevelSelectUnits.Count];
+        m_SelectedLevelUnit.SetSelected(true);
     }
 
     public void OnSelect(cLevelSelectUnit selectedUnit)
@@ -76,11 +77,18 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     public void Activate()
     {
         m_View.Activate();
+        Init();
     }
 
     public void SelectNext()
     {
         m_CurrentIndex++;
+        if (m_CurrentIndex > cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel)
+        {
+            cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel = m_CurrentIndex;
+            cGameManager.Instance.SaveManager.Save();
+        }
+        
         OnSelect(m_LevelSelectUnits[m_CurrentIndex % m_LevelSelectUnits.Count]);
     }
 }
