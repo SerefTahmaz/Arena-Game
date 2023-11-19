@@ -9,14 +9,16 @@ using Random = UnityEngine.Random;
 [ExecuteAlways]
 public class cCrowdEntity : MonoBehaviour
 {
-    private void Awake()
+    [SerializeField] private List<GameObject> m_Childs;
+    
+    private void Start()
     {
-        foreach (var VARIABLE in transform.gameObject.GetChilds())
+        foreach (var VARIABLE in m_Childs)
         {
             VARIABLE.gameObject.SetActive(false);
         }
             
-        var selected = transform.gameObject.GetChilds().RandomItem();
+        var selected = m_Childs.RandomItem();
         selected.gameObject.SetActive(true);
 
         if (Application.isPlaying)

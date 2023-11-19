@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class cPlayerStateMachineV2 : cCharacterStateMachine
+public class cPlayerStateMachineV2 : cStateMachine
     {
         #region PritaveFields
 

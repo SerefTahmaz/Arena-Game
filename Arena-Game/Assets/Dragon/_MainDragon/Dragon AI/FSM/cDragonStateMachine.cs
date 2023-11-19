@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FiniteStateMachine
 {
-    public class cDragonStateMachine : cStateMachine
+    public class cDragonStateMachine : cCharacterStateMachine
     {
         #region PritaveFields
         
@@ -21,8 +21,6 @@ namespace FiniteStateMachine
         private LookAtIK m_LookAtIK => Character.HeadLookAtIk;
 
         public cDragonCharacter Character => DragonCharacter;
-
-        public Transform Target => m_enemies.OrderBy((v2 => Vector3.Distance(transform.position,v2.position))).FirstOrDefault();
 
         public LookAtIK LookAtIK => m_LookAtIK;
 
@@ -87,7 +85,7 @@ namespace FiniteStateMachine
                 ChangeState(m_DragonDeath);
             };
 
-            Character.HeadLookAtIk.solver.target = Target;
+            Character.HeadLookAtIk.solver.target = Target();
             
             base.Start();
         }

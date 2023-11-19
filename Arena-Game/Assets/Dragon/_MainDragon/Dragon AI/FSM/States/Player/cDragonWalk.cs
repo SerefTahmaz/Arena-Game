@@ -41,7 +41,7 @@ namespace FiniteStateMachine
         {
             base.StateMachineUpdate();
 
-            if (StateMachine.Target == null)
+            if (StateMachine.Target() == null)
             {
                 AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,0);
                 return;
@@ -79,7 +79,7 @@ namespace FiniteStateMachine
                 }
             }
 
-            Vector3 dir = StateMachine.Target.position - m_MovementTransform.position;
+            Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
             var angle = Vector3.SignedAngle(m_MovementTransform.forward, dir.normalized, Vector3.up);
             m_MovementTransform.Translate(Vector3.forward * Time.deltaTime * m_WalkSpeed);
             var planeDir = dir.normalized;
@@ -127,7 +127,7 @@ namespace FiniteStateMachine
 
         private bool Attack(float angle)
         {
-            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target.position) < m_MeleeAttackDistance)
+            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
             {
                 List<Action> m_MeleeActions = new List<Action>();
 
@@ -181,7 +181,7 @@ namespace FiniteStateMachine
                 }
             }
 
-            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target.position) < m_FireBreathingDistance &&
+            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_FireBreathingDistance &&
                 Mathf.Abs(angle) < 30)
             {
                 List<Action> m_RangedActions = new List<Action>();

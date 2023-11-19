@@ -5,6 +5,7 @@ using DG.Tweening;
 using PlayerCharacter;
 using RootMotion.FinalIK;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
 {
@@ -16,8 +17,6 @@ namespace FiniteStateMachine
         [SerializeField] private Vector2 m_CooldownDurationRange;
         [SerializeField] private cTrollCharacter m_TrollCharacter;
         [SerializeField] private ParticleSystem m_BloodExpo;
-
-        public Transform Target => m_enemies.OrderBy((v2 => Vector3.Distance(transform.position,v2.position))).FirstOrDefault();
 
         public cTrollAnimationController.TrollAnimationState AvailableAttacks => m_AvailableAttacks;
 
