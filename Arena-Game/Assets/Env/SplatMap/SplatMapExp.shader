@@ -9,9 +9,7 @@ Shader "SplatMapExp"
 		[ASEBegin]_sand_mine_rock_rubble_basecolor("sand_mine_rock_rubble_basecolor", 2D) = "white" {}
 		_sand_mine_rock_rubble_normal("sand_mine_rock_rubble_normal", 2D) = "bump" {}
 		_sand_mine_rock_rubble_glossiness("sand_mine_rock_rubble_glossiness", 2D) = "white" {}
-		_sand_mine_rock_rubble_height("sand_mine_rock_rubble_height", 2D) = "white" {}
 		_sand_mine_rock_rubble_ambientocclusion("sand_mine_rock_rubble_ambientocclusion", 2D) = "white" {}
-		_HeightMap_4096x4096("Height Map_4096x4096", 2D) = "white" {}
 		_mold_covered_soil_basecolor("mold_covered_soil_basecolor", 2D) = "white" {}
 		_mold_covered_soil_glossiness("mold_covered_soil_glossiness", 2D) = "white" {}
 		_mold_covered_soil_normal("mold_covered_soil_normal", 2D) = "bump" {}
@@ -45,10 +43,7 @@ Shader "SplatMapExp"
 		_NoiseScale2("NoiseScale2", Float) = 26.1
 		_NoiseContrast2("NoiseContrast2", Float) = 1
 		_GrassAmount("GrassAmount", Float) = 0
-		_Smoothness("Smoothness", Float) = 1
-		_Dis("Dis", Range( 0 , 0.1)) = 1
-		[ASEEnd]_BaseDis("BaseDis", Float) = 1
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
+		[ASEEnd]_Smoothness("Smoothness", Float) = 1
 
 		[HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
         [HideInInspector]_QueueControl("_QueueControl", Float) = -1
@@ -294,7 +289,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -313,8 +307,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -343,10 +335,6 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
 			TEXTURE2D(_sand_mine_rock_rubble_basecolor);
 			SAMPLER(sampler_sand_mine_rock_rubble_basecolor);
 			TEXTURE2D(_mold_covered_soil_basecolor);
@@ -420,27 +408,6 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
-				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -450,7 +417,7 @@ Shader "SplatMapExp"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -645,66 +612,55 @@ Shader "SplatMapExp"
 				float2 temp_cast_0 = (_Tile).xx;
 				float2 texCoord12_g65 = IN.ase_texcoord8.xy * temp_cast_0 + float2( 0,0 );
 				float2 temp_cast_1 = (_Tile).xx;
-				float2 texCoord13_g63 = IN.ase_texcoord8.xy * temp_cast_1 + float2( 0,0 );
+				float2 texCoord13_g66 = IN.ase_texcoord8.xy * temp_cast_1 + float2( 0,0 );
 				float2 texCoord1_g64 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
 				float4 temp_cast_2 = (simpleNoise7_g64).xxxx;
 				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_2) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult3_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g63 ) , temp_output_5_0_g66);
+				float4 temp_output_5_0_g69 = myVarName5_g64;
+				float4 lerpResult3_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g66 ) , temp_output_5_0_g69);
 				float2 temp_cast_3 = (_Tile).xx;
 				float2 texCoord13_g68 = IN.ase_texcoord8.xy * temp_cast_3 + float2( 0,0 );
-				float4 temp_output_85_0 = SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 );
-				float2 texCoord1_g67 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_4 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult3_g69 = lerp( lerpResult3_g66 , temp_output_85_0 , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_5 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_5;
-				float4 lerpResult3_g70 = lerp( lerpResult3_g69 , temp_output_85_0 , temp_output_5_0_g70);
-				float4 myVarName133 = lerpResult3_g70;
+				float2 texCoord1_g70 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float simpleNoise7_g70 = SimpleNoise( texCoord1_g70*_NoiseScale2 );
+				float4 temp_cast_4 = (simpleNoise7_g70).xxxx;
+				float4 myVarName5_g70 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
+				float4 temp_output_5_0_g71 = myVarName5_g70;
+				float4 lerpResult3_g71 = lerp( lerpResult3_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 ) , temp_output_5_0_g71);
+				float4 myVarName133 = lerpResult3_g71;
 				float2 texCoord1_g82 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g82 = SimpleNoise( texCoord1_g82*_WaterScale );
-				float4 temp_cast_6 = (simpleNoise7_g82).xxxx;
-				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_6) + _WaterAmount ) );
-				float2 texCoord1_g81 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.32,0.51 );
-				float simpleNoise7_g81 = SimpleNoise( texCoord1_g81*_WaterScale2 );
-				float4 temp_cast_7 = (simpleNoise7_g81).xxxx;
-				float4 myVarName5_g81 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_7) + _WaterAmount2 ) );
-				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 temp_cast_5 = (simpleNoise7_g82).xxxx;
+				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_5) + _WaterAmount ) );
+				float2 texCoord1_g84 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.32,0.51 );
+				float simpleNoise7_g84 = SimpleNoise( texCoord1_g84*_WaterScale2 );
+				float4 temp_cast_6 = (simpleNoise7_g84).xxxx;
+				float4 myVarName5_g84 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_6) + _WaterAmount2 ) );
+				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				float4 myVarName157 = lerpResult118;
-				float2 texCoord1_g78 = IN.ase_texcoord8.xy * float2( 1,1 ) + _CloudOffset;
-				float simpleNoise7_g78 = SimpleNoise( texCoord1_g78*_CloudScale1 );
-				float4 temp_cast_8 = (simpleNoise7_g78).xxxx;
-				float4 myVarName5_g78 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_8) + _CloudAmount1 ) );
-				float2 texCoord1_g80 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.56,0.88 );
-				float simpleNoise7_g80 = SimpleNoise( texCoord1_g80*_CloudScale2 );
-				float4 temp_cast_9 = (simpleNoise7_g80).xxxx;
-				float4 myVarName5_g80 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_9) + _CloudAmount2 ) );
-				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g78 * myVarName5_g80 ));
+				float2 texCoord1_g83 = IN.ase_texcoord8.xy * float2( 1,1 ) + _CloudOffset;
+				float simpleNoise7_g83 = SimpleNoise( texCoord1_g83*_CloudScale1 );
+				float4 temp_cast_7 = (simpleNoise7_g83).xxxx;
+				float4 myVarName5_g83 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_7) + _CloudAmount1 ) );
+				float2 texCoord1_g85 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.56,0.88 );
+				float simpleNoise7_g85 = SimpleNoise( texCoord1_g85*_CloudScale2 );
+				float4 temp_cast_8 = (simpleNoise7_g85).xxxx;
+				float4 myVarName5_g85 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_8) + _CloudAmount2 ) );
+				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g83 * myVarName5_g85 ));
 				
-				float4 lerpResult6_g66 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g63 ), 1.0f ) , 0.0 ) , temp_output_5_0_g66);
-				float3 temp_output_85_7 = UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f );
-				float4 lerpResult6_g69 = lerp( lerpResult6_g66 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g69);
-				float4 lerpResult6_g70 = lerp( lerpResult6_g69 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g70);
-				float4 myVarName134 = lerpResult6_g70;
+				float4 lerpResult6_g69 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g66 ), 1.0f ) , 0.0 ) , temp_output_5_0_g69);
+				float4 lerpResult6_g71 = lerp( lerpResult6_g69 , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f ) , 0.0 ) , temp_output_5_0_g71);
+				float4 myVarName134 = lerpResult6_g71;
 				float4 lerpResult122 = lerp( myVarName134 , float4( _WaterNormal , 0.0 ) , _WaterNormalStre);
-				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				
-				float4 lerpResult15_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_glossiness, sampler_sand_mine_rock_rubble_glossiness, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_glossiness, sampler_mold_covered_soil_glossiness, texCoord13_g63 ) , float4( 0,0,0,0 ));
-				float4 temp_output_85_9 = SAMPLE_TEXTURE2D( _low_grass_soil_glossiness, sampler_linear_repeat, texCoord13_g68 );
-				float4 lerpResult15_g69 = lerp( lerpResult15_g66 , temp_output_85_9 , float4( 0,0,0,0 ));
-				float4 lerpResult15_g70 = lerp( lerpResult15_g69 , temp_output_85_9 , float4( 0,0,0,0 ));
-				float4 temp_cast_17 = (_WaterSmoothness).xxxx;
-				float4 lerpResult113 = lerp( ( lerpResult15_g70 * _Smoothness ) , temp_cast_17 , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 lerpResult15_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_glossiness, sampler_sand_mine_rock_rubble_glossiness, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_glossiness, sampler_mold_covered_soil_glossiness, texCoord13_g66 ) , float4( 0,0,0,0 ));
+				float4 lerpResult15_g71 = lerp( lerpResult15_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_glossiness, sampler_linear_repeat, texCoord13_g68 ) , float4( 0,0,0,0 ));
+				float4 temp_cast_15 = (_WaterSmoothness).xxxx;
+				float4 lerpResult113 = lerp( ( lerpResult15_g71 * _Smoothness ) , temp_cast_15 , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				
-				float4 lerpResult19_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_ambientocclusion, sampler_sand_mine_rock_rubble_ambientocclusion, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_ambientocclusion, sampler_mold_covered_soil_ambientocclusion, texCoord13_g63 ) , float4( 0,0,0,0 ));
-				float4 temp_output_85_11 = SAMPLE_TEXTURE2D( _low_grass_soil_ambientocclusion, sampler_linear_repeat, texCoord13_g68 );
-				float4 lerpResult19_g69 = lerp( lerpResult19_g66 , temp_output_85_11 , float4( 0,0,0,0 ));
-				float4 lerpResult19_g70 = lerp( lerpResult19_g69 , temp_output_85_11 , float4( 0,0,0,0 ));
+				float4 lerpResult19_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_ambientocclusion, sampler_sand_mine_rock_rubble_ambientocclusion, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_ambientocclusion, sampler_mold_covered_soil_ambientocclusion, texCoord13_g66 ) , float4( 0,0,0,0 ));
+				float4 lerpResult19_g71 = lerp( lerpResult19_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_ambientocclusion, sampler_linear_repeat, texCoord13_g68 ) , float4( 0,0,0,0 ));
 				
 				float3 Albedo = lerpResult152.rgb;
 				float3 Normal = lerpResult120.rgb;
@@ -712,7 +668,7 @@ Shader "SplatMapExp"
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = lerpResult113.r;
-				float Occlusion = lerpResult19_g70.r;
+				float Occlusion = lerpResult19_g71.r;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
@@ -958,7 +914,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -977,7 +933,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -996,8 +951,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -1026,55 +979,9 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
-
-
-			inline float noise_randomValue (float2 uv) { return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453); }
-			inline float noise_interpolate (float a, float b, float t) { return (1.0-t)*a + (t*b); }
-			inline float valueNoise (float2 uv)
-			{
-				float2 i = floor(uv);
-				float2 f = frac( uv );
-				f = f* f * (3.0 - 2.0 * f);
-				uv = abs( frac(uv) - 0.5);
-				float2 c0 = i + float2( 0.0, 0.0 );
-				float2 c1 = i + float2( 1.0, 0.0 );
-				float2 c2 = i + float2( 0.0, 1.0 );
-				float2 c3 = i + float2( 1.0, 1.0 );
-				float r0 = noise_randomValue( c0 );
-				float r1 = noise_randomValue( c1 );
-				float r2 = noise_randomValue( c2 );
-				float r3 = noise_randomValue( c3 );
-				float bottomOfGrid = noise_interpolate( r0, r1, f.x );
-				float topOfGrid = noise_interpolate( r2, r3, f.x );
-				float t = noise_interpolate( bottomOfGrid, topOfGrid, f.y );
-				return t;
-			}
 			
-			float SimpleNoise(float2 UV)
-			{
-				float t = 0.0;
-				float freq = pow( 2.0, float( 0 ) );
-				float amp = pow( 0.5, float( 3 - 0 ) );
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(1));
-				amp = pow(0.5, float(3-1));
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(2));
-				amp = pow(0.5, float(3-2));
-				t += valueNoise( UV/freq )*amp;
-				return t;
-			}
-			
-			float4 CalculateContrast( float contrastValue, float4 colorTarget )
-			{
-				float t = 0.5 * ( 1.0 - contrastValue );
-				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
-			}
 
+			
 			float3 _LightDirection;
 			float3 _LightPosition;
 
@@ -1085,33 +992,13 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1157,8 +1044,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1175,7 +1061,7 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1214,7 +1100,7 @@ Shader "SplatMapExp"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1331,7 +1217,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1350,7 +1236,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -1369,8 +1254,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -1399,55 +1282,9 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
-
-
-			inline float noise_randomValue (float2 uv) { return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453); }
-			inline float noise_interpolate (float a, float b, float t) { return (1.0-t)*a + (t*b); }
-			inline float valueNoise (float2 uv)
-			{
-				float2 i = floor(uv);
-				float2 f = frac( uv );
-				f = f* f * (3.0 - 2.0 * f);
-				uv = abs( frac(uv) - 0.5);
-				float2 c0 = i + float2( 0.0, 0.0 );
-				float2 c1 = i + float2( 1.0, 0.0 );
-				float2 c2 = i + float2( 0.0, 1.0 );
-				float2 c3 = i + float2( 1.0, 1.0 );
-				float r0 = noise_randomValue( c0 );
-				float r1 = noise_randomValue( c1 );
-				float r2 = noise_randomValue( c2 );
-				float r3 = noise_randomValue( c3 );
-				float bottomOfGrid = noise_interpolate( r0, r1, f.x );
-				float topOfGrid = noise_interpolate( r2, r3, f.x );
-				float t = noise_interpolate( bottomOfGrid, topOfGrid, f.y );
-				return t;
-			}
 			
-			float SimpleNoise(float2 UV)
-			{
-				float t = 0.0;
-				float freq = pow( 2.0, float( 0 ) );
-				float amp = pow( 0.5, float( 3 - 0 ) );
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(1));
-				amp = pow(0.5, float(3-1));
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(2));
-				amp = pow(0.5, float(3-2));
-				t += valueNoise( UV/freq )*amp;
-				return t;
-			}
-			
-			float4 CalculateContrast( float contrastValue, float4 colorTarget )
-			{
-				float t = 0.5 * ( 1.0 - contrastValue );
-				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
-			}
 
+			
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -1455,33 +1292,13 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1511,8 +1328,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1529,7 +1345,7 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -1568,7 +1384,7 @@ Shader "SplatMapExp"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1705,7 +1521,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -1724,8 +1539,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -1754,10 +1567,6 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
 			TEXTURE2D(_sand_mine_rock_rubble_basecolor);
 			SAMPLER(sampler_sand_mine_rock_rubble_basecolor);
 			TEXTURE2D(_mold_covered_soil_basecolor);
@@ -1816,27 +1625,6 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.texcoord0.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.texcoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.texcoord0.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.texcoord0.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
-				
 				o.ase_texcoord4.xy = v.texcoord0.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1847,7 +1635,7 @@ Shader "SplatMapExp"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1989,46 +1777,41 @@ Shader "SplatMapExp"
 				float2 temp_cast_0 = (_Tile).xx;
 				float2 texCoord12_g65 = IN.ase_texcoord4.xy * temp_cast_0 + float2( 0,0 );
 				float2 temp_cast_1 = (_Tile).xx;
-				float2 texCoord13_g63 = IN.ase_texcoord4.xy * temp_cast_1 + float2( 0,0 );
+				float2 texCoord13_g66 = IN.ase_texcoord4.xy * temp_cast_1 + float2( 0,0 );
 				float2 texCoord1_g64 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
 				float4 temp_cast_2 = (simpleNoise7_g64).xxxx;
 				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_2) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult3_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g63 ) , temp_output_5_0_g66);
+				float4 temp_output_5_0_g69 = myVarName5_g64;
+				float4 lerpResult3_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g66 ) , temp_output_5_0_g69);
 				float2 temp_cast_3 = (_Tile).xx;
 				float2 texCoord13_g68 = IN.ase_texcoord4.xy * temp_cast_3 + float2( 0,0 );
-				float4 temp_output_85_0 = SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 );
-				float2 texCoord1_g67 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_4 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult3_g69 = lerp( lerpResult3_g66 , temp_output_85_0 , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_5 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_5;
-				float4 lerpResult3_g70 = lerp( lerpResult3_g69 , temp_output_85_0 , temp_output_5_0_g70);
-				float4 myVarName133 = lerpResult3_g70;
+				float2 texCoord1_g70 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float simpleNoise7_g70 = SimpleNoise( texCoord1_g70*_NoiseScale2 );
+				float4 temp_cast_4 = (simpleNoise7_g70).xxxx;
+				float4 myVarName5_g70 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
+				float4 temp_output_5_0_g71 = myVarName5_g70;
+				float4 lerpResult3_g71 = lerp( lerpResult3_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 ) , temp_output_5_0_g71);
+				float4 myVarName133 = lerpResult3_g71;
 				float2 texCoord1_g82 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g82 = SimpleNoise( texCoord1_g82*_WaterScale );
-				float4 temp_cast_6 = (simpleNoise7_g82).xxxx;
-				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_6) + _WaterAmount ) );
-				float2 texCoord1_g81 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.32,0.51 );
-				float simpleNoise7_g81 = SimpleNoise( texCoord1_g81*_WaterScale2 );
-				float4 temp_cast_7 = (simpleNoise7_g81).xxxx;
-				float4 myVarName5_g81 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_7) + _WaterAmount2 ) );
-				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 temp_cast_5 = (simpleNoise7_g82).xxxx;
+				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_5) + _WaterAmount ) );
+				float2 texCoord1_g84 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.32,0.51 );
+				float simpleNoise7_g84 = SimpleNoise( texCoord1_g84*_WaterScale2 );
+				float4 temp_cast_6 = (simpleNoise7_g84).xxxx;
+				float4 myVarName5_g84 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_6) + _WaterAmount2 ) );
+				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				float4 myVarName157 = lerpResult118;
-				float2 texCoord1_g78 = IN.ase_texcoord4.xy * float2( 1,1 ) + _CloudOffset;
-				float simpleNoise7_g78 = SimpleNoise( texCoord1_g78*_CloudScale1 );
-				float4 temp_cast_8 = (simpleNoise7_g78).xxxx;
-				float4 myVarName5_g78 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_8) + _CloudAmount1 ) );
-				float2 texCoord1_g80 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.56,0.88 );
-				float simpleNoise7_g80 = SimpleNoise( texCoord1_g80*_CloudScale2 );
-				float4 temp_cast_9 = (simpleNoise7_g80).xxxx;
-				float4 myVarName5_g80 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_9) + _CloudAmount2 ) );
-				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g78 * myVarName5_g80 ));
+				float2 texCoord1_g83 = IN.ase_texcoord4.xy * float2( 1,1 ) + _CloudOffset;
+				float simpleNoise7_g83 = SimpleNoise( texCoord1_g83*_CloudScale1 );
+				float4 temp_cast_7 = (simpleNoise7_g83).xxxx;
+				float4 myVarName5_g83 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_7) + _CloudAmount1 ) );
+				float2 texCoord1_g85 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.56,0.88 );
+				float simpleNoise7_g85 = SimpleNoise( texCoord1_g85*_CloudScale2 );
+				float4 temp_cast_8 = (simpleNoise7_g85).xxxx;
+				float4 myVarName5_g85 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_8) + _CloudAmount2 ) );
+				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g83 * myVarName5_g85 ));
 				
 				
 				float3 Albedo = lerpResult152.rgb;
@@ -2113,7 +1896,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -2132,8 +1914,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -2162,10 +1942,6 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
 			TEXTURE2D(_sand_mine_rock_rubble_basecolor);
 			SAMPLER(sampler_sand_mine_rock_rubble_basecolor);
 			TEXTURE2D(_mold_covered_soil_basecolor);
@@ -2224,27 +2000,6 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
-				
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2255,7 +2010,7 @@ Shader "SplatMapExp"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2383,46 +2138,41 @@ Shader "SplatMapExp"
 				float2 temp_cast_0 = (_Tile).xx;
 				float2 texCoord12_g65 = IN.ase_texcoord2.xy * temp_cast_0 + float2( 0,0 );
 				float2 temp_cast_1 = (_Tile).xx;
-				float2 texCoord13_g63 = IN.ase_texcoord2.xy * temp_cast_1 + float2( 0,0 );
+				float2 texCoord13_g66 = IN.ase_texcoord2.xy * temp_cast_1 + float2( 0,0 );
 				float2 texCoord1_g64 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
 				float4 temp_cast_2 = (simpleNoise7_g64).xxxx;
 				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_2) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult3_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g63 ) , temp_output_5_0_g66);
+				float4 temp_output_5_0_g69 = myVarName5_g64;
+				float4 lerpResult3_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g66 ) , temp_output_5_0_g69);
 				float2 temp_cast_3 = (_Tile).xx;
 				float2 texCoord13_g68 = IN.ase_texcoord2.xy * temp_cast_3 + float2( 0,0 );
-				float4 temp_output_85_0 = SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 );
-				float2 texCoord1_g67 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_4 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult3_g69 = lerp( lerpResult3_g66 , temp_output_85_0 , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_5 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_5;
-				float4 lerpResult3_g70 = lerp( lerpResult3_g69 , temp_output_85_0 , temp_output_5_0_g70);
-				float4 myVarName133 = lerpResult3_g70;
+				float2 texCoord1_g70 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float simpleNoise7_g70 = SimpleNoise( texCoord1_g70*_NoiseScale2 );
+				float4 temp_cast_4 = (simpleNoise7_g70).xxxx;
+				float4 myVarName5_g70 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
+				float4 temp_output_5_0_g71 = myVarName5_g70;
+				float4 lerpResult3_g71 = lerp( lerpResult3_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 ) , temp_output_5_0_g71);
+				float4 myVarName133 = lerpResult3_g71;
 				float2 texCoord1_g82 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g82 = SimpleNoise( texCoord1_g82*_WaterScale );
-				float4 temp_cast_6 = (simpleNoise7_g82).xxxx;
-				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_6) + _WaterAmount ) );
-				float2 texCoord1_g81 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0.32,0.51 );
-				float simpleNoise7_g81 = SimpleNoise( texCoord1_g81*_WaterScale2 );
-				float4 temp_cast_7 = (simpleNoise7_g81).xxxx;
-				float4 myVarName5_g81 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_7) + _WaterAmount2 ) );
-				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 temp_cast_5 = (simpleNoise7_g82).xxxx;
+				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_5) + _WaterAmount ) );
+				float2 texCoord1_g84 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0.32,0.51 );
+				float simpleNoise7_g84 = SimpleNoise( texCoord1_g84*_WaterScale2 );
+				float4 temp_cast_6 = (simpleNoise7_g84).xxxx;
+				float4 myVarName5_g84 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_6) + _WaterAmount2 ) );
+				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				float4 myVarName157 = lerpResult118;
-				float2 texCoord1_g78 = IN.ase_texcoord2.xy * float2( 1,1 ) + _CloudOffset;
-				float simpleNoise7_g78 = SimpleNoise( texCoord1_g78*_CloudScale1 );
-				float4 temp_cast_8 = (simpleNoise7_g78).xxxx;
-				float4 myVarName5_g78 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_8) + _CloudAmount1 ) );
-				float2 texCoord1_g80 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0.56,0.88 );
-				float simpleNoise7_g80 = SimpleNoise( texCoord1_g80*_CloudScale2 );
-				float4 temp_cast_9 = (simpleNoise7_g80).xxxx;
-				float4 myVarName5_g80 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_9) + _CloudAmount2 ) );
-				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g78 * myVarName5_g80 ));
+				float2 texCoord1_g83 = IN.ase_texcoord2.xy * float2( 1,1 ) + _CloudOffset;
+				float simpleNoise7_g83 = SimpleNoise( texCoord1_g83*_CloudScale1 );
+				float4 temp_cast_7 = (simpleNoise7_g83).xxxx;
+				float4 myVarName5_g83 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_7) + _CloudAmount1 ) );
+				float2 texCoord1_g85 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0.56,0.88 );
+				float simpleNoise7_g85 = SimpleNoise( texCoord1_g85*_CloudScale2 );
+				float4 temp_cast_8 = (simpleNoise7_g85).xxxx;
+				float4 myVarName5_g85 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_8) + _CloudAmount2 ) );
+				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g83 * myVarName5_g85 ));
 				
 				
 				float3 Albedo = lerpResult152.rgb;
@@ -2502,7 +2252,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -2521,8 +2270,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -2551,10 +2298,6 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
 			TEXTURE2D(_sand_mine_rock_rubble_normal);
 			SAMPLER(sampler_sand_mine_rock_rubble_normal);
 			TEXTURE2D(_mold_covered_soil_normal);
@@ -2613,27 +2356,6 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
-				
 				o.ase_texcoord4.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2643,7 +2365,7 @@ Shader "SplatMapExp"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2789,37 +2511,32 @@ Shader "SplatMapExp"
 				float2 temp_cast_0 = (_Tile).xx;
 				float2 texCoord12_g65 = IN.ase_texcoord4.xy * temp_cast_0 + float2( 0,0 );
 				float2 temp_cast_2 = (_Tile).xx;
-				float2 texCoord13_g63 = IN.ase_texcoord4.xy * temp_cast_2 + float2( 0,0 );
+				float2 texCoord13_g66 = IN.ase_texcoord4.xy * temp_cast_2 + float2( 0,0 );
 				float2 texCoord1_g64 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
 				float4 temp_cast_4 = (simpleNoise7_g64).xxxx;
 				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_4) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult6_g66 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g63 ), 1.0f ) , 0.0 ) , temp_output_5_0_g66);
+				float4 temp_output_5_0_g69 = myVarName5_g64;
+				float4 lerpResult6_g69 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g66 ), 1.0f ) , 0.0 ) , temp_output_5_0_g69);
 				float2 temp_cast_5 = (_Tile).xx;
 				float2 texCoord13_g68 = IN.ase_texcoord4.xy * temp_cast_5 + float2( 0,0 );
-				float3 temp_output_85_7 = UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f );
-				float2 texCoord1_g67 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_7 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_7) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult6_g69 = lerp( lerpResult6_g66 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_9 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_9;
-				float4 lerpResult6_g70 = lerp( lerpResult6_g69 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g70);
-				float4 myVarName134 = lerpResult6_g70;
+				float2 texCoord1_g70 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float simpleNoise7_g70 = SimpleNoise( texCoord1_g70*_NoiseScale2 );
+				float4 temp_cast_7 = (simpleNoise7_g70).xxxx;
+				float4 myVarName5_g70 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_7) + _GrassAmount ) );
+				float4 temp_output_5_0_g71 = myVarName5_g70;
+				float4 lerpResult6_g71 = lerp( lerpResult6_g69 , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f ) , 0.0 ) , temp_output_5_0_g71);
+				float4 myVarName134 = lerpResult6_g71;
 				float4 lerpResult122 = lerp( myVarName134 , float4( _WaterNormal , 0.0 ) , _WaterNormalStre);
 				float2 texCoord1_g82 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g82 = SimpleNoise( texCoord1_g82*_WaterScale );
-				float4 temp_cast_11 = (simpleNoise7_g82).xxxx;
-				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_11) + _WaterAmount ) );
-				float2 texCoord1_g81 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.32,0.51 );
-				float simpleNoise7_g81 = SimpleNoise( texCoord1_g81*_WaterScale2 );
-				float4 temp_cast_12 = (simpleNoise7_g81).xxxx;
-				float4 myVarName5_g81 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_12) + _WaterAmount2 ) );
-				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 temp_cast_9 = (simpleNoise7_g82).xxxx;
+				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_9) + _WaterAmount ) );
+				float2 texCoord1_g84 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0.32,0.51 );
+				float simpleNoise7_g84 = SimpleNoise( texCoord1_g84*_WaterScale2 );
+				float4 temp_cast_10 = (simpleNoise7_g84).xxxx;
+				float4 myVarName5_g84 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_10) + _WaterAmount2 ) );
+				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				
 				float3 Normal = lerpResult120.rgb;
 				float Alpha = 1;
@@ -2960,7 +2677,6 @@ Shader "SplatMapExp"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -2979,8 +2695,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -3009,10 +2723,6 @@ Shader "SplatMapExp"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
 			TEXTURE2D(_sand_mine_rock_rubble_basecolor);
 			SAMPLER(sampler_sand_mine_rock_rubble_basecolor);
 			TEXTURE2D(_mold_covered_soil_basecolor);
@@ -3086,27 +2796,6 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
-				
 				o.ase_texcoord8.xy = v.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3116,7 +2805,7 @@ Shader "SplatMapExp"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -3309,66 +2998,55 @@ Shader "SplatMapExp"
 				float2 temp_cast_0 = (_Tile).xx;
 				float2 texCoord12_g65 = IN.ase_texcoord8.xy * temp_cast_0 + float2( 0,0 );
 				float2 temp_cast_1 = (_Tile).xx;
-				float2 texCoord13_g63 = IN.ase_texcoord8.xy * temp_cast_1 + float2( 0,0 );
+				float2 texCoord13_g66 = IN.ase_texcoord8.xy * temp_cast_1 + float2( 0,0 );
 				float2 texCoord1_g64 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
 				float4 temp_cast_2 = (simpleNoise7_g64).xxxx;
 				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_2) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult3_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g63 ) , temp_output_5_0_g66);
+				float4 temp_output_5_0_g69 = myVarName5_g64;
+				float4 lerpResult3_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_basecolor, sampler_sand_mine_rock_rubble_basecolor, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_basecolor, sampler_mold_covered_soil_basecolor, texCoord13_g66 ) , temp_output_5_0_g69);
 				float2 temp_cast_3 = (_Tile).xx;
 				float2 texCoord13_g68 = IN.ase_texcoord8.xy * temp_cast_3 + float2( 0,0 );
-				float4 temp_output_85_0 = SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 );
-				float2 texCoord1_g67 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_4 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult3_g69 = lerp( lerpResult3_g66 , temp_output_85_0 , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_5 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_5;
-				float4 lerpResult3_g70 = lerp( lerpResult3_g69 , temp_output_85_0 , temp_output_5_0_g70);
-				float4 myVarName133 = lerpResult3_g70;
+				float2 texCoord1_g70 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float simpleNoise7_g70 = SimpleNoise( texCoord1_g70*_NoiseScale2 );
+				float4 temp_cast_4 = (simpleNoise7_g70).xxxx;
+				float4 myVarName5_g70 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_4) + _GrassAmount ) );
+				float4 temp_output_5_0_g71 = myVarName5_g70;
+				float4 lerpResult3_g71 = lerp( lerpResult3_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_basecolor, sampler_linear_repeat, texCoord13_g68 ) , temp_output_5_0_g71);
+				float4 myVarName133 = lerpResult3_g71;
 				float2 texCoord1_g82 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float simpleNoise7_g82 = SimpleNoise( texCoord1_g82*_WaterScale );
-				float4 temp_cast_6 = (simpleNoise7_g82).xxxx;
-				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_6) + _WaterAmount ) );
-				float2 texCoord1_g81 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.32,0.51 );
-				float simpleNoise7_g81 = SimpleNoise( texCoord1_g81*_WaterScale2 );
-				float4 temp_cast_7 = (simpleNoise7_g81).xxxx;
-				float4 myVarName5_g81 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_7) + _WaterAmount2 ) );
-				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 temp_cast_5 = (simpleNoise7_g82).xxxx;
+				float4 myVarName5_g82 = saturate( ( CalculateContrast(_WaterContrast,temp_cast_5) + _WaterAmount ) );
+				float2 texCoord1_g84 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.32,0.51 );
+				float simpleNoise7_g84 = SimpleNoise( texCoord1_g84*_WaterScale2 );
+				float4 temp_cast_6 = (simpleNoise7_g84).xxxx;
+				float4 myVarName5_g84 = saturate( ( CalculateContrast(_WaterContrast2,temp_cast_6) + _WaterAmount2 ) );
+				float4 lerpResult118 = lerp( myVarName133 , ( _WaterColor * myVarName133 ) , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				float4 myVarName157 = lerpResult118;
-				float2 texCoord1_g78 = IN.ase_texcoord8.xy * float2( 1,1 ) + _CloudOffset;
-				float simpleNoise7_g78 = SimpleNoise( texCoord1_g78*_CloudScale1 );
-				float4 temp_cast_8 = (simpleNoise7_g78).xxxx;
-				float4 myVarName5_g78 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_8) + _CloudAmount1 ) );
-				float2 texCoord1_g80 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.56,0.88 );
-				float simpleNoise7_g80 = SimpleNoise( texCoord1_g80*_CloudScale2 );
-				float4 temp_cast_9 = (simpleNoise7_g80).xxxx;
-				float4 myVarName5_g80 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_9) + _CloudAmount2 ) );
-				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g78 * myVarName5_g80 ));
+				float2 texCoord1_g83 = IN.ase_texcoord8.xy * float2( 1,1 ) + _CloudOffset;
+				float simpleNoise7_g83 = SimpleNoise( texCoord1_g83*_CloudScale1 );
+				float4 temp_cast_7 = (simpleNoise7_g83).xxxx;
+				float4 myVarName5_g83 = saturate( ( CalculateContrast(_CloudContrast1,temp_cast_7) + _CloudAmount1 ) );
+				float2 texCoord1_g85 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0.56,0.88 );
+				float simpleNoise7_g85 = SimpleNoise( texCoord1_g85*_CloudScale2 );
+				float4 temp_cast_8 = (simpleNoise7_g85).xxxx;
+				float4 myVarName5_g85 = saturate( ( CalculateContrast(_CloudContrast2,temp_cast_8) + _CloudAmount2 ) );
+				float4 lerpResult152 = lerp( myVarName157 , ( _CloudBlackness * myVarName157 ) , ( myVarName5_g83 * myVarName5_g85 ));
 				
-				float4 lerpResult6_g66 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g63 ), 1.0f ) , 0.0 ) , temp_output_5_0_g66);
-				float3 temp_output_85_7 = UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f );
-				float4 lerpResult6_g69 = lerp( lerpResult6_g66 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g69);
-				float4 lerpResult6_g70 = lerp( lerpResult6_g69 , float4( temp_output_85_7 , 0.0 ) , temp_output_5_0_g70);
-				float4 myVarName134 = lerpResult6_g70;
+				float4 lerpResult6_g69 = lerp( float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_normal, sampler_sand_mine_rock_rubble_normal, texCoord12_g65 ), 1.0f ) , 0.0 ) , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _mold_covered_soil_normal, sampler_mold_covered_soil_normal, texCoord13_g66 ), 1.0f ) , 0.0 ) , temp_output_5_0_g69);
+				float4 lerpResult6_g71 = lerp( lerpResult6_g69 , float4( UnpackNormalScale( SAMPLE_TEXTURE2D( _low_grass_soil_normal, sampler_linear_repeat, texCoord13_g68 ), 1.0f ) , 0.0 ) , temp_output_5_0_g71);
+				float4 myVarName134 = lerpResult6_g71;
 				float4 lerpResult122 = lerp( myVarName134 , float4( _WaterNormal , 0.0 ) , _WaterNormalStre);
-				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 lerpResult120 = lerp( myVarName134 , lerpResult122 , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				
-				float4 lerpResult15_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_glossiness, sampler_sand_mine_rock_rubble_glossiness, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_glossiness, sampler_mold_covered_soil_glossiness, texCoord13_g63 ) , float4( 0,0,0,0 ));
-				float4 temp_output_85_9 = SAMPLE_TEXTURE2D( _low_grass_soil_glossiness, sampler_linear_repeat, texCoord13_g68 );
-				float4 lerpResult15_g69 = lerp( lerpResult15_g66 , temp_output_85_9 , float4( 0,0,0,0 ));
-				float4 lerpResult15_g70 = lerp( lerpResult15_g69 , temp_output_85_9 , float4( 0,0,0,0 ));
-				float4 temp_cast_17 = (_WaterSmoothness).xxxx;
-				float4 lerpResult113 = lerp( ( lerpResult15_g70 * _Smoothness ) , temp_cast_17 , saturate( ( myVarName5_g82 * myVarName5_g81 ) ));
+				float4 lerpResult15_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_glossiness, sampler_sand_mine_rock_rubble_glossiness, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_glossiness, sampler_mold_covered_soil_glossiness, texCoord13_g66 ) , float4( 0,0,0,0 ));
+				float4 lerpResult15_g71 = lerp( lerpResult15_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_glossiness, sampler_linear_repeat, texCoord13_g68 ) , float4( 0,0,0,0 ));
+				float4 temp_cast_15 = (_WaterSmoothness).xxxx;
+				float4 lerpResult113 = lerp( ( lerpResult15_g71 * _Smoothness ) , temp_cast_15 , saturate( ( myVarName5_g82 * myVarName5_g84 ) ));
 				
-				float4 lerpResult19_g66 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_ambientocclusion, sampler_sand_mine_rock_rubble_ambientocclusion, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_ambientocclusion, sampler_mold_covered_soil_ambientocclusion, texCoord13_g63 ) , float4( 0,0,0,0 ));
-				float4 temp_output_85_11 = SAMPLE_TEXTURE2D( _low_grass_soil_ambientocclusion, sampler_linear_repeat, texCoord13_g68 );
-				float4 lerpResult19_g69 = lerp( lerpResult19_g66 , temp_output_85_11 , float4( 0,0,0,0 ));
-				float4 lerpResult19_g70 = lerp( lerpResult19_g69 , temp_output_85_11 , float4( 0,0,0,0 ));
+				float4 lerpResult19_g69 = lerp( SAMPLE_TEXTURE2D( _sand_mine_rock_rubble_ambientocclusion, sampler_sand_mine_rock_rubble_ambientocclusion, texCoord12_g65 ) , SAMPLE_TEXTURE2D( _mold_covered_soil_ambientocclusion, sampler_mold_covered_soil_ambientocclusion, texCoord13_g66 ) , float4( 0,0,0,0 ));
+				float4 lerpResult19_g71 = lerp( lerpResult19_g69 , SAMPLE_TEXTURE2D( _low_grass_soil_ambientocclusion, sampler_linear_repeat, texCoord13_g68 ) , float4( 0,0,0,0 ));
 				
 				float3 Albedo = lerpResult152.rgb;
 				float3 Normal = lerpResult120.rgb;
@@ -3376,7 +3054,7 @@ Shader "SplatMapExp"
 				float3 Specular = 0.5;
 				float Metallic = 0.0;
 				float Smoothness = lerpResult113.r;
-				float Occlusion = lerpResult19_g70.r;
+				float Occlusion = lerpResult19_g71.r;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
@@ -3540,7 +3218,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3553,7 +3231,6 @@ Shader "SplatMapExp"
 			};
         
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -3572,8 +3249,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -3592,55 +3267,9 @@ Shader "SplatMapExp"
 			#endif
 			CBUFFER_END
 
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
-
-
-			inline float noise_randomValue (float2 uv) { return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453); }
-			inline float noise_interpolate (float a, float b, float t) { return (1.0-t)*a + (t*b); }
-			inline float valueNoise (float2 uv)
-			{
-				float2 i = floor(uv);
-				float2 f = frac( uv );
-				f = f* f * (3.0 - 2.0 * f);
-				uv = abs( frac(uv) - 0.5);
-				float2 c0 = i + float2( 0.0, 0.0 );
-				float2 c1 = i + float2( 1.0, 0.0 );
-				float2 c2 = i + float2( 0.0, 1.0 );
-				float2 c3 = i + float2( 1.0, 1.0 );
-				float r0 = noise_randomValue( c0 );
-				float r1 = noise_randomValue( c1 );
-				float r2 = noise_randomValue( c2 );
-				float r3 = noise_randomValue( c3 );
-				float bottomOfGrid = noise_interpolate( r0, r1, f.x );
-				float topOfGrid = noise_interpolate( r2, r3, f.x );
-				float t = noise_interpolate( bottomOfGrid, topOfGrid, f.y );
-				return t;
-			}
 			
-			float SimpleNoise(float2 UV)
-			{
-				float t = 0.0;
-				float freq = pow( 2.0, float( 0 ) );
-				float amp = pow( 0.5, float( 3 - 0 ) );
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(1));
-				amp = pow(0.5, float(3-1));
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(2));
-				amp = pow(0.5, float(3-2));
-				t += valueNoise( UV/freq )*amp;
-				return t;
-			}
-			
-			float4 CalculateContrast( float contrastValue, float4 colorTarget )
-			{
-				float t = 0.5 * ( 1.0 - contrastValue );
-				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
-			}
 
+			
 			int _ObjectId;
 			int _PassValue;
 
@@ -3660,33 +3289,13 @@ Shader "SplatMapExp"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -3704,8 +3313,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3722,7 +3330,7 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -3761,7 +3369,7 @@ Shader "SplatMapExp"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3845,7 +3453,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3858,7 +3466,6 @@ Shader "SplatMapExp"
 			};
         
 			CBUFFER_START(UnityPerMaterial)
-			float4 _HeightMap_4096x4096_ST;
 			float4 _WaterColor;
 			float3 _WaterNormal;
 			float2 _CloudOffset;
@@ -3877,8 +3484,6 @@ Shader "SplatMapExp"
 			float _WaterAmount;
 			float _WaterScale;
 			float _WaterContrast;
-			float _BaseDis;
-			float _Dis;
 			float _GrassAmount;
 			float _NoiseScale2;
 			float _NoiseContrast2;
@@ -3897,55 +3502,9 @@ Shader "SplatMapExp"
 			#endif
 			CBUFFER_END
 
-			TEXTURE2D(_sand_mine_rock_rubble_height);
-			SAMPLER(sampler_sand_mine_rock_rubble_height);
-			TEXTURE2D(_HeightMap_4096x4096);
-			SAMPLER(sampler_HeightMap_4096x4096);
-
-
-			inline float noise_randomValue (float2 uv) { return frac(sin(dot(uv, float2(12.9898, 78.233)))*43758.5453); }
-			inline float noise_interpolate (float a, float b, float t) { return (1.0-t)*a + (t*b); }
-			inline float valueNoise (float2 uv)
-			{
-				float2 i = floor(uv);
-				float2 f = frac( uv );
-				f = f* f * (3.0 - 2.0 * f);
-				uv = abs( frac(uv) - 0.5);
-				float2 c0 = i + float2( 0.0, 0.0 );
-				float2 c1 = i + float2( 1.0, 0.0 );
-				float2 c2 = i + float2( 0.0, 1.0 );
-				float2 c3 = i + float2( 1.0, 1.0 );
-				float r0 = noise_randomValue( c0 );
-				float r1 = noise_randomValue( c1 );
-				float r2 = noise_randomValue( c2 );
-				float r3 = noise_randomValue( c3 );
-				float bottomOfGrid = noise_interpolate( r0, r1, f.x );
-				float topOfGrid = noise_interpolate( r2, r3, f.x );
-				float t = noise_interpolate( bottomOfGrid, topOfGrid, f.y );
-				return t;
-			}
 			
-			float SimpleNoise(float2 UV)
-			{
-				float t = 0.0;
-				float freq = pow( 2.0, float( 0 ) );
-				float amp = pow( 0.5, float( 3 - 0 ) );
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(1));
-				amp = pow(0.5, float(3-1));
-				t += valueNoise( UV/freq )*amp;
-				freq = pow(2.0, float(2));
-				amp = pow(0.5, float(3-2));
-				t += valueNoise( UV/freq )*amp;
-				return t;
-			}
-			
-			float4 CalculateContrast( float contrastValue, float4 colorTarget )
-			{
-				float t = 0.5 * ( 1.0 - contrastValue );
-				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
-			}
 
+			
         
 			float4 _SelectionID;
 
@@ -3966,33 +3525,13 @@ Shader "SplatMapExp"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 
-				float2 temp_cast_0 = (_Tile).xx;
-				float2 texCoord12_g65 = v.ase_texcoord.xy * temp_cast_0 + float2( 0,0 );
-				float2 texCoord1_g64 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g64 = SimpleNoise( texCoord1_g64*_NoiseScale );
-				float4 temp_cast_1 = (simpleNoise7_g64).xxxx;
-				float4 myVarName5_g64 = saturate( ( CalculateContrast(_NoiseContrast,temp_cast_1) + _MoldAmount ) );
-				float4 temp_output_5_0_g66 = myVarName5_g64;
-				float4 lerpResult13_g66 = lerp( SAMPLE_TEXTURE2D_LOD( _sand_mine_rock_rubble_height, sampler_sand_mine_rock_rubble_height, texCoord12_g65, 0.0 ) , float4( 0,0,0,0 ) , temp_output_5_0_g66);
-				float2 texCoord1_g67 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float simpleNoise7_g67 = SimpleNoise( texCoord1_g67*_NoiseScale2 );
-				float4 temp_cast_2 = (simpleNoise7_g67).xxxx;
-				float4 myVarName5_g67 = saturate( ( CalculateContrast(_NoiseContrast2,temp_cast_2) + _GrassAmount ) );
-				float4 temp_output_5_0_g69 = myVarName5_g67;
-				float4 lerpResult13_g69 = lerp( lerpResult13_g66 , float4( 0,0,0,0 ) , temp_output_5_0_g69);
-				float4 color166 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 temp_cast_3 = (color166.r).xxxx;
-				float4 temp_output_5_0_g70 = temp_cast_3;
-				float4 lerpResult13_g70 = lerp( lerpResult13_g69 , float4( 0,0,0,0 ) , temp_output_5_0_g70);
-				float2 uv_HeightMap_4096x4096 = v.ase_texcoord.xy * _HeightMap_4096x4096_ST.xy + _HeightMap_4096x4096_ST.zw;
-				float4 appendResult66 = (float4(0.0 , ( ( lerpResult13_g70 * _Dis ) + ( SAMPLE_TEXTURE2D_LOD( _HeightMap_4096x4096, sampler_HeightMap_4096x4096, uv_HeightMap_4096x4096, 0.0 ) * _BaseDis ) ).g , 0.0 , 0.0));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = appendResult66.xyz;
+				float3 vertexValue = defaultVertexValue;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -4010,8 +3549,7 @@ Shader "SplatMapExp"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4028,7 +3566,7 @@ Shader "SplatMapExp"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
+				
 				return o;
 			}
 
@@ -4067,7 +3605,7 @@ Shader "SplatMapExp"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4118,90 +3656,97 @@ Shader "SplatMapExp"
 }
 /*ASEBEGIN
 Version=18935
-0;73;1920;920;3429.34;1730.779;1.3;False;False
-Node;AmplifyShaderEditor.CommentaryNode;137;-4896.72,-1255.902;Inherit;False;1135.081;831.7428;Comment;7;70;80;68;26;25;29;124;Rock;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;138;-3463.701,-1319.905;Inherit;False;1856.07;963.5167;Comment;8;125;95;94;91;100;85;73;86;Grass;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-4845.9,-1106.511;Inherit;False;Property;_NoiseContrast;NoiseContrast;43;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;29;-4804.823,-1012.372;Inherit;False;Property;_MoldAmount;MoldAmount;44;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;25;-4846.72,-1205.903;Inherit;False;Property;_NoiseScale;NoiseScale;42;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;71;-4781.37,-302.6189;Inherit;False;Property;_Tile;Tile;15;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;124;-4608.063,-1152.412;Inherit;False;PerlinNoise;-1;;64;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;70;-4544.259,-955.1669;Inherit;True;Rock;0;;65;bb38d7e22f4ff6c45a54cc5cb307f1ef;0;1;14;FLOAT;1;False;6;COLOR;0;FLOAT3;3;COLOR;4;COLOR;7;COLOR;10;COLOR;8
-Node;AmplifyShaderEditor.RangedFloatNode;91;-3278.206,-1269.905;Inherit;False;Property;_NoiseScale2;NoiseScale2;45;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;80;-4528.092,-678.1597;Inherit;True;Moil;8;;63;5435a441e006ec34a9489f10ad6f171a;0;1;14;FLOAT;1;False;6;COLOR;0;FLOAT3;7;COLOR;9;COLOR;10;COLOR;11;COLOR;12
-Node;AmplifyShaderEditor.RangedFloatNode;94;-3304.321,-1189.426;Inherit;False;Property;_NoiseContrast2;NoiseContrast2;46;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerStateNode;86;-3364.257,-490.9077;Inherit;False;0;0;0;1;-1;None;1;0;SAMPLER2D;;False;1;SAMPLERSTATE;0
-Node;AmplifyShaderEditor.RangedFloatNode;95;-3299.579,-1097.021;Inherit;False;Property;_GrassAmount;GrassAmount;47;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;85;-2961.61,-681.2629;Inherit;True;Grass2;16;;68;60e315f241ae305408273af25b8ab725;0;2;14;FLOAT;1;False;16;SAMPLERSTATE;1;False;6;COLOR;0;FLOAT3;7;COLOR;9;COLOR;10;COLOR;11;COLOR;12
-Node;AmplifyShaderEditor.FunctionNode;68;-4109.64,-1016.303;Inherit;False;BlendPBR;-1;;66;99218621416599d4a97c1f8590d3f9e1;0;11;5;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;11;COLOR;0,0,0,0;False;16;COLOR;0,0,0,0;False;21;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;12;COLOR;0,0,0,0;False;17;COLOR;0,0,0,0;False;20;COLOR;0,0,0,0;False;5;COLOR;0;COLOR;10;COLOR;14;COLOR;18;COLOR;22
-Node;AmplifyShaderEditor.FunctionNode;125;-3036.302,-1254.141;Inherit;False;PerlinNoise;-1;;67;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;100;-2530.895,-1045.713;Inherit;False;BlendPBR;-1;;69;99218621416599d4a97c1f8590d3f9e1;0;11;5;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;11;COLOR;0,0,0,0;False;16;COLOR;0,0,0,0;False;21;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;12;COLOR;0,0,0,0;False;17;COLOR;0,0,0,0;False;20;COLOR;0,0,0,0;False;5;COLOR;0;COLOR;10;COLOR;14;COLOR;18;COLOR;22
-Node;AmplifyShaderEditor.CommentaryNode;136;1808.486,-192.6137;Inherit;False;1194.838;723.5645;Comment;8;90;35;87;36;89;88;65;66;Displacement;1,1,1,1;0;0
-Node;AmplifyShaderEditor.ColorNode;166;-2597.34,-1477.279;Inherit;False;Constant;_Color0;Color 0;33;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;73;-1952.505,-1052.987;Inherit;False;BlendPBR;-1;;70;99218621416599d4a97c1f8590d3f9e1;0;11;5;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;11;COLOR;0,0,0,0;False;16;COLOR;0,0,0,0;False;21;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;12;COLOR;0,0,0,0;False;17;COLOR;0,0,0,0;False;20;COLOR;0,0,0,0;False;5;COLOR;0;COLOR;10;COLOR;14;COLOR;18;COLOR;22
-Node;AmplifyShaderEditor.RangedFloatNode;90;2192.912,271.9513;Inherit;True;Property;_BaseDis;BaseDis;50;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;35;1902.571,31.62371;Inherit;True;Property;_Dis;Dis;49;0;Create;True;0;0;0;False;0;False;1;0;0;0.1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;87;1858.485,259.5439;Inherit;True;Property;_HeightMap_4096x4096;Height Map_4096x4096;7;0;Create;True;0;0;0;False;0;False;-1;cebe952eef586474098a8f031dca058f;cebe952eef586474098a8f031dca058f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;2270.934,113.6752;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;2225.18,-56.26447;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;88;2444.669,-93.94559;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;65;2674.827,-105.3927;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+0;73;1920;920;-66.75061;2847.55;2.88896;False;False
+Node;AmplifyShaderEditor.CommentaryNode;137;-2269.604,-1729.522;Inherit;False;1135.081;831.7428;Comment;7;70;80;68;26;25;29;124;Rock;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;138;-836.5872,-1793.525;Inherit;False;1646.542;977.1816;Comment;7;100;125;85;95;86;94;91;Grass;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;129;1222.863,-2708.56;Inherit;False;2163.648;1789.734;Comment;24;126;118;134;123;104;113;122;121;120;106;115;127;103;108;102;133;117;119;145;141;142;143;144;147;Water;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;159;4079.459,-2866.306;Inherit;False;2058.817;1230.726;Comment;13;148;152;154;158;153;150;149;151;157;163;164;160;165;CloudShadow;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;115;2655.576,-1125.623;Inherit;False;Property;_WaterSmoothness;WaterSmoothness;35;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;103;2095.681,-1095.788;Inherit;False;Property;_Smoothness;Smoothness;48;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;119;2148.709,-2005.396;Inherit;False;Property;_WaterColor;WaterColor;32;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;118;3009.747,-2057.44;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;75;-3257.98,-1749.729;Inherit;True;Property;_SplatMap_0;Splat Map_0;23;0;Create;True;0;0;0;False;0;False;-1;2eba78d9343c9d7448e1a4376ce55c87;2eba78d9343c9d7448e1a4376ce55c87;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.DynamicAppendNode;66;2842.324,-142.6137;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.WireNode;127;2827.374,-2145.56;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;134;1969.004,-1724.55;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;106;1285.227,-2560.725;Inherit;False;Property;_WaterContrast;WaterContrast;38;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.WireNode;158;4680.47,-1806.377;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;144;1723.689,-2238.096;Inherit;False;Property;_WaterAmount2;WaterAmount2;40;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;117;2491.206,-1952.42;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;145;2263.333,-2600.496;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;5067.3,-2449.176;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;163;4234.896,-2405.558;Inherit;False;Property;_CloudScale2;CloudScale2;29;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;123;2044.33,-1408.328;Inherit;False;Property;_WaterNormalStre;WaterNormalStre;33;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;122;2545.385,-1652.989;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;126;1655.842,-2608.152;Inherit;False;PerlinNoise;-1;;82;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;120;2993.991,-1680.597;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;104;1272.863,-2658.56;Inherit;False;Property;_WaterScale;WaterScale;36;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;2381.402,-1173.384;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;151;4685.758,-2592.911;Inherit;False;PerlinNoise;-1;;78;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.21,0.62;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SaturateNode;147;2738.871,-2444.913;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;148;4140.397,-2693.318;Inherit;False;Property;_CloudScale1;CloudScale1;26;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;121;2146.544,-1574.049;Inherit;False;Property;_WaterNormal;WaterNormal;34;0;Create;True;0;0;0;False;0;False;0,1,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;108;1342.713,-2466.502;Inherit;False;Property;_WaterAmount;WaterAmount;37;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;113;2994.446,-1249.428;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;78;-2918.536,-1688.249;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;101;6246.301,-1409.07;Inherit;False;Constant;_Metallic;Metallic;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;153;5106.505,-1903.905;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;142;1653.839,-2430.154;Inherit;False;Property;_WaterScale2;WaterScale2;39;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;133;1668.7,-2091.281;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;157;4421.146,-2058.045;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;141;1948.818,-2392.746;Inherit;False;PerlinNoise;-1;;81;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.32,0.51;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;149;4152.761,-2595.484;Inherit;False;Property;_CloudContrast1;CloudContrast1;27;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;150;4208.861,-2501.262;Inherit;False;Property;_CloudAmount1;CloudAmount1;28;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;160;4673.668,-2379.902;Inherit;False;PerlinNoise;-1;;80;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.56,0.88;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.Vector2Node;165;4466.592,-2755.298;Inherit;False;Property;_CloudOffset;CloudOffset;25;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;143;1666.203,-2332.319;Inherit;False;Property;_WaterContrast2;WaterContrast2;41;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;154;4738.505,-1929.905;Inherit;False;Property;_CloudBlackness;CloudBlackness;24;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;141;1948.818,-2392.746;Inherit;False;PerlinNoise;-1;;84;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.32,0.51;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;101;6321.301,-1375.07;Inherit;False;Constant;_Metallic;Metallic;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;150;4208.861,-2501.262;Inherit;False;Property;_CloudAmount1;CloudAmount1;26;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;160;4673.668,-2379.902;Inherit;False;PerlinNoise;-1;;85;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.56,0.88;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.Vector2Node;165;4466.592,-2755.298;Inherit;False;Property;_CloudOffset;CloudOffset;23;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;143;1666.203,-2332.319;Inherit;False;Property;_WaterContrast2;WaterContrast2;39;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;154;4738.505,-1929.905;Inherit;False;Property;_CloudBlackness;CloudBlackness;22;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;152;5426.342,-2086.891;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;162;4304.745,-2213.502;Inherit;False;Property;_CloudAmount2;CloudAmount2;31;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;79;-2292.089,-1724.193;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;161;4247.26,-2307.724;Inherit;False;Property;_CloudContrast2;CloudContrast2;30;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;162;4304.745,-2213.502;Inherit;False;Property;_CloudAmount2;CloudAmount2;29;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;161;4247.26,-2307.724;Inherit;False;Property;_CloudContrast2;CloudContrast2;28;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;100;302.8342,-1505.456;Inherit;False;BlendPBR;-1;;71;99218621416599d4a97c1f8590d3f9e1;0;11;5;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;11;COLOR;0,0,0,0;False;16;COLOR;0,0,0,0;False;21;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;12;COLOR;0,0,0,0;False;17;COLOR;0,0,0,0;False;20;COLOR;0,0,0,0;False;5;COLOR;0;COLOR;10;COLOR;14;COLOR;18;COLOR;22
+Node;AmplifyShaderEditor.RangedFloatNode;26;-2218.784,-1580.131;Inherit;False;Property;_NoiseContrast;NoiseContrast;41;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;25;-2219.604,-1679.523;Inherit;False;Property;_NoiseScale;NoiseScale;40;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;157;4421.146,-2058.045;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;124;-1980.948,-1626.032;Inherit;False;PerlinNoise;-1;;64;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;70;-1917.145,-1428.787;Inherit;True;Rock;0;;65;bb38d7e22f4ff6c45a54cc5cb307f1ef;0;1;14;FLOAT;1;False;6;COLOR;0;FLOAT3;3;COLOR;4;COLOR;7;COLOR;10;COLOR;8
+Node;AmplifyShaderEditor.RangedFloatNode;91;-651.0917,-1743.525;Inherit;False;Property;_NoiseScale2;NoiseScale2;43;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;80;-1900.978,-1151.779;Inherit;True;Moil;7;;66;5435a441e006ec34a9489f10ad6f171a;0;1;14;FLOAT;1;False;6;COLOR;0;FLOAT3;7;COLOR;9;COLOR;10;COLOR;11;COLOR;12
+Node;AmplifyShaderEditor.RangedFloatNode;94;-677.2067,-1663.046;Inherit;False;Property;_NoiseContrast2;NoiseContrast2;44;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerStateNode;86;-737.1428,-964.5281;Inherit;False;0;0;0;1;-1;None;1;0;SAMPLER2D;;False;1;SAMPLERSTATE;0
+Node;AmplifyShaderEditor.RangedFloatNode;95;-672.4647,-1570.641;Inherit;False;Property;_GrassAmount;GrassAmount;45;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;85;-334.4954,-1154.883;Inherit;True;Grass2;15;;68;60e315f241ae305408273af25b8ab725;0;2;14;FLOAT;1;False;16;SAMPLERSTATE;1;False;6;COLOR;0;FLOAT3;7;COLOR;9;COLOR;10;COLOR;11;COLOR;12
+Node;AmplifyShaderEditor.FunctionNode;68;-1482.528,-1489.923;Inherit;False;BlendPBR;-1;;69;99218621416599d4a97c1f8590d3f9e1;0;11;5;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;11;COLOR;0,0,0,0;False;16;COLOR;0,0,0,0;False;21;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;12;COLOR;0,0,0,0;False;17;COLOR;0,0,0,0;False;20;COLOR;0,0,0,0;False;5;COLOR;0;COLOR;10;COLOR;14;COLOR;18;COLOR;22
+Node;AmplifyShaderEditor.FunctionNode;125;-409.1875,-1727.761;Inherit;False;PerlinNoise;-1;;70;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;71;-2154.254,-776.2396;Inherit;False;Property;_Tile;Tile;14;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;29;-2177.707,-1485.992;Inherit;False;Property;_MoldAmount;MoldAmount;42;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;133;1668.7,-2091.281;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;149;4152.761,-2595.484;Inherit;False;Property;_CloudContrast1;CloudContrast1;25;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;153;5106.505,-1903.905;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;123;2044.33,-1408.328;Inherit;False;Property;_WaterNormalStre;WaterNormalStre;31;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;163;4234.896,-2405.558;Inherit;False;Property;_CloudScale2;CloudScale2;27;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;5067.3,-2449.176;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;145;2263.333,-2600.496;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;117;2491.206,-1952.42;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;144;1723.689,-2238.096;Inherit;False;Property;_WaterAmount2;WaterAmount2;38;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;122;2545.385,-1652.989;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.WireNode;158;4680.47,-1806.377;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;134;1969.004,-1724.55;Inherit;False;myVarName;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.WireNode;127;2827.374,-2145.56;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;118;3009.747,-2057.44;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;119;2148.709,-2005.396;Inherit;False;Property;_WaterColor;WaterColor;30;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;103;2095.681,-1095.788;Inherit;False;Property;_Smoothness;Smoothness;46;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;115;2655.576,-1125.623;Inherit;False;Property;_WaterSmoothness;WaterSmoothness;33;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;106;1285.227,-2560.725;Inherit;False;Property;_WaterContrast;WaterContrast;36;0;Create;True;0;0;0;False;0;False;1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;142;1653.839,-2430.154;Inherit;False;Property;_WaterScale2;WaterScale2;37;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;167;1175.453,-676.8354;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;120;2993.991,-1680.597;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;113;2994.446,-1249.428;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;108;1342.713,-2466.502;Inherit;False;Property;_WaterAmount;WaterAmount;35;0;Create;True;0;0;0;False;0;False;0;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector3Node;121;2146.544,-1574.049;Inherit;False;Property;_WaterNormal;WaterNormal;32;0;Create;True;0;0;0;False;0;False;0,1,0;0,1,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.RangedFloatNode;148;4140.397,-2693.318;Inherit;False;Property;_CloudScale1;CloudScale1;24;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;147;2738.871,-2444.913;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;151;4685.758,-2592.911;Inherit;False;PerlinNoise;-1;;83;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0.21,0.62;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;2381.402,-1173.384;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;126;1655.842,-2608.152;Inherit;False;PerlinNoise;-1;;82;b8feecc88e264ae47bc9246aed52dd7e;0;4;16;FLOAT2;0,0;False;11;FLOAT;20;False;12;FLOAT;1;False;13;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;104;1272.863,-2658.56;Inherit;False;Property;_WaterScale;WaterScale;34;0;Create;True;0;0;0;False;0;False;26.1;25.84;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;603.1404,-1061.067;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;6740.419,-1445.282;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;SplatMapExp;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;40;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;638223719071287951;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;1;638212422727882729;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;True;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+WireConnection;141;11;142;0
+WireConnection;141;12;143;0
+WireConnection;141;13;144;0
+WireConnection;160;11;163;0
+WireConnection;160;12;161;0
+WireConnection;160;13;162;0
+WireConnection;152;0;157;0
+WireConnection;152;1;153;0
+WireConnection;152;2;164;0
+WireConnection;100;5;125;0
+WireConnection;100;2;68;0
+WireConnection;100;7;68;10
+WireConnection;100;11;68;14
+WireConnection;100;16;68;18
+WireConnection;100;21;68;22
+WireConnection;100;4;85;0
+WireConnection;100;8;85;7
+WireConnection;100;17;85;9
+WireConnection;100;20;85;11
+WireConnection;157;0;118;0
 WireConnection;124;11;25;0
 WireConnection;124;12;26;0
 WireConnection;124;13;29;0
@@ -4222,86 +3767,45 @@ WireConnection;68;20;80;11
 WireConnection;125;11;91;0
 WireConnection;125;12;94;0
 WireConnection;125;13;95;0
-WireConnection;100;5;125;0
-WireConnection;100;2;68;0
-WireConnection;100;7;68;10
-WireConnection;100;11;68;14
-WireConnection;100;16;68;18
-WireConnection;100;21;68;22
-WireConnection;100;4;85;0
-WireConnection;100;8;85;7
-WireConnection;100;17;85;9
-WireConnection;100;20;85;11
-WireConnection;73;5;166;1
-WireConnection;73;2;100;0
-WireConnection;73;7;100;10
-WireConnection;73;11;100;14
-WireConnection;73;16;100;18
-WireConnection;73;21;100;22
-WireConnection;73;4;85;0
-WireConnection;73;8;85;7
-WireConnection;73;17;85;9
-WireConnection;73;20;85;11
-WireConnection;89;0;87;0
-WireConnection;89;1;90;0
-WireConnection;36;0;73;14
-WireConnection;36;1;35;0
-WireConnection;88;0;36;0
-WireConnection;88;1;89;0
-WireConnection;65;0;88;0
-WireConnection;118;0;133;0
-WireConnection;118;1;117;0
-WireConnection;118;2;127;0
-WireConnection;66;1;65;1
-WireConnection;127;0;147;0
-WireConnection;134;0;73;10
-WireConnection;158;0;157;0
-WireConnection;117;0;119;0
-WireConnection;117;1;133;0
-WireConnection;145;0;126;0
-WireConnection;145;1;141;0
+WireConnection;133;0;100;0
+WireConnection;153;0;154;0
+WireConnection;153;1;158;0
 WireConnection;164;0;151;0
 WireConnection;164;1;160;0
+WireConnection;145;0;126;0
+WireConnection;145;1;141;0
+WireConnection;117;0;119;0
+WireConnection;117;1;133;0
 WireConnection;122;0;134;0
 WireConnection;122;1;121;0
 WireConnection;122;2;123;0
-WireConnection;126;11;104;0
-WireConnection;126;12;106;0
-WireConnection;126;13;108;0
+WireConnection;158;0;157;0
+WireConnection;134;0;100;10
+WireConnection;127;0;147;0
+WireConnection;118;0;133;0
+WireConnection;118;1;117;0
+WireConnection;118;2;127;0
+WireConnection;167;0;100;22
 WireConnection;120;0;134;0
 WireConnection;120;1;122;0
 WireConnection;120;2;127;0
-WireConnection;102;0;73;18
-WireConnection;102;1;103;0
+WireConnection;113;0;102;0
+WireConnection;113;1;115;0
+WireConnection;113;2;127;0
+WireConnection;147;0;145;0
 WireConnection;151;16;165;0
 WireConnection;151;11;148;0
 WireConnection;151;12;149;0
 WireConnection;151;13;150;0
-WireConnection;147;0;145;0
-WireConnection;113;0;102;0
-WireConnection;113;1;115;0
-WireConnection;113;2;127;0
-WireConnection;78;0;75;2
-WireConnection;78;1;75;3
-WireConnection;153;0;154;0
-WireConnection;153;1;158;0
-WireConnection;133;0;73;0
-WireConnection;157;0;118;0
-WireConnection;141;11;142;0
-WireConnection;141;12;143;0
-WireConnection;141;13;144;0
-WireConnection;160;11;163;0
-WireConnection;160;12;161;0
-WireConnection;160;13;162;0
-WireConnection;152;0;157;0
-WireConnection;152;1;153;0
-WireConnection;152;2;164;0
-WireConnection;79;0;78;0
+WireConnection;102;0;100;18
+WireConnection;102;1;103;0
+WireConnection;126;11;104;0
+WireConnection;126;12;106;0
+WireConnection;126;13;108;0
 WireConnection;1;0;152;0
 WireConnection;1;1;120;0
 WireConnection;1;3;101;0
 WireConnection;1;4;113;0
-WireConnection;1;5;73;22
-WireConnection;1;8;66;0
+WireConnection;1;5;167;0
 ASEEND*/
-//CHKSM=A4B17C7609402F7B3BDE852981B739A9A6CAE697
+//CHKSM=D1F91480C7C62EE1C67E02FEE9827B15CA1D789F

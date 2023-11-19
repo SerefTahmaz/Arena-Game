@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DemoBlast.Utils;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class cCrowdSpawner : MonoBehaviour
 {
@@ -15,19 +18,17 @@ public class cCrowdSpawner : MonoBehaviour
     [SerializeField] private float m_BendOffset;
     [SerializeField] private Vector3 m_Offset;
     [Range(0, 1)] [SerializeField] private float m_Random;
-
     [SerializeField] private List<GameObject> m_Model;
-
     [SerializeField] private bool m_Spawn;
 
-
+#if UNITY_EDITOR
     private void OnValidate()
     {
         if (m_Spawn)
         {
             foreach (var VARIABLE in transform.gameObject.GetChilds())
             {
-                UnityEditor.EditorApplication.delayCall += () => { DestroyImmediate(VARIABLE.gameObject); };
+                EditorApplication.delayCall += () => { DestroyImmediate(VARIABLE.gameObject); };
             }
 
             int widthCount = (int)((m_Max.x / m_Interavals.x) / 2);
@@ -60,4 +61,6 @@ public class cCrowdSpawner : MonoBehaviour
             }
         }
     }
+#endif
+    
 }

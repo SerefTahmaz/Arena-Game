@@ -97,7 +97,18 @@ namespace FiniteStateMachine
         
         public void OnChargeRight()
         {
-            m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeRight, resetable: true);
+            if (m_IsLeftSwordDrawn && m_IsRightSwordDrawn)
+            {
+                OnChargeBoth();
+            }
+            else if (m_IsRightSwordDrawn)
+            {
+                m_PlayerStateMachine.AnimationController.SetTrigger(AnimationController.AnimationState.ChargeRight, resetable: true);
+            }
+            else if (m_IsLeftSwordDrawn)
+            {
+                OnChargeLeft();
+            }
         }
 
         public void SwitchLeftSword()
