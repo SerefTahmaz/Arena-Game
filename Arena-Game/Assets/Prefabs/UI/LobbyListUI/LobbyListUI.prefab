@@ -1166,6 +1166,9 @@ MonoBehaviour:
     type: 3}
   m_LayoutTransform: {fileID: 3535704280775823297}
   m_View: {fileID: 8064556893438286366}
+  m_OnJoined:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9121760867015794343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,7 +1321,7 @@ PrefabInstance:
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
@@ -1328,7 +1331,7 @@ PrefabInstance:
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
@@ -1378,12 +1381,12 @@ PrefabInstance:
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 44.85655
       objectReference: {fileID: 0}
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -41.47195
       objectReference: {fileID: 0}
     - target: {fileID: 2894449197090889417, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
@@ -1403,22 +1406,27 @@ PrefabInstance:
     - target: {fileID: 4761799715254391200, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4761799715254391200, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4761799715254391200, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -6.7691956
       objectReference: {fileID: 0}
     - target: {fileID: 7238800061751976018, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_Name
       value: CreateLobbyButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238800061751976018, guid: 64f5572ea6146204ba02592e05f4467a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

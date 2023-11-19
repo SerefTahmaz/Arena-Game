@@ -86,7 +86,7 @@ namespace FiniteStateMachine
             if(CurrentState == m_Death) return;
             
             base.OnDamage(damageWrapper);
-            TrollCharacter.HealthManager.OnDamage(10);
+            TrollCharacter.HealthManager.OnDamage(damageWrapper.amount);
             m_LastDamager = damageWrapper;
             TrollCharacter.CharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
             TrollCharacter.AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Damage);

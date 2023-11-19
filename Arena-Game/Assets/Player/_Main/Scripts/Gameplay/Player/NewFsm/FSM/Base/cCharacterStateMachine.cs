@@ -7,7 +7,9 @@ public abstract class cCharacterStateMachine:cStateMachine
     private Transform m_CurrentTarget;
     public Transform Target()
     {
-        if (m_CurrentTarget!= null&&m_enemies.Contains(m_CurrentTarget) && Random.value>.05f)
+        if (m_enemies.Count <= 0) return null;
+        
+        if (m_CurrentTarget != null && m_enemies.Contains(m_CurrentTarget) && Random.value>.05f)
         {
             return m_CurrentTarget;
         }

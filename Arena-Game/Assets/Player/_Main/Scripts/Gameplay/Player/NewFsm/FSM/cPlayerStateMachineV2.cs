@@ -113,7 +113,7 @@ public class cPlayerStateMachineV2 : cStateMachine
             if(CurrentState == Dead) return;
             
             base.OnDamage(damageWrapper);
-            Character.HealthManager.OnDamage(10);
+            Character.HealthManager.OnDamage(damageWrapper.amount);
             m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 

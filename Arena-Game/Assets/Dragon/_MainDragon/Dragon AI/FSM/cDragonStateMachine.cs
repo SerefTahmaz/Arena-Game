@@ -125,7 +125,7 @@ namespace FiniteStateMachine
         {
             if(m_DragonCharacter.CharacterNetworkController.IsOwner == false) return;
             base.OnDamage(damageWrapper);
-            m_DragonCharacter.HealthManager.OnDamage(10);
+            m_DragonCharacter.HealthManager.OnDamage(damageWrapper.amount);
         }
 
         // private void OnTriggerEnter(Collider other)

@@ -35,13 +35,13 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
             ins.Init(levelSO, index+1);
             ins.m_OnClick += OnSelect;
             m_LevelSelectUnits.Add(ins);
-            if (currentLevel < index)
+            if (m_CurrentIndex < index)
             {
                 ins.SetLock(true);
             }
         }
 
-        m_SelectedLevelUnit = m_LevelSelectUnits[currentLevel % m_LevelSelectUnits.Count];
+        m_SelectedLevelUnit = m_LevelSelectUnits[m_CurrentIndex % m_LevelSelectUnits.Count];
         m_SelectedLevelUnit.SetSelected(true);
     }
 

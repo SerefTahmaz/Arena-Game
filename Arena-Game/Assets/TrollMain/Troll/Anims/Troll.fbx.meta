@@ -1,9 +1,74 @@
 fileFormatVersion: 2
 guid: 9786b1379f7eb594ba838fbbed224434
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MorningStar
+    second: {fileID: 2100000, guid: 6d1b6431b95fced48be65f2f57d14cec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TrollArmor
+    second: {fileID: 2100000, guid: 2094ae1d65ec8f049a8a65cbfb0e5432, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TrollBody
+    second: {fileID: 2100000, guid: e0b16dfd6da6e7a408d16673c0e19071, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MorningStar_low_MorningStar_AlbedoTransparency
+    second: {fileID: 2800000, guid: b25e16f7cb992434cb151b240637e33c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MorningStar_low_MorningStar_Normal
+    second: {fileID: 2800000, guid: eeb22245547c8cf438305d4dced09682, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pant_low.003_metallic
+    second: {fileID: 2800000, guid: 40cd05871f156d04f8b4d8dd237d8bb1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pant_low.003_roughness
+    second: {fileID: 2800000, guid: 158f85302ad42fc49b7ce7a24f9bc1f3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ShoulderArmor_low.001_color
+    second: {fileID: 2800000, guid: a67e6043361f62d4e8bcc464272ea459, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ShoulderArmor_low.001_normal
+    second: {fileID: 2800000, guid: 30aa3164c83cfee4796a809e7f19316e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mainmesh_low2_color
+    second: {fileID: 2800000, guid: c2f8702d0306acd4cb7c69bc730b87f8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mainmesh_low2_normal
+    second: {fileID: 2800000, guid: 44669eeaef5a5aa4aaac28013acd11ec, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mainmesh_low_metallic
+    second: {fileID: 2800000, guid: 259e55d31acaa824c85ada7e7596d831, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mainmesh_low_roughness
+    second: {fileID: 2800000, guid: 4ac7b0289f3718c4aa4c093e9fd64a59, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -40,6 +105,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -67,6 +133,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -189,7 +256,8 @@ ModelImporter:
     - name: c_eye.l
       parentName: c_eye_offset.l
       position: {x: -0.000000014305114, y: -0.000000007152557, z: 0.00000005483627}
-      rotation: {x: -0.00000005774198, y: -0.00000007450578, z: -0.00000010430809, w: 1}
+      rotation: {x: -0.00000005774198, y: -0.00000007450578, z: -0.00000010430809,
+        w: 1}
       scale: {x: 1.0000018, y: 1.0000012, z: 1.0000005}
     - name: c_eye_ref_track.l
       parentName: c_eye_offset.l
@@ -254,7 +322,8 @@ ModelImporter:
     - name: c_eye.r
       parentName: c_eye_offset.r
       position: {x: 0.000000023841856, y: 0.0000000047683715, z: 0.000000077486035}
-      rotation: {x: 0.00000003539024, y: -0.000000089406925, z: -0.00000020861616, w: 1}
+      rotation: {x: 0.00000003539024, y: -0.000000089406925, z: -0.00000020861616,
+        w: 1}
       scale: {x: 0.9999998, y: 1, z: 1.0000001}
     - name: c_eye_ref_track.r
       parentName: c_eye_offset.r
@@ -509,7 +578,8 @@ ModelImporter:
     - name: arm_twist.l
       parentName: arm_stretch.l
       position: {x: -0.000000014305114, y: -0.000000006556511, z: -0.000000019073486}
-      rotation: {x: 0.000000029802315, y: -0.00000014901158, z: 0.000000044703473, w: 1}
+      rotation: {x: 0.000000029802315, y: -0.00000014901158, z: 0.000000044703473,
+        w: 1}
       scale: {x: 1.0000018, y: 1.0000018, z: 1.0000007}
     - name: forearm_stretch.l
       parentName: arm_stretch.l
@@ -614,7 +684,8 @@ ModelImporter:
     - name: arm_twist.r
       parentName: arm_stretch.r
       position: {x: 0.0000000047683715, y: -0.000000034570693, z: 0.000000038146972}
-      rotation: {x: -0.00000008940694, y: 0.000000029802312, z: -0.00000007450578, w: 1}
+      rotation: {x: -0.00000008940694, y: 0.000000029802312, z: -0.00000007450578,
+        w: 1}
       scale: {x: 1.0000001, y: 0.9999996, z: 1.0000001}
     - name: forearm_stretch.r
       parentName: arm_stretch.r
@@ -764,12 +835,14 @@ ModelImporter:
     - name: leg_twist.r
       parentName: leg_stretch.r
       position: {x: -0.0000000062584875, y: 0.07635681, z: -0.000000008018687}
-      rotation: {x: -0.00000007948572, y: -0.00000017428663, z: -0.000000014902003, w: 1}
+      rotation: {x: -0.00000007948572, y: -0.00000017428663, z: -0.000000014902003,
+        w: 1}
       scale: {x: 1.0000007, y: 1.0000019, z: 1.0000013}
     - name: thigh_twist.r
       parentName: thigh_stretch.r
       position: {x: 0.000000004470348, y: 0.00000006943941, z: 0.0000000052154063}
-      rotation: {x: 0.000000055879347, y: 0.00000009452923, z: -0.000000026077029, w: 1}
+      rotation: {x: 0.000000055879347, y: 0.00000009452923, z: -0.000000026077029,
+        w: 1}
       scale: {x: 0.9999997, y: 0.99999994, z: 1.0000001}
     - name: ShoulderArmor_low.001
       parentName: Troll(Clone)
@@ -804,6 +877,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

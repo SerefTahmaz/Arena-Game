@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 2eae22fcb2a10cd41a38e8f78a34afee
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: -5898321897783347166
@@ -16,6 +16,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Armor
+    second: {fileID: 2100000, guid: 34395c287034b3c41a209032659b78c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Beard.001
     second: {fileID: 2100000, guid: bf3accf4d1855b444b3c24e8f79da9f1, type: 2}
   - first:
@@ -23,6 +28,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: BicepsArmor
     second: {fileID: 2100000, guid: 227c113514b8efe44a8eb6b946a3973f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: e63e9ac300ed25f4cbc135819f891f86, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -251,6 +261,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -278,6 +289,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -947,7 +959,8 @@ ModelImporter:
     - name: leg_twist.l
       parentName: leg_stretch.l
       position: {x: -0.0000000035762786, y: 0.27875373, z: 0.00000000923872}
-      rotation: {x: 0.000000087097526, y: -0.0000000055473772, z: -0.000000040978378, w: 1}
+      rotation: {x: 0.000000087097526, y: -0.0000000055473772, z: -0.000000040978378,
+        w: 1}
       scale: {x: 1.0000051, y: 1.0000129, z: 1.0000061}
     - name: leg_twist_2.l
       parentName: leg_stretch.l
@@ -962,12 +975,14 @@ ModelImporter:
     - name: thigh_twist.l
       parentName: thigh_stretch.l
       position: {x: -0.0000000020861626, y: 0.00000009775162, z: -0.000000002104789}
-      rotation: {x: -0.000000014028046, y: 0.0000000913642, z: 0.000000022351742, w: 1}
+      rotation: {x: -0.000000014028046, y: 0.0000000913642, z: 0.000000022351742,
+        w: 1}
       scale: {x: 1.0000043, y: 1.0000117, z: 1.000001}
     - name: thigh_twist_2.l
       parentName: thigh_stretch.l
       position: {x: -0, y: 0.15168752, z: 0.000000014100223}
-      rotation: {x: -0.000000014028046, y: 0.0000000913642, z: 0.000000022351742, w: 1}
+      rotation: {x: -0.000000014028046, y: 0.0000000913642, z: 0.000000022351742,
+        w: 1}
       scale: {x: 1.0000043, y: 1.0000116, z: 1.000001}
     - name: thigh_stretch.r
       parentName: root.x
@@ -1022,12 +1037,14 @@ ModelImporter:
     - name: leg_twist.r
       parentName: leg_stretch.r
       position: {x: -0.0000000023841857, y: 0.27875373, z: -0.000000030100345}
-      rotation: {x: 0.00000012715053, y: 0.000000007364945, z: 0.000000037253226, w: 1}
+      rotation: {x: 0.00000012715053, y: 0.000000007364945, z: 0.000000037253226,
+        w: 1}
       scale: {x: 0.99999994, y: 1.0000057, z: 1.0000019}
     - name: leg_twist_2.r
       parentName: leg_stretch.r
       position: {x: -0.000000004172325, y: 0.13937691, z: -0.000000014901161}
-      rotation: {x: 0.00000006543791, y: 0.0000000036690433, z: 0.000000018626771, w: 1}
+      rotation: {x: 0.00000006543791, y: 0.0000000036690433, z: 0.000000018626771,
+        w: 1}
       scale: {x: 0.99999994, y: 1.0000054, z: 1.0000004}
     - name: CC_Base_R_KneeShareBone
       parentName: leg_stretch.r
@@ -1042,7 +1059,8 @@ ModelImporter:
     - name: thigh_twist_2.r
       parentName: thigh_stretch.r
       position: {x: 5.9604643e-10, y: 0.15168759, z: 0.000000007655472}
-      rotation: {x: 0.00000006170012, y: 0.0000000038889993, z: 0.000000018626451, w: 1}
+      rotation: {x: 0.00000006170012, y: 0.0000000038889993, z: 0.000000018626451,
+        w: 1}
       scale: {x: 1, y: 1.000001, z: 1.0000039}
     - name: spine_01.x
       parentName: root.x
@@ -1567,7 +1585,8 @@ ModelImporter:
     - name: arm_twist_2.r
       parentName: arm_stretch.r
       position: {x: 0.000000019073486, y: 0.08172877, z: 0.000000057220458}
-      rotation: {x: -0.000000029802315, y: -0.00000010430811, z: 0.000000044703473, w: 1}
+      rotation: {x: -0.000000029802315, y: -0.00000010430811, z: 0.000000044703473,
+        w: 1}
       scale: {x: 1.0000144, y: 1.0000197, z: 1.0000036}
     - name: ShoulderArmor_low
       parentName: arm_twist_2.r
@@ -1692,12 +1711,14 @@ ModelImporter:
     - name: arm_twist.l
       parentName: arm_stretch.l
       position: {x: -0.000000014305114, y: -0.00000009477138, z: -0.000000011920928}
-      rotation: {x: 0.000000059604638, y: 0.000000119209275, z: -0.00000019371507, w: 1}
+      rotation: {x: 0.000000059604638, y: 0.000000119209275, z: -0.00000019371507,
+        w: 1}
       scale: {x: 0.99999994, y: 1.0000068, z: 0.9999996}
     - name: arm_twist_2.l
       parentName: arm_stretch.l
       position: {x: 0.0000000047683715, y: 0.081728645, z: 0.000000030994414}
-      rotation: {x: -0.00000020861619, y: -0.000000059604623, z: -0.00000004470347, w: 1}
+      rotation: {x: -0.00000020861619, y: -0.000000059604623, z: -0.00000004470347,
+        w: 1}
       scale: {x: 1.000001, y: 1.000003, z: 0.9999992}
     - name: ShoulderArmor_low.001
       parentName: arm_twist_2.l
@@ -1782,6 +1803,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
