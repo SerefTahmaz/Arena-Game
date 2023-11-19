@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DemoBlast.Utils;
+using FSG.MeshAnimator;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,7 +21,7 @@ public class cCrowdEntity : MonoBehaviour
 
         if (Application.isPlaying)
         {
-            selected.GetComponent<Animator>().SetFloat("Offset", Random.value);
+            selected.GetComponent<MeshAnimatorBase>().SetTimeNormalized(Random.value, true);
         }
     }
 }
