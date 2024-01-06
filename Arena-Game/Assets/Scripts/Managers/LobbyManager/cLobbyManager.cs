@@ -350,6 +350,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         try
         {
             m_IsPlayerReady = ready;
+            if (JoinedLobby == null) return;
+
             await LobbyService.Instance.UpdatePlayerAsync(JoinedLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
             {
                 Data = new Dictionary<string, PlayerDataObject>()

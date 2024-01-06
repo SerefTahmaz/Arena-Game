@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class cPlayerStateMachineV2 : cCharacterStateMachine
+public class cPlayerStateMachineV2 : cStateMachine
     {
         #region PritaveFields
 
@@ -113,7 +113,7 @@ public class cPlayerStateMachineV2 : cCharacterStateMachine
             if(CurrentState == Dead) return;
             
             base.OnDamage(damageWrapper);
-            Character.HealthManager.OnDamage(10);
+            Character.HealthManager.OnDamage(damageWrapper.amount);
             m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
 

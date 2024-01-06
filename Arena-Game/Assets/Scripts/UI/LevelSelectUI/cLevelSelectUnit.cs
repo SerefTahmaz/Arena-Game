@@ -13,7 +13,7 @@ public class cLevelSelectUnit : MonoBehaviour
     [SerializeField] private Image m_Icon;
     [SerializeField] private TMP_Text m_NameText;
 
-    private cLevelSO m_LevelSo;
+    public cLevelSO m_LevelSo;
     
     public Action<cLevelSelectUnit> m_OnClick = delegate(cLevelSelectUnit unit) {  };
 

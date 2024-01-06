@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using FiniteStateMachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -28,6 +30,8 @@ public class cNpcSpawnerProxy : NetworkBehaviour
             }
            
             cNpcManager.Instance.m_Npcs.Add(go);
+            
+            // go.GetComponentInChildren<cStateMachine>().m_enemies.AddRange(FindObjectsOfType<cPlayerStateMachineV2>().Select((v2 => v2.transform)).ToList());
         }
         gameObject.SetActive(false);
     }

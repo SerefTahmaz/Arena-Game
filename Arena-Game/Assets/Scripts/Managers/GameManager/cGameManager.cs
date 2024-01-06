@@ -183,5 +183,6 @@ public class cGameManager : cSingleton<cGameManager>
     {
         NetworkManager.Singleton.Shutdown();
         m_OnMainMenuButton.Invoke();
+        cLobbyManager.Instance.UpdateIsPlayerReady(false);
     }
 }
