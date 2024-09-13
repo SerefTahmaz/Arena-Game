@@ -71,4 +71,10 @@ public class cRelayManager : cSingleton<cRelayManager>
             Debug.Log(e);
         }
     }
+
+    public async void StartPvPSingle()
+    {
+        NetworkManager.Singleton.StartHost();
+        cGameManager.Instance.StartGame();
+    }
 }

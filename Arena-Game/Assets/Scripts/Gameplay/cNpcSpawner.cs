@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DemoBlast.Utils;
+using RootMotion;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,10 +10,12 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class cNpcSpawner : MonoBehaviour
+public class cNpcSpawner : cSingleton<cNpcSpawner>
 {
     [SerializeField] private GameObject m_Dragon;
     [SerializeField] private GameObject m_Troll;
+    [SerializeField] private GameObject m_EnemyHuman;
+    
     [SerializeField] private Transform m_TrollSpawnPoint;
     [SerializeField] private Transform m_DragonSpawnPoint;
     
@@ -24,6 +28,12 @@ public class cNpcSpawner : MonoBehaviour
     public void SpawnTroll()
     {
         GameObject go = Instantiate(m_Troll, m_TrollSpawnPoint.position, Quaternion.identity);
+        go.GetComponent<NetworkObject>().Spawn();
+    }
+    
+    public void EnemyHuman()
+    {
+        GameObject go = Instantiate(m_EnemyHuman, m_TrollSpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
     }
 

@@ -11,7 +11,8 @@ using UnityEngine.SceneManagement;
 public enum eGameMode
 {
     PvE,
-    PvP
+    PvP,
+    PvPSingle
 }
 
 public class cGameManager : cSingleton<cGameManager>
@@ -25,6 +26,7 @@ public class cGameManager : cSingleton<cGameManager>
     [SerializeField] private bool m_IsPlayerUIBeingUsed;
     [SerializeField] private cPvPManager m_PvPManager;
     [SerializeField] private cPvEManager m_PvEManager;
+    [SerializeField] private cPvPSingleManager m_CPvPSingleManager;
 
 
     private IGameModeHandler m_GameModeHandler;
@@ -104,6 +106,9 @@ public class cGameManager : cSingleton<cGameManager>
                 break;
             case eGameMode.PvP:
                 m_GameModeHandler = m_PvPManager;
+                break;
+            case eGameMode.PvPSingle:
+                m_GameModeHandler = m_CPvPSingleManager;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
