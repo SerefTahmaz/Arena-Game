@@ -60,12 +60,12 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     public void DrawSword(AnimationController.AnimationState sword)
     {
-        AnimationController.SetTrigger(sword);
+        AnimationController.SetTrigger(sword, resetable: true);
     }
         
     public void SheathSword(AnimationController.AnimationState sword)
     {
-        AnimationController.SetTrigger(sword);
+        AnimationController.SetTrigger(sword, resetable: true);
     }
 
     void LeftSlash()
