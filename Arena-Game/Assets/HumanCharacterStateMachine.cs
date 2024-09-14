@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using _Main.Scripts.Gameplay;
 using Gameplay.Character;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HumanCharacterStateMachine : MonoBehaviour
 {
     [SerializeField] private HumanCharacter m_HumanCharacter;
 
     private AnimationController AnimationController => m_HumanCharacter.AnimationController;
-    
+
+    public bool IsLeftSwordDrawn => m_IsLeftSwordDrawn;
+
+    public bool IsRightSwordDrawn => m_IsRightSwordDrawn;
+
     private bool m_IsLeftSwordDrawn = false;
     private bool m_IsRightSwordDrawn = false;
 
@@ -30,7 +35,7 @@ public class HumanCharacterStateMachine : MonoBehaviour
     {
         if(IsBusy) return;
         
-        if (m_IsLeftSwordDrawn)
+        if (IsLeftSwordDrawn)
         {
             SheathSword(AnimationController.AnimationState.SheathLeftSword);
         }
@@ -39,14 +44,14 @@ public class HumanCharacterStateMachine : MonoBehaviour
             DrawSword(AnimationController.AnimationState.DrawLeftSword);
         }
 
-        m_IsLeftSwordDrawn = !m_IsLeftSwordDrawn;
+        m_IsLeftSwordDrawn = !IsLeftSwordDrawn;
     }
         
     public void SwitchRightSword()
     {
         if(IsBusy) return;
         
-        if (m_IsRightSwordDrawn)
+        if (IsRightSwordDrawn)
         {
             SheathSword(AnimationController.AnimationState.SheathRightSword);
         }
@@ -55,15 +60,15 @@ public class HumanCharacterStateMachine : MonoBehaviour
             DrawSword(AnimationController.AnimationState.DrawRightSword);
         }
 
-        m_IsRightSwordDrawn = !m_IsRightSwordDrawn;
+        m_IsRightSwordDrawn = !IsRightSwordDrawn;
     }
         
-    public void DrawSword(AnimationController.AnimationState sword)
+    private void DrawSword(AnimationController.AnimationState sword)
     {
         AnimationController.SetTrigger(sword, resetable: true);
     }
         
-    public void SheathSword(AnimationController.AnimationState sword)
+    private void SheathSword(AnimationController.AnimationState sword)
     {
         AnimationController.SetTrigger(sword, resetable: true);
     }
@@ -82,15 +87,15 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     public void Slash()
     {
-        if (m_IsLeftSwordDrawn && m_IsRightSwordDrawn)
+        if (IsLeftSwordDrawn && IsRightSwordDrawn)
         {
             HeavyAttack();
         }
-        else if (m_IsRightSwordDrawn)
+        else if (IsRightSwordDrawn)
         {
             RightSlash();
         }
-        else if (m_IsLeftSwordDrawn)
+        else if (IsLeftSwordDrawn)
         {
             LeftSlash();
         }
@@ -116,15 +121,15 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     public void Charge()
     {
-        if (m_IsLeftSwordDrawn && m_IsRightSwordDrawn)
+        if (IsLeftSwordDrawn && IsRightSwordDrawn)
         {
             OnChargeBoth();
         }
-        else if (m_IsRightSwordDrawn)
+        else if (IsRightSwordDrawn)
         {
             OnChargeRight();
         }
-        else if (m_IsLeftSwordDrawn)
+        else if (IsLeftSwordDrawn)
         {
             OnChargeLeft();
         }
@@ -139,6 +144,14 @@ public class HumanCharacterStateMachine : MonoBehaviour
     public void Jump()
     {
         AnimationController.SetTrigger(AnimationController.AnimationState.Jump, resetable: true);
+    }
+
+    public void PlayTakeDamage(bool isHeavyDamage)
+    {
+        SetBusy();
+        AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
+            resetable: true);
+        AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
     }
 
     private void SetBusy()

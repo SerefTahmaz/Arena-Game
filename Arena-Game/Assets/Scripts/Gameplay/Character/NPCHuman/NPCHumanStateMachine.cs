@@ -95,10 +95,7 @@ namespace Gameplay.Character.NPCHuman
             Character.HealthManager.OnDamage(damageWrapper.amount);
             m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
-
-            AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
-                resetable: true);
-            AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
+            Character.CharacterStateMachine.PlayTakeDamage(damageWrapper.isHeavyDamage);
         }
     }
 }

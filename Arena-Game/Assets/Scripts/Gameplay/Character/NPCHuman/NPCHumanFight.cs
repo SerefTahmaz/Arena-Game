@@ -22,9 +22,6 @@ namespace Gameplay.Character.NPCHuman
 
         private bool m_IsAttackDelayFinished=true;
         
-        private bool m_IsLeftSwordDrawn = false;
-        private bool m_IsRightSwordDrawn = false;
-        
         public override void Enter()
         {
             base.Enter();
@@ -36,7 +33,7 @@ namespace Gameplay.Character.NPCHuman
                     (() => m_IsAttackDelayFinished = true));
             }
         }
-
+ 
         public override void StateMachineUpdate()
         {
             base.StateMachineUpdate();
@@ -57,12 +54,14 @@ namespace Gameplay.Character.NPCHuman
             {
                 StateMachine.Character.MovementController.Move(Vector3.zero);
             }
+            
+           
 
             if (m_IsAttackDelayFinished)
             {
-                if (!m_IsLeftSwordDrawn && !m_IsRightSwordDrawn)
+                if (!StateMachine.Character.CharacterStateMachine.IsLeftSwordDrawn && !StateMachine.Character.CharacterStateMachine.IsRightSwordDrawn)
                 {
-                    
+                    StateMachine.Character.CharacterStateMachine.SwitchRightSword();
                 }
                 else if (Attack(angle))
                 {
@@ -74,24 +73,32 @@ namespace Gameplay.Character.NPCHuman
 
         private bool Attack(float angle)
         {
-            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
+            // if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
+            // {
+            //     List<Action> m_MeleeActions = new List<Action>();
+            //     
+            //     m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
+            //     {
+            //         StateMachine.Character.CharacterStateMachine.Slash();
+            //     }, 5));
+            //
+            //     if (m_MeleeActions.Any())
+            //     {
+            //         m_MeleeActions.OrderBy((action => Random.Range(0, 10000))).FirstOrDefault().Invoke();
+            //         return true;
+            //     }
+            // }
+            
+            Debug.Log("Enemy tries attacking");
+            
+            StateMachine.Character.CharacterStateMachine.Slash();
+
+            DOVirtual.DelayedCall(0.05f, () =>
             {
-                List<Action> m_MeleeActions = new List<Action>();
-                
-                m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
-                {
-                    // AnimationController.SetTrigger(AnimationController.AnimationState.Slash);
-                    // StateMachine.ChangeState(StateMachine.Empty);
-                }, 5));
+                m_IsAttackDelayFinished = true;
+            }, false);
 
-                if (m_MeleeActions.Any())
-                {
-                    m_MeleeActions.OrderBy((action => Random.Range(0, 10000))).FirstOrDefault().Invoke();
-                    return true;
-                }
-            }
-
-            return false;
+            return true;
         }
 
         public override void Exit()
