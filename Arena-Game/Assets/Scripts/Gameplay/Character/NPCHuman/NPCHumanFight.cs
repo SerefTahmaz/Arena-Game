@@ -73,32 +73,27 @@ namespace Gameplay.Character.NPCHuman
 
         private bool Attack(float angle)
         {
-            // if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
-            // {
-            //     List<Action> m_MeleeActions = new List<Action>();
-            //     
-            //     m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
-            //     {
-            //         StateMachine.Character.CharacterStateMachine.Slash();
-            //     }, 5));
-            //
-            //     if (m_MeleeActions.Any())
-            //     {
-            //         m_MeleeActions.OrderBy((action => Random.Range(0, 10000))).FirstOrDefault().Invoke();
-            //         return true;
-            //     }
-            // }
-            
-            Debug.Log("Enemy tries attacking");
-            
-            StateMachine.Character.CharacterStateMachine.Slash();
-
-            DOVirtual.DelayedCall(0.05f, () =>
+            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
             {
-                m_IsAttackDelayFinished = true;
-            }, false);
+                List<Action> m_MeleeActions = new List<Action>();
+                
+                m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
+                {
+                    StateMachine.Character.CharacterStateMachine.Slash();
+                    DOVirtual.DelayedCall(0.05f, () =>
+                    {
+                        m_IsAttackDelayFinished = true;
+                    });
+                }, 5));
+            
+                if (m_MeleeActions.Any())
+                {
+                    m_MeleeActions.OrderBy((action => Random.Range(0, 10000))).FirstOrDefault().Invoke();
+                    return true;
+                }
+            }
 
-            return true;
+            return false;
         }
 
         public override void Exit()
