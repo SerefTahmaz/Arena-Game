@@ -22,6 +22,10 @@ namespace _Main.Scripts.Gameplay
         public Dictionary<string, Action> AnimatorFinishEvents => animatorFinishEvents;
         public Dictionary<string, Action> AnimatorStartEvents => animatorStartEvents;
 
+        public SwordFlameHelper LeftSword => m_LeftSword;
+
+        public SwordFlameHelper RightSword => m_RightSword;
+
         [SerializeField] private AnimationCurve m_EyeballCurve;
 
         private void Awake()
@@ -162,7 +166,7 @@ namespace _Main.Scripts.Gameplay
         [SerializeField] private SwordFlameHelper m_RightSword;
 
         [Serializable]
-        private class SwordFlameHelper
+        public class SwordFlameHelper
         {
             public GameObject m_BackWeapon;
             public GameObject m_HandWeapon;
@@ -171,49 +175,12 @@ namespace _Main.Scripts.Gameplay
             public Material m_BurntMat;
             public ParticleSystem m_FlameParticle;
         }
-
-        public void SwitchLeftWeapon()
-        {
-            m_LeftSword.m_BackWeapon.SetActive(!m_LeftSword.m_BackWeapon.activeSelf);
-            m_LeftSword.m_HandWeapon.SetActive(!m_LeftSword.m_HandWeapon.activeSelf);
-            SetLeftFlame(0);
-        }
-    
-        public void SwitchRightWeapon()
-        {
-            m_RightSword.m_BackWeapon.SetActive(!m_RightSword.m_BackWeapon.activeSelf);
-            m_RightSword.m_HandWeapon.SetActive(!m_RightSword.m_HandWeapon.activeSelf);
-            SetRightFlame(0);
-        }
     
    
     
-        public void SetLeftFlame(int state)
-        {
-            SetFlame(m_LeftSword, state == 1 ? true : false);
-        }
-    
-    
-        public void SetRightFlame(int state)
-        {
-            SetFlame(m_RightSword, state == 1 ? true : false);
-        }
+        
 
-        private void SetFlame(SwordFlameHelper swordFlameHelper, bool state)
-        {
-            if (state)
-            {
-                swordFlameHelper.m_FlameParticle.gameObject.SetActive(true);
-                swordFlameHelper.m_FlameParticle.Play();
-                swordFlameHelper.handWeaponRenderer.sharedMaterial = swordFlameHelper.m_BurntMat;
-            }
-            else
-            {
-                swordFlameHelper.m_FlameParticle.gameObject.SetActive(false);
-                swordFlameHelper.m_FlameParticle.Stop();
-                swordFlameHelper.handWeaponRenderer.sharedMaterial = swordFlameHelper.m_NormalMat;
-            }
-        }
+       
 
         public void CamShake()
         {

@@ -111,6 +111,7 @@ public class cPlayerStateMachineV2 : cStateMachine
         
         private DamageWrapper m_LastDamager;
 
+        //TODO: Move it to character sm
         public override void OnDamage(DamageWrapper damageWrapper)
         {
             if(!CharacterNetworkController.IsOwner) return;

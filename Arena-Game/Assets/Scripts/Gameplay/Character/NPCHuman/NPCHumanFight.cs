@@ -22,10 +22,13 @@ namespace Gameplay.Character.NPCHuman
 
         private bool m_IsAttackDelayFinished=true;
         
+        private bool m_IsLeftSwordDrawn = false;
+        private bool m_IsRightSwordDrawn = false;
+        
         public override void Enter()
         {
             base.Enter();
-
+            
             if (m_IsAttackDelayFinished == false)
             {
                 DOVirtual.DelayedCall(
@@ -57,7 +60,11 @@ namespace Gameplay.Character.NPCHuman
 
             if (m_IsAttackDelayFinished)
             {
-                if (Attack(angle))
+                if (!m_IsLeftSwordDrawn && !m_IsRightSwordDrawn)
+                {
+                    
+                }
+                else if (Attack(angle))
                 {
                     m_IsAttackDelayFinished = false;
                     return;
@@ -73,8 +80,8 @@ namespace Gameplay.Character.NPCHuman
                 
                 m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
                 {
-                    AnimationController.SetTrigger(AnimationController.AnimationState.Slash);
-                    StateMachine.ChangeState(StateMachine.Empty);
+                    // AnimationController.SetTrigger(AnimationController.AnimationState.Slash);
+                    // StateMachine.ChangeState(StateMachine.Empty);
                 }, 5));
 
                 if (m_MeleeActions.Any())

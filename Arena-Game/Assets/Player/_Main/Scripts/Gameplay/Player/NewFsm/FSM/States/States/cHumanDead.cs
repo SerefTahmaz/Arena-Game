@@ -17,7 +17,7 @@ namespace FiniteStateMachine
         public override void Enter()
         {
             base.Enter();
-            StateMachine.Character.AnimationController.SetTrigger(AnimationController.AnimationState.Dead);
+            StateMachine.Character.CharacterStateMachine.Die();
             StateMachine.Character.PlayerCharacterNetworkController.OnDeathServerRpc();
         }
 
