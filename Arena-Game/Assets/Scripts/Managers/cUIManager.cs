@@ -30,5 +30,5 @@ public enum Page
 {
     MainMenu,
     Loading,
-    Empty
+    Gameplay
 }

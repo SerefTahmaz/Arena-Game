@@ -26,6 +26,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private void LoopStart()
     {
+        cUIManager.Instance.HidePage(Page.MainMenu);
+        cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading);
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
