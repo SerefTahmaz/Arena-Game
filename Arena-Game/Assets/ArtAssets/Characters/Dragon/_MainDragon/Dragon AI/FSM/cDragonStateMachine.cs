@@ -80,6 +80,8 @@ namespace FiniteStateMachine
             m_DragonFly.InitializeState("DragonFly", this);
             m_DragonDeath.InitializeState("DragonDeath", this);
 
+            Character.OnDamage += OnDamage;
+            
             Character.HealthManager.m_OnDied += () =>
             {
                 ChangeState(m_DragonDeath);

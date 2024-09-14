@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Main.Scripts.Gameplay;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;

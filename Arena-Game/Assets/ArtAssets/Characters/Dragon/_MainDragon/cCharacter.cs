@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using RootMotion.FinalIK;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +12,8 @@ public abstract class cCharacter: MonoBehaviour
     [SerializeField] private cDamageManager m_DamageManager;
     [SerializeField] private int m_TeamId;
     [SerializeField] private NavMeshAgent m_NavMeshAgent;
+
+    public Action<DamageWrapper> OnDamage;
 
     public Transform MovementTransform => m_MovementTransform;
     public Animator Animator => m_Animator;
@@ -48,5 +48,10 @@ public abstract class cCharacter: MonoBehaviour
         {
             DamageManager.UpdateTeamId(TeamID);
         };
+    }
+    
+    public void TakeDamage(DamageWrapper damageWrapper)
+    {
+        OnDamage.Invoke(damageWrapper);
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections;
 using DefaultNamespace;
 using DG.Tweening;
+using Gameplay.Character;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,9 +14,9 @@ using UnityEditor;
 
 public class cPlayerCharacterNetworkController:cCharacterNetworkController
 {
-    [SerializeField] private cPlayerCharacter m_PlayerCharacter;
+    [SerializeField] private HumanCharacter m_HumanCharacter;
     
-    protected override cCharacter m_Character => m_PlayerCharacter;
+    protected override cCharacter m_Character => m_HumanCharacter;
 
     public override void OnNetworkSpawn()
     {
@@ -25,12 +27,12 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
             PlayerName.Value = cLobbyManager.Instance.PlayerName;
         }
 
-        m_PlayerCharacter.CharacterName = PlayerName.Value.Value;
-        m_PlayerCharacter.HealthManager.SetVisibility(true);
+        m_HumanCharacter.CharacterName = PlayerName.Value.Value;
+        m_HumanCharacter.HealthManager.SetVisibility(true);
 
         PlayerName.OnValueChanged += (value, newValue) =>
         {
-            m_PlayerCharacter.HealthManager.UpdateUIClientRpc();
+            m_HumanCharacter.HealthManager.UpdateUIClientRpc();
         };
     }
 
@@ -62,7 +64,7 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     [ClientRpc]
     protected override void TakeDamageClientRpc(Vector3 pos)
     {
-        m_PlayerCharacter.PlayerStateMachineV2.OnDamageAnim();
+        m_HumanCharacter.OnDamageAnim();
     }
     
     [ServerRpc(RequireOwnership = false)]
@@ -75,9 +77,9 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     [ClientRpc]
     protected override void OnDeathClientRpc()
     {
-        DOVirtual.DelayedCall(2, () => m_PlayerCharacter.HealthManager.SetVisibility(false));
-        m_PlayerCharacter.SoundEffectController.PlayDead();
-        m_PlayerCharacter.SoundEffectController.PlayDamageGrunt();
+        DOVirtual.DelayedCall(2, () => m_HumanCharacter.HealthManager.SetVisibility(false));
+        m_HumanCharacter.SoundEffectController.PlayDead();
+        m_HumanCharacter.SoundEffectController.PlayDamageGrunt();
     }
 }
 

@@ -52,6 +52,8 @@ namespace FiniteStateMachine
             m_Empty.InitializeState("Empty", this);
             m_Death.InitializeState("Death", this);
 
+            TrollCharacter.OnDamage += OnDamage;
+            
             TrollCharacter.HealthManager.m_OnDied += () =>
             {
                 ChangeState(m_Death);

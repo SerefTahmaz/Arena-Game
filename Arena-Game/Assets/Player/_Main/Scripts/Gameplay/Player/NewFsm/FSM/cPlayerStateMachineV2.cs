@@ -1,7 +1,9 @@
 using System;
+using _Main.Scripts.Gameplay;
 using DemoBlast.Utils;
 using DG.Tweening;
 using FiniteStateMachine;
+using Gameplay.Character;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -12,7 +14,7 @@ public class cPlayerStateMachineV2 : cStateMachine
 
         [SerializeField] private ParticleSystem m_DustExpo;
         [SerializeField] private ParticleSystem m_BloodExpo;
-        [SerializeField] private cPlayerCharacter m_Character;
+        [SerializeField] private HumanCharacter m_Character;
         [SerializeField] private cStatesBlackBoard m_BlackBoard;
 
         // #region Properties
@@ -44,14 +46,15 @@ public class cPlayerStateMachineV2 : cStateMachine
 
         public cCharacterNetworkController CharacterNetworkController => Character.CharacterNetworkController;
 
-        public cPlayerCharacter Character => m_Character;
+        public HumanCharacter Character => m_Character;
 
         public override int TeamID => m_Character.TeamID;
 
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_InputManager = global::InputManager.Instance.GetComponent<IInputManager>();
             m_MovementUserController = GetComponentInChildren<MovementUserController>();
             m_MovementUserController.InputManager = m_InputManager;
@@ -68,6 +71,8 @@ public class cPlayerStateMachineV2 : cStateMachine
                 MovementUserController.enabled = false;
                 return;
             }
+
+            m_Character.OnDamage += OnDamage;
             
             Empty.InitializeState("Empty", this);
             FreeRoam.InitializeState("FreeRoam", this);
@@ -120,12 +125,5 @@ public class cPlayerStateMachineV2 : cStateMachine
             AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
                 resetable: true);
             AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
-        }
-
-        public void OnDamageAnim()
-        {
-            m_BloodExpo.PlayWithClear();
-            Character.SoundEffectController.PlayDamageGrunt();
-            // m_DustExpo.PlayWithClear();
         }
     }

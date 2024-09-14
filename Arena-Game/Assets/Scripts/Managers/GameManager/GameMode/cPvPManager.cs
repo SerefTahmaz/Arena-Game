@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Gameplay.Character;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -62,7 +63,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         Vector3 dir = Vector3.zero - pos;
         var lookRot = Quaternion.LookRotation(dir.normalized);
         go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot, obj);
-        go.GetComponent<cPlayerCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
+        go.GetComponent<HumanCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
         m_SpawnOffset++;
     }
 
