@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7183a4b161dc4458601e1e632246b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Player: {fileID: 0}
   m_Players: []
 --- !u!1 &2614956174886870724
 GameObject:
@@ -291,6 +292,8 @@ MonoBehaviour:
   m_Dragon: {fileID: 7166414534299993520, guid: 98db0fee87b2864409a96dbbe45cb91b,
     type: 3}
   m_Troll: {fileID: 6028557131865585024, guid: cb504f161adab9f4eb563f07064a96cf, type: 3}
+  m_EnemyHuman: {fileID: 2582915137298745287, guid: bb5780d26631ff14caaf4dce893719fb,
+    type: 3}
   m_TrollSpawnPoint: {fileID: 9142342157976666505}
   m_DragonSpawnPoint: {fileID: 5753141415858611577}
 --- !u!1 &7087374198633569978
@@ -381,16 +384,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerIconList: {fileID: 11400000, guid: 282557656cf67fe46be048940ce35e02, type: 2}
   m_InstanceSaveManager: {fileID: 4513736569227466016}
-  m_ProjectSceneManager: {fileID: 8596152842389499210}
   m_NetworkObject: {fileID: 7968785274425684498}
-  m_Player: {fileID: 8125119713141699224, guid: 6790f7c3e87ad89408ca131e8ee6d835,
-    type: 3}
   m_BossUIHealthBar: {fileID: 0}
   m_PlayerUIHealthBar: {fileID: 0}
   m_IsBossUIBeingUsed: 0
   m_IsPlayerUIBeingUsed: 0
+  m_PvPManager: {fileID: 0}
+  m_PvEManager: {fileID: 0}
+  m_CPvPSingleManager: {fileID: 0}
   m_OwnerPlayer: {fileID: 0}
   m_OwnerPlayerId: 0
+  m_GameManagerNetworkBehaviour: {fileID: 0}
 --- !u!114 &8596152842389499210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8c5c99fcbb5bf49852270d78373e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MainMenuButton: {fileID: 0}
 --- !u!1 &7614561289707295659
 GameObject:
   m_ObjectHideFlags: 0
