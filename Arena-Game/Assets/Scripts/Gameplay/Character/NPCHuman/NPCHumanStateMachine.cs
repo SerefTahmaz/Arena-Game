@@ -87,8 +87,6 @@ namespace Gameplay.Character.NPCHuman
 
         public override void OnDamage(DamageWrapper damageWrapper)
         {
-            if(!CharacterNetworkController.IsOwner) return;
-            
             if(CurrentState == Dead) return;
             
             base.OnDamage(damageWrapper);

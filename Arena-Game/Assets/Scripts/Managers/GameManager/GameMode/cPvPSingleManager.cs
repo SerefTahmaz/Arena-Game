@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
 using Gameplay.Character;
+using Gameplay.Character.NPCHuman;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,10 +33,12 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         cUIManager.Instance.ShowPage(Page.Loading);
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
+
+        Transform player=null;
         
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
-            OnClientConnected(VARIABLE.Key);
+            player = OnClientConnected(VARIABLE.Key).transform;
         }
 
         DOVirtual.DelayedCall(5, () =>
@@ -43,21 +46,33 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             if (m_isActive)
             {
                 cUIManager.Instance.HidePage(Page.Loading);
-                cNpcSpawner.Instance.EnemyHuman();
+                CameraManager.Instance.FixLook();
+                var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
+                var pos = new Vector3(0, 0, 5);
+                var dir = Vector3.zero - pos;
+                var lookRot = Quaternion.LookRotation(dir.normalized);
+                enemyHuman.transform.rotation = lookRot;
+                enemyHuman.transform.position = pos;
+
+                if (player != null)
+                {
+                    enemyHuman.GetComponent<NPCHumanStateMachine>().m_enemies.Add(player.transform);
+                }
             }
         });
     }
     
-    private void OnClientConnected(ulong obj)
+    private GameObject OnClientConnected(ulong obj)
     {
         Vector3 pos;
         GameObject go;
-        pos = (Vector3.right * Mathf.Cos(m_SpawnOffset*90) + Vector3.forward * Mathf.Sin(m_SpawnOffset*90))*5;
+        pos = new Vector3(0, 0, -5);
         Vector3 dir = Vector3.zero - pos;
         var lookRot = Quaternion.LookRotation(dir.normalized);
         go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot, obj);
         go.GetComponent<HumanCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
         m_SpawnOffset++;
+        return go;
     }
 
     private void CheckPvPSuccess()

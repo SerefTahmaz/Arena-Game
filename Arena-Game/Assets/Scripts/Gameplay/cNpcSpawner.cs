@@ -31,10 +31,11 @@ public class cNpcSpawner : cSingleton<cNpcSpawner>
         go.GetComponent<NetworkObject>().Spawn();
     }
     
-    public void EnemyHuman()
+    public GameObject EnemyHuman()
     {
         GameObject go = Instantiate(m_EnemyHuman, m_TrollSpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
+        return go;
     }
 
     private void Update()

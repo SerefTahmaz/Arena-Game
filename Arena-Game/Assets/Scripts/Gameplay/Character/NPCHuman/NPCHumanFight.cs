@@ -61,13 +61,20 @@ namespace Gameplay.Character.NPCHuman
             {
                 if (!StateMachine.Character.CharacterStateMachine.IsLeftSwordDrawn && !StateMachine.Character.CharacterStateMachine.IsRightSwordDrawn)
                 {
-                    StateMachine.Character.CharacterStateMachine.SwitchRightSword();
+                    if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
+                    if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchRightSword();
                 }
                 else if (Attack(angle))
                 {
                     m_IsAttackDelayFinished = false;
                     return;
                 }
+            }
+
+            if (Random.Range(0, 1000) < 10)
+            {
+                if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
+                if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchRightSword();
             }
         }
 
@@ -79,7 +86,15 @@ namespace Gameplay.Character.NPCHuman
                 
                 m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
                 {
-                    StateMachine.Character.CharacterStateMachine.Slash();
+                    if (StateMachine.Character.CharacterStateMachine.IsRightSwordCharged || StateMachine.Character.CharacterStateMachine.IsLeftSwordCharged)
+                    {
+                        StateMachine.Character.CharacterStateMachine.Slash();
+                    }
+                    else
+                    {
+                        StateMachine.Character.CharacterStateMachine.Charge();
+                    }
+                    
                     DOVirtual.DelayedCall(0.05f, () =>
                     {
                         m_IsAttackDelayFinished = true;

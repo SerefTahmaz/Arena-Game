@@ -120,6 +120,14 @@ public class CameraManager : cSingleton<CameraManager>
         EnableGameplayCam();
     }
 
+    public void FixLook()
+    {
+        var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
+        _gameplayCam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
+            -instanceOwnerPlayer.forward * 5 + instanceOwnerPlayer.position + Vector3.up*2
+            , instanceOwnerPlayer.rotation);
+    }
+
     public GameObject GetCam(CameraType cam)
     {
         return cams[(int)cam];
