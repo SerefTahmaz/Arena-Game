@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using DemoBlast.Managers.SaveManager;
+using ArenaGame.Managers.SaveManager;
 using UnityEngine;
 
-namespace DemoBlast.UI.Currency
+namespace ArenaGame.UI.Currency
 {
     public class cCurrencyBarScreen : MonoBehaviour
     {
@@ -16,25 +16,25 @@ namespace DemoBlast.UI.Currency
 
         public int CurrentCurrencyAmount
         {
-            get => m_SaveManager.SaveData.m_CurrentCoinCount;
+            get => m_SaveManager.SaveData.m_Currency;
             set
             {
-                m_SaveManager.SaveData.m_CurrentCoinCount = value;
-                PlayerMaxScore = value;
+                m_SaveManager.SaveData.m_Currency = value;
+                // PlayerMaxScore = value;
             }
         }
     
-        public int PlayerMaxScore
-        {
-            get =>  m_SaveManager.SaveData.m_MaxCoinCount;
-            set
-            {
-                if (value > PlayerMaxScore)
-                {
-                    m_SaveManager.SaveData.m_MaxCoinCount = value;
-                }
-            }
-        }
+        // public int PlayerMaxScore
+        // {
+        //     get =>  m_SaveManager.SaveData.m_MaxCoinCount;
+        //     set
+        //     {
+        //         if (value > PlayerMaxScore)
+        //         {
+        //             m_SaveManager.SaveData.m_MaxCoinCount = value;
+        //         }
+        //     }
+        // }
 
         public void RegisterBar(cCurrencyBar bar)
         {

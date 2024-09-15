@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.UI;
+using ArenaGame.UI;
 using UnityEngine;
 
 public class cGameplayMenuUIController : MonoBehaviour

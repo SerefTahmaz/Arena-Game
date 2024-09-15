@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.UI;
 using DG.Tweening;
 using UnityEngine;
 
-namespace DemoBlast.UI
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace ArenaGame.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class cView : MonoBehaviour
@@ -12,22 +17,72 @@ namespace DemoBlast.UI
 
         public bool m_IsActive;
 
+        public CanvasGroup CanvasGroup => m_CanvasGroup;
+
         public virtual void Activate(bool instant = false)
         {
-            m_CanvasGroup.DOComplete();
-            m_CanvasGroup.blocksRaycasts = true;
-            m_CanvasGroup.interactable = true;
-            m_CanvasGroup.DOFade(1, instant? 0:.2f);
-            m_IsActive = true;
+            if (Application.isPlaying)
+            {
+                CanvasGroup.DOComplete();
+                CanvasGroup.blocksRaycasts = true;
+                CanvasGroup.interactable = true;
+                CanvasGroup.DOFade(1, instant? 0:.2f);
+                m_IsActive = true;
+            }
+            else
+            {
+                CanvasGroup.blocksRaycasts = true;
+                CanvasGroup.interactable = true;
+                CanvasGroup.alpha = 1;
+                m_IsActive = true;
+            }
         }
     
         public virtual void Deactivate(bool instant = false)
         {
-            m_CanvasGroup.DOComplete();
-            m_CanvasGroup.blocksRaycasts = false;
-            m_CanvasGroup.interactable = false;
-            m_CanvasGroup.DOFade(0,instant? 0:.2f);
-            m_IsActive = false;
+            if (Application.isPlaying)
+            {
+                CanvasGroup.DOComplete();
+                CanvasGroup.blocksRaycasts = false;
+                CanvasGroup.interactable = false;
+                CanvasGroup.DOFade(0,instant? 0:.2f);
+                m_IsActive = false;
+            }
+            else
+            {
+                CanvasGroup.blocksRaycasts = false;
+                CanvasGroup.interactable = false;
+                CanvasGroup.alpha = 0;
+                m_IsActive = false;
+            }
         }
     }
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(cView))]
+    public class ViewEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            var viewTarget = (target as cView);
+            
+            if (GUILayout.Button(  viewTarget.m_IsActive ? "Deactivate" : "Activate"))
+            {
+                if (viewTarget.m_IsActive)
+                {
+                    viewTarget.Deactivate();
+                }
+                else
+                {
+                    viewTarget.Activate();
+                }
+                
+                EditorUtility.SetDirty(viewTarget);
+                EditorUtility.SetDirty(viewTarget.CanvasGroup);
+            }
+        }
+    }
+#endif
 }

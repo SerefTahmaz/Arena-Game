@@ -33,10 +33,10 @@ public class EnemyCardController : MonoBehaviour
     {
         m_ProfileCardController.SetSearchingProfile();
 
-        m_FirstOne.texture = RandomProfileGenerator.GenerateProfile().ProfilePicture;
-        m_SecondOne.texture = RandomProfileGenerator.GenerateProfile().ProfilePicture;
+        m_FirstOne.texture = ProfileGenerator.GetRandomProfile().ProfilePicture;
+        m_SecondOne.texture = ProfileGenerator.GetRandomProfile().ProfilePicture;
 
-        var selectedProfile = RandomProfileGenerator.GenerateProfile();
+        var selectedProfile = ProfileGenerator.GetRandomProfile();
         m_TargetOne.texture = selectedProfile.ProfilePicture;
         
         m_AnimHolder.localPosition = m_AnimHolderStartPos.localPosition;

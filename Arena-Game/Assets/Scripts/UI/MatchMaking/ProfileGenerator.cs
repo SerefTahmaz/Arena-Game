@@ -1,16 +1,29 @@
-﻿using DemoBlast.Utils;
+﻿using ArenaGame.Managers.SaveManager;
+using ArenaGame.Utils;
 using UnityEngine;
 
 namespace ArenaGame
 {
-    public class RandomProfileGenerator : MonoBehaviour
+    public class ProfileGenerator : MonoBehaviour
     {
-        public static PlayerDataModel GenerateProfile()
+        public static PlayerDataModel GetRandomProfile()
         {
             var randomImage = Resources.Load<Texture2D>($"MatchMaking/PPs/PP ({Random.Range(1, 573)})");
             var randomName = Resources.Load<TextAsset>("MatchMaking/RandomProfileNames");
             var randomNames = randomName.text.Split("\n");
             return new PlayerDataModel(randomNames.RandomItem(), randomImage, Random.Range(50, 250));
+        }
+
+        public static PlayerDataModel GetPlayerProfile()
+        {
+            SaveGameHandler.Load();
+            var savaData = SaveGameHandler.SaveData;
+            return new PlayerDataModel(savaData, SaveGameHandler.GetProfileImage());
+        }
+
+        public static void SaveProfileImage(Texture2D texture)
+        {
+            SaveGameHandler.SaveProfileImage(texture);
         }
     }
 
@@ -21,6 +34,14 @@ namespace ArenaGame
             Name = name;
             ProfilePicture = profilePicture;
             ExpPoint = expPoint;
+        }
+
+        public PlayerDataModel(SaveData saveData, Texture2D profilePicture)
+        {
+            Name = saveData.m_PlayerName;
+            ProfilePicture = profilePicture;
+            ExpPoint = saveData.m_ExperiencePoint;
+            Currency = saveData.m_Currency;
         }
 
         public string Name { get; set; }

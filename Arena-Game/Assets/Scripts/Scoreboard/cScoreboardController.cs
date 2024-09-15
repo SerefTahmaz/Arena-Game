@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;

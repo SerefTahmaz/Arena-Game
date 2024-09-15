@@ -1,6 +1,6 @@
 using System;
 using _Main.Scripts.Gameplay;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using FiniteStateMachine;
 using Gameplay.Character;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using RootMotion.FinalIK;
 using Unity.VisualScripting;

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using RootMotion;
 using UnityEngine;

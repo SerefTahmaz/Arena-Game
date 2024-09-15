@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using UnityEngine;
 
 public class cAnimationEventsController : MonoBehaviour

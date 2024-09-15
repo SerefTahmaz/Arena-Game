@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame;
 using UnityEngine;
 
 public class PlayerCardController : MonoBehaviour
@@ -9,6 +10,6 @@ public class PlayerCardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_ProfileCardController.SetRandomProfile();
+        m_ProfileCardController.SetProfile(ProfileGenerator.GetPlayerProfile());
     }
 }

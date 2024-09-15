@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace DemoBlast.Utils
+namespace ArenaGame.Utils
 {
     public static class cExtensionMethods
     {

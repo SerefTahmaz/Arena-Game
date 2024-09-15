@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DemoBlast.UI;
-using DemoBlast.Utils;
+using ArenaGame.UI;
+using ArenaGame.Utils;
 using UnityEngine;
 
 public class cLevelSelectView : cSingleton<cLevelSelectView>

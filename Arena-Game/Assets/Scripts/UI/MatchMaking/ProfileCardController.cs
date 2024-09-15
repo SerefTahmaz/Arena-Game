@@ -19,7 +19,7 @@ public class ProfileCardController : MonoBehaviour
 
     public void SetRandomProfile()
     {
-        var randomProfile = RandomProfileGenerator.GenerateProfile();
+        var randomProfile = ProfileGenerator.GetRandomProfile();
         SetProfile(randomProfile);
     }
 

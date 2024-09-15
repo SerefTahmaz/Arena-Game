@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using Unity.Netcode;
 using UnityEngine;
 

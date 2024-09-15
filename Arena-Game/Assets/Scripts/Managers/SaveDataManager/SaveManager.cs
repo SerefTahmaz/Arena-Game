@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace DemoBlast.Managers.SaveManager
+namespace ArenaGame.Managers.SaveManager
 {
-    public class cSaveManager : MonoBehaviour, ISaveManager
+    public class SaveManager : MonoBehaviour, ISaveManager
     {
         private bool m_Loaded;
     
-        public cSaveData SaveData
+        public SaveData SaveData
         {
             get
             {
                 if (!m_Loaded)
                 {
-                    cSaveDataHandler.Load();
+                    SaveGameHandler.Load();
                     m_Loaded = true;
                 }
-                return cSaveDataHandler.SaveData;
+                return SaveGameHandler.SaveData;
             }
-            set => cSaveDataHandler.SaveData = value;
+            set => SaveGameHandler.SaveData = value;
         }
 
         private void Awake()
@@ -34,18 +34,18 @@ namespace DemoBlast.Managers.SaveManager
             while (true)
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(20));
-                cSaveDataHandler.Save();
+                SaveGameHandler.Save();
             }
         }
 
         public void Save()
         {
-            cSaveDataHandler.Save();
+            SaveGameHandler.Save();
         }
 
         public void Load()
         {
-            cSaveDataHandler.Load();
+            SaveGameHandler.Load();
         }
     }
 }

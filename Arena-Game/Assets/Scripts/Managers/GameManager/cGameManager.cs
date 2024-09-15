@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
-using DemoBlast.Managers.SaveManager;
-using DemoBlast.Utils;
+using ArenaGame.Managers.SaveManager;
+using ArenaGame.Utils;
 using DG.Tweening;
 using Unity.Netcode;
 using UnityEngine;
@@ -18,7 +18,7 @@ public enum eGameMode
 public class cGameManager : cSingleton<cGameManager>
 {
     [SerializeField] private cPlayerIconList m_PlayerIconList;
-    [SerializeField] private cSaveManager m_InstanceSaveManager;
+    [SerializeField] private SaveManager m_InstanceSaveManager;
     [SerializeField] private NetworkObject m_NetworkObject;
     [SerializeField] private cHealthBar m_BossUIHealthBar;
     [SerializeField] private cHealthBar m_PlayerUIHealthBar;

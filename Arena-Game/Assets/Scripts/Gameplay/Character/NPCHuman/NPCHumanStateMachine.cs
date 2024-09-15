@@ -1,5 +1,5 @@
 using _Main.Scripts.Gameplay;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using FiniteStateMachine;
 using UnityEngine;
 using UnityEngine.Serialization;

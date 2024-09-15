@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using QFSW.QC;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;

@@ -3,7 +3,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
-namespace DemoBlast.UI.Currency
+namespace ArenaGame.UI.Currency
 {
     public class cCurrencyBar : MonoBehaviour
     {

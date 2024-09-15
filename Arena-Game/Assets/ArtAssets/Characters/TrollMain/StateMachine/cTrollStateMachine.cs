@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using PlayerCharacter;
 using RootMotion.FinalIK;

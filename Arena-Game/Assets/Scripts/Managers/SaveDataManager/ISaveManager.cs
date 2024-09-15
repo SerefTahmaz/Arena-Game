@@ -1,8 +1,8 @@
-namespace DemoBlast.Managers.SaveManager
+namespace ArenaGame.Managers.SaveManager
 {
     public interface ISaveManager
     {
-        public cSaveData SaveData { get; set; }
+        public SaveData SaveData { get; set; }
         public void Save();
         public void Load();
     }

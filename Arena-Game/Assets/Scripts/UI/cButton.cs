@@ -1,5 +1,5 @@
 ﻿using System;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;

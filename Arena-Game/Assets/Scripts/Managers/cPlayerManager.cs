@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using FiniteStateMachine;
 using Unity.Netcode;
 using UnityEngine;
