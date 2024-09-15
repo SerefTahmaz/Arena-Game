@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace DemoBlast.UI
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class cView : MonoBehaviour
     {
         [SerializeField] private CanvasGroup m_CanvasGroup;
