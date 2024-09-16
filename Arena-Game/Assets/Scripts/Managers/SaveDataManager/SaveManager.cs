@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 namespace ArenaGame.Managers.SaveManager
@@ -27,6 +28,10 @@ namespace ArenaGame.Managers.SaveManager
         private void Awake()
         {
             SaveLoop().Forget();
+            DOVirtual.DelayedCall(2, () =>
+            {
+                SaveGameHandler.Save();
+            });
         }
 
         private async UniTaskVoid SaveLoop()

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace ArenaGame.Managers.SaveManager
             if (File.Exists(m_SaveFilePath))
             {
                 string loadPlayerData = File.ReadAllText(m_SaveFilePath);
-                SaveData = JsonUtility.FromJson<SaveData>(loadPlayerData);
+                SaveData = JsonConvert.DeserializeObject<SaveData>(loadPlayerData);
   
                 // Debug.Log("Load game complete!");
                 m_Loaded = true;
@@ -39,7 +40,7 @@ namespace ArenaGame.Managers.SaveManager
 
         public static void Save()
         {
-            string savePlayerData = JsonUtility.ToJson(SaveData);
+            string savePlayerData = JsonConvert.SerializeObject(SaveData);
             File.WriteAllText(m_SaveFilePath, savePlayerData);
 
             // Debug.Log("Save file created at: ");

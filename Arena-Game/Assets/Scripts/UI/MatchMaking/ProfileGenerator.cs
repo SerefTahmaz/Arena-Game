@@ -42,11 +42,13 @@ namespace ArenaGame
             ProfilePicture = profilePicture;
             ExpPoint = saveData.m_ExperiencePoint;
             Currency = saveData.m_Currency;
+            WinsCount = saveData.m_WinsCount;
         }
 
         public string Name { get; set; }
         public Texture2D ProfilePicture { get; set; }
         public int ExpPoint { get; set; }
         public int Currency { get; set; }
+        public int WinsCount { get; set; }
     }
 }

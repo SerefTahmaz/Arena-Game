@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
+
 namespace ArenaGame.Managers.SaveManager
 {
+    [Serializable]
     public class SaveData
     {
         public string m_PlayerName = "NewPlayer";
@@ -11,13 +15,5 @@ namespace ArenaGame.Managers.SaveManager
         public bool m_MusicState = true;
         public bool m_HapticState = true;
         public int m_CurrentLevel;
-    }
-
-    public static class SaveDataUtility
-    {
-        public static SaveData CreateSaveData()
-        {
-            return new SaveData();
-        }
     }
 }
