@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Item;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -14,7 +15,7 @@ public class SkinManager : MonoBehaviour
     [Serializable]
     public class SkinPiece
     {
-        public string Key;
+        public BaseItemSO Key;
         public List<GameObject> Pieces;
         public bool EditorEnable = true;
     }
