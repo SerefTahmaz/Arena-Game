@@ -15,5 +15,18 @@ namespace ArenaGame.Managers.SaveManager
         public bool m_MusicState = true;
         public bool m_HapticState = true;
         public int m_CurrentLevel;
+        public List<string> m_EquipmentList = new List<string>();
+    }
+
+    [Serializable]
+    public class CharacterData
+    {
+        public Dictionary<string, Character> Characters = new Dictionary<string, Character>();
+    }
+
+    public class Character
+    {
+        public int Health = 100;
+        public List<string> EquipmentList = new List<string>();
     }
 }

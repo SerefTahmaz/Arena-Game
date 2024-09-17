@@ -40,6 +40,11 @@ namespace ArenaGame.Managers.SaveManager
 
         public static void Save()
         {
+            if (!m_Loaded)
+            {
+                Load();
+            }
+
             string savePlayerData = JsonConvert.SerializeObject(SaveData);
             File.WriteAllText(m_SaveFilePath, savePlayerData);
 
@@ -116,6 +121,17 @@ namespace ArenaGame.Managers.SaveManager
                 Debug.Log("There is nothing to delete!");
 
             m_Loaded = false;
+        }
+        
+        [MenuItem("SaveData/ShowFileLoc")]
+        public static void ShowFileLoc()
+        {
+            if (File.Exists(m_SaveFilePath))
+            {
+                EditorUtility.RevealInFinder(m_SaveFilePath);
+            }
+            else
+                Debug.Log("There is nothing to show!");
         }
 #endif
        

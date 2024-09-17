@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Item.Scripts;
 using UnityEngine;
 
 public abstract class Registry<T> : ScriptableObject where T : SerializableScriptableObject

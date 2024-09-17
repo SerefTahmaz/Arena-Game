@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Item.Scripts;
+using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(Guid))]

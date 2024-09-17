@@ -10,6 +10,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 {
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     [SerializeField] private string m_NpcScene;
+    [SerializeField] private bool m_IsActive;
     
     private int m_SpawnOffset;
     private bool m_isActive;
@@ -56,7 +57,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
                 if (player != null)
                 {
-                    enemyHuman.GetComponent<NPCHumanStateMachine>().m_enemies.Add(player.transform);
+                    if(m_IsActive) enemyHuman.GetComponent<NPCHumanStateMachine>().m_enemies.Add(player.transform);
                 }
             }
         });

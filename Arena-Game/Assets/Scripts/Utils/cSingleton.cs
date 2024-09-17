@@ -21,6 +21,25 @@ namespace ArenaGame.Utils
             }
         }
     }
+    
+    public class BaseSingleton<T> : System.Object where T : new()
+    {
+        private static object _lock = new object();
+        private static T _instance;
+
+        public static T Instance
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (_instance == null) _instance = (T)new T();
+
+                    return _instance;
+                }
+            }
+        }
+    }
 }
 
 namespace ArenaGame.Utils

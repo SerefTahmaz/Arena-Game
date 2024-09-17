@@ -27,6 +27,8 @@ namespace ArenaGame.Managers.SaveManager
 
         private void Awake()
         {
+            SaveGameHandler.Load();
+            
             SaveLoop().Forget();
             DOVirtual.DelayedCall(2, () =>
             {

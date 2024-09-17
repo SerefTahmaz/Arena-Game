@@ -1,3 +1,4 @@
+using Item.Scripts;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;

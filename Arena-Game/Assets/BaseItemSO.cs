@@ -1,7 +1,4 @@
-﻿using System;
-using DefaultNamespace;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Item
 {
