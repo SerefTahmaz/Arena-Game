@@ -143,6 +143,11 @@ namespace ArenaGame.Utils
                 VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
             }
         }
+        
+        public static string ColorHtmlString(this string text, Color color)
+        {
+            return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
+        }
     }
 }
 

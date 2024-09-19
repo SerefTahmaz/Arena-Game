@@ -28,5 +28,6 @@ namespace ArenaGame.Managers.SaveManager
     {
         public int Health = 100;
         public List<string> EquipmentList = new List<string>();
+        public List<string> InventoryList = new List<string>();
     }
 }

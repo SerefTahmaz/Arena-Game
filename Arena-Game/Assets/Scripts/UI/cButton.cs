@@ -12,6 +12,8 @@ public class cButton : MonoBehaviour
 
     private Color m_StartColor;
 
+    public UnityEvent OnClickEvent => m_OnClick;
+
     private void Awake()
     {
         m_StartColor = m_BGImage.color;
@@ -33,6 +35,6 @@ public class cButton : MonoBehaviour
 
     public void OnClick()
     {
-        m_OnClick.Invoke();
+        OnClickEvent.Invoke();
     }
 }

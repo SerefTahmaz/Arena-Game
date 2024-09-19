@@ -34,10 +34,12 @@ public class SkinManager : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        Equipment();
+
+        m_CharacterSO.OnChanged += Equipment;
     }
 
-    public void Init()
+    public void Equipment()
     {
         m_CharacterSO.Load();
         
@@ -83,14 +85,12 @@ public class SkinManagerEditor : Editor
     {
         base.OnInspectorGUI();
 
-        // var skinManager = target as SkinManager;
-        //
-        // var fiels = serializedObject.get
-        //
-        // if (GUILayout.Button("Click"))
-        // {
-        //     ().MethodName();
-        // }
+        var skinManager = target as SkinManager;
+        
+        if (GUILayout.Button("Click"))
+        {
+            skinManager.Equipment();
+        }
     }
 }
 #endif

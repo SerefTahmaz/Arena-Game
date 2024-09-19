@@ -2,6 +2,7 @@
 using System.Linq;
 using ArenaGame.Managers.SaveManager;
 using DefaultNamespace.ArenaGame.Managers.SaveManager;
+using Item;
 using UnityEngine;
 
     
@@ -23,20 +24,31 @@ namespace DefaultNamespace
             m_CharacterSo.EquipmentList = m_ArmorItems;
             m_CharacterSo.Save();
         }
+        
+        public void SetInventory()
+        {
+            m_CharacterSo.Load();
+            m_CharacterSo.InventoryList = m_ArmorItems.Select((item => item as BaseItemSO)).ToList();
+            m_CharacterSo.Save();
+        }
     }
     
 
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(PlayerEquipmentListSO))]
-    public class TemplateEditor : Editor
+    public class PlayerEquipmentListSOEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (GUILayout.Button("Click"))
+            if (GUILayout.Button("Equip"))
             {
                 (target as PlayerEquipmentListSO).Equip();
+            }
+            if (GUILayout.Button("SetInventory"))
+            {
+                (target as PlayerEquipmentListSO).SetInventory();
             }
         }
     }
