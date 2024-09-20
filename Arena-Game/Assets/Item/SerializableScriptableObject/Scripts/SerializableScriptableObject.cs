@@ -14,6 +14,12 @@ public class SerializableScriptableObject : ScriptableObject
     {
         var path = AssetDatabase.GetAssetPath(this);
         _guid = new Guid(AssetDatabase.AssetPathToGUID(path));
+        OnValidateHelper();
     }
 #endif
+
+    protected virtual void OnValidateHelper()
+    {
+        
+    }
 }

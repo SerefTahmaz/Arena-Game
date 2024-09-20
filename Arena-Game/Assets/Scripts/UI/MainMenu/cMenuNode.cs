@@ -12,6 +12,8 @@ public class cMenuNode : MonoBehaviour
     [SerializeField] private UnityEvent m_OnActivateEvent;
     [SerializeField] private UnityEvent m_OnDeActivateEvent;
 
+    public UnityEvent OnActivateEvent => m_OnActivateEvent;
+
     public void SetParentNode(cMenuNode menuNode)
     {
         m_ParentNode = menuNode;
@@ -21,7 +23,7 @@ public class cMenuNode : MonoBehaviour
     {
         if(m_ParentNode != null) m_ParentNode.Deactivate();
         if(m_ChildsView != null) m_ChildsView.Activate();
-        m_OnActivateEvent.Invoke();
+        OnActivateEvent.Invoke();
     }
     
     public void Deactivate()

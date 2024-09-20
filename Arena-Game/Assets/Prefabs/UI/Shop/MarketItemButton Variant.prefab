@@ -193,14 +193,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.6374063, b: 0, a: 1}
+  m_Color: {r: 0.06568074, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3f91331724a9da84197e9b6d94f0483c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4a5934b590c8f06498d1bda2d5a53a2a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
-  borderWidth: 6.43
+  borderWidth: 0
   falloffDistance: 1
 --- !u!114 &6012348131752836337
 MonoBehaviour:
@@ -446,8 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028597407d01fdd40bded382c80edd62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MarketItemSo: {fileID: 11400000, guid: e0deeb575413f224e8d2caad34d5e913, type: 2}
   m_Image: {fileID: 386447534720488718}
   m_Price: {fileID: 5775732219623171784}
-  m_EquipedLayer: {fileID: 0}
-  m_CharacterSo: {fileID: 0}
+  m_UnlockedLayer: {fileID: 7222477369355678945}

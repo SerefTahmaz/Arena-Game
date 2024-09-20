@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Utils;
 using DefaultNamespace;
+using Gameplay;
 using UnityEngine;
 
 public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
@@ -9,6 +11,7 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
     [SerializeField] private CharacterSO m_CharacterSo;
     [SerializeField] private MenuInventoryItemController m_MenuInventoryItemPrefab;
     [SerializeField] private Transform m_LayoutParent;
+    [SerializeField] private cMenuNode m_MenuNode;
 
     private void Awake()
     {
@@ -17,6 +20,15 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
 
     private void Init()
     {
+        m_MenuNode.OnActivateEvent.AddListener(Refresh);
+    }
+
+    public void Refresh()
+    {
+        foreach (var VARIABLE in m_LayoutParent.gameObject.GetChilds())
+        {
+            Destroy(VARIABLE.gameObject);
+        }
         m_CharacterSo.Load();
         foreach (var VARIABLE in m_CharacterSo.InventoryList)
         {

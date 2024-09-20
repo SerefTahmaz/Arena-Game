@@ -3,7 +3,11 @@ using Item;
 using UnityEditor;
 using UnityEngine;
 
-namespace DefaultNamespace
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace UI.Shop
 {
     [CreateAssetMenu(fileName = "Item", menuName = "MarketItem", order = 0)]
     public class MarketItemSO : SerializableScriptableObject
@@ -32,4 +36,27 @@ namespace DefaultNamespace
             }
         }
     }
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(MarketItemSO))]
+    public class MarketItemSOEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("FixName"))
+            {
+                var marketItemSO = target as MarketItemSO;
+                if (marketItemSO.RewardItem)
+                {
+                    AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), $"{marketItemSO.RewardItem.ItemName} Market Item");
+
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                }
+            }
+        }
+    }
+#endif
 }

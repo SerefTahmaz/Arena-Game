@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ArenaGame.Managers.SaveManager;
+using DefaultNamespace;
 using DefaultNamespace.ArenaGame.Managers.SaveManager;
 using Item;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace DefaultNamespace
+namespace Gameplay
 {
-    [CreateAssetMenu(fileName = "Character", menuName = "Game/Character", order = 0)]
+    [CreateAssetMenu(fileName = "Character", menuName = "Game/CharacterSSS", order = 0)]
     public class CharacterSO : SerializableScriptableObject
     {
         [SerializeField] private int m_Health;
@@ -35,7 +34,7 @@ namespace DefaultNamespace
             CharacterSaveHandler.Load();
             if (!CharacterSaveHandler.SaveData.Characters.ContainsKey(Guid.ToHexString()))
             {
-                CharacterSaveHandler.SaveData.Characters.Add(Guid.ToHexString(), new Character());
+                CharacterSaveHandler.SaveData.Characters.Add(Guid.ToHexString(), new ArenaGame.Managers.SaveManager.Character());
             }
             
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = m_Health;
@@ -108,6 +107,17 @@ namespace DefaultNamespace
             }
             
             EquipmentList.Remove(item);
+            Save();
+        }
+
+        public void AddInventory(BaseItemSO item)
+        {
+            if (IsItemInInventory(item))
+            {
+                return;
+            }
+            
+            InventoryList.Add(item);
             Save();
         }
     }
