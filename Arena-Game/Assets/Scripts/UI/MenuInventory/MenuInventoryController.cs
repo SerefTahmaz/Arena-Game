@@ -33,6 +33,7 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
         {
             Destroy(VARIABLE.gameObject);
         }
+        m_InsInventoryItemControllers.Clear();
         m_CharacterSo.Load();
         foreach (var VARIABLE in m_CharacterSo.InventoryList)
         {

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using DefaultNamespace;
 using Gameplay;
+using Gameplay.Item;
 using UnityEngine;
 
 namespace UI.Shop
@@ -12,6 +14,8 @@ namespace UI.Shop
         [SerializeField] private MarketItemListSO m_MarketItemListSo;
         [SerializeField] private cMenuNode m_MenuNode;
 
+        private List<MarketItemController> m_MarketItemControllers = new List<MarketItemController>();
+
         private void Awake()
         {
             Init();
@@ -20,15 +24,28 @@ namespace UI.Shop
         private void Init()
         {
             m_MenuNode.OnActivateEvent.AddListener(Refresh);
+            m_MenuNode.OnDeActivateEvent.AddListener(OnDeactivate);
+        }
+
+        private void OnDeactivate()
+        {
+
+            InventoryPreviewManager.Instance.ClearEquipment();
         }
 
         public void Refresh()
         {
+            foreach (var VARIABLE in m_MarketItemControllers)
+            {
+                Destroy(VARIABLE.gameObject);
+            }
+            m_MarketItemControllers.Clear();
             m_CharacterSo.Load();
             foreach (var marketItemSo in m_MarketItemListSo.MarketItemSOs)
             {
                 var ins = Instantiate(m_MarketItemPrefab,m_LayoutParent);
                 ins.Init(marketItemSo,this);
+                m_MarketItemControllers.Add(ins);
             }
         }
 
@@ -38,14 +55,32 @@ namespace UI.Shop
             if (!isItemInInventory)
             {
                 m_CharacterSo.AddInventory(marketItemController.MarketItemSo.RewardItem);
+                
+                if(marketItemController.MarketItemSo.RewardItem is ArmorItem rewardArmorItem) 
+                    m_CharacterSo.EquipItem(rewardArmorItem);
             }
 
             marketItemController.UnlockMarketItem();
+        }
+
+        public void HandlePreview(MarketItemController marketItemController)
+        {
+            if (!marketItemController.IsPreviewing)
+            {
+                marketItemController.SetPreviewState(true);
+                InventoryPreviewManager.Instance.Equip(marketItemController.MarketItemSo.RewardItem as ArmorItem);
+            }
+            else
+            {
+                marketItemController.SetPreviewState(false);
+                InventoryPreviewManager.Instance.Unequip(marketItemController.MarketItemSo.RewardItem as ArmorItem);
+            }
         }
     }
 
     public interface IMarketItemHandler
     {
         void HandlePurchase(MarketItemController marketItemController);
+        void HandlePreview(MarketItemController marketItemController);
     }
 }

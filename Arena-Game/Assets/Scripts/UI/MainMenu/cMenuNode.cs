@@ -13,6 +13,7 @@ public class cMenuNode : MonoBehaviour
     [SerializeField] private UnityEvent m_OnDeActivateEvent;
 
     public UnityEvent OnActivateEvent => m_OnActivateEvent;
+    public UnityEvent OnDeActivateEvent => m_OnDeActivateEvent;
 
     public void SetParentNode(cMenuNode menuNode)
     {
@@ -29,7 +30,7 @@ public class cMenuNode : MonoBehaviour
     public void Deactivate()
     {
         if(m_ChildsView != null) m_ChildsView.Deactivate();
-        m_OnDeActivateEvent.Invoke();
+        OnDeActivateEvent.Invoke();
     }
     
     public void EnableParent()

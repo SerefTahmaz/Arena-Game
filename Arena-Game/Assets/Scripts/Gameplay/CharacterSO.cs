@@ -167,5 +167,13 @@ namespace Gameplay
             InventoryList.Add(item);
             Save();
         }
+
+        public void ClearEquipment()
+        {
+            m_HelmArmor = null;
+            m_ChestArmor = null;
+            m_GauntletsArmor = null;
+            m_LeggingArmor = null;
+        }
     }
 }

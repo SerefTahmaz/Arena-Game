@@ -23,9 +23,11 @@ namespace DefaultNamespace
         public void Equip()
         {
             m_CharacterSo.Load();
-            foreach (var VARIABLE in m_ArmorItems)
+            m_CharacterSo.ClearEquipment();
+            m_CharacterSo.Save();
+            foreach (var armorItem in m_ArmorItems)
             {
-                m_CharacterSo.EquipItem(VARIABLE);
+                m_CharacterSo.EquipItem(armorItem);
             }
             m_CharacterSo.Save();
         }
