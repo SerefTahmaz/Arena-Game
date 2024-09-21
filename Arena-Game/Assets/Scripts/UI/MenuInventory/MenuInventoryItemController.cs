@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using Gameplay.Item;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

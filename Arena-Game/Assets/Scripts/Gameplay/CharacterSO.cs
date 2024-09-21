@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using DefaultNamespace.ArenaGame.Managers.SaveManager;
+using Gameplay.Item;
 using Item;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay
 {
@@ -12,22 +14,25 @@ namespace Gameplay
     public class CharacterSO : SerializableScriptableObject
     {
         [SerializeField] private int m_Health;
-        [SerializeField] private List<ArmorItem> m_EquipmentList;
         [SerializeField] private List<BaseItemSO> m_InventoryList;
 
-        public Action OnChanged { get; set; }
+        [SerializeField] private ArmorItem m_HelmArmor;
+        [SerializeField] private ArmorItem m_ChestArmor;
+        [SerializeField] private ArmorItem m_GauntletsArmor;
+        [SerializeField] private ArmorItem m_LeggingArmor;
 
-        public List<ArmorItem> EquipmentList
-        {
-            get => m_EquipmentList;
-            set => m_EquipmentList = value;
-        }
+        public Action OnChanged { get; set; }
 
         public List<BaseItemSO> InventoryList
         {
             get => m_InventoryList;
             set => m_InventoryList = value;
         }
+
+        public ArmorItem HelmArmor => m_HelmArmor;
+        public ArmorItem ChestArmor => m_ChestArmor;
+        public ArmorItem GauntletsArmor => m_GauntletsArmor;
+        public ArmorItem LeggingArmor => m_LeggingArmor;
 
         public void Save()
         {
@@ -38,8 +43,13 @@ namespace Gameplay
             }
             
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = m_Health;
-            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].EquipmentList = EquipmentList.Select((item => item.Guid.ToHexString())).ToList();
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList = InventoryList.Select((item => item.Guid.ToHexString())).ToList();
+
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor = HelmArmor ? HelmArmor.Guid.ToHexString() : "";
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].ChestArmor = ChestArmor ? ChestArmor.Guid.ToHexString() : "";
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].GaunletsArmor = GauntletsArmor ? GauntletsArmor.Guid.ToHexString() : "";
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].LeggingArmor = LeggingArmor ? LeggingArmor.Guid.ToHexString() : "";
+            
             CharacterSaveHandler.Save();
             OnChanged?.Invoke();
         }
@@ -60,11 +70,10 @@ namespace Gameplay
 
         private void LoadEquipmentList()
         {
-            var itemsGuid = CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].EquipmentList;
-            var itemsSO = itemsGuid.Select((s => ItemListSO.GetItemByGuid<ArmorItem>(s))).ToList();
-            itemsSO.RemoveAll((item => item == null));
-
-            EquipmentList = itemsSO;
+            m_HelmArmor = ItemListSO.GetItemByGuid<ArmorItem>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor);
+            m_ChestArmor = ItemListSO.GetItemByGuid<ArmorItem>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].ChestArmor);
+            m_GauntletsArmor = ItemListSO.GetItemByGuid<ArmorItem>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].GaunletsArmor);
+            m_LeggingArmor = ItemListSO.GetItemByGuid<ArmorItem>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].LeggingArmor);
         }
         
         private void LoadInventoryList()
@@ -79,7 +88,10 @@ namespace Gameplay
         public bool IsItemEquiped(BaseItemSO baseItemSo)
         {
             Load();
-            return EquipmentList.Contains(baseItemSo);
+
+            if (baseItemSo == ChestArmor || baseItemSo == HelmArmor || baseItemSo == GauntletsArmor ||
+                baseItemSo == LeggingArmor) return true;
+            else return false;
         }
         
         public bool IsItemInInventory(BaseItemSO baseItemSo)
@@ -94,8 +106,25 @@ namespace Gameplay
             {
                 return;
             }
+
+            switch (item.ArmorType)
+            {
+                case ArmorType.Helm:
+                    m_HelmArmor = item;
+                    break;
+                case ArmorType.Chest:
+                    m_ChestArmor = item;
+                    break;
+                case ArmorType.Gauntlets:
+                    m_GauntletsArmor = item;
+                    break;
+                case ArmorType.Legging:
+                    m_LeggingArmor = item;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             
-            EquipmentList.Add(item);
             Save();
         }
 
@@ -103,10 +132,28 @@ namespace Gameplay
         {
             if (!IsItemEquiped(item))
             {
+                Debug.Log("Item not equipped");
                 return;
             }
             
-            EquipmentList.Remove(item);
+            switch (item.ArmorType)
+            {
+                case ArmorType.Helm:
+                    m_HelmArmor = null;
+                    break;
+                case ArmorType.Chest:
+                    m_ChestArmor = null;
+                    break;
+                case ArmorType.Gauntlets:
+                    m_GauntletsArmor = null;
+                    break;
+                case ArmorType.Legging:
+                    m_LeggingArmor = null;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
             Save();
         }
 

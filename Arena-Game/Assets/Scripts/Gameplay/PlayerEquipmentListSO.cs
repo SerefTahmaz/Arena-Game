@@ -3,6 +3,7 @@ using System.Linq;
 using ArenaGame.Managers.SaveManager;
 using DefaultNamespace.ArenaGame.Managers.SaveManager;
 using Gameplay;
+using Gameplay.Item;
 using Item;
 using UnityEngine;
 
@@ -22,7 +23,10 @@ namespace DefaultNamespace
         public void Equip()
         {
             m_CharacterSo.Load();
-            m_CharacterSo.EquipmentList = m_ArmorItems;
+            foreach (var VARIABLE in m_ArmorItems)
+            {
+                m_CharacterSo.EquipItem(VARIABLE);
+            }
             m_CharacterSo.Save();
         }
         

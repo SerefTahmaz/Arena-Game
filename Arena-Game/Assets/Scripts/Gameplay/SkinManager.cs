@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using DefaultNamespace;
 using Gameplay;
 using Item;
 using UnityEngine;
-using Guid = Item.Scripts.Guid;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,7 +11,10 @@ using UnityEditor;
 public class SkinManager : MonoBehaviour
 {
     [SerializeField] private CharacterSO m_CharacterSO;
-    public List<SkinPiece> m_Skins;
+    [SerializeField] private SkinnedMeshRenderer m_ReferenceSkinnedMesh;
+    [SerializeField] private GameObject m_DefaultSet;
+
+    private List<GameObject> SpawnedItems = new List<GameObject>();
     
     [Serializable]
     public class SkinPiece
@@ -42,40 +41,42 @@ public class SkinManager : MonoBehaviour
 
     public void Equipment()
     {
+        if(!Application.isPlaying) return;
+        
+        m_DefaultSet.SetActive(false);
+        
         m_CharacterSO.Load();
         
-        foreach (var VARIABLE in m_Skins)
+        foreach (var VARIABLE in SpawnedItems)
         {
-            VARIABLE.SetActive(false);
+            Destroy(VARIABLE);
         }
 
-        foreach (var VARIABLE in m_CharacterSO.EquipmentList)
+        if (m_CharacterSO.HelmArmor != null)
         {
-            var skin = m_Skins.FirstOrDefault((piece => piece.Key.Guid == VARIABLE.Guid));
-            
-            if (skin != null)
-            {
-                skin.SetActive(true);
-            } 
+            var insArmor = Instantiate(m_CharacterSO.HelmArmor.ArmorPrefab);
+            insArmor.Init(m_ReferenceSkinnedMesh);
+            SpawnedItems.Add(insArmor.gameObject);
+        }
+        if (m_CharacterSO.ChestArmor != null)
+        {
+            var insArmor = Instantiate(m_CharacterSO.ChestArmor.ArmorPrefab);
+            insArmor.Init(m_ReferenceSkinnedMesh);
+            SpawnedItems.Add(insArmor.gameObject);
+        }
+        if (m_CharacterSO.GauntletsArmor != null)
+        {
+            var insArmor = Instantiate(m_CharacterSO.GauntletsArmor.ArmorPrefab);
+            insArmor.Init(m_ReferenceSkinnedMesh);
+            SpawnedItems.Add(insArmor.gameObject);
+        }
+        if (m_CharacterSO.LeggingArmor != null)
+        {
+            var insArmor = Instantiate(m_CharacterSO.LeggingArmor.ArmorPrefab);
+            insArmor.Init(m_ReferenceSkinnedMesh);
+            SpawnedItems.Add(insArmor.gameObject);
         }
     }
-    
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        foreach (var VARIABLE in m_Skins)
-        {
-            foreach (var p in VARIABLE.Pieces)
-            {
-                if (p.activeSelf != VARIABLE.EditorEnable)
-                {
-                    p.SetActive(VARIABLE.EditorEnable);
-                    EditorUtility.SetDirty(p);
-                }
-            }
-        }
-    }
-#endif
 }
 
 #if UNITY_EDITOR
