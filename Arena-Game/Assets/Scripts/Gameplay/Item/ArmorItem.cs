@@ -8,9 +8,13 @@ namespace Gameplay.Item
     {
         [SerializeField] private ArmorController m_ArmorPrefab;
         [SerializeField] private ArmorType m_ArmorType;
+        [SerializeField] private Texture m_BodyMask;
+        [SerializeField] private bool m_HideHair;
 
         public ArmorController ArmorPrefab => m_ArmorPrefab;
         public ArmorType ArmorType => m_ArmorType;
+        public Texture BodyMask => m_BodyMask;
+        public bool HideHair => m_HideHair;
     }
 
     public enum ArmorType
