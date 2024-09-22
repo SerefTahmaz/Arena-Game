@@ -22,6 +22,8 @@ namespace ArenaGame.Managers.SaveManager
 
         private static string m_SaveFilePath => Application.persistentDataPath + "/SavaData.json";
 
+        public static Action OnChanged = delegate { };
+
         public static void Load(){
             if(m_Loaded) return;
         
@@ -49,6 +51,7 @@ namespace ArenaGame.Managers.SaveManager
             File.WriteAllText(m_SaveFilePath, savePlayerData);
 
             // Debug.Log("Save file created at: ");
+            OnChanged.Invoke();
         }
 
         public static Texture2D GetProfileImage()

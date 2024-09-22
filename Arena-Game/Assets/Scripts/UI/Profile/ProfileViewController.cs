@@ -18,7 +18,6 @@ public class ProfileViewController : MonoBehaviour
     [SerializeField] private cView m_View;
     [SerializeField] private Button m_Button;
     [SerializeField] private RawImage m_RawImage;
-    [SerializeField] private TMP_Text m_ExpPoint;
 
     private void Awake()
     {
@@ -29,7 +28,6 @@ public class ProfileViewController : MonoBehaviour
     private void LoadProfile()
     {
         var profile = ProfileGenerator.GetPlayerProfile();
-        m_ExpPoint.text = profile.ExpPoint.ToString();
         
         var PPTex = profile.ProfilePicture;
         if (PPTex != null)

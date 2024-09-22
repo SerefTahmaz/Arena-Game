@@ -15,7 +15,6 @@ namespace ArenaGame.Managers.SaveManager
         public bool m_MusicState = true;
         public bool m_HapticState = true;
         public int m_CurrentLevel;
-        public List<string> m_EquipmentList = new List<string>();
     }
 
     [Serializable]

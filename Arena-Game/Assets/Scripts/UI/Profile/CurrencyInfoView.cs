@@ -1,16 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using ArenaGame;
-using TMPro;
-using UnityEngine;
-
-public class CurrencyInfoView : MonoBehaviour
+﻿namespace ArenaGame.UI.Profile
 {
-    [SerializeField] private TMP_Text m_Text;
-    
-    // Start is called before the first frame update
-    void Start()
+    public class CurrencyInfoView : InfoView
     {
-        m_Text.text = ProfileGenerator.GetPlayerProfile().Currency.ToString();
+        public override int TargetValue => ProfileGenerator.GetPlayerProfile().Currency;
     }
 }

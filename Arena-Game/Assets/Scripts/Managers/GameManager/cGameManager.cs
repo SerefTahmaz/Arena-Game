@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Unity.Netcode;
 using UnityEngine;
@@ -194,11 +195,9 @@ public class cGameManager : cSingleton<cGameManager>
         cUIManager.Instance.MainMenuNode.Activate();
     }
 
-    public void HandleWin()
+    public async UniTask HandleWin()
     {
-        InputManager.Instance.SetInput(false);
-        CameraManager.Instance.SetInput(false);
-        cUIManager.Instance.HidePage(Page.Gameplay);
+        await GameEnd();
         cUIManager.Instance.ShowPage(Page.Win);
     }
 
@@ -206,5 +205,20 @@ public class cGameManager : cSingleton<cGameManager>
     {
         cUIManager.Instance.HidePage(Page.Win);
         LeaveGame();
+    }
+
+    public async UniTask HandleLose()
+    {
+        await GameEnd();
+        cUIManager.Instance.ShowPage(Page.Lose);
+    }
+
+    private async UniTask GameEnd()
+    {
+        InputManager.Instance.SetInput(false);
+        CameraManager.Instance.SetInput(false);
+        await UniTask.WaitForSeconds(2);
+        
+        cUIManager.Instance.HidePage(Page.Gameplay);
     }
 }

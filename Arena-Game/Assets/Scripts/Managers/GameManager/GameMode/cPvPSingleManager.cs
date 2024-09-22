@@ -98,6 +98,10 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
                 OnGameEnd();
                 cGameManager.Instance.HandleWin();
             }
+            else
+            {
+                cGameManager.Instance.HandleLose();
+            }
         }
     }
     

@@ -1,11 +1,18 @@
 ﻿using System;
 using ArenaGame.Managers.SaveManager;
+using ArenaGame.Utils;
 using UnityEngine;
 
 namespace ArenaGame.Currency
 {
     public class CurrencyManager
     {
+        public static int Currency()
+        {
+            SaveGameHandler.Load();
+            return SaveGameHandler.SaveData.m_Currency;
+        }
+        
         public static void GainCurrency(int amount)
         {
             SaveGameHandler.Load();
@@ -24,15 +31,12 @@ namespace ArenaGame.Currency
             {
                 Debug.Log("Currency cant be less than zero!!!!");
             }
-            
             SaveGameHandler.Save();
         }
 
         public static bool HasEnoughCurrency(int amount)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
-            return savaData.m_Currency >= amount;
+            return Currency() >= amount;
         }
     }
 }

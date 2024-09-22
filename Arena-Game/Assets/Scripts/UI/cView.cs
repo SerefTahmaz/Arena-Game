@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ArenaGame.UI;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,6 +15,12 @@ namespace ArenaGame.UI
     public class cView : MonoBehaviour
     {
         [SerializeField] private CanvasGroup m_CanvasGroup;
+        
+        [SerializeField] private UnityEvent m_OnActivateEvent;
+        [SerializeField] private UnityEvent m_OnDeActivateEvent;
+
+        public UnityEvent OnActivateEvent => m_OnActivateEvent;
+        public UnityEvent OnDeActivateEvent => m_OnDeActivateEvent;
 
         public bool m_IsActive;
 
@@ -28,6 +35,7 @@ namespace ArenaGame.UI
                 CanvasGroup.interactable = true;
                 CanvasGroup.DOFade(1, instant? 0:.2f);
                 m_IsActive = true;
+                OnActivateEvent.Invoke();
             }
             else
             {
@@ -47,6 +55,7 @@ namespace ArenaGame.UI
                 CanvasGroup.interactable = false;
                 CanvasGroup.DOFade(0,instant? 0:.2f);
                 m_IsActive = false;
+                m_OnDeActivateEvent.Invoke();
             }
             else
             {
