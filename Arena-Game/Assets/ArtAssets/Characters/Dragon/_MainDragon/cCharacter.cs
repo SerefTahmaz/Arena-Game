@@ -31,7 +31,7 @@ public abstract class cCharacter: MonoBehaviour
         set => m_CharacterName = value;
     }
 
-    public int StartHealth => m_StartHealth;
+    public virtual int StartHealth => m_StartHealth;
 
     public cDamageManager DamageManager => m_DamageManager;
 

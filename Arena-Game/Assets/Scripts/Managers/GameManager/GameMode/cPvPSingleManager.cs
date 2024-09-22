@@ -31,7 +31,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
     {
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading);
+        cUIManager.Instance.ShowPage(Page.Loading,true);
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
 
@@ -47,7 +47,11 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             if (m_isActive)
             {
                 cUIManager.Instance.HidePage(Page.Loading);
+                
+                InputManager.Instance.SetInput(true);
+                CameraManager.Instance.SetInput(true);
                 CameraManager.Instance.FixLook();
+                
                 var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
                 var pos = new Vector3(0, 0, 5);
                 var dir = Vector3.zero - pos;
@@ -88,6 +92,12 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             //     }
             // });
             Debug.Log($"Game Ended");
+            var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
+            if (playerSM.CurrentState != playerSM.Dead)
+            {
+                OnGameEnd();
+                cGameManager.Instance.HandleWin();
+            }
         }
     }
     
@@ -95,8 +105,13 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
     {
         if (m_isActive)
         {
-            m_isActive = false;
-            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+            OnGameEnd();
         }
+    }
+
+    private void OnGameEnd()
+    {
+        m_isActive = false;
+        cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
     }
 }

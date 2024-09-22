@@ -16,7 +16,7 @@ namespace Gameplay.Character
         [SerializeField] private ParticleSystem m_BloodExpo;
         [SerializeField] private MovementController m_MovementController;
         [SerializeField] private HumanCharacterStateMachine m_CharacterStateMachine;
-        
+        [SerializeField] private CharacterSO m_CharacterSo;
 
         public AnimationController AnimationController => m_AnimationController;
         public override cCharacterNetworkController CharacterNetworkController => PlayerCharacterNetworkController;
@@ -30,6 +30,10 @@ namespace Gameplay.Character
         public MovementController MovementController => m_MovementController;
 
         public HumanCharacterStateMachine CharacterStateMachine => m_CharacterStateMachine;
+
+        public CharacterSO CharacterSo => m_CharacterSo;
+
+        public override int StartHealth => m_CharacterSo.Health;
 
         public void OnDamageAnim()
         {

@@ -50,6 +50,7 @@ public class PurchasePopUpController : MonoBehaviour, IPurchasePopUpController
     {
         if (CurrencyManager.HasEnoughCurrency(m_Amount))
         {
+            CurrencyManager.SpendCurrency(m_Amount);
             isSuccessfully = true;
         }
         else

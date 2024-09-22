@@ -189,5 +189,22 @@ public class cGameManager : cSingleton<cGameManager>
         NetworkManager.Singleton.Shutdown();
         m_OnMainMenuButton.Invoke();
         cLobbyManager.Instance.UpdateIsPlayerReady(false);
+        
+        cUIManager.Instance.ShowPage(Page.MainMenu);
+        cUIManager.Instance.MainMenuNode.Activate();
+    }
+
+    public void HandleWin()
+    {
+        InputManager.Instance.SetInput(false);
+        CameraManager.Instance.SetInput(false);
+        cUIManager.Instance.HidePage(Page.Gameplay);
+        cUIManager.Instance.ShowPage(Page.Win);
+    }
+
+    public void HandleWinContinueButton()
+    {
+        cUIManager.Instance.HidePage(Page.Win);
+        LeaveGame();
     }
 }

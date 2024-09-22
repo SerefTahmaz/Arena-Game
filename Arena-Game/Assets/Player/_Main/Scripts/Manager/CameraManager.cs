@@ -80,6 +80,12 @@ public class CameraManager : cSingleton<CameraManager>
         SetCamera(CameraType.Focus);
     }
 
+    public void SetInput(bool value)
+    {
+        m_CinemachineFreeLook.enabled = value;
+        // m_focusCam.SetActive(value);
+    }
+
     public void StopCameraMovement()
     {
         _gameplayCamInput.StopCamMovement();

@@ -10,6 +10,8 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     [SerializeField] private bool m_MobileInput;
     [SerializeField] private bool m_PCInput;
 
+    private bool m_IsInput;
+
     public float HorizontalAxis => _horizontalAxis;
     public float VerticalAxis => _verticalAxis;
     
@@ -81,10 +83,17 @@ public class InputManager : cSingleton<InputManager>, IInputManager
         }
     }
 
+    public void SetInput(bool value)
+    {
+        m_IsInput = value;
+    }
+
     private void Update()
     {
         _horizontalAxis = 0;
         _verticalAxis = 0;
+        
+        if(!m_IsInput) return;
         
         if (m_MobileInput)
         {

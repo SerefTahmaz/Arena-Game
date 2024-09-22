@@ -34,6 +34,8 @@ namespace Gameplay
         public ArmorItem GauntletsArmor => m_GauntletsArmor;
         public ArmorItem LeggingArmor => m_LeggingArmor;
 
+        public int Health => m_Health;
+
         public void Save()
         {
             CharacterSaveHandler.Load();
@@ -42,7 +44,7 @@ namespace Gameplay
                 CharacterSaveHandler.SaveData.Characters.Add(Guid.ToHexString(), new ArenaGame.Managers.SaveManager.Character());
             }
             
-            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = m_Health;
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = Health;
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList = InventoryList.Select((item => item.Guid.ToHexString())).ToList();
 
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor = HelmArmor ? HelmArmor.Guid.ToHexString() : "";

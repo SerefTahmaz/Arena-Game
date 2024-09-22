@@ -4,21 +4,22 @@ using System.Linq;
 using _Main.Scripts.Gameplay;
 using DefaultNamespace;
 using DG.Tweening;
+using Gameplay.Character;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
 {
-    public class cHumanDead : cDeath
+    public abstract class cHumanDead : cDeath
     {
-        cPlayerStateMachineV2 StateMachine => m_StateMachine as cPlayerStateMachineV2;
+        protected abstract HumanCharacter HumanCharacter { get; }
         
         public override void Enter()
         {
             base.Enter();
-            StateMachine.Character.CharacterStateMachine.Die();
-            StateMachine.Character.PlayerCharacterNetworkController.OnDeathServerRpc();
+            HumanCharacter.CharacterStateMachine.Die();
+            HumanCharacter.PlayerCharacterNetworkController.OnDeathServerRpc();
         }
 
         public override void StateMachineUpdate()

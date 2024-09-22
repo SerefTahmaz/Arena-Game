@@ -8,15 +8,19 @@ public class cUIManager : cSingleton<cUIManager>
 {
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private List<cView> m_Views;
-    
-    public void ShowPage(Page page)
+    [SerializeField] private cMenuNode m_MainMenuNode;
+
+    public cMenuNode MainMenuNode => m_MainMenuNode;
+
+
+    public void ShowPage(Page page, bool instant = false)
     {
-        m_Views[(int)page].Activate();
+        m_Views[(int)page].Activate(instant);
     }
     
-    public void HidePage(Page page)
+    public void HidePage(Page page, bool instant = false)
     {
-        m_Views[(int)page].Deactivate();
+        m_Views[(int)page].Deactivate(instant);
     }
 
     public void SetInteractable(bool state)
@@ -30,5 +34,7 @@ public enum Page
 {
     MainMenu,
     Loading,
-    Gameplay
+    Gameplay,
+    Win,
+    Lose
 }

@@ -77,7 +77,10 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     [ClientRpc]
     protected override void OnDeathClientRpc()
     {
-        DOVirtual.DelayedCall(2, () => m_HumanCharacter.HealthManager.SetVisibility(false));
+        DOVirtual.DelayedCall(2, () =>
+        {
+            m_HumanCharacter.HealthManager.SetVisibility(false);
+        });
         m_HumanCharacter.SoundEffectController.PlayDead();
         m_HumanCharacter.SoundEffectController.PlayDamageGrunt();
     }

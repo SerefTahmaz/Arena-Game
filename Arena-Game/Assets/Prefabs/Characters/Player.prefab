@@ -15317,6 +15317,7 @@ MonoBehaviour:
   m_BloodExpo: {fileID: 2349041352535707584}
   m_MovementController: {fileID: 4271340438512703477}
   m_CharacterStateMachine: {fileID: 368970530281654065}
+  m_CharacterSo: {fileID: 11400000, guid: 06aa23bb539fb2247b8d02a3b6e86deb, type: 2}
 --- !u!114 &3820554024670266463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20446,9 +20447,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.35569885, y: 0.8947179, z: 0.117488906}
   m_RotationAtRest: {x: -6.1759486, y: 32.03694, z: 143.07423}
   m_TranslationOffsets:
-  - {x: -0.00002580136, y: -0.00006151199, z: -0.0000047683716}
+  - {x: -0.00002618879, y: -0.00006210804, z: -0.000004887581}
   m_RotationOffsets:
-  - {x: 0, y: 90.000175, z: -89.99997}
+  - {x: 0, y: 90.00018, z: -89.99999}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -20567,9 +20568,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.3663122, y: 0.89029175, z: 0.105284125}
   m_RotationAtRest: {x: -4.2653785, y: -28.019863, z: -151.99557}
   m_TranslationOffsets:
-  - {x: 0.000011622906, y: -0.0000051259995, z: 0.000017285347}
+  - {x: 0.000011146069, y: -0.000005066395, z: 0.000017017126}
   m_RotationOffsets:
-  - {x: -0.00007598578, y: 0, z: 0}
+  - {x: -0.00007513201, y: 0, z: 0.000060404396}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -20647,7 +20648,7 @@ MonoBehaviour:
   m_Empty: {fileID: 8875635435150937409}
   m_FreeRoam: {fileID: 8875635436294919033}
   m_Fight: {fileID: 8875635436251121239}
-  m_Dead: {fileID: 8875635436186524331}
+  m_Dead: {fileID: 5509130576885079260}
 --- !u!1 &8875635436186524333
 GameObject:
   m_ObjectHideFlags: 0
@@ -20657,7 +20658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8875635436186524330}
-  - component: {fileID: 8875635436186524331}
+  - component: {fileID: 5509130576885079260}
   m_Layer: 7
   m_Name: Dead
   m_TagString: Untagged
@@ -20680,7 +20681,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8875635435767202818}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8875635436186524331
+--- !u!114 &5509130576885079260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20689,7 +20690,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8875635436186524333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8016ab16514348eab0245e4acfef4c70, type: 3}
+  m_Script: {fileID: 11500000, guid: c56bb01486a7422292510dcc1282b3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_StateName: 
