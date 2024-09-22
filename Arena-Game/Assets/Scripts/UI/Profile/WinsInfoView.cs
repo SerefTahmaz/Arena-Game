@@ -4,13 +4,7 @@ using ArenaGame;
 using TMPro;
 using UnityEngine;
 
-public class WinsInfoView : MonoBehaviour
+public class WinsInfoView : InfoView
 {
-    [SerializeField] private TMP_Text m_Text;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_Text.text = ProfileGenerator.GetPlayerProfile().WinsCount.ToString();
-    }
+    public override int TargetValue => ProfileGenerator.GetPlayerProfile().WinsCount;
 }

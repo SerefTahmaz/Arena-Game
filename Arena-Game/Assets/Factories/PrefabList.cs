@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using _Main.Scripts;
 using ArenaGame.UI.PopUps.InfoPopUp;
+using UI.EndScreen;
 using UnityEngine;
 using UnityEngine.Serialization;
 

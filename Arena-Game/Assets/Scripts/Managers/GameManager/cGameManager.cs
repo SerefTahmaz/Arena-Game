@@ -221,4 +221,10 @@ public class cGameManager : cSingleton<cGameManager>
         
         cUIManager.Instance.HidePage(Page.Gameplay);
     }
+
+    public void HandleLoseContinueButton()
+    {
+        cUIManager.Instance.HidePage(Page.Lose);
+        LeaveGame();
+    }
 }

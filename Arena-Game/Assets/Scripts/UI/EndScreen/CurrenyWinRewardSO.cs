@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-
+﻿using UI.EndScreen;
+using UnityEngine;
+ 
 namespace DefaultNamespace
 {
     [CreateAssetMenu(fileName = "MoneyWinReward", menuName = "Game/Rewards/CurrencyWinReward", order = 0)]

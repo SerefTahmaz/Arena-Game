@@ -118,10 +118,16 @@ public class cPlayerStateMachineV2 : cStateMachine
             
             if(CurrentState == Dead) return;
             
+            m_LastDamager = damageWrapper;
+            
             base.OnDamage(damageWrapper);
             Character.HealthManager.OnDamage(damageWrapper.amount);
-            m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
             Character.CharacterStateMachine.PlayTakeDamage(damageWrapper.isHeavyDamage);
+        }
+
+        public void DrawSword()
+        {
+            Character.CharacterStateMachine.SwitchRightSword();
         }
     }

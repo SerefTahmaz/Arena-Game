@@ -10,10 +10,12 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 {
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     [SerializeField] private string m_NpcScene;
-    [SerializeField] private bool m_IsActive;
+    
+    private bool m_IsActive;
+
+    private NPCHumanStateMachine m_NPCHumanStateMachine;
     
     private int m_SpawnOffset;
-    private bool m_isActive;
 
     public void StartGame()
     {
@@ -22,7 +24,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
-        m_isActive = true;
+        m_IsActive = true;
             
         LoopStart();
     }
@@ -44,7 +46,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
         DOVirtual.DelayedCall(5, () =>
         {
-            if (m_isActive)
+            if (m_IsActive)
             {
                 cUIManager.Instance.HidePage(Page.Loading);
                 
@@ -59,9 +61,12 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
                 enemyHuman.transform.rotation = lookRot;
                 enemyHuman.transform.position = pos;
 
-                if (player != null)
+                if (cGameManager.Instance.m_OwnerPlayer != null)
                 {
-                    if(m_IsActive) enemyHuman.GetComponent<NPCHumanStateMachine>().m_enemies.Add(player.transform);
+                    m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
+                    m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+
+                    cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
                 }
             }
         });
@@ -100,14 +105,20 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             }
             else
             {
+                OnGameEnd();
                 cGameManager.Instance.HandleLose();
+                if (m_NPCHumanStateMachine != null)
+                {
+                    m_NPCHumanStateMachine.m_enemies.Clear();
+                    m_NPCHumanStateMachine = null;
+                }
             }
         }
     }
     
     private void OnMainMenuButton()
     {
-        if (m_isActive)
+        if (m_IsActive)
         {
             OnGameEnd();
         }
@@ -115,7 +126,9 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private void OnGameEnd()
     {
-        m_isActive = false;
+        m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        
+        Debug.Log("GameEnded!!!!!!!!!!");
     }
 }
