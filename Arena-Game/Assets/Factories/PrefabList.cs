@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Main.Scripts;
+using ArenaGame.UI.PopUps.InfoPopUp;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,9 +8,11 @@ using UnityEngine.Serialization;
 public class PrefabList : ScriptableObject
 {
     [SerializeField] private PurchasePopUpController m_PurchasePopUpPrefab;
+    [SerializeField] private InfoPopUpController m_InfoPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
-    
+    public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
+
     private static PrefabList m_Instance;
     
     public static PrefabList Get()

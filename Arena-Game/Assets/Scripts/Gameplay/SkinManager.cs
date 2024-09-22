@@ -93,6 +93,7 @@ public class SkinManager : MonoBehaviour
         //TODO: Handle hair state clearing
         
         var insArmor = Instantiate(item.ArmorPrefab);
+        insArmor.transform.SetParent(transform);
         insArmor.Init(m_ReferenceSkinnedMesh);
         spawnHolder = new SkinArmor() { ArmorItem = item, m_ArmorController = insArmor };
         m_ReferenceSkinnedMesh.material.SetTexture(maskKey, item.BodyMask);

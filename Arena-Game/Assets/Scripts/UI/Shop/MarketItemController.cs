@@ -65,7 +65,7 @@ namespace UI.Shop
             if(IsUnlocked) return;
             
             var popUp = GameFactorySingleton.Instance.PurchasePopUpFactory.Create();
-            var result = await popUp.Init(MarketItemSo.RewardItem.ItemName, MarketItemSo.Price.ToString());
+            var result = await popUp.Init(MarketItemSo.RewardItem.ItemName, MarketItemSo.Price);
 
             if (result)
             {
