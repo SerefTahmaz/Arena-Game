@@ -2,6 +2,7 @@
 using Item;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,12 +13,12 @@ namespace UI.Shop
     [CreateAssetMenu(fileName = "Item", menuName = "MarketItem", order = 0)]
     public class MarketItemSO : SerializableScriptableObject
     {
-        [SerializeField] private BaseItemSO m_RewardItem;
+        [FormerlySerializedAs("m_RewardItem")] [SerializeField] private BaseItemTemplateSO rewardItemTemplate;
         [SerializeField] private int m_Price;
         
         public int Price => m_Price;
 
-        public BaseItemSO RewardItem => m_RewardItem;
+        public BaseItemTemplateSO RewardItemTemplate => rewardItemTemplate;
 
         public void UnlockItem()
         {
@@ -48,9 +49,9 @@ namespace UI.Shop
             if (GUILayout.Button("FixName"))
             {
                 var marketItemSO = target as MarketItemSO;
-                if (marketItemSO.RewardItem)
+                if (marketItemSO.RewardItemTemplate)
                 {
-                    AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), $"{marketItemSO.RewardItem.ItemName} Market Item");
+                    AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), $"{marketItemSO.RewardItemTemplate.ItemName} Market Item");
 
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();

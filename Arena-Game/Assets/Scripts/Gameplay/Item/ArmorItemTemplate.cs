@@ -1,10 +1,11 @@
 ﻿using Item;
+using Item.Scripts;
 using UnityEngine;
 
 namespace Gameplay.Item
 {
     [CreateAssetMenu(fileName = "Armor Item", menuName = "Item/Armor Item", order = 0)]
-    public class ArmorItem : BaseItemSO
+    public class ArmorItemTemplate : BaseItemTemplateSO
     {
         [SerializeField] private ArmorController m_ArmorPrefab;
         [SerializeField] private ArmorType m_ArmorType;
@@ -16,7 +17,7 @@ namespace Gameplay.Item
         public Texture BodyMask => m_BodyMask;
         public bool HideHair => m_HideHair;
     }
-
+ 
     public enum ArmorType
     {
         Helm,

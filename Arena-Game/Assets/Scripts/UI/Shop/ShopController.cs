@@ -51,12 +51,12 @@ namespace UI.Shop
 
         public void HandlePurchase(MarketItemController marketItemController)
         {
-            var isItemInInventory = m_CharacterSo.IsItemInInventory(marketItemController.MarketItemSo.RewardItem);
+            var isItemInInventory = m_CharacterSo.IsItemInInventory(marketItemController.MarketItemSo.RewardItemTemplate);
             if (!isItemInInventory)
             {
-                m_CharacterSo.AddInventory(marketItemController.MarketItemSo.RewardItem);
+                m_CharacterSo.AddInventory(marketItemController.MarketItemSo.RewardItemTemplate);
                 
-                if(marketItemController.MarketItemSo.RewardItem is ArmorItem rewardArmorItem) 
+                if(marketItemController.MarketItemSo.RewardItemTemplate is ArmorItemTemplate rewardArmorItem) 
                     m_CharacterSo.EquipItem(rewardArmorItem);
             }
 
@@ -68,12 +68,12 @@ namespace UI.Shop
             if (!marketItemController.IsPreviewing)
             {
                 marketItemController.SetPreviewState(true);
-                InventoryPreviewManager.Instance.Equip(marketItemController.MarketItemSo.RewardItem as ArmorItem);
+                InventoryPreviewManager.Instance.Equip(marketItemController.MarketItemSo.RewardItemTemplate as ArmorItemTemplate);
             }
             else
             {
                 marketItemController.SetPreviewState(false);
-                InventoryPreviewManager.Instance.Unequip(marketItemController.MarketItemSo.RewardItem as ArmorItem);
+                InventoryPreviewManager.Instance.Unequip(marketItemController.MarketItemSo.RewardItemTemplate as ArmorItemTemplate);
             }
         }
     }

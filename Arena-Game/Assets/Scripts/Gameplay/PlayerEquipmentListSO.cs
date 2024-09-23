@@ -18,7 +18,7 @@ namespace DefaultNamespace
     public class PlayerEquipmentListSO : ScriptableObject
     {
         [SerializeField] private CharacterSO m_CharacterSo;
-        [SerializeField] private List<ArmorItem> m_ArmorItems;
+        [SerializeField] private List<ArmorItemTemplate> m_ArmorItems;
         
         public void Equip()
         {
@@ -35,7 +35,7 @@ namespace DefaultNamespace
         public void SetInventory()
         {
             m_CharacterSo.Load();
-            m_CharacterSo.InventoryList = m_ArmorItems.Select((item => item as BaseItemSO)).ToList();
+            m_CharacterSo.InventoryList = m_ArmorItems.Select((item => item as BaseItemTemplateSO)).ToList();
             m_CharacterSo.Save();
         }
     }

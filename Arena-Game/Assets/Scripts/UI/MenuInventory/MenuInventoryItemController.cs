@@ -6,6 +6,7 @@ using DefaultNamespace;
 using Gameplay.Item;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuInventoryItemController : MonoBehaviour
@@ -14,15 +15,15 @@ public class MenuInventoryItemController : MonoBehaviour
     [SerializeField] private GameObject m_EquipedLayer;
     [SerializeField] private cButton m_Button;
 
-    public ArmorItem m_Item;
+    [FormerlySerializedAs("itemTemplateTemplate")] [FormerlySerializedAs("m_Item")] public ArmorItemTemplate itemTemplate;
     private IMenuInventoryItemHandler m_MenuInventoryItemHandler;
 
-    public void Init(ArmorItem item, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
+    public void Init(ArmorItemTemplate itemTemplate, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
     {
-        m_Item = item;
+        this.itemTemplate = itemTemplate;
         m_MenuInventoryItemHandler = menuInventoryItemHandler;
         
-        m_Image.sprite = item.ItemSprite;
+        m_Image.sprite = itemTemplate.ItemSprite;
 
         if (isWearing)
         {

@@ -38,22 +38,22 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
         foreach (var VARIABLE in m_CharacterSo.InventoryList)
         {
             var ins = Instantiate(m_MenuInventoryItemPrefab,m_LayoutParent);
-            ins.Init(VARIABLE as ArmorItem, m_CharacterSo.IsItemEquiped(VARIABLE),this);
+            ins.Init(VARIABLE as ArmorItemTemplate, m_CharacterSo.IsItemEquiped(VARIABLE),this);
             m_InsInventoryItemControllers.Add(ins);
         }
     }
 
     public void HandleClick(MenuInventoryItemController menuInventoryItemController)
     {
-        var isItemEquiped = m_CharacterSo.IsItemEquiped(menuInventoryItemController.m_Item);
+        var isItemEquiped = m_CharacterSo.IsItemEquiped(menuInventoryItemController.itemTemplate);
         Debug.Log(isItemEquiped);
         if (isItemEquiped)
         {
-            UnequipItem(menuInventoryItemController.m_Item);
+            UnequipItem(menuInventoryItemController.itemTemplate);
         }
         else
         {
-            EquipItem(menuInventoryItemController.m_Item);
+            EquipItem(menuInventoryItemController.itemTemplate);
         }
 
         UpdateItemsState();
@@ -63,18 +63,18 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
     {
         foreach (var VARIABLE in m_InsInventoryItemControllers)
         {
-            VARIABLE.SetEquipState(m_CharacterSo.IsItemEquiped(VARIABLE.m_Item));
+            VARIABLE.SetEquipState(m_CharacterSo.IsItemEquiped(VARIABLE.itemTemplate));
         }
     }
 
-    private void EquipItem(ArmorItem item)
+    private void EquipItem(ArmorItemTemplate itemTemplate)
     {
-        m_CharacterSo.EquipItem(item);
+        m_CharacterSo.EquipItem(itemTemplate);
     }
 
-    private void UnequipItem(ArmorItem item)
+    private void UnequipItem(ArmorItemTemplate itemTemplate)
     {
-        m_CharacterSo.UnequipItem(item);
+        m_CharacterSo.UnequipItem(itemTemplate);
     }
 }
 

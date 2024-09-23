@@ -2,7 +2,7 @@
 
 namespace Item
 {
-    public class BaseItemSO : SerializableScriptableObject
+    public class BaseItemTemplateSO : SerializableScriptableObject
     {
         [SerializeField] private string m_ItemName;
         [SerializeField] private ItemType m_ItemType;

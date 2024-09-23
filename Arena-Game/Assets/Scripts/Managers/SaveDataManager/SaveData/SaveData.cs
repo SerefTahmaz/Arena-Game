@@ -22,6 +22,12 @@ namespace ArenaGame.Managers.SaveManager
     {
         public Dictionary<string, Character> Characters = new Dictionary<string, Character>();
     }
+    
+    [Serializable]
+    public class ItemData
+    {
+        public Dictionary<string, SaveableArmorItem> Items = new Dictionary<string, SaveableArmorItem>();
+    }
 
     public class Character
     {

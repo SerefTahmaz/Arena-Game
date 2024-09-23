@@ -33,7 +33,7 @@ namespace UI.Shop
             m_MarketItemSo = marketItemSo;
             m_MarketItemHandler = marketItemHandler;
         
-            m_Image.sprite = MarketItemSo.RewardItem.ItemSprite;
+            m_Image.sprite = MarketItemSo.RewardItemTemplate.ItemSprite;
 
             UpdateUI();
             
@@ -65,7 +65,7 @@ namespace UI.Shop
             if(IsUnlocked) return;
             
             var popUp = GameFactorySingleton.Instance.PurchasePopUpFactory.Create();
-            var result = await popUp.Init(MarketItemSo.RewardItem.ItemName, MarketItemSo.Price);
+            var result = await popUp.Init(MarketItemSo.RewardItemTemplate.ItemName, MarketItemSo.Price);
 
             if (result)
             {

@@ -4,6 +4,7 @@ using Gameplay;
 using Gameplay.Item;
 using Item;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,7 +26,7 @@ public class SkinManager : MonoBehaviour
     public class SkinArmor
     {
         public ArmorController m_ArmorController;
-        public ArmorItem ArmorItem;
+        [FormerlySerializedAs("armorItemTemplateTemplate")] [FormerlySerializedAs("ArmorItem")] public ArmorItemTemplate armorItemTemplate;
     }
 
     private void Awake()
@@ -66,38 +67,38 @@ public class SkinManager : MonoBehaviour
         }
     }
 
-    public void EquipItem(ArmorItem item)
+    public void EquipItem(ArmorItemTemplate itemTemplate)
     {
-        switch (item.ArmorType)
+        switch (itemTemplate.ArmorType)
         {
             case ArmorType.Helm:
-                EquipItem(item, "_HelmMask", ref m_SpawnedHelm);
+                EquipItem(itemTemplate, "_HelmMask", ref m_SpawnedHelm);
                 break;
             case ArmorType.Chest:
-                EquipItem(item, "_ChestMask", ref m_SpawnedChest);
+                EquipItem(itemTemplate, "_ChestMask", ref m_SpawnedChest);
                 break;
             case ArmorType.Gauntlets:
-                EquipItem(item, "_GauntletsMask", ref m_SpawnedGauntlets);
+                EquipItem(itemTemplate, "_GauntletsMask", ref m_SpawnedGauntlets);
                 break;
             case ArmorType.Legging:
-                EquipItem(item, "_LeggingMask", ref m_SpawnedLegging);
+                EquipItem(itemTemplate, "_LeggingMask", ref m_SpawnedLegging);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void EquipItem(ArmorItem item, string maskKey, ref SkinArmor spawnHolder)
+    private void EquipItem(ArmorItemTemplate itemTemplate, string maskKey, ref SkinArmor spawnHolder)
     {
-        ClearEquip(item.ArmorType);
+        ClearEquip(itemTemplate.ArmorType);
         //TODO: Handle hair state clearing
         
-        var insArmor = Instantiate(item.ArmorPrefab);
+        var insArmor = Instantiate(itemTemplate.ArmorPrefab);
         insArmor.transform.SetParent(transform);
         insArmor.Init(m_ReferenceSkinnedMesh);
-        spawnHolder = new SkinArmor() { ArmorItem = item, m_ArmorController = insArmor };
-        m_ReferenceSkinnedMesh.material.SetTexture(maskKey, item.BodyMask);
-        if(item.HideHair) m_HairGO.SetActive(false);
+        spawnHolder = new SkinArmor() { armorItemTemplate = itemTemplate, m_ArmorController = insArmor };
+        m_ReferenceSkinnedMesh.material.SetTexture(maskKey, itemTemplate.BodyMask);
+        if(itemTemplate.HideHair) m_HairGO.SetActive(false);
     }
 
     public void DefaultEquip(ArmorType armorItemArmorType)
