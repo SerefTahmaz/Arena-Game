@@ -38,7 +38,7 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
         foreach (var VARIABLE in m_CharacterSo.InventoryList)
         {
             var ins = Instantiate(m_MenuInventoryItemPrefab,m_LayoutParent);
-            ins.Init(VARIABLE as ArmorItemTemplate, m_CharacterSo.IsItemEquiped(VARIABLE),this);
+            ins.Init(VARIABLE as ArmorItemSO, m_CharacterSo.IsItemEquiped(VARIABLE as ArmorItemSO),this);
             m_InsInventoryItemControllers.Add(ins);
         }
     }
@@ -67,12 +67,12 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
         }
     }
 
-    private void EquipItem(ArmorItemTemplate itemTemplate)
+    private void EquipItem(ArmorItemSO itemTemplate)
     {
         m_CharacterSo.EquipItem(itemTemplate);
     }
 
-    private void UnequipItem(ArmorItemTemplate itemTemplate)
+    private void UnequipItem(ArmorItemSO itemTemplate)
     {
         m_CharacterSo.UnequipItem(itemTemplate);
     }

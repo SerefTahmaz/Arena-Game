@@ -4,12 +4,8 @@ namespace Item
 {
     public class BaseItemTemplateSO : SerializableScriptableObject
     {
-        [SerializeField] private string m_ItemName;
-        [SerializeField] private ItemType m_ItemType;
         [SerializeField] private Sprite m_ItemSprite;
         
-        public string ItemName => m_ItemName;
-        public ItemType ItemType => m_ItemType;
         public Sprite ItemSprite => m_ItemSprite;
     }
 

@@ -22,4 +22,14 @@ public class SerializableScriptableObject : ScriptableObject
     {
         
     }
+
+    public void RegenerateGuid()
+    {
+        _guid = new Guid(System.Guid.NewGuid().ToString("N"));
+    }
+
+    public void SetGuid(string guid)
+    {
+        _guid = new Guid(guid);
+    }
 }

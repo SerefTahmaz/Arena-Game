@@ -22,13 +22,8 @@ namespace ArenaGame.Managers.SaveManager
     {
         public Dictionary<string, Character> Characters = new Dictionary<string, Character>();
     }
-    
-    [Serializable]
-    public class ItemData
-    {
-        public Dictionary<string, SaveableArmorItem> Items = new Dictionary<string, SaveableArmorItem>();
-    }
 
+    [Serializable]
     public class Character
     {
         public int Health = 100;
@@ -38,5 +33,25 @@ namespace ArenaGame.Managers.SaveManager
         public string ChestArmor;
         public string GaunletsArmor;
         public string LeggingArmor;
+    }
+    
+    [Serializable]
+    public class ArmorItemData
+    {
+        public Dictionary<string, ArmorItem> ArmorItems = new Dictionary<string, ArmorItem>();
+    }
+    
+    [Serializable]
+    public class ItemData
+    {
+        public Dictionary<string, ArmorItem> ArmorItems = new Dictionary<string, ArmorItem>();
+        public Dictionary<string, Dictionary<string,string>> WeaponItems = new Dictionary<string, Dictionary<string,string>>();
+    }
+    
+    [Serializable]
+    public class ArmorItem
+    {
+        public string m_ArmorItemTemplateGUID;
+        public int m_Level;
     }
 }

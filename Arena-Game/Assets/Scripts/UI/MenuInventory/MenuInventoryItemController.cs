@@ -15,15 +15,15 @@ public class MenuInventoryItemController : MonoBehaviour
     [SerializeField] private GameObject m_EquipedLayer;
     [SerializeField] private cButton m_Button;
 
-    [FormerlySerializedAs("itemTemplateTemplate")] [FormerlySerializedAs("m_Item")] public ArmorItemTemplate itemTemplate;
+    public ArmorItemSO itemTemplate;
     private IMenuInventoryItemHandler m_MenuInventoryItemHandler;
 
-    public void Init(ArmorItemTemplate itemTemplate, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
+    public void Init(ArmorItemSO itemTemplate, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
     {
         this.itemTemplate = itemTemplate;
         m_MenuInventoryItemHandler = menuInventoryItemHandler;
         
-        m_Image.sprite = itemTemplate.ItemSprite;
+        m_Image.sprite = itemTemplate.ItemTemplate.ItemSprite;
 
         if (isWearing)
         {

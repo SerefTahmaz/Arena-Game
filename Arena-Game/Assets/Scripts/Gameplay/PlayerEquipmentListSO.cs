@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ArenaGame.Managers.SaveManager;
-using DefaultNamespace.ArenaGame.Managers.SaveManager;
 using Gameplay;
 using Gameplay.Item;
 using Item;
@@ -18,7 +16,7 @@ namespace DefaultNamespace
     public class PlayerEquipmentListSO : ScriptableObject
     {
         [SerializeField] private CharacterSO m_CharacterSo;
-        [SerializeField] private List<ArmorItemTemplate> m_ArmorItems;
+        [SerializeField] private List<ArmorItemSO> m_ArmorItems;
         
         public void Equip()
         {
@@ -27,7 +25,9 @@ namespace DefaultNamespace
             m_CharacterSo.Save();
             foreach (var armorItem in m_ArmorItems)
             {
-                m_CharacterSo.EquipItem(armorItem);
+                var ins = armorItem.DuplicateUnique() as ArmorItemSO;
+                ins.Save();
+                m_CharacterSo.EquipItem(ins);
             }
             m_CharacterSo.Save();
         }
@@ -35,7 +35,12 @@ namespace DefaultNamespace
         public void SetInventory()
         {
             m_CharacterSo.Load();
-            m_CharacterSo.InventoryList = m_ArmorItems.Select((item => item as BaseItemTemplateSO)).ToList();
+            m_CharacterSo.InventoryList = m_ArmorItems.Select((item =>
+            {
+                var ins = item.DuplicateUnique();
+                ins.Save();
+                return ins as BaseItemSO;
+            })).ToList();
             m_CharacterSo.Save();
         }
     }

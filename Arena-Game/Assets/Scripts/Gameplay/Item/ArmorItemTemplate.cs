@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Item
 {
-    [CreateAssetMenu(fileName = "Armor Item", menuName = "Item/Armor Item", order = 0)]
+    [CreateAssetMenu(fileName = "Armor Item", menuName = "Game/Item/Template/Template Armor Item", order = 0)]
     public class ArmorItemTemplate : BaseItemTemplateSO
     {
         [SerializeField] private ArmorController m_ArmorPrefab;

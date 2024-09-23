@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(fileName = "ItemList", menuName = "Item/Item List", order = 0)]
+    [CreateAssetMenu(fileName = "ItemList", menuName = "Game/Item/Item List", order = 0)]
     public class ItemListSO : Registry<BaseItemTemplateSO>
     {
         public static T GetItemByGuid<T>(string id) where T : BaseItemTemplateSO

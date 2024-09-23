@@ -26,7 +26,7 @@ public class SkinManager : MonoBehaviour
     public class SkinArmor
     {
         public ArmorController m_ArmorController;
-        [FormerlySerializedAs("armorItemTemplateTemplate")] [FormerlySerializedAs("ArmorItem")] public ArmorItemTemplate armorItemTemplate;
+        public ArmorItemSO armorItemTemplate;
     }
 
     private void Awake()
@@ -67,38 +67,38 @@ public class SkinManager : MonoBehaviour
         }
     }
 
-    public void EquipItem(ArmorItemTemplate itemTemplate)
+    public void EquipItem(ArmorItemSO itemSO)
     {
-        switch (itemTemplate.ArmorType)
+        switch (itemSO.ArmorType)
         {
             case ArmorType.Helm:
-                EquipItem(itemTemplate, "_HelmMask", ref m_SpawnedHelm);
+                EquipItem(itemSO, "_HelmMask", ref m_SpawnedHelm);
                 break;
             case ArmorType.Chest:
-                EquipItem(itemTemplate, "_ChestMask", ref m_SpawnedChest);
+                EquipItem(itemSO, "_ChestMask", ref m_SpawnedChest);
                 break;
             case ArmorType.Gauntlets:
-                EquipItem(itemTemplate, "_GauntletsMask", ref m_SpawnedGauntlets);
+                EquipItem(itemSO, "_GauntletsMask", ref m_SpawnedGauntlets);
                 break;
             case ArmorType.Legging:
-                EquipItem(itemTemplate, "_LeggingMask", ref m_SpawnedLegging);
+                EquipItem(itemSO, "_LeggingMask", ref m_SpawnedLegging);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void EquipItem(ArmorItemTemplate itemTemplate, string maskKey, ref SkinArmor spawnHolder)
+    private void EquipItem(ArmorItemSO itemSO, string maskKey, ref SkinArmor spawnHolder)
     {
-        ClearEquip(itemTemplate.ArmorType);
+        ClearEquip(itemSO.ArmorType);
         //TODO: Handle hair state clearing
         
-        var insArmor = Instantiate(itemTemplate.ArmorPrefab);
+        var insArmor = Instantiate(itemSO.ItemTemplate.ArmorPrefab);
         insArmor.transform.SetParent(transform);
         insArmor.Init(m_ReferenceSkinnedMesh);
-        spawnHolder = new SkinArmor() { armorItemTemplate = itemTemplate, m_ArmorController = insArmor };
-        m_ReferenceSkinnedMesh.material.SetTexture(maskKey, itemTemplate.BodyMask);
-        if(itemTemplate.HideHair) m_HairGO.SetActive(false);
+        spawnHolder = new SkinArmor() { armorItemTemplate = itemSO, m_ArmorController = insArmor };
+        m_ReferenceSkinnedMesh.material.SetTexture(maskKey, itemSO.ItemTemplate.BodyMask);
+        if(itemSO.ItemTemplate.HideHair) m_HairGO.SetActive(false);
     }
 
     public void DefaultEquip(ArmorType armorItemArmorType)

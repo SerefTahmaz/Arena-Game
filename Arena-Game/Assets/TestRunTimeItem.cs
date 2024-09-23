@@ -12,27 +12,25 @@ using Guid = System.Guid;
 using UnityEditor;
 #endif
 
-[Serializable]
-public class SaveableArmorItem
+public static class ItemExtensions
 {
-    public string TemplateArmorItemSOGuid;
-    public int Level;
-}
-
-public class ArmorItemRuntime
-{
-    public ArmorItemTemplate m_TemplateArmorItemTemplate;
-    public int m_Level;
+    public static BaseItemSO DuplicateUnique(this BaseItemSO armorItemSo)
+    {
+        var uniqueDuplicateItem = GameObject.Instantiate(armorItemSo);
+        uniqueDuplicateItem.RegenerateGuid();
+        return uniqueDuplicateItem;
+    }
 }
 
 
 public class TestRunTimeItem : MonoBehaviour
 {
     [SerializeField] private CharacterSO m_Char;
-    [FormerlySerializedAs("armorItemTemplateTemplateSo")] [FormerlySerializedAs("m_ArmorItemSO")] [SerializeField] private ArmorItemTemplate armorItemTemplateSo;
+    [SerializeField] private ArmorItemSO m_ArmorItemSo;
 
     public void CreateRuntimeItem()
     {
+        var uniqueDuplicateItem = m_ArmorItemSo.DuplicateUnique();
     }
 }
 

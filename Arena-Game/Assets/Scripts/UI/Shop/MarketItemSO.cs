@@ -13,12 +13,12 @@ namespace UI.Shop
     [CreateAssetMenu(fileName = "Item", menuName = "MarketItem", order = 0)]
     public class MarketItemSO : SerializableScriptableObject
     {
-        [FormerlySerializedAs("m_RewardItem")] [SerializeField] private BaseItemTemplateSO rewardItemTemplate;
+        [SerializeField] private BaseItemSO rewardItemTemplate;
         [SerializeField] private int m_Price;
         
         public int Price => m_Price;
 
-        public BaseItemTemplateSO RewardItemTemplate => rewardItemTemplate;
+        public BaseItemSO RewardItemTemplate => rewardItemTemplate;
 
         public void UnlockItem()
         {

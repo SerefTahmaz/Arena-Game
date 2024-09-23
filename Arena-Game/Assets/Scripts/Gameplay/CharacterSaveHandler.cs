@@ -1,12 +1,4 @@
-﻿using ArenaGame.Managers.SaveManager;
-
-namespace DefaultNamespace
-{
-    using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Cysharp.Threading.Tasks;
+﻿using System.IO;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -85,5 +77,4 @@ namespace ArenaGame.Managers.SaveManager
 #endif
        
     }
-}
 }

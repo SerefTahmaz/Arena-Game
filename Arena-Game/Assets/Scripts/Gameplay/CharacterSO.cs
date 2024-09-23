@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ArenaGame.Managers.SaveManager;
 using DefaultNamespace;
-using DefaultNamespace.ArenaGame.Managers.SaveManager;
 using Gameplay.Item;
 using Item;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Gameplay
 {
@@ -14,25 +13,25 @@ namespace Gameplay
     public class CharacterSO : SerializableScriptableObject
     {
         [SerializeField] private int m_Health;
-        [SerializeField] private List<BaseItemTemplateSO> m_InventoryList;
+        [SerializeField] private List<BaseItemSO> m_InventoryList;
 
-        [SerializeField] private ArmorItemTemplate m_HelmArmor;
-        [SerializeField] private ArmorItemTemplate m_ChestArmor;
-        [SerializeField] private ArmorItemTemplate m_GauntletsArmor;
-        [SerializeField] private ArmorItemTemplate m_LeggingArmor;
+        [SerializeField] private ArmorItemSO m_HelmArmor;
+        [SerializeField] private ArmorItemSO m_ChestArmor;
+        [SerializeField] private ArmorItemSO m_GauntletsArmor;
+        [SerializeField] private ArmorItemSO m_LeggingArmor;
 
         public Action OnChanged { get; set; }
 
-        public List<BaseItemTemplateSO> InventoryList
+        public List<BaseItemSO> InventoryList
         {
             get => m_InventoryList;
             set => m_InventoryList = value;
         }
 
-        public ArmorItemTemplate HelmArmor => m_HelmArmor;
-        public ArmorItemTemplate ChestArmor => m_ChestArmor;
-        public ArmorItemTemplate GauntletsArmor => m_GauntletsArmor;
-        public ArmorItemTemplate LeggingArmor => m_LeggingArmor;
+        public ArmorItemSO HelmArmor => m_HelmArmor;
+        public ArmorItemSO ChestArmor => m_ChestArmor;
+        public ArmorItemSO GauntletsArmor => m_GauntletsArmor;
+        public ArmorItemSO LeggingArmor => m_LeggingArmor;
 
         public int Health => m_Health;
 
@@ -45,7 +44,11 @@ namespace Gameplay
             }
             
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = Health;
-            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList = InventoryList.Select((item => item.Guid.ToHexString())).ToList();
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList = InventoryList.Select((item =>
+            {
+                item.Save();
+                return item.Guid.ToHexString();
+            })).ToList();
 
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor = HelmArmor ? HelmArmor.Guid.ToHexString() : "";
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].ChestArmor = ChestArmor ? ChestArmor.Guid.ToHexString() : "";
@@ -72,56 +75,58 @@ namespace Gameplay
 
         private void LoadEquipmentList()
         {
-            m_HelmArmor = ItemListSO.GetItemByGuid<ArmorItemTemplate>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor);
-            m_ChestArmor = ItemListSO.GetItemByGuid<ArmorItemTemplate>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].ChestArmor);
-            m_GauntletsArmor = ItemListSO.GetItemByGuid<ArmorItemTemplate>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].GaunletsArmor);
-            m_LeggingArmor = ItemListSO.GetItemByGuid<ArmorItemTemplate>(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].LeggingArmor);
+            m_HelmArmor = ItemSaveHandler.GetArmorItem(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].HelmArmor);
+            m_ChestArmor = ItemSaveHandler.GetArmorItem(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].ChestArmor);
+            m_GauntletsArmor = ItemSaveHandler.GetArmorItem(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].GaunletsArmor);
+            m_LeggingArmor = ItemSaveHandler.GetArmorItem(CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].LeggingArmor);
         }
         
         private void LoadInventoryList()
         {
             var itemsGuid = CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList;
-            var itemsSO = itemsGuid.Select((s => ItemListSO.GetItemByGuid<BaseItemTemplateSO>(s))).ToList();
+
+
+            var itemsSO = itemsGuid.Select((ItemSaveHandler.GetItem)).ToList();
             itemsSO.RemoveAll((item => item == null));
 
             InventoryList = itemsSO;
         }
 
-        public bool IsItemEquiped(BaseItemTemplateSO baseItemTemplateSo)
+        public bool IsItemEquiped(ArmorItemSO armorItemSo)
         {
             Load();
 
-            if (baseItemTemplateSo == ChestArmor || baseItemTemplateSo == HelmArmor || baseItemTemplateSo == GauntletsArmor ||
-                baseItemTemplateSo == LeggingArmor) return true;
+            if (armorItemSo == ChestArmor || armorItemSo == HelmArmor || armorItemSo == GauntletsArmor ||
+                armorItemSo == LeggingArmor) return true;
             else return false;
         }
         
-        public bool IsItemInInventory(BaseItemTemplateSO baseItemTemplateSo)
+        public bool IsItemInInventory(BaseItemSO baseItemTemplateSo)
         {
             Load();
             return InventoryList.Contains(baseItemTemplateSo);
         }
 
-        public void EquipItem(ArmorItemTemplate itemTemplate)
+        public void EquipItem(ArmorItemSO itemSO)
         {
-            if (IsItemEquiped(itemTemplate))
+            if (IsItemEquiped(itemSO))
             {
                 return;
             }
 
-            switch (itemTemplate.ArmorType)
+            switch (itemSO.ArmorType)
             {
                 case ArmorType.Helm:
-                    m_HelmArmor = itemTemplate;
+                    m_HelmArmor = itemSO;
                     break;
                 case ArmorType.Chest:
-                    m_ChestArmor = itemTemplate;
+                    m_ChestArmor = itemSO;
                     break;
                 case ArmorType.Gauntlets:
-                    m_GauntletsArmor = itemTemplate;
+                    m_GauntletsArmor = itemSO;
                     break;
                 case ArmorType.Legging:
-                    m_LeggingArmor = itemTemplate;
+                    m_LeggingArmor = itemSO;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -130,7 +135,7 @@ namespace Gameplay
             Save();
         }
 
-        public void UnequipItem(ArmorItemTemplate itemTemplate)
+        public void UnequipItem(ArmorItemSO itemTemplate)
         {
             if (!IsItemEquiped(itemTemplate))
             {
@@ -159,7 +164,7 @@ namespace Gameplay
             Save();
         }
 
-        public void AddInventory(BaseItemTemplateSO itemTemplate)
+        public void AddInventory(BaseItemSO itemTemplate)
         {
             if (IsItemInInventory(itemTemplate))
             {

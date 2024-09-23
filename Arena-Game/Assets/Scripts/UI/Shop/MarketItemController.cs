@@ -17,6 +17,7 @@ namespace UI.Shop
     
         private MarketItemSO m_MarketItemSo;
         private IMarketItemHandler m_MarketItemHandler;
+        private ArmorItemSO m_RewardItem;
 
         private bool IsUnlocked => MarketItemSo.IsUnlocked();
 
@@ -28,12 +29,15 @@ namespace UI.Shop
             set => m_IsPreviewing = value;
         }
 
+        public BaseItemSO RewardItem => m_RewardItem;
+
         public void Init(MarketItemSO marketItemSo, IMarketItemHandler marketItemHandler)
         {
             m_MarketItemSo = marketItemSo;
             m_MarketItemHandler = marketItemHandler;
+            m_RewardItem = marketItemSo.RewardItemTemplate.DuplicateUnique() as ArmorItemSO;
         
-            m_Image.sprite = MarketItemSo.RewardItemTemplate.ItemSprite;
+            m_Image.sprite = m_RewardItem.ItemTemplate.ItemSprite;
 
             UpdateUI();
             
@@ -65,7 +69,7 @@ namespace UI.Shop
             if(IsUnlocked) return;
             
             var popUp = GameFactorySingleton.Instance.PurchasePopUpFactory.Create();
-            var result = await popUp.Init(MarketItemSo.RewardItemTemplate.ItemName, MarketItemSo.Price);
+            var result = await popUp.Init(RewardItem.ItemName, MarketItemSo.Price);
 
             if (result)
             {

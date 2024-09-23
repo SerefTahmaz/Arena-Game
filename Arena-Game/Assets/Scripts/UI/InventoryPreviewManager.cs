@@ -8,12 +8,12 @@ public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
 {
     [SerializeField] private SkinManager m_SkinManager;
 
-    public void Equip(ArmorItemTemplate armorItemTemplate)
+    public void Equip(ArmorItemSO armorItemTemplate)
     {
         m_SkinManager.EquipItem(armorItemTemplate);
     }
 
-    public void Unequip(ArmorItemTemplate armorItemTemplate)
+    public void Unequip(ArmorItemSO armorItemTemplate)
     {
         m_SkinManager.DefaultEquip(armorItemTemplate.ArmorType);
     }
