@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Gameplay.Item;
+using Item;
 
 namespace ArenaGame.Managers.SaveManager
 {
@@ -52,6 +54,9 @@ namespace ArenaGame.Managers.SaveManager
     public class ArmorItem
     {
         public string m_ArmorItemTemplateGUID;
+        public string m_ItemName;
+        public ItemType m_ItemType;
         public int m_Level;
+        public int m_NextLevelIncrement;
     }
 }

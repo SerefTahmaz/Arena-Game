@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class BaseItemSO : SerializableScriptableObject
 {
-    [SerializeField] private string m_ItemName;
-    [SerializeField] private ItemType m_ItemType;
+    [SerializeField] protected string m_ItemName;
+    [SerializeField] protected ItemType m_ItemType;
     
     public Action OnChanged { get; set; }
     
@@ -28,6 +28,7 @@ public class BaseItemSO : SerializableScriptableObject
 public class ArmorItemSO : BaseItemSO
 {
     [SerializeField] private int m_Level;
+    [SerializeField] private int m_NextLevelIncrement;
     [SerializeField] private ArmorItemTemplate m_ArmorItemTemplate;
 
     public int Level
@@ -43,7 +44,13 @@ public class ArmorItemSO : BaseItemSO
     }
 
     public ArmorType ArmorType => m_ArmorItemTemplate.ArmorType;
-        
+
+    public int NextLevelIncrement
+    {
+        get => m_NextLevelIncrement;
+        set => m_NextLevelIncrement = value;
+    }
+
     public override void Save()
     {
         base.Save();
@@ -54,6 +61,9 @@ public class ArmorItemSO : BaseItemSO
         }
             
         ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_Level = m_Level;
+        
+        ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemName = m_ItemName;
+        ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemType = m_ItemType;
 
         ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ArmorItemTemplateGUID = m_ArmorItemTemplate ? m_ArmorItemTemplate.Guid.ToHexString() : "";
             
@@ -68,6 +78,10 @@ public class ArmorItemSO : BaseItemSO
         if (ItemSaveHandler.SaveData.ArmorItems.ContainsKey(Guid.ToHexString()))
         {
             m_Level = ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_Level;
+            m_NextLevelIncrement = ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_NextLevelIncrement;
+
+            m_ItemName = ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemName;
+            m_ItemType = ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemType;
 
             var templateItemGuid =
                 ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ArmorItemTemplateGUID;
