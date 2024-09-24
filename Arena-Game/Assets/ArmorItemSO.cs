@@ -61,6 +61,7 @@ public class ArmorItemSO : BaseItemSO
         }
             
         ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_Level = m_Level;
+        ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_NextLevelIncrement = NextLevelIncrement;
         
         ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemName = m_ItemName;
         ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ItemType = m_ItemType;
@@ -87,5 +88,18 @@ public class ArmorItemSO : BaseItemSO
                 ItemSaveHandler.SaveData.ArmorItems[Guid.ToHexString()].m_ArmorItemTemplateGUID;
             m_ArmorItemTemplate = ItemListSO.GetItemByGuid<ArmorItemTemplate>(templateItemGuid);
         }
+    }
+
+    public void IncreaseLevelIncrement()
+    {
+        Load();
+        NextLevelIncrement++;
+
+        if (NextLevelIncrement >= 6)
+        {
+            NextLevelIncrement = 0;
+            Level++;
+        }
+        Save();
     }
 }

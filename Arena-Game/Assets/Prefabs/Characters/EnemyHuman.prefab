@@ -10625,6 +10625,7 @@ MonoBehaviour:
   m_MovementController: {fileID: 464880606216292835}
   m_CharacterStateMachine: {fileID: 4612661772307771328}
   m_CharacterSo: {fileID: 11400000, guid: 9f8613d397590d749a19500de06228d1, type: 2}
+  m_SkinManager: {fileID: 4187188776426606178}
 --- !u!114 &1869194423820427825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10796,6 +10797,14 @@ MonoBehaviour:
   m_BloodExpo: {fileID: 8979167419569163546}
   m_Character: {fileID: 5845259781463838597}
   m_BlackBoard: {fileID: 9062505403617977241}
+  m_ArmorItemSos:
+  - {fileID: 11400000, guid: 6357cf245862d1d43b7f854668f8905b, type: 2}
+  - {fileID: 11400000, guid: 5934a3090dc45ab42a9cd5a30cb40451, type: 2}
+  - {fileID: 11400000, guid: a587b7032017f2648b203dbaa875f1c9, type: 2}
+  - {fileID: 11400000, guid: d0e33b1e22a3cb44faa429542a9a4d7b, type: 2}
+  - {fileID: 11400000, guid: 013b6d61b613f454bbf2cbe5bedd3999, type: 2}
+  - {fileID: 11400000, guid: 4ec5edfb222f3e1489a56db43358c5db, type: 2}
+  - {fileID: 11400000, guid: 7c27f5bb6b053ee4aaae505e08c6101d, type: 2}
   m_YDistance: 0.05
   m_LayerMask:
     serializedVersion: 2
@@ -21288,6 +21297,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1630987786572778042}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4187188776426606178 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3222761772301861976, guid: 66d4e6ed58599ef45884acd64694dd67,
+    type: 3}
+  m_PrefabInstance: {fileID: 1630987786572778042}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f453bda3b2db7854f8730efbb6e137d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &5849489400154830882 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5156587893112697368, guid: 66d4e6ed58599ef45884acd64694dd67,

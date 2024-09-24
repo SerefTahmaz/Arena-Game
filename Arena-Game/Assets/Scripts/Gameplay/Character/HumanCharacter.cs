@@ -17,6 +17,7 @@ namespace Gameplay.Character
         [SerializeField] private MovementController m_MovementController;
         [SerializeField] private HumanCharacterStateMachine m_CharacterStateMachine;
         [SerializeField] private CharacterSO m_CharacterSo;
+        [SerializeField] private SkinManager m_SkinManager;
 
         public AnimationController AnimationController => m_AnimationController;
         public override cCharacterNetworkController CharacterNetworkController => PlayerCharacterNetworkController;
@@ -34,6 +35,8 @@ namespace Gameplay.Character
         public CharacterSO CharacterSo => m_CharacterSo;
 
         public override int StartHealth => m_CharacterSo.Health;
+
+        public SkinManager SkinManager => m_SkinManager;
 
         public void OnDamageAnim()
         {

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using _Main.Scripts.Gameplay;
 using ArenaGame.Utils;
 using FiniteStateMachine;
@@ -14,6 +16,7 @@ namespace Gameplay.Character.NPCHuman
         [SerializeField] private ParticleSystem m_BloodExpo;
         [SerializeField] private HumanCharacter m_Character;
         [SerializeField] private NPCHumanSMBlackboard m_BlackBoard;
+        [SerializeField] private List<ArmorItemSO> m_ArmorItemSos;
 
         // #region Properties
 
@@ -62,6 +65,15 @@ namespace Gameplay.Character.NPCHuman
                 cScoreClientHolder.Instance.AddDead(m_LastDamager);
                 ChangeState(Dead);
             };
+            
+            Character.SkinManager.ClearAllEquipment();
+
+            m_ArmorItemSos.Shuffle();
+            var randomItems = m_ArmorItemSos.Take(Random.Range(1,5));
+            foreach (var armorItemSo in randomItems)
+            {
+                Character.SkinManager.EquipItem(armorItemSo);
+            }
         }
 
         protected override void Update()

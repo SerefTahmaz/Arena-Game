@@ -11,10 +11,12 @@ public class PrefabList : ScriptableObject
     [SerializeField] private PurchasePopUpController m_PurchasePopUpPrefab;
     [SerializeField] private InfoPopUpController m_InfoPopUpPrefab;
     [SerializeField] private WinCurrencyRewardController m_WinCurrencyRewardPrefab;
+    [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
     public WinCurrencyRewardController CurrencyRewardPrefab => m_WinCurrencyRewardPrefab;
+    public WinUpgradeRewardController WinUpgradeRewardPrefab => m_WinUpgradeRewardPrefab;
 
     private static PrefabList m_Instance;
     

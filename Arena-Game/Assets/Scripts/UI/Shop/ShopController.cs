@@ -60,7 +60,7 @@ namespace UI.Shop
                     m_CharacterSo.EquipItem(rewardArmorItem);
             }
 
-            marketItemController.UnlockMarketItem();
+            marketItemController.DecreaseAmount();
         }
 
         public void HandlePreview(MarketItemController marketItemController)

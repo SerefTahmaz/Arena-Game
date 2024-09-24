@@ -31,6 +31,11 @@ public class SkinManager : MonoBehaviour
 
     private void Awake()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         Equipment();
 
         m_CharacterSO.OnChanged += Equipment;
@@ -158,6 +163,14 @@ public class SkinManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(armorItemArmorType), armorItemArmorType, null);
         }
+    }
+
+    public void ClearAllEquipment()
+    {
+        ClearEquip(ArmorType.Helm);
+        ClearEquip(ArmorType.Chest);
+        ClearEquip(ArmorType.Gauntlets);
+        ClearEquip(ArmorType.Legging);
     }
 }
 

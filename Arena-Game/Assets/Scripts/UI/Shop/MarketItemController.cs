@@ -93,9 +93,10 @@ namespace UI.Shop
             m_MarketItemHandler.HandlePurchase(this);
         }
 
-        public void UnlockMarketItem()
+        public void DecreaseAmount()
         {
-            MarketItemSo.UnlockItem();
+            m_RewardItem = MarketItemSo.RewardItemTemplate.DuplicateUnique() as ArmorItemSO;
+            // MarketItemSo.UnlockItem();
             UpdateUI();
         }
 
