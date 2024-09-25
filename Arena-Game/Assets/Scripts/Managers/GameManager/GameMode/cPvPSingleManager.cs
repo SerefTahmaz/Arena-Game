@@ -10,6 +10,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 {
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     [SerializeField] private string m_NpcScene;
+    [SerializeField] private bool m_NPCNonActiveAtStart; 
     
     private bool m_IsActive;
 
@@ -64,7 +65,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
                 if (cGameManager.Instance.m_OwnerPlayer != null)
                 {
                     m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
-                    m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                    if(!m_NPCNonActiveAtStart) m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
 
                     cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
                 }
