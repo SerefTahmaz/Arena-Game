@@ -85,6 +85,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         {
             m_ProjectSceneManager.UnloadScene();
             cUIManager.Instance.HidePage(Page.Loading);
+            InputManager.Instance.SetInput(true);
+            CameraManager.Instance.SetInput(true);
         });
     }
 
