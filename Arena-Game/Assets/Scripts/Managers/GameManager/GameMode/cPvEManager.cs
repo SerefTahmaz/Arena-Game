@@ -74,7 +74,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     public void StartNextGame()
     {
-        m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
+        m_ProjectSceneManager.SpawnScene(PVELevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnLoadCompleted;
     }
 
@@ -98,7 +98,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             {
                 if (m_isActive)
                 {
-                    cLevelSelectView.Instance.SelectNext();
+                    PVELevelSelectView.Instance.SelectNext();
                     cNpcManager.Instance.DestroyNpcs();
                     LoopStart();
                 }

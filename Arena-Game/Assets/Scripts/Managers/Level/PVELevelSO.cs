@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Level", menuName = "Level/Level")]
-public class cLevelSO : ScriptableObject
+[CreateAssetMenu(fileName = "PVELevel", menuName = "Game/PVELevel/Level")]
+public class PVELevelSO : ScriptableObject
 {
 #if UNITY_EDITOR
     public UnityEditor.SceneAsset m_SceneToLoad;

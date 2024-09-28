@@ -13,15 +13,15 @@ public class cLevelSelectUnit : MonoBehaviour
     [SerializeField] private Image m_Icon;
     [SerializeField] private TMP_Text m_NameText;
 
-    public cLevelSO m_LevelSo;
+    public PVELevelSO m_LevelSo;
     
     public Action<cLevelSelectUnit> m_OnClick = delegate(cLevelSelectUnit unit) {  };
 
     public bool m_Locked = false;
 
-    public cLevelSO LevelSo => m_LevelSo;
+    public PVELevelSO LevelSo => m_LevelSo;
 
-    public void Init(cLevelSO levelSo, int order)
+    public void Init(PVELevelSO levelSo, int order)
     {
         m_LevelSo = levelSo;
         SetSelected(false);

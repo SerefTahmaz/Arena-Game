@@ -5,9 +5,9 @@ using ArenaGame.UI;
 using ArenaGame.Utils;
 using UnityEngine;
 
-public class cLevelSelectView : cSingleton<cLevelSelectView>
+public class PVELevelSelectView : cSingleton<PVELevelSelectView>
 {
-    [SerializeField] private cLevelListSO m_LevelListSo;
+    [SerializeField] private PVELevelListSO m_LevelListSo;
     [SerializeField] private cLevelSelectUnit m_LevelSelectUnitPrefab;
     [SerializeField] private Transform m_Layout;
     [SerializeField] private cView m_View;
@@ -26,7 +26,7 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
         }
         m_LevelSelectUnits.Clear();
         
-        int currentLevel = cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel;
+        int currentLevel = cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel;
         m_CurrentIndex = currentLevel;
         for (var index = 0; index < m_LevelListSo.LevelList.Count; index++)
         {
@@ -83,9 +83,9 @@ public class cLevelSelectView : cSingleton<cLevelSelectView>
     public void SelectNext()
     {
         m_CurrentIndex++;
-        if (m_CurrentIndex > cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel)
+        if (m_CurrentIndex > cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel)
         {
-            cGameManager.Instance.SaveManager.SaveData.m_CurrentLevel = m_CurrentIndex;
+            cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel = m_CurrentIndex;
             cGameManager.Instance.SaveManager.Save();
         }
         
