@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
 using QFSW.QC;
 using Unity.Services.Authentication;
@@ -155,6 +156,9 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     {
         try
         {
+            SaveGameHandler.Load();
+            var map = SaveGameHandler.SaveData.m_CurrentMap;
+            
             m_GameStarted = false;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions()
             {
@@ -164,7 +168,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                 {
                     {GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString(), DataObject.IndexOptions.S1)},
                     {KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")},
-                    {"Map", new DataObject(DataObject.VisibilityOptions.Public, "de_dust2")}
+                    {"Map", new DataObject(DataObject.VisibilityOptions.Public, map.ToString())}
                 }
             };
             

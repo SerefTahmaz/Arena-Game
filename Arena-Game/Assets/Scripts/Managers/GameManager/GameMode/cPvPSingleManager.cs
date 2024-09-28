@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ArenaGame.Managers.SaveManager;
 using DG.Tweening;
 using Gameplay.Character;
 using Gameplay.Character.NPCHuman;
@@ -39,6 +40,10 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         cPlayerManager.Instance.DestroyPlayers();
 
         Transform player=null;
+        
+        SaveGameHandler.Load();
+        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        MapManager.instance.SetMap(currentMap);
         
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {

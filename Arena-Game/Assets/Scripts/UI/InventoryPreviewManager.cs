@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
 {
+    [SerializeField] private GameObject m_Pivot;
     [SerializeField] private SkinManager m_SkinManager;
 
     public void Equip(ArmorItemSO armorItemTemplate)
@@ -21,5 +22,10 @@ public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
     public void ClearEquipment()
     {
         m_SkinManager.Equipment();
+    }
+
+    public void SetState(bool state)
+    {
+        m_Pivot.SetActive(state);
     }
 }

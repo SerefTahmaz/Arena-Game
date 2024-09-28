@@ -65,6 +65,16 @@ public class cRelayManager : cSingleton<cRelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
+
+            if (cLobbyManager.Instance.JoinedLobby != null)
+            {
+                var mapIndex = int.Parse(cLobbyManager.Instance.JoinedLobby.Data["Map"].Value);
+                
+                Debug.Log($"Map to load {mapIndex}");
+
+            
+                MapManager.instance.SetMap(mapIndex);
+            }
         }
         catch (RelayServiceException e)
         {

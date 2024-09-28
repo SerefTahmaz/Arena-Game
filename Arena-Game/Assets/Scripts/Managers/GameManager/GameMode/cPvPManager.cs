@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Managers.SaveManager;
 using DG.Tweening;
 using Gameplay.Character;
 using Unity.Netcode;
@@ -25,6 +26,10 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         if (NetworkManager.Singleton.IsHost)
         {
+            // SaveGameHandler.Load();
+            // var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+            // MapManager.instance.SetMap(currentMap);
+            
             cGameManager.Instance.m_OnPlayerDied = delegate { };
             cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
             
