@@ -198,6 +198,10 @@ public class cGameManager : cSingleton<cGameManager>
         m_OnMainMenuButton.Invoke();
         cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(false);
         
+        //Clean up
+        cNpcManager.Instance.DestroyNpcs();
+        cPlayerManager.Instance.DestroyPlayers();
+        
         cUIManager.Instance.ShowPage(Page.MainMenu);
         cUIManager.Instance.MainMenuNode.Activate();
     }

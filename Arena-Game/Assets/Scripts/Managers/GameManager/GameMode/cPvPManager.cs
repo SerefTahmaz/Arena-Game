@@ -68,20 +68,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         {
             Debug.Log($"Game Ended");
 
+            OnGameEnd();
             MultiplayerLocalHelper.instance.NetworkHelper.CheckGameEndClientRpc();
-            
-            
-            // var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
-            // if (playerSM.CurrentState != playerSM.Dead)
-            // {
-            //     OnGameEnd();
-            //     cGameManager.Instance.HandleWin();
-            // }
-            // else
-            // {
-            //     OnGameEnd();
-            //     cGameManager.Instance.HandleLose();
-            // }
         }
     }
     

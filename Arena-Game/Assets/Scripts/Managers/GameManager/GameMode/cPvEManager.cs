@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using ArenaGame.Managers.SaveManager;
 using DG.Tweening;
+using FiniteStateMachine;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,28 +14,24 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
     
     private int m_SpawnOffset;
-    private bool m_isActive;
-
-    private void OnMainMenuButton()
-    {
-        if (m_isActive)
-        {
-            m_isActive = false;
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        }
-    }
+    private bool m_IsActive;
 
     public void StartGame()
     {
+        SaveGameHandler.Load();
+        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        MapManager.instance.SetMap(currentMap);
+        
         cGameManager.Instance.m_OnNpcDied = delegate { };
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
+        
+        cGameManager.Instance.m_OnPlayerDied = delegate { };
+        cGameManager.Instance.m_OnPlayerDied += CheckSuccess;
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-
-        m_isActive = true;
-        
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
+        
+        m_IsActive = true;
             
         LoopStart();
     }
@@ -45,18 +44,15 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
+        cNpcManager.Instance.DestroyNpcs();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
-            Vector3 pos;
-            pos = m_SpawnOffset*2 * Vector3.right;
-            cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity,VARIABLE.Key);
-            
-            m_SpawnOffset++;
+            OnClientConnected(VARIABLE.Key);
         }
         
         DOVirtual.DelayedCall(5, (() =>
         {
-            if (m_isActive)
+            if (m_IsActive)
             {
                 StartNextGame();
             }
@@ -84,25 +80,49 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         DOVirtual.DelayedCall(1, () =>
         {
             m_ProjectSceneManager.UnloadScene();
-            cUIManager.Instance.HidePage(Page.Loading);
-            InputManager.Instance.SetInput(true);
-            CameraManager.Instance.SetInput(true);
+            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
         });
     }
 
     private void CheckSuccess()
     {
+        var players = FindObjectsOfType<cPlayerStateMachineV2>().Where((v2 => v2.CurrentState != v2.Dead));
+        var isAllPlayersDead = !players.Any();
+        
         if (cNpcManager.Instance.CheckIsAllNpcsDied())
         {
-            DOVirtual.DelayedCall(5, (() =>
-            {
-                if (m_isActive)
-                {
-                    PVELevelSelectView.Instance.SelectNext();
-                    cNpcManager.Instance.DestroyNpcs();
-                    LoopStart();
-                }
-            }));
+            PVELevelSelectView.Instance.SelectNext();
+            
+            OnGameEnd();
+            MultiplayerLocalHelper.instance.NetworkHelper.HandleWinClientRpc();
+        }
+        else if (isAllPlayersDead)
+        {
+            OnGameEnd();
+            MultiplayerLocalHelper.instance.NetworkHelper.HandleLoseClientRpc();
+        }
+    }
+    
+    private void OnMainMenuButton()
+    {
+        if (m_IsActive)
+        {
+            OnGameEnd();
+        }
+    }
+    
+    private void OnGameEnd()
+    {
+        m_IsActive = false;
+        cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        
+        Debug.Log("GameEnded!!!!!!!!!!");
+
+        //TODO: Find a clear method to reach npcs and functinality
+        foreach (var VARIABLE in cNpcManager.Instance.m_Npcs)
+        {
+            VARIABLE.GetComponentInChildren<cStateMachine>().m_enemies.Clear();
         }
     }
 

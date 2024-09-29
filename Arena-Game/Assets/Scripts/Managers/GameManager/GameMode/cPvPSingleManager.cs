@@ -74,7 +74,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
                     cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
                 }
-            }
+            } 
         });
     }
     

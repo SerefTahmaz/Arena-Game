@@ -28,6 +28,18 @@ public class MultiplayerNetworkHelper : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void HandleWinClientRpc()
+    {
+        cGameManager.Instance.HandleWin();
+    }
+    
+    [ClientRpc]
+    public void HandleLoseClientRpc()
+    {
+        cGameManager.Instance.HandleLose();
+    }
+
     public void ResetState()
     {
         if(!IsHost) return;
