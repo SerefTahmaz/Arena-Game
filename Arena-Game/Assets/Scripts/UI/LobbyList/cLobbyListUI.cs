@@ -62,7 +62,7 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
     {
         m_View.Deactivate(true);
     }
-
+ 
     public void EnableLobbyListUI()
     {
         m_View.Activate(true);
@@ -79,5 +79,11 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
         }
         Debug.Log(lobby.LobbyCode);
         cLobbyManager.Instance.JoinLobbyById(lobby.Id, OnJoined);
+    }
+
+    public void ReturnToList()
+    {
+        cLobbyUI.Instance.DisableLobbyUI();
+        EnableLobbyListUI();
     }
 }

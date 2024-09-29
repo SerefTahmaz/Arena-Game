@@ -10,25 +10,15 @@ using UnityEngine;
 public class cPvPManager : MonoBehaviour,IGameModeHandler
 {
     private int m_SpawnOffset;
-    private bool m_isActive;
-
-    private void OnMainMenuButton()
-    {
-        if (m_isActive)
-        {
-            m_isActive = false;
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        }
-    }
+    private bool m_IsActive;
 
     public void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            // SaveGameHandler.Load();
-            // var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-            // MapManager.instance.SetMap(currentMap);
+            SaveGameHandler.Load();
+            var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+            MapManager.instance.SetMap(currentMap);
             
             cGameManager.Instance.m_OnPlayerDied = delegate { };
             cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
@@ -36,7 +26,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
-            m_isActive = true;
+            m_IsActive = true;
             
             LoopStart();
         }
@@ -56,7 +46,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
         DOVirtual.DelayedCall(5, () =>
         {
-            cUIManager.Instance.HidePage(Page.Loading);
+            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
         });
     }
     
@@ -76,14 +66,40 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
         {
-            DOVirtual.DelayedCall(5, () =>
-            {
-                if (m_isActive)
-                {
-                    LoopStart();
-                }
-            });
+            Debug.Log($"Game Ended");
+
+            MultiplayerLocalHelper.instance.NetworkHelper.CheckGameEndClientRpc();
+            
+            
+            // var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
+            // if (playerSM.CurrentState != playerSM.Dead)
+            // {
+            //     OnGameEnd();
+            //     cGameManager.Instance.HandleWin();
+            // }
+            // else
+            // {
+            //     OnGameEnd();
+            //     cGameManager.Instance.HandleLose();
+            // }
         }
+    }
+    
+    private void OnMainMenuButton()
+    {
+        if (m_IsActive)
+        {
+            OnGameEnd();
+        }
+    }
+    
+    private void OnGameEnd()
+    {
+        m_IsActive = false;
+        cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        
+        Debug.Log("GameEnded!!!!!!!!!!");
     }
 }
 

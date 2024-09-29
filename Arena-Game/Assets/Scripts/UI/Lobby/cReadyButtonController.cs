@@ -10,17 +10,31 @@ public class cReadyButtonController : MonoBehaviour
     
     private bool m_isReady = false;
 
+    public Action<bool> OnReadyStateChange;
+
+    public bool IsReady => m_isReady;
+
     public void OnClick()
     {
-        m_isReady = !m_isReady;
+        m_isReady = !IsReady;
         UpdateReadyState();
+    }
+
+    public void ResetState()
+    {
+        m_isReady = false;
+        UpdateUI();
     }
     
     private void UpdateReadyState()
     {
-        cLobbyManager.Instance.UpdateIsPlayerReady(m_isReady);
+        OnReadyStateChange?.Invoke(IsReady);
+        UpdateUI();
+    }
 
-        if (m_isReady)
+    private void UpdateUI()
+    {
+        if (IsReady)
         {
             m_Image.color = Color.green;
         }

@@ -41,6 +41,7 @@ public class cRelayManager : cSingleton<cRelayManager>
             
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
+            MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
             cGameManager.Instance.StartGame();
             Debug.Log("GameStarted!!!");
             return joinCode;
@@ -57,6 +58,8 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
+            cGameManager.Instance.StartGameClient();
+            
             Debug.Log("Joined relay with " + joinCode);
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             
@@ -66,15 +69,9 @@ public class cRelayManager : cSingleton<cRelayManager>
 
             NetworkManager.Singleton.StartClient();
 
-            if (cLobbyManager.Instance.JoinedLobby != null)
-            {
-                var mapIndex = int.Parse(cLobbyManager.Instance.JoinedLobby.Data["Map"].Value);
-                
-                Debug.Log($"Map to load {mapIndex}");
-
+            MapManager.instance.SetMap(cLobbyManager.Instance.LastMapIndex);
             
-                MapManager.instance.SetMap(mapIndex);
-            }
+            Debug.Log($"Last map index {cLobbyManager.Instance.LastMapIndex}");
         }
         catch (RelayServiceException e)
         {

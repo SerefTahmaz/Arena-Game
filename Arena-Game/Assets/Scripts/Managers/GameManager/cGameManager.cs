@@ -117,6 +117,13 @@ public class cGameManager : cSingleton<cGameManager>
         m_GameStarted.Invoke();
         GameModeHandler.StartGame();
     }
+    
+    public void StartGameClient()
+    {
+        cUIManager.Instance.HidePage(Page.MainMenu);
+        cUIManager.Instance.ShowPage(Page.Gameplay);
+        cUIManager.Instance.ShowPage(Page.Loading);
+    }
 
     // private async UniTask StartRound()
     // {
@@ -189,7 +196,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         NetworkManager.Singleton.Shutdown();
         m_OnMainMenuButton.Invoke();
-        cLobbyManager.Instance.UpdateIsPlayerReady(false);
+        cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(false);
         
         cUIManager.Instance.ShowPage(Page.MainMenu);
         cUIManager.Instance.MainMenuNode.Activate();
@@ -197,7 +204,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     public async UniTask HandleWin()
     {
-        await GameEnd();
+        await GameEnd(); 
         cUIManager.Instance.ShowPage(Page.Win);
     }
 

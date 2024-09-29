@@ -52,6 +52,6 @@ public abstract class cCharacter: MonoBehaviour
     
     public void TakeDamage(DamageWrapper damageWrapper)
     {
-        OnDamage.Invoke(damageWrapper);
+        OnDamage?.Invoke(damageWrapper);
     }
 }

@@ -63,7 +63,7 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
     {
         void Created()
         {
-            cLobbyManager.Instance.UpdateIsPlayerReady(true);
+            cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(true);
         }
         cLobbyCreationManager.Instance.OnCreate(new cLobbyCreationManager.LobbyCreationSettingWrapper()
         {
