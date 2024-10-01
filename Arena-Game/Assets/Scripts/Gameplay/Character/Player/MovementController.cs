@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PlayerCharacter
 {
@@ -29,6 +30,18 @@ namespace PlayerCharacter
 		bool m_Crouching;
 		private bool m_HasInput = false;
 
+		[SerializeField] private float m_YSpeedThreshold;
+		[SerializeField] private CharacterType m_CharacterType;
+		
+		
+		public enum CharacterType
+		{
+			Ground,
+			Fly
+		}
+
+		public bool m_EnableFlyingMode;
+
 
 		void Start()
 		{
@@ -49,6 +62,9 @@ namespace PlayerCharacter
 			// {
 			// 	m_Capsule.material = m_PhysicMaterial;
 			// }
+			
+			Debug.Log($"{transform.name} Root Motion {m_Animator.applyRootMotion}");
+			// Move(Vector3.zero);
 		}
 
 		public void Move(Vector3 move, bool crouch = false, bool jump = false)
@@ -175,7 +191,7 @@ namespace PlayerCharacter
 			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
 
-			m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+			// m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
 		}
 
 
@@ -202,16 +218,80 @@ namespace PlayerCharacter
 
 		public void OnAnimatorMove()
 		{
+			switch (m_CharacterType)
+			{
+				case CharacterType.Ground:
+					if (m_IsGrounded && Time.deltaTime > 0)
+					{
+						Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+						
+						// we preserve the existing y part of the current velocity.
+						v.y = m_Rigidbody.velocity.y;
+						m_Rigidbody.velocity = v;
+					}
+					break;
+				case CharacterType.Fly:
+					
+					var physicVelocity = m_Rigidbody.velocity;
+					m_Animator.ApplyBuiltinRootMotion();
+					
+					//With boolean
+					if (!m_EnableFlyingMode)
+					{	
+						//Direct Set
+						// m_Rigidbody.velocity = physicVelocity;
+						
+						if (m_IsGrounded && Time.deltaTime > 0)
+						{
+							Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+						
+							// we preserve the existing y part of the current velocity.
+							v.y = m_Rigidbody.velocity.y;
+							m_Rigidbody.velocity = v;
+						}
+					}
+				
+					//With using physics threshold
+					//Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+					// if (!(Mathf.Abs(v.y) > m_YSpeedThreshold))
+					// {
+					// 	m_Rigidbody.velocity = physicVelocity;
+					// }
+					
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
-			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// if (m_IsGrounded && Time.deltaTime > 0)
+			// {
+			// 	Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// 	
+			//
+			// 	// we preserve the existing y part of the current velocity.
+			// 	// v.y = m_Rigidbody.velocity.y;
+			// 	m_Rigidbody.velocity = v;
+			// 	
+			// 	Debug.Log($"Delta posiiton {m_Animator.deltaPosition}");
+			// }
 
-				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
-			}
+			
+
+			
+
+			// if (m_IsGrounded && Time.deltaTime > 0)
+			// {
+			// 	Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// 	
+			//
+			// 	// we preserve the existing y part of the current velocity.
+			// 	v.y = m_Rigidbody.velocity.y;
+			// 	m_Rigidbody.velocity = v;
+			// 	
+			// 	Debug.Log($"Delta posiiton {m_Animator.deltaPosition}");
+			// }
 		}
 		
 		public void DisableRotation()

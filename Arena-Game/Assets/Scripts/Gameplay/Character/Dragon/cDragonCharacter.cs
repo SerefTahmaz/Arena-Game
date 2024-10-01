@@ -1,4 +1,5 @@
-﻿using RootMotion.FinalIK;
+﻿using PlayerCharacter;
+using RootMotion.FinalIK;
 using UnityEngine;
 
 public class cDragonCharacter : cCharacter
@@ -9,6 +10,7 @@ public class cDragonCharacter : cCharacter
     [SerializeField] private cAnimationController m_AnimationController;
     [SerializeField] private cDragonNetworkController m_DragonNetworkController;
     [SerializeField] private cDragonAnimationEvents m_DragonAnimationEvents;
+    [SerializeField] private MovementController m_MovementController;
 
     public cDragonController DragonController => m_DragonController;
     public LookAtIK HeadLookAtIk => m_HeadLookAtIk;
@@ -17,6 +19,6 @@ public class cDragonCharacter : cCharacter
 
     public override cCharacterNetworkController CharacterNetworkController => DragonNetworkController;
     public cDragonNetworkController DragonNetworkController => m_DragonNetworkController;
-
     public cDragonAnimationEvents DragonAnimationEvents => m_DragonAnimationEvents;
+    public MovementController MovementController => m_MovementController;
 }
