@@ -54,11 +54,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         {
             if (m_IsActive)
             {
-                cUIManager.Instance.HidePage(Page.Loading);
-                
-                InputManager.Instance.SetInput(true);
-                CameraManager.Instance.SetInput(true);
-                CameraManager.Instance.FixLook();
+                MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
                 
                 var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
                 var pos = new Vector3(0, 0, 5);
@@ -71,8 +67,6 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
                 {
                     m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
                     if(!m_NPCNonActiveAtStart) m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
-
-                    cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
                 }
             } 
         });

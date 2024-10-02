@@ -36,8 +36,12 @@ namespace FiniteStateMachine
         public override void StateMachineUpdate()
         {
             base.StateMachineUpdate();
-            
-            if(StateMachine.Target() == null) return;
+
+            if (StateMachine.Target() == null)
+            {
+                StateMachine.TrollCharacter.MovementController.Move(Vector3.zero);
+                return;
+            }
 
             Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
             dir.y = 0;

@@ -5,6 +5,7 @@ using System.Linq;
 using ArenaGame.Managers.SaveManager;
 using DG.Tweening;
 using FiniteStateMachine;
+using Gameplay.Character.NPCHuman;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ using UnityEngine.SceneManagement;
 public class cPvEManager : MonoBehaviour,IGameModeHandler
 {
     [SerializeField] private ProjectSceneManager m_ProjectSceneManager;
+    [SerializeField] private bool m_NPCNonActiveAtStart; 
     
     private int m_SpawnOffset;
     private bool m_IsActive;
@@ -81,6 +83,15 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         {
             m_ProjectSceneManager.UnloadScene();
             MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+            
+            if (cGameManager.Instance.m_OwnerPlayer != null)
+            {
+                foreach (var npcIns in cNpcManager.Instance.m_Npcs)
+                {
+                    var npcSm = npcIns.GetComponentInChildren<cStateMachine>();
+                    if(!m_NPCNonActiveAtStart) npcSm.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                }
+            }
         });
     }
 

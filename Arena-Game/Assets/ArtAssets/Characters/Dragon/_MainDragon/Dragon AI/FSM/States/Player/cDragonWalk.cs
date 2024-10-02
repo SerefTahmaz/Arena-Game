@@ -44,6 +44,7 @@ namespace FiniteStateMachine
             if (StateMachine.Target() == null)
             {
                 // AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,0);
+                StateMachine.Character.MovementController.Move(Vector3.zero);
                 return;
             } 
             

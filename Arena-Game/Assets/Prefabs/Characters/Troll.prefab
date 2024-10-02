@@ -15066,13 +15066,16 @@ MonoBehaviour:
   m_JumpPower: 12
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.5
+  m_MoveSpeedMultiplier: 2.5
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.25
   m_PhysicMaterial: {fileID: 0}
   m_Rigidbody: {fileID: 4279231040548864758}
   m_Animator: {fileID: 211114692697353439}
   m_Capsule: {fileID: 8629437958519135270}
+  m_YSpeedThreshold: 0
+  m_CharacterType: 0
+  m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
     m_Bits: 1024

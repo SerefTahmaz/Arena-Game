@@ -63,7 +63,7 @@ namespace PlayerCharacter
 			// 	m_Capsule.material = m_PhysicMaterial;
 			// }
 			
-			Debug.Log($"{transform.name} Root Motion {m_Animator.applyRootMotion}");
+			// Debug.Log($"{transform.name} Root Motion {m_Animator.applyRootMotion}");
 			// Move(Vector3.zero);
 		}
 

@@ -18,6 +18,7 @@ namespace ArenaGame.Managers.SaveManager
         public bool m_HapticState = true;
         public int m_CurrentPVELevel;
         public int m_CurrentMap;
+        public bool m_IsPlayerDisqualified;
     }
 
     [Serializable]

@@ -10363,7 +10363,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2582915137298745287}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -10441,6 +10441,9 @@ MonoBehaviour:
   m_Rigidbody: {fileID: 9188521894469903039}
   m_Animator: {fileID: 5550091048574385923}
   m_Capsule: {fileID: 591083547921527992}
+  m_YSpeedThreshold: 0
+  m_CharacterType: 0
+  m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
     m_Bits: 1024

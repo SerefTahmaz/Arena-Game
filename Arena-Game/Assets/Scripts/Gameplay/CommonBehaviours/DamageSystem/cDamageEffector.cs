@@ -16,7 +16,8 @@ public class cDamageEffector : cDamageEffectorBase
                 amount = 1, 
                 pos = collisionPoint, 
                 isHeavyDamage = false,
-                damager = transform
+                damager = transform,
+                Instigator = Character
             });
         }
     }

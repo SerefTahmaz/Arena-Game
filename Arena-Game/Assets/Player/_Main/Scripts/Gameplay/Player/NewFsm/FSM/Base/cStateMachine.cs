@@ -82,9 +82,9 @@ namespace FiniteStateMachine
 
         public virtual void OnDamage(DamageWrapper damageWrapper)
         {
-            if (m_enemies.Contains(damageWrapper.damager) == false)
+            if (m_enemies.Contains(damageWrapper.Instigator.MovementTransform) == false && damageWrapper.Instigator != null)
             {
-                m_enemies.Add(damageWrapper.damager);
+                m_enemies.Add(damageWrapper.Instigator.MovementTransform);
             }
         }
     }

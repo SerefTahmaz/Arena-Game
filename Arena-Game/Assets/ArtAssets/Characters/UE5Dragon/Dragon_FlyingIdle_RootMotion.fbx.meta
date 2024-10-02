@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 46e357e8fea51804aa8fbac9f9c783db
+guid: 4ba49013653132a4b99f62e49c7de4a2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,24 +33,24 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: FlyToGroundBaked
-      takeName: Armature|Armature.026|FlyToGroundBaked
-      internalID: -2225386914130181370
+      name: Flying_Idle_RootMotion
+      takeName: Armature|Armature|Armature|Armature.023|FlyingBaked
+      internalID: 1291573899106094201
       firstFrame: 0
-      lastFrame: 69
+      lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
-      level: -2.53
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
@@ -58,36 +58,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: PlayFlyToGroundClip
+        functionName: PlayFlyIdleClip
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.29411763
+      - time: 0.5743945
         functionName: PlayWingDust
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.42214534
-        functionName: ShakeCam
-        data: 
-        objectReferenceParameter: {fileID: 11400000, guid: 02ffbbd964af1d344bc942eeb4e55bde,
-          type: 2}
-        floatParameter: 2
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.43252596
-        functionName: PlayImpactDust
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.99725276
-        functionName: SnapToIdle
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -34,7 +34,7 @@ public abstract class cDamageEffectorBase : MonoBehaviour
     {
         if (damagable.TeamID != m_TeamId)
         {
-            damageWrapper.Character = Character;
+            damageWrapper.Instigator = Character;
             damagable.Damage(damageWrapper);
         }
     }

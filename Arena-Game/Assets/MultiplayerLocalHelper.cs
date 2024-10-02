@@ -36,6 +36,7 @@ public class MultiplayerLocalHelper : Singleton<MultiplayerLocalHelper>
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
+        cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
     }
 
     // Update is called once per frame

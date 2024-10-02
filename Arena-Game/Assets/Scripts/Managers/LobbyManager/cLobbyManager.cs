@@ -57,8 +57,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     private void Update()
     {
-        if(JoinedLobby == null) Debug.Log("Null lobby");
-        else Debug.Log("Valid lobby");
+        // if(JoinedLobby == null) Debug.Log("Null lobby");
+        // else Debug.Log("Valid lobby");
         
         LobbyHeartbeat();
         HandleLobbyPollForUpdates();

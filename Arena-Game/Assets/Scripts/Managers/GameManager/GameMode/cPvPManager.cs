@@ -26,10 +26,17 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
+            NetworkManager.Singleton.OnServerStopped += HandleServerStopped;
+
             m_IsActive = true;
             
             LoopStart();
         }
+    }
+
+    private void HandleServerStopped(bool obj)
+    {
+        Debug.Log("Server Stopped!!!!!!!");
     }
 
     private void LoopStart()

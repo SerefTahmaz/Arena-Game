@@ -11,6 +11,8 @@ public class cNpcSpawnerProxy : NetworkBehaviour
     [SerializeField] private GameObject m_NetworkPrefab;
     [SerializeField] private Transform m_SpawnPoint;
     [SerializeField] private cHealthManager.eHealthBarState m_HealthBarState;
+    [SerializeField] private bool m_SetTeamId;
+    [SerializeField] private int m_TeamId;
 
     public override void OnNetworkSpawn()
     {
@@ -27,6 +29,12 @@ public class cNpcSpawnerProxy : NetworkBehaviour
             foreach (var VARIABLE in  go.GetComponentsInChildren<cHealthManager>())
             {
                 VARIABLE.HealthBarState = m_HealthBarState;
+            }
+
+            if (m_SetTeamId)
+            {
+                var character = go.GetComponentInChildren<cCharacterNetworkController>();
+                character.m_TeamId.Value = m_TeamId;
             }
            
             cNpcManager.Instance.m_Npcs.Add(go);

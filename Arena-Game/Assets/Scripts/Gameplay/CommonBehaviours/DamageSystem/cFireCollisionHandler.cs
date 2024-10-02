@@ -14,7 +14,8 @@ public class cFireCollisionHandler : cDamageEffectorBase
                 amount = 10, 
                 pos = Vector3.zero, 
                 isHeavyDamage = false,
-                damager = transform
+                damager = transform,
+                Instigator = Character
             });
         }
     }
