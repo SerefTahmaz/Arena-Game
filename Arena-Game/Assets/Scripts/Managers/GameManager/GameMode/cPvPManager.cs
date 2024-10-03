@@ -36,7 +36,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
     private void HandleServerStopped(bool obj)
     {
-        Debug.Log("Server Stopped!!!!!!!");
+        // Debug.Log("Server Stopped!!!!!!!");
     }
 
     private void LoopStart()

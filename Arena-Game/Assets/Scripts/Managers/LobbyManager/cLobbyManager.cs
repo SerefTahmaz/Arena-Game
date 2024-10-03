@@ -472,6 +472,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                 
                 var lobby = await LobbyService.Instance.UpdateLobbyAsync(JoinedLobby.Id, new UpdateLobbyOptions()
                 {
+                    IsPrivate = true,
                     Data = new Dictionary<string, DataObject>()
                     {
                         { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }

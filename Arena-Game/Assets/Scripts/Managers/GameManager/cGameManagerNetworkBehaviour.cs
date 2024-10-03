@@ -10,9 +10,9 @@ public class cGameManagerNetworkBehaviour : NetworkBehaviour
     [ClientRpc]
     public void OnHostLeaveClientRpc()
     {
-        if (IsHost==false)
-        {
-            m_MainMenuButton.OnClick();
-        }
+        // if (IsHost==false)
+        // {
+        //     m_MainMenuButton.OnClick();
+        // }
     }
 }

@@ -63,6 +63,8 @@ public class cGameManager : cSingleton<cGameManager>
 
     public IGameModeHandler GameModeHandler => m_GameModeHandler;
 
+    public bool IsGameplayActive { get; set; }
+
     private void Start()
     {
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
@@ -71,9 +73,52 @@ public class cGameManager : cSingleton<cGameManager>
             m_OwnerPlayer = transform1;
             CameraManager.Instance.OnPlayerSpawn();
         };
-        NetworkManager.Singleton.OnClientConnectedCallback += obj =>
+
+        //Called on the owner only
+        NetworkManager.Singleton.OnClientStopped += b =>
         {
-         
+            if (IsGameplayActive)
+            {
+                GameEnd();
+                var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
+                insDisconnectedPopUpController.Init("Disconnected from the server");
+            }
+            
+            Debug.Log("Host OnClientStopped");
+        };
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += obj =>
+        {
+            // if(!NetworkManager.Singleton.IsHost) return;
+            
+            Debug.Log($"ID {obj}  hostid {NetworkManager.Singleton.LocalClientId}");
+            
+            if (IsGameplayActive)
+            {
+                if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClientsList.Count <= 2)
+                {
+                    GameEnd();
+                    Debug.Log("Finish game");
+                    var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
+                    insDisconnectedPopUpController.Init("Opponent disconnected from the server");
+                }
+
+                if (NetworkManager.Singleton.IsClient && obj == 0)
+                {
+                    Debug.Log("Not disqualified. Server remove it");
+                }
+                else
+                {
+                    Debug.Log("Disqualified. Client remove itself");
+                }
+            }
+            
+            Debug.Log("Host OnClientDisconnectCallback");
+        };
+
+        NetworkManager.Singleton.OnServerStopped += b =>
+        {
+            Debug.Log($"Server Stopped!!!");
         };
 
         m_BossUIHealthBar.m_OnVisibleUpdate += b =>
@@ -98,6 +143,16 @@ public class cGameManager : cSingleton<cGameManager>
         });
     }
 
+    private void OnApplicationQuit()
+    {
+        if (IsGameplayActive)
+        {
+            SaveGameHandler.Load();
+            SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
+            SaveGameHandler.Save();
+        }
+    }
+
     public void StartGame()
     {
         switch (m_CurrentGameMode)
@@ -116,6 +171,8 @@ public class cGameManager : cSingleton<cGameManager>
         }
         m_GameStarted.Invoke();
         GameModeHandler.StartGame();
+
+        IsGameplayActive = true;
     }
     
     public void StartGameClient()
@@ -123,6 +180,7 @@ public class cGameManager : cSingleton<cGameManager>
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading);
+        IsGameplayActive = true;
     }
 
     // private async UniTask StartRound()
@@ -183,7 +241,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            m_GameManagerNetworkBehaviour.OnHostLeaveClientRpc();
+            // m_GameManagerNetworkBehaviour.OnHostLeaveClientRpc();
             LeaveGame();
         }
         else
@@ -226,6 +284,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     private async UniTask GameEnd()
     {
+        IsGameplayActive = false;
         InputManager.Instance.SetInput(false);
         CameraManager.Instance.SetInput(false);
         await UniTask.WaitForSeconds(2);
