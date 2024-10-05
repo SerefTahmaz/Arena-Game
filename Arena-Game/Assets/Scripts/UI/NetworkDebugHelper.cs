@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class cNetworkController : MonoBehaviour
+public class NetworkDebugHelper : MonoBehaviour
 {
     [SerializeField] private Button m_Host;
     [SerializeField] private Button m_Server;
