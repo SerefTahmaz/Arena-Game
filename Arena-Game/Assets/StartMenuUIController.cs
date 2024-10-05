@@ -9,7 +9,7 @@ using UnityEngine;
 public class StartMenuUIController : MonoBehaviour
 {
     [SerializeField] private cView m_View;
-    [SerializeField] private cButton m_StartButton;
+    [SerializeField] private StartButtonController m_StartButton;
     
     // Start is called before the first frame update
     void Start()
@@ -34,10 +34,6 @@ public class StartMenuUIController : MonoBehaviour
         SaveGameHandler.Load();
         if (SaveGameHandler.SaveData.m_IsPlayerDisqualified)
         {
-            
-            
-            ExperienceManager.LoseExperience(35);
-            CurrencyManager.SpendCurrency(25);
             GlobalFactory.DisqualifyPopUpFactory.Create();
             SaveGameHandler.SaveData.m_IsPlayerDisqualified = false;
             SaveGameHandler.Save();

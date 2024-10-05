@@ -49,8 +49,6 @@ public class HumanCharacterStateMachine : MonoBehaviour
         {
             DrawSword(AnimationController.AnimationState.DrawLeftSword);
         }
-
-        m_IsLeftSwordDrawn = !IsLeftSwordDrawn;
     }
         
     public void SwitchRightSword()
@@ -65,8 +63,6 @@ public class HumanCharacterStateMachine : MonoBehaviour
         {
             DrawSword(AnimationController.AnimationState.DrawRightSword);
         }
-
-        m_IsRightSwordDrawn = !IsRightSwordDrawn;
     }
         
     private void DrawSword(AnimationController.AnimationState sword)
@@ -127,6 +123,7 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     public void Charge()
     {
+        Debug.Log("Trying to charge!!");
         if (IsLeftSwordDrawn && IsRightSwordDrawn)
         {
             OnChargeBoth();
@@ -172,6 +169,8 @@ public class HumanCharacterStateMachine : MonoBehaviour
         AnimationController.LeftSword.m_BackWeapon.SetActive(!AnimationController.LeftSword.m_BackWeapon.activeSelf);
         AnimationController.LeftSword.m_HandWeapon.SetActive(!AnimationController.LeftSword.m_HandWeapon.activeSelf);
         SetLeftFlame(0);
+        
+        m_IsLeftSwordDrawn = !IsLeftSwordDrawn;
     }
     
     public void SwitchRightWeapon()
@@ -179,6 +178,8 @@ public class HumanCharacterStateMachine : MonoBehaviour
         AnimationController.RightSword.m_BackWeapon.SetActive(!AnimationController.RightSword.m_BackWeapon.activeSelf);
         AnimationController.RightSword.m_HandWeapon.SetActive(!AnimationController.RightSword.m_HandWeapon.activeSelf);
         SetRightFlame(0);
+        
+        m_IsRightSwordDrawn = !IsRightSwordDrawn;
     }
     
     public void SetLeftFlame(int state)

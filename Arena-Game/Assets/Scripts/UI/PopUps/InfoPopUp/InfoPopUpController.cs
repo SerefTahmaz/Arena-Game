@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ArenaGame.UI.PopUps.InfoPopUp
 {
-    public class InfoPopUpController : MonoBehaviour, IInfoPopUpController
+    public class InfoPopUpController : PopUpController, IInfoPopUpController
     {
         [SerializeField] private cView m_View;
         [SerializeField] private cButton m_Button;
@@ -25,7 +25,7 @@ namespace ArenaGame.UI.PopUps.InfoPopUp
         }
     }
 
-    public interface IInfoPopUpController
+    public interface IInfoPopUpController : IPopUpController
     {
         void Init(string value);
     }

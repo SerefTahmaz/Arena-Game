@@ -14,7 +14,8 @@ public class PrefabList : ScriptableObject
     [SerializeField] private DisconnectedPopUpController m_DisconnectedPopUpPrefab;
     [SerializeField] private WinCurrencyRewardController m_WinCurrencyRewardPrefab;
     [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab;
-    [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab;
+    [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab; 
+    [SerializeField] private NoWifiPopUpController m_NoWifiPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -22,6 +23,7 @@ public class PrefabList : ScriptableObject
     public WinUpgradeRewardController WinUpgradeRewardPrefab => m_WinUpgradeRewardPrefab;
     public DisconnectedPopUpController DisconnectedPopUpPrefab => m_DisconnectedPopUpPrefab;
     public InfoPopUpController DisqualifyPopUpPrefab => m_DisqualifyPopUpPrefab;
+    public NoWifiPopUpController NoWifiPopUpPrefab => m_NoWifiPopUpPrefab;
 
     private static PrefabList m_Instance;
     

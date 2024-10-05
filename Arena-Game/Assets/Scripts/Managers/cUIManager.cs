@@ -9,9 +9,10 @@ public class cUIManager : cSingleton<cUIManager>
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private List<cView> m_Views;
     [SerializeField] private cMenuNode m_MainMenuNode;
+    [SerializeField] private cMenuNode m_StartMenuNode;
 
     public cMenuNode MainMenuNode => m_MainMenuNode;
-
+    public cMenuNode StartMenuNode => m_StartMenuNode;
 
     public void ShowPage(Page page, bool instant = false)
     {

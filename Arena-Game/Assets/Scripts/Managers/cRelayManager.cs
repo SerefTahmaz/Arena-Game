@@ -82,6 +82,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     public async void StartPvPSingle()
     {
         NetworkManager.Singleton.StartHost();
+        MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
         cGameManager.Instance.StartGame();
     }
 }
