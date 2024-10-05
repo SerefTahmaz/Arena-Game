@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Main.Scripts;
+using ArenaGame.Managers.SaveManager;
 using ArenaGame.UI.PopUps.InfoPopUp;
 using DefaultNamespace;
 using UI.EndScreen;
@@ -23,5 +24,12 @@ public class MapListSO : ScriptableObject
         }
             
         return m_Instance;
+    }
+
+    public static MapSO GetCurrentMap()
+    {
+        SaveGameHandler.Load();
+        var currentLevel = Get().m_MapSOs[SaveGameHandler.SaveData.m_CurrentMap];
+        return currentLevel;
     }
 }

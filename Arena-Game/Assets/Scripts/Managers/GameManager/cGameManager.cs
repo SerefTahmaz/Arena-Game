@@ -65,6 +65,9 @@ public class cGameManager : cSingleton<cGameManager>
 
     public bool IsGameplayActive { get; set; }
 
+    private bool m_IsServerDisconnectedClient;
+    private bool m_IsServerDisconnectedItself;
+
     private void Start()
     {
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
@@ -82,43 +85,64 @@ public class cGameManager : cSingleton<cGameManager>
                 GameEnd();
                 var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
                 insDisconnectedPopUpController.Init("Disconnected from the server");
+
+                if (NetworkManager.Singleton.IsClient)
+                {
+                    DOVirtual.DelayedCall(0.5f, () =>
+                    {
+                        if (!m_IsServerDisconnectedClient)
+                        {
+                            SetPlayerDisqualified();
+                        }
+                        insDisconnectedPopUpController.ActivateButton();
+                    });
+                }
+                else if (NetworkManager.Singleton.IsHost)
+                {
+                    insDisconnectedPopUpController.ActivateButton();
+                    SetPlayerDisqualified();
+                    m_IsServerDisconnectedItself = true;
+                }
             }
             
-            Debug.Log("Host OnClientStopped");
+            Debug.Log("OnClientStopped");
         };
-
+  
         NetworkManager.Singleton.OnClientDisconnectCallback += obj =>
         {
             // if(!NetworkManager.Singleton.IsHost) return;
             
-            Debug.Log($"ID {obj}  hostid {NetworkManager.Singleton.LocalClientId}");
+            // Debug.Log($"ID {obj}  hostid {NetworkManager.Singleton.LocalClientId}");
+            // if(NetworkManager.Singleton.IsHost) Debug.Log($"connected count {NetworkManager.Singleton.ConnectedClientsList.Count}");
             
             if (IsGameplayActive)
             {
-                if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClientsList.Count <= 2)
+                if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClientsList.Count == 2)
                 {
-                    GameEnd();
-                    Debug.Log("Finish game");
-                    var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
-                    insDisconnectedPopUpController.Init("Opponent disconnected from the server");
+                    DOVirtual.DelayedCall(0.5f, () =>
+                    {
+                        if (!m_IsServerDisconnectedItself)
+                        {
+                            GameEnd();
+                            var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
+                            insDisconnectedPopUpController.Init("Opponent disconnected from the server");
+                            insDisconnectedPopUpController.ActivateButton();
+                        }
+                    },false);
                 }
 
                 if (NetworkManager.Singleton.IsClient && obj == 0)
                 {
-                    Debug.Log("Not disqualified. Server remove it");
+                    // Debug.Log("Not disqualified. Server remove it");
+                    m_IsServerDisconnectedClient = true;
                 }
                 else
                 {
-                    Debug.Log("Disqualified. Client remove itself");
+                    // Debug.Log("Disqualified. Client remove itself");
                 }
             }
             
-            Debug.Log("Host OnClientDisconnectCallback");
-        };
-
-        NetworkManager.Singleton.OnServerStopped += b =>
-        {
-            Debug.Log($"Server Stopped!!!");
+            Debug.Log("OnClientDisconnectCallback");
         };
 
         m_BossUIHealthBar.m_OnVisibleUpdate += b =>
@@ -137,20 +161,29 @@ public class cGameManager : cSingleton<cGameManager>
             }
         };
 
+        //TODO: Hide when loading completes!
         DOVirtual.DelayedCall(2, () =>
         {
             cUIManager.Instance.HidePage(Page.Loading);
         });
+        
+        cUIManager.Instance.ShowPage(Page.StartMenu);
     }
 
     private void OnApplicationQuit()
     {
         if (IsGameplayActive)
         {
-            SaveGameHandler.Load();
-            SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
-            SaveGameHandler.Save();
+            SetPlayerDisqualified();
         }
+    }
+
+    public void SetPlayerDisqualified()
+    {
+        Debug.Log("Disqualified!!!");
+        SaveGameHandler.Load();
+        SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
+        SaveGameHandler.Save();
     }
 
     public void StartGame()
@@ -173,6 +206,8 @@ public class cGameManager : cSingleton<cGameManager>
         GameModeHandler.StartGame();
 
         IsGameplayActive = true;
+        m_IsServerDisconnectedClient = false;
+        m_IsServerDisconnectedItself = false;
     }
     
     public void StartGameClient()
@@ -260,7 +295,7 @@ public class cGameManager : cSingleton<cGameManager>
         cNpcManager.Instance.DestroyNpcs();
         cPlayerManager.Instance.DestroyPlayers();
         
-        cUIManager.Instance.ShowPage(Page.MainMenu);
+        cUIManager.Instance.ShowPage(Page.StartMenu);
         cUIManager.Instance.MainMenuNode.Activate();
     }
 

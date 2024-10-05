@@ -36,5 +36,6 @@ public enum Page
     Loading,
     Gameplay,
     Win,
-    Lose
+    Lose,
+    StartMenu
 }

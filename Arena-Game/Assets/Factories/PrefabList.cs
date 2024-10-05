@@ -14,12 +14,14 @@ public class PrefabList : ScriptableObject
     [SerializeField] private DisconnectedPopUpController m_DisconnectedPopUpPrefab;
     [SerializeField] private WinCurrencyRewardController m_WinCurrencyRewardPrefab;
     [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab;
+    [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
     public WinCurrencyRewardController CurrencyRewardPrefab => m_WinCurrencyRewardPrefab;
     public WinUpgradeRewardController WinUpgradeRewardPrefab => m_WinUpgradeRewardPrefab;
     public DisconnectedPopUpController DisconnectedPopUpPrefab => m_DisconnectedPopUpPrefab;
+    public InfoPopUpController DisqualifyPopUpPrefab => m_DisqualifyPopUpPrefab;
 
     private static PrefabList m_Instance;
     
