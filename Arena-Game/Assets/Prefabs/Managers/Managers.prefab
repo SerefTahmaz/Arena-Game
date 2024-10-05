@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21d0c83fe245a94f9f3656c5d4022d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_FreeroamLevel: {fileID: 102900000, guid: 45d2ee5100f8f964e913bde11377b3e4, type: 3}
 --- !u!1 &7087374198633569978
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +581,7 @@ GameObject:
   - component: {fileID: 9116463470542435156}
   - component: {fileID: 6385928504337113973}
   - component: {fileID: 2426356536441518616}
+  - component: {fileID: 4467113959125205617}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -624,6 +626,7 @@ MonoBehaviour:
   m_PvPManager: {fileID: 9116463470542435156}
   m_PvEManager: {fileID: 6385928504337113973}
   m_CPvPSingleManager: {fileID: 2426356536441518616}
+  m_FreeroamGameMode: {fileID: 4467113959125205617}
   m_OwnerPlayer: {fileID: 0}
   m_OwnerPlayerId: 0
   m_GameManagerNetworkBehaviour: {fileID: 4592444316835787782}
@@ -713,6 +716,20 @@ MonoBehaviour:
   m_ProjectSceneManager: {fileID: 8596152842389499210}
   m_NpcScene: 
   m_NPCNonActiveAtStart: 1
+--- !u!114 &4467113959125205617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7598448682538334219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83cdcec632ec4a9daf6e8ab7d740ea0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ProjectSceneManager: {fileID: 8596152842389499210}
+  m_PlayerStartPoint: {fileID: 0}
 --- !u!1 &7614561289707295659
 GameObject:
   m_ObjectHideFlags: 0

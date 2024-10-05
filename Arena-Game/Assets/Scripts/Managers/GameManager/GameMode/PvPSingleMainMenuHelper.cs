@@ -17,6 +17,6 @@ public class PvPSingleMainMenuHelper : MonoBehaviour
     {
         Main.Instance.UnityTransport.SetConnectionData("127.0.0.1", 7777);
         cGameManager.Instance.CurrentGameMode = eGameMode.PvPSingle;
-        cRelayManager.Instance.StartPvPSingle();
+        cRelayManager.Instance.StartSinglePlayer();
     }
 }

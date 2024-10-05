@@ -10,12 +10,14 @@ public class StartMenuUIController : MonoBehaviour
 {
     [SerializeField] private cView m_View;
     [SerializeField] private StartButtonController m_StartButton;
+    [SerializeField] private cButton m_FreeroamButton;
     
     // Start is called before the first frame update
     void Start()
     {
         m_View.OnActivateEvent.AddListener(HandleOnActivate);
         m_StartButton.OnClickEvent.AddListener(HandleStartButtonClicked);
+        m_FreeroamButton.OnClickEvent.AddListener(HandleStartButtonClicked);
     }
 
     private void HandleStartButtonClicked()

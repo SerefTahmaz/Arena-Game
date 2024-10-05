@@ -13,7 +13,8 @@ public enum eGameMode
 {
     PvE,
     PvP,
-    PvPSingle
+    PvPSingle,
+    Freeroam
 }
 
 public class cGameManager : cSingleton<cGameManager>
@@ -28,7 +29,7 @@ public class cGameManager : cSingleton<cGameManager>
     [SerializeField] private cPvPManager m_PvPManager;
     [SerializeField] private cPvEManager m_PvEManager;
     [SerializeField] private cPvPSingleManager m_CPvPSingleManager;
-
+    [SerializeField] private FreeroamGameMode m_FreeroamGameMode;
 
     private IGameModeHandler m_GameModeHandler;
     private ISaveManager m_SaveManager;
@@ -220,6 +221,9 @@ public class cGameManager : cSingleton<cGameManager>
                 break;
             case eGameMode.PvPSingle:
                 m_GameModeHandler = m_CPvPSingleManager;
+                break;
+            case eGameMode.Freeroam:
+                m_GameModeHandler = m_FreeroamGameMode;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
