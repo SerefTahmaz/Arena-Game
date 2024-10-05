@@ -33,13 +33,13 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
         cUIManager.Instance.ShowPage(Page.Loading,true);
         cPlayerManager.Instance.DestroyPlayers();
         
+        SaveGameHandler.Load();
+        await MapManager.instance.LoadFreeroamLevel();
+        
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
             var player = OnClientConnected(VARIABLE.Key).transform;
         }
-        
-        SaveGameHandler.Load();
-        await MapManager.instance.LoadFreeroamLevel();
 
         DOVirtual.DelayedCall(2, () =>
         {
