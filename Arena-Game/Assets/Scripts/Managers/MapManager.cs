@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class MapManager : Singleton<MapManager>
 {
-    [SerializeField] private SceneAsset m_FreeroamLevel;
+    [SerializeField] private string m_FreeroamLevel;
     
     private List<GameObject> m_InsMaps = new List<GameObject>();
     
@@ -41,8 +41,8 @@ public class MapManager : Singleton<MapManager>
     {
         CloseLevels();
         cUIManager.Instance.ShowPage(Page.Loading);
-        await SceneManager.LoadSceneAsync(m_FreeroamLevel.name, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel.name));
+        await SceneManager.LoadSceneAsync(m_FreeroamLevel, LoadSceneMode.Additive);
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
         cUIManager.Instance.HidePage(Page.Loading);
     }
 
