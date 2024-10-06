@@ -42,7 +42,7 @@ public class MapManager : Singleton<MapManager>
         CloseLevels();
         cUIManager.Instance.ShowPage(Page.Loading);
         await SceneManager.LoadSceneAsync(m_FreeroamLevel, LoadSceneMode.Additive);
-        // SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
         cUIManager.Instance.HidePage(Page.Loading);
     }
 
