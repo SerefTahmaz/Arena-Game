@@ -85,7 +85,6 @@ namespace Gameplay
         {
             var itemsGuid = CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList;
 
-
             var itemsSO = itemsGuid.Select((ItemSaveHandler.GetItem)).ToList();
             itemsSO.RemoveAll((item => item == null));
 

@@ -29,6 +29,8 @@ namespace DefaultNamespace
             set => m_CreationDate = value;
         }
 
+        public override Sprite ItemSprite => m_PlantItemTemplate.ItemSprite;
+
         public override void Save()
         {
             base.Save();

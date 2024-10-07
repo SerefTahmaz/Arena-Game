@@ -14,6 +14,7 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
 {
     [SerializeField] private CharacterSO m_CharacterSo;
     [SerializeField] private ArmorMenuInventoryItemController m_MenuInventoryItemPrefab;
+    [SerializeField] private ConsumableInventoryItemController m_ConsumableInventoryItemPrefab;
     [SerializeField] private Transform m_LayoutParent;
     [SerializeField] private cMenuNode m_MenuNode;
 
@@ -39,16 +40,20 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
         m_CharacterSo.Load();
         foreach (var VARIABLE in m_CharacterSo.InventoryList)
         {
+            Debug.Log(VARIABLE.ItemType);
             switch (VARIABLE.ItemType)
             {
                 case ItemType.Weapon:
                     break;
                 case ItemType.Armor:
-                    var ins = Instantiate(m_MenuInventoryItemPrefab,m_LayoutParent);
-                    ins.Init(VARIABLE as ArmorItemSO, m_CharacterSo.IsItemEquiped(VARIABLE as ArmorItemSO),this);
-                    m_InsInventoryItemControllers.Add(ins);
+                    var insArmorItemUI = Instantiate(m_MenuInventoryItemPrefab,m_LayoutParent);
+                    insArmorItemUI.Init(VARIABLE as ArmorItemSO, m_CharacterSo.IsItemEquiped(VARIABLE as ArmorItemSO),this);
+                    m_InsInventoryItemControllers.Add(insArmorItemUI);
                     break;
                 case ItemType.Consumable:
+                    var insConsumableItemUI = Instantiate(m_ConsumableInventoryItemPrefab,m_LayoutParent);
+                    insConsumableItemUI.Init(VARIABLE,this);
+                    m_InsInventoryItemControllers.Add(insConsumableItemUI);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -58,17 +63,23 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
 
     public void HandleClick(MenuInventoryItemController menuInventoryItemController)
     {
-        var armorInventoryItem = menuInventoryItemController as ArmorMenuInventoryItemController;
-        
-        var isItemEquiped = m_CharacterSo.IsItemEquiped(armorInventoryItem.itemTemplate);
-        Debug.Log(isItemEquiped);
-        if (isItemEquiped)
+        if (menuInventoryItemController is ArmorMenuInventoryItemController armorInventoryItem)
         {
-            UnequipItem(armorInventoryItem.itemTemplate);
+            var isItemEquiped = m_CharacterSo.IsItemEquiped(armorInventoryItem.itemTemplate);
+            Debug.Log(isItemEquiped);
+            if (isItemEquiped)
+            {
+                UnequipItem(armorInventoryItem.itemTemplate);
+            }
+            else
+            {
+                EquipItem(armorInventoryItem.itemTemplate);
+            }
         }
-        else
+
+        if (menuInventoryItemController is ConsumableInventoryItemController consumableInventoryItem)
         {
-            EquipItem(armorInventoryItem.itemTemplate);
+            
         }
 
         UpdateItemsState();
@@ -84,7 +95,7 @@ public class MenuInventoryController : MonoBehaviour,IMenuInventoryItemHandler
             }
         }
     }
-
+ 
     private void EquipItem(ArmorItemSO itemTemplate)
     {
         m_CharacterSo.EquipItem(itemTemplate);

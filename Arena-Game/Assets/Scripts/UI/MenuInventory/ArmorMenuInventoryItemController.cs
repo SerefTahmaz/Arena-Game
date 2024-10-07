@@ -14,11 +14,11 @@ namespace ArenaGame.UI.MenuInventory
 
         public ArmorItemSO itemTemplate;
 
-        public void Init(ArmorItemSO itemTemplate, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
+        public void Init(ArmorItemSO itemSO, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
         {
             base.Init(menuInventoryItemHandler);
-            this.itemTemplate = itemTemplate;
-            m_Image.sprite = itemTemplate.ItemTemplate.ItemSprite;
+            this.itemTemplate = itemSO;
+            m_Image.sprite = itemSO.ItemTemplate.ItemSprite;
 
             m_LevelText.text = $"LVL{this.itemTemplate.Level}";
             m_LevelIncrementText.text = $"{this.itemTemplate.NextLevelIncrement}/6";

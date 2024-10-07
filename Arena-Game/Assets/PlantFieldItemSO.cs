@@ -22,6 +22,8 @@ namespace DefaultNamespace
             set => m_PlantList = value;
         }
 
+        public override Sprite ItemSprite => null;
+
         public override void Save()
         {
             ItemSaveHandler.Load();

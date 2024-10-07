@@ -4,8 +4,9 @@ using DefaultNamespace;
 using Gameplay.Item;
 using Item;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BaseItemSO : SerializableScriptableObject
+public abstract class BaseItemSO : SerializableScriptableObject
 {
     [SerializeField] protected string m_ItemName;
     [SerializeField] protected ItemType m_ItemType;
@@ -14,6 +15,7 @@ public class BaseItemSO : SerializableScriptableObject
     
     public string ItemName => m_ItemName;
     public ItemType ItemType => m_ItemType;
+    public abstract Sprite ItemSprite { get; }
     
     public virtual void Save()
     {
@@ -50,6 +52,8 @@ public class ArmorItemSO : BaseItemSO
         get => m_NextLevelIncrement;
         set => m_NextLevelIncrement = value;
     }
+
+    public override Sprite ItemSprite => m_ArmorItemTemplate.ItemSprite;
 
     public override void Save()
     {

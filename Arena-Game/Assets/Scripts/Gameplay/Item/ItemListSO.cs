@@ -10,7 +10,7 @@ namespace DefaultNamespace
     {
         public static T GetItemByGuid<T>(string id) where T : BaseItemTemplateSO
         {
-            var itemList = Resources.Load<ItemListSO>("Item/ItemList");
+            var itemList = Resources.Load<ItemListSO>("Item/TemplateItemList");
             var itemSO = itemList._descriptors.Where((so => id == so.Guid.ToHexString())).FirstOrDefault();
         
             if (itemSO is T castedItem)

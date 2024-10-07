@@ -14,7 +14,7 @@ using UnityEditor;
 
 public static class ItemExtensions
 {
-    public static BaseItemSO DuplicateUnique(this BaseItemSO armorItemSo)
+    public static T DuplicateUnique<T>(this T armorItemSo) where T : BaseItemSO
     {
         var uniqueDuplicateItem = GameObject.Instantiate(armorItemSo);
         uniqueDuplicateItem.RegenerateGuid();

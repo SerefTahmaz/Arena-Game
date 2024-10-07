@@ -17,6 +17,7 @@ namespace DefaultNamespace
     {
         [SerializeField] private CharacterSO m_CharacterSo;
         [SerializeField] private List<ArmorItemSO> m_ArmorItems;
+        [SerializeField] private List<BaseItemSO> m_InventoryItems;
         
         public void Equip()
         {
@@ -35,7 +36,7 @@ namespace DefaultNamespace
         public void SetInventory()
         {
             m_CharacterSo.Load();
-            m_CharacterSo.InventoryList = m_ArmorItems.Select((item =>
+            m_CharacterSo.InventoryList = m_InventoryItems.Select((item =>
             {
                 var ins = item.DuplicateUnique();
                 ins.Save();

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DefaultNamespace;
+using Gameplay.Farming;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -57,6 +59,10 @@ namespace ArenaGame.Managers.SaveManager
             if (insWeapon != null) return insWeapon;
             var insPlant = GetPlantItem(guid);
             if (insPlant != null) return insPlant;
+            var insSeed = GetSeedItem(guid);
+            if (insSeed != null) return insSeed;
+            
+            Debug.Log($"Null item");
             
             return null;
         }
@@ -90,6 +96,15 @@ namespace ArenaGame.Managers.SaveManager
             if (!SaveData.PlantItems.ContainsKey(guid)) return null;
             return GetItem<PlantItemSO>(guid,m_GeneratedPlantItems);
         }
+        
+        private static Dictionary<string, SeedItemSO> m_GeneratedSeedItems = new Dictionary<string, SeedItemSO>();
+
+        public static SeedItemSO GetSeedItem(string guid)
+        {
+            Load();
+            if (!SaveData.SeedItems.ContainsKey(guid)) return null;
+            return GetItem<SeedItemSO>(guid,m_GeneratedSeedItems);
+        }
 
         private static T GetItem<T>(string guid,  Dictionary<string, T> cacheDataBase) where T : BaseItemSO
         {
@@ -101,6 +116,25 @@ namespace ArenaGame.Managers.SaveManager
             
             cacheDataBase.Add(guid, ins);
             return ins;
+        }
+
+        public static T GetSavedItemData<T>(string guid) where T : class
+        {
+            Load();
+            if (SaveData.ArmorItems.ContainsKey(guid) && SaveData.ArmorItems[guid] is T foundArmorItem)
+            {
+                return foundArmorItem;
+            }
+            if (SaveData.PlantItems.ContainsKey(guid) && SaveData.PlantItems[guid] is T foundPlantItem)
+            {
+                return foundPlantItem;
+            }
+            if (SaveData.SeedItems.ContainsKey(guid) && SaveData.SeedItems[guid] is T foundSeedItem)
+            {
+                return foundSeedItem;
+            }
+
+            return null;
         }
 
 #if UNITY_EDITOR

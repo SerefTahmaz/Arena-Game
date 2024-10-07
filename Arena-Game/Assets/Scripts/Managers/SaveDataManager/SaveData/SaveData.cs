@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Gameplay.Farming;
 using Gameplay.Item;
 using Item;
 
@@ -41,17 +42,12 @@ namespace ArenaGame.Managers.SaveManager
     }
     
     [Serializable]
-    public class ArmorItemData
-    {
-        public Dictionary<string, ArmorItem> ArmorItems = new Dictionary<string, ArmorItem>();
-    }
-    
-    [Serializable]
     public class ItemData
     {
         public Dictionary<string, ArmorItem> ArmorItems = new Dictionary<string, ArmorItem>();
         public Dictionary<string, PlantItem> PlantItems = new Dictionary<string, PlantItem>();
         public Dictionary<string, PlantFieldItem> PlantFieldItems = new Dictionary<string, PlantFieldItem>();
+        public Dictionary<string, SeedItem> SeedItems = new Dictionary<string, SeedItem>();
         public Dictionary<string, Dictionary<string,string>> WeaponItems = new Dictionary<string, Dictionary<string,string>>();
     }
     
@@ -79,5 +75,13 @@ namespace ArenaGame.Managers.SaveManager
     public class PlantFieldItem
     {
         public List<string> m_PlantItems = new List<string>();
+    }
+    
+    [Serializable]
+    public class SeedItem
+    {
+        public string m_SeedItemTemplateGUID;
+        public string m_ItemName;
+        public ItemType m_ItemType;
     }
 }
