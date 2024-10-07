@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using DefaultNamespace;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -54,7 +55,9 @@ namespace ArenaGame.Managers.SaveManager
             if (insArmor != null) return insArmor;
             var insWeapon = GetWeaponItem(guid);
             if (insWeapon != null) return insWeapon;
-
+            var insPlant = GetPlantItem(guid);
+            if (insPlant != null) return insPlant;
+            
             return null;
         }
 
@@ -76,15 +79,27 @@ namespace ArenaGame.Managers.SaveManager
         {
             Load();
             if (!SaveData.ArmorItems.ContainsKey(guid)) return null;
+            return GetItem<ArmorItemSO>(guid,m_GeneratedArmorItems);
+        }
+        
+        private static Dictionary<string, PlantItemSO> m_GeneratedPlantItems = new Dictionary<string, PlantItemSO>();
 
-            if (m_GeneratedArmorItems.ContainsKey(guid)) return m_GeneratedArmorItems[guid];
+        public static PlantItemSO GetPlantItem(string guid)
+        {
+            Load();
+            if (!SaveData.PlantItems.ContainsKey(guid)) return null;
+            return GetItem<PlantItemSO>(guid,m_GeneratedPlantItems);
+        }
+
+        private static T GetItem<T>(string guid,  Dictionary<string, T> cacheDataBase) where T : BaseItemSO
+        {
+            if (cacheDataBase.ContainsKey(guid)) return cacheDataBase[guid];
             
-            var seriliazedIns = SaveData.ArmorItems[guid];
-            var ins = ScriptableObject.CreateInstance<ArmorItemSO>();
+            var ins = ScriptableObject.CreateInstance<T>();
             ins.SetGuid(guid);
             ins.Load();
             
-            m_GeneratedArmorItems.Add(guid, ins);
+            cacheDataBase.Add(guid, ins);
             return ins;
         }
 

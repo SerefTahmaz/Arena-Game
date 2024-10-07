@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -13,6 +14,12 @@ namespace DefaultNamespace
             }
 
             return true;
+        }
+
+        public static CharacterSO GetPlayerCharacter()
+        {
+            var playerCharacter = Resources.Load<CharacterSO>("Characters/Player");
+            return playerCharacter;
         }
     }
 }
