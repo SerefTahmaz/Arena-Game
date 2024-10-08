@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Gameplay;
 using UnityEngine;
@@ -30,7 +31,17 @@ public class PlantFieldController : MonoBehaviour, IPlantHolderHandler
 
     public void HandleOnPlayerEnter(PlantHolderController plantHolderController)
     {
-        // GlobalFactory.
+        RequestSeedSelection();
+    }
+
+    private async UniTask RequestSeedSelection()
+    {
+        var ins = GlobalFactory.SelectorPopUpFactory.Create();
+        var selectedSeed = await ins.WaitForSelection();
+        if (selectedSeed != null)
+        {
+            Debug.Log($"Selected seed name {selectedSeed.ItemName}");
+        }
     }
 
     public void HandleOnPlayerExit(PlantHolderController plantHolderController)

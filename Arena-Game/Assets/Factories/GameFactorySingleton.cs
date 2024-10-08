@@ -9,6 +9,7 @@ public class GameFactorySingleton : cSingleton<GameFactorySingleton>
     public IDisconnectedPopUpFactory DisconnectedPopUpFactory { get; private set; }
     public IInfoPopUpFactory DisqualifyPopUpFactory { get; private set; }
     public IPopUpFactory NoWifiPopUpFactory { get; private set; }
+    public ISeedSelectorPopUpFactory SeedSelectorPopUpFactory { get; private set; }
     
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class GameFactorySingleton : cSingleton<GameFactorySingleton>
         DisconnectedPopUpFactory = new DisconnectedPopUpFactory();
         DisqualifyPopUpFactory = new InfoPopUpFactory(PrefabList.Get().DisqualifyPopUpPrefab);
         NoWifiPopUpFactory = new PopUpFactory(PrefabList.Get().NoWifiPopUpPrefab);
+        SeedSelectorPopUpFactory = new SeedSelectorPopUpFactory(PrefabList.Get().SeedSelectorPopUpPrefab);
     }
 }
 
@@ -27,4 +29,5 @@ public class GlobalFactory
     public static IDisconnectedPopUpFactory DisconnectedPopUpFactory => GameFactorySingleton.Instance.DisconnectedPopUpFactory;
     public static IInfoPopUpFactory DisqualifyPopUpFactory => GameFactorySingleton.Instance.DisqualifyPopUpFactory;
     public static IPopUpFactory NoWifiPopUpFactory => GameFactorySingleton.Instance.NoWifiPopUpFactory;
+    public static ISeedSelectorPopUpFactory SelectorPopUpFactory => GameFactorySingleton.Instance.SeedSelectorPopUpFactory;
 }

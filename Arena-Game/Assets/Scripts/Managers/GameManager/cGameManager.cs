@@ -118,7 +118,7 @@ public class cGameManager : cSingleton<cGameManager>
             if (IsGameplayActive)
             {
                 GameEnd();
-                var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
+                var insDisconnectedPopUpController = GlobalFactory.DisconnectedPopUpFactory.Create();
                 insDisconnectedPopUpController.Init("Disconnected from the server");
 
                 if (NetworkManager.Singleton.IsClient)
@@ -161,7 +161,7 @@ public class cGameManager : cSingleton<cGameManager>
                         if (!m_IsServerDisconnectedItself)
                         {
                             GameEnd();
-                            var insDisconnectedPopUpController = GameFactorySingleton.Instance.DisconnectedPopUpFactory.Create();
+                            var insDisconnectedPopUpController = GlobalFactory.DisconnectedPopUpFactory.Create();
                             insDisconnectedPopUpController.Init("Opponent disconnected from the server");
                             insDisconnectedPopUpController.ActivateButton();
                         }

@@ -14,7 +14,7 @@ namespace ArenaGame.UI.MenuInventory
 
         public ArmorItemSO itemTemplate;
 
-        public void Init(ArmorItemSO itemSO, bool isWearing, IMenuInventoryItemHandler menuInventoryItemHandler)
+        public void Init(ArmorItemSO itemSO, IMenuInventoryItemHandler menuInventoryItemHandler)
         {
             base.Init(menuInventoryItemHandler);
             this.itemTemplate = itemSO;
@@ -24,10 +24,6 @@ namespace ArenaGame.UI.MenuInventory
             m_LevelIncrementText.text = $"{this.itemTemplate.NextLevelIncrement}/6";
             m_LevelIncrementFill.fillAmount = ((float)this.itemTemplate.NextLevelIncrement / 6);
 
-            if (isWearing)
-            {
-                m_EquipedLayer.SetActive(true);
-            }
         }
     }
 }

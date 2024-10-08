@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Main.Scripts;
+using ArenaGame.UI.MenuInventory;
 using ArenaGame.UI.PopUps.DisconnectedPopUp;
 using ArenaGame.UI.PopUps.InfoPopUp;
 using UI.EndScreen;
@@ -16,6 +17,7 @@ public class PrefabList : ScriptableObject
     [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab;
     [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab; 
     [SerializeField] private NoWifiPopUpController m_NoWifiPopUpPrefab;
+    [SerializeField] private SeedSelectorPopUpController m_SeedSelectorPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -24,6 +26,7 @@ public class PrefabList : ScriptableObject
     public DisconnectedPopUpController DisconnectedPopUpPrefab => m_DisconnectedPopUpPrefab;
     public InfoPopUpController DisqualifyPopUpPrefab => m_DisqualifyPopUpPrefab;
     public NoWifiPopUpController NoWifiPopUpPrefab => m_NoWifiPopUpPrefab;
+    public SeedSelectorPopUpController SeedSelectorPopUpPrefab => m_SeedSelectorPopUpPrefab;
 
     private static PrefabList m_Instance;
     
