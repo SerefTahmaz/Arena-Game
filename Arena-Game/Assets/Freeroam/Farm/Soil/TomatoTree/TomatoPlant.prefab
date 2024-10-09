@@ -71,6 +71,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cb61caa01718c445839fb617dbe69e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_FullyGrownLayer:
+  - {fileID: 2796560458125442491}
+  - {fileID: 2736286337834829728}
 --- !u!1001 &849399848315558203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,10 +132,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5895052190355497317, guid: 96cb90807a4e0dc438f541ac23e7be57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 96cb90807a4e0dc438f541ac23e7be57,
         type: 3}
       propertyPath: m_Name
       value: TomatoPlant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244505165883434112, guid: 96cb90807a4e0dc438f541ac23e7be57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -148,6 +161,18 @@ Transform:
 --- !u!23 &1437774729968848885 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1746742268461389518, guid: 96cb90807a4e0dc438f541ac23e7be57,
+    type: 3}
+  m_PrefabInstance: {fileID: 849399848315558203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2736286337834829728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5895052190355497317, guid: 96cb90807a4e0dc438f541ac23e7be57,
+    type: 3}
+  m_PrefabInstance: {fileID: 849399848315558203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2796560458125442491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3244505165883434112, guid: 96cb90807a4e0dc438f541ac23e7be57,
     type: 3}
   m_PrefabInstance: {fileID: 849399848315558203}
   m_PrefabAsset: {fileID: 0}

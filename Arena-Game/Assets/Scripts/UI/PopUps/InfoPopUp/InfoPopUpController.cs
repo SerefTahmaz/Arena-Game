@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 namespace ArenaGame.UI.PopUps.InfoPopUp
@@ -7,6 +8,7 @@ namespace ArenaGame.UI.PopUps.InfoPopUp
     {
         [SerializeField] private cView m_View;
         [SerializeField] private cButton m_Button;
+        [SerializeField] private TMP_Text m_Text;
 
         private void Awake()
         {
@@ -17,6 +19,7 @@ namespace ArenaGame.UI.PopUps.InfoPopUp
         {
             m_View.Deactivate(true);
             m_View.Activate();
+            m_Text.text = value;
         }
         
         private void HandleOK()

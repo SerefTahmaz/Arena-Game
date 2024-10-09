@@ -16,7 +16,7 @@ namespace DefaultNamespace
             return true;
         }
 
-        public static CharacterSO GetPlayerCharacter()
+        public static CharacterSO GetPlayerCharacterSO()
         {
             var playerCharacter = Resources.Load<CharacterSO>("Characters/Player");
             return playerCharacter;

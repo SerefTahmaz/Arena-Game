@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlantController : MonoBehaviour
 {
-    [SerializeField] private GameObject m_FullyGrownLayer;
+    [SerializeField] private List<GameObject> m_FullyGrownLayer;
     
     public PlantItemSO PlantItemSo { get; set; }
     
@@ -23,10 +23,16 @@ public class PlantController : MonoBehaviour
         switch (plantSo.PlantState)
         {
             case PlantState.NewBorn:
-                m_FullyGrownLayer.SetActive(false);
+                foreach (var VARIABLE in m_FullyGrownLayer)
+                {
+                    VARIABLE.SetActive(false);
+                }
                 break;
             case PlantState.FullyGrown:
-                m_FullyGrownLayer.SetActive(true);
+                foreach (var VARIABLE in m_FullyGrownLayer)
+                {
+                    VARIABLE.SetActive(true);
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

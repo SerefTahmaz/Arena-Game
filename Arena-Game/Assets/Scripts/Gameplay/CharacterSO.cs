@@ -163,14 +163,25 @@ namespace Gameplay
             Save();
         }
 
-        public void AddInventory(BaseItemSO itemTemplate)
+        public void AddInventory(BaseItemSO itemSO)
         {
-            if (IsItemInInventory(itemTemplate))
+            if (IsItemInInventory(itemSO))
             {
                 return;
             }
             
-            InventoryList.Add(itemTemplate);
+            InventoryList.Add(itemSO);
+            Save();
+        }
+        
+        public void RemoveInventory(BaseItemSO itemSO)
+        {
+            if (!IsItemInInventory(itemSO))
+            {
+                return;
+            }
+            
+            InventoryList.Remove(itemSO);
             Save();
         }
 

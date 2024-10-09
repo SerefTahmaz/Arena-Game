@@ -352,6 +352,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CanvasGroup: {fileID: 7008351014846746949}
+  m_OnActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_IsActive: 1
 --- !u!114 &4152251008939591236
 MonoBehaviour:
@@ -367,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_View: {fileID: 4066400598926920635}
   m_Button: {fileID: 2327763703651751170}
+  m_Text: {fileID: 854990428537415433}
 --- !u!1 &5239032077756770580
 GameObject:
   m_ObjectHideFlags: 0

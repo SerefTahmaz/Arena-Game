@@ -56,7 +56,7 @@ public class PurchasePopUpController : MonoBehaviour, IPurchasePopUpController
         else
         {
             var infoPopUp=GlobalFactory.InfoPopUpFactory.Create();
-            infoPopUp.Init("Not enough currency!!!");
+            infoPopUp.Init("Not <color=red>enough</color> currency!");
             isSuccessfully = false;
         }
         waitLock = false;

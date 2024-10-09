@@ -20,27 +20,56 @@ public class PlantFieldController : MonoBehaviour, IPlantHolderHandler
 
     public void Init()
     {
-        m_PlayerCharacter = GameplayStatics.GetPlayerCharacter();
+        m_PlayerCharacter = GameplayStatics.GetPlayerCharacterSO();
         m_PlantFieldItemSo.Load();
         for (var index = 0; index < m_PlantHolders.Count; index++)
         {
             var insPlaceHolder = m_PlantHolders[index];
-            insPlaceHolder.Init(m_PlantFieldItemSo.PlantList[index]);
+            insPlaceHolder.Init( this);
+            if (index < m_PlantFieldItemSo.PlantList.Count  && m_PlantFieldItemSo.PlantList[index] != null)
+            {
+                insPlaceHolder.SpawnPlant(m_PlantFieldItemSo.PlantList[index]);
+            }
         }
     }
 
     public void HandleOnPlayerEnter(PlantHolderController plantHolderController)
     {
-        RequestSeedSelection();
+        HandleOnPlayerEnterAsync(plantHolderController);
     }
 
-    private async UniTask RequestSeedSelection()
+    private async UniTask HandleOnPlayerEnterAsync(PlantHolderController plantHolderController)
+    {
+        if (plantHolderController.SeedItemSo)
+        {
+            switch (plantHolderController.SeedItemSo.PlantState)
+            {
+                case PlantState.NewBorn:
+                    var infoPopUp = GlobalFactory.InfoPopUpFactory.Create();
+                    infoPopUp.Init("Plant is growing. Check back later");
+                    break;
+                case PlantState.FullyGrown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        else
+        {
+            RequestSeedSelection(plantHolderController);
+        }
+    }
+
+    private async UniTask RequestSeedSelection(PlantHolderController plantHolderController)
     {
         var ins = GlobalFactory.SelectorPopUpFactory.Create();
         var selectedSeed = await ins.WaitForSelection();
         if (selectedSeed != null)
         {
             Debug.Log($"Selected seed name {selectedSeed.ItemName}");
+            plantHolderController.PlantWithSeed(selectedSeed);
+            GameplayStatics.GetPlayerCharacterSO().Load();
+            GameplayStatics.GetPlayerCharacterSO().RemoveInventory(selectedSeed);
         }
     }
 

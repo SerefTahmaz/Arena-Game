@@ -59,6 +59,8 @@ namespace ArenaGame.Managers.SaveManager
             if (insWeapon != null) return insWeapon;
             var insPlant = GetPlantItem(guid);
             if (insPlant != null) return insPlant;
+            var insPlantField = GetPlantFieldItems(guid);
+            if (insPlantField != null) return insPlantField;
             var insSeed = GetSeedItem(guid);
             if (insSeed != null) return insSeed;
             
@@ -97,6 +99,15 @@ namespace ArenaGame.Managers.SaveManager
             return GetItem<PlantItemSO>(guid,m_GeneratedPlantItems);
         }
         
+        private static Dictionary<string, PlantFieldItemSO> m_GeneratedPlantFieldItems = new Dictionary<string, PlantFieldItemSO>();
+
+        public static PlantFieldItemSO GetPlantFieldItems(string guid)
+        {
+            Load();
+            if (!SaveData.PlantItems.ContainsKey(guid)) return null;
+            return GetItem<PlantFieldItemSO>(guid,m_GeneratedPlantFieldItems);
+        }
+        
         private static Dictionary<string, SeedItemSO> m_GeneratedSeedItems = new Dictionary<string, SeedItemSO>();
 
         public static SeedItemSO GetSeedItem(string guid)
@@ -128,6 +139,10 @@ namespace ArenaGame.Managers.SaveManager
             if (SaveData.PlantItems.ContainsKey(guid) && SaveData.PlantItems[guid] is T foundPlantItem)
             {
                 return foundPlantItem;
+            }
+            if (SaveData.PlantFieldItems.ContainsKey(guid) && SaveData.PlantFieldItems[guid] is T foundPlantFieldItem)
+            {
+                return foundPlantFieldItem;
             }
             if (SaveData.SeedItems.ContainsKey(guid) && SaveData.SeedItems[guid] is T foundSeedItem)
             {
