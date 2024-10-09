@@ -48,6 +48,7 @@ namespace ArenaGame.Managers.SaveManager
         public Dictionary<string, PlantItem> PlantItems = new Dictionary<string, PlantItem>();
         public Dictionary<string, PlantFieldItem> PlantFieldItems = new Dictionary<string, PlantFieldItem>();
         public Dictionary<string, SeedItem> SeedItems = new Dictionary<string, SeedItem>();
+        public Dictionary<string, FoodItem> FoodItems = new Dictionary<string, FoodItem>();
         public Dictionary<string, Dictionary<string,string>> WeaponItems = new Dictionary<string, Dictionary<string,string>>();
     }
     
@@ -81,6 +82,14 @@ namespace ArenaGame.Managers.SaveManager
     public class SeedItem
     {
         public string m_SeedItemTemplateGUID;
+        public string m_ItemName;
+        public ItemType m_ItemType;
+    }
+    
+    [Serializable]
+    public class FoodItem
+    {
+        public string m_FoodItemTemplateGUID;
         public string m_ItemName;
         public ItemType m_ItemType;
     }

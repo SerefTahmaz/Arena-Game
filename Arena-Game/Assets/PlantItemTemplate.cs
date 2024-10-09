@@ -1,4 +1,5 @@
-﻿using Item;
+﻿using Gameplay.Farming;
+using Item;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -7,7 +8,9 @@ namespace DefaultNamespace
     public class PlantItemTemplate : BaseItemTemplateSO
     {
         [SerializeField] private PlantController m_PlantPrefab;
+        [SerializeField] private FoodItemSO m_ProducedFoodItem;
 
         public PlantController PlantPrefab => m_PlantPrefab;
+        public FoodItemSO ProducedFoodItem => m_ProducedFoodItem;
     }
 }

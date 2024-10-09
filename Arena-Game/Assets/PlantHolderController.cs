@@ -14,9 +14,11 @@ public class PlantHolderController : MonoBehaviour
     [SerializeField] private GameObject m_CollectSpotVfx;
      
     private IPlantHolderHandler m_PlantHolderHandler;
+    private PlantController m_InsPlantController;
     
     public PlantItemSO SeedItemSo { get; set; }
-    
+    public PlantController InsPlantController => m_InsPlantController;
+
     public void PlantWithSeed(SeedItemSO seedItemSo)
     {
         var insPlant = seedItemSo.GivePlantItemInsSO();
@@ -33,9 +35,9 @@ public class PlantHolderController : MonoBehaviour
     public void SpawnPlant(PlantItemSO plantSO)
     {
         SeedItemSo = plantSO;
-        var insPlant = Instantiate(plantSO.PlantItemTemplate.PlantPrefab);
-        insPlant.transform.SetParentResetTransform(m_PlantHolderPivot);
-        insPlant.Init(plantSO);
+        m_InsPlantController = Instantiate(plantSO.PlantItemTemplate.PlantPrefab);
+        InsPlantController.transform.SetParentResetTransform(m_PlantHolderPivot);
+        InsPlantController.Init(plantSO);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,5 +46,12 @@ public class PlantHolderController : MonoBehaviour
         {
             m_PlantHolderHandler.HandleOnPlayerEnter(this);
         }
+    }
+
+    public void DestroyPlant()
+    {
+        Destroy(InsPlantController.gameObject);
+        m_InsPlantController = null;
+        SeedItemSo = null;
     }
 }

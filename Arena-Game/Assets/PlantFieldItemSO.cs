@@ -34,8 +34,13 @@ namespace DefaultNamespace
             
             ItemSaveHandler.SaveData.PlantFieldItems[Guid.ToHexString()].m_PlantItems = PlantList.Select((item =>
             {
-                item.Save();
-                return item.Guid.ToHexString();
+                string guid = "empty";
+                if (item != null)
+                {
+                    item.Save();
+                    guid = item.Guid.ToHexString();;
+                }
+                return guid;
             })).ToList();
             
             ItemSaveHandler.Save();
@@ -56,7 +61,7 @@ namespace DefaultNamespace
         {
             var itemsGuid = ItemSaveHandler.SaveData.PlantFieldItems[Guid.ToHexString()].m_PlantItems;
             var itemsSO = itemsGuid.Select((s => ItemSaveHandler.GetItem(s) as PlantItemSO)).ToList();
-            itemsSO.RemoveAll((item => item == null));
+            // itemsSO.RemoveAll((item => item == null));
             PlantList = itemsSO;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ArenaGame.Managers.SaveManager;
+using Gameplay.Farming;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -75,6 +76,12 @@ namespace DefaultNamespace
             Load();
             PlantState = plantState;
             Save();
+        }
+        
+        public FoodItemSO GiveProducedFoodItemInsSO()
+        {
+            var insFoodToBeBorn = PlantItemTemplate.ProducedFoodItem.DuplicateUnique();
+            return insFoodToBeBorn;
         }
     }
     

@@ -63,6 +63,8 @@ namespace ArenaGame.Managers.SaveManager
             if (insPlantField != null) return insPlantField;
             var insSeed = GetSeedItem(guid);
             if (insSeed != null) return insSeed;
+            var insFood = GetFoodItem(guid);
+            if (insFood != null) return insFood;
             
             Debug.Log($"Null item");
             
@@ -116,6 +118,15 @@ namespace ArenaGame.Managers.SaveManager
             if (!SaveData.SeedItems.ContainsKey(guid)) return null;
             return GetItem<SeedItemSO>(guid,m_GeneratedSeedItems);
         }
+        
+        private static Dictionary<string, FoodItemSO> m_GeneratedFoodItems = new Dictionary<string, FoodItemSO>();
+
+        public static FoodItemSO GetFoodItem(string guid)
+        {
+            Load();
+            if (!SaveData.FoodItems.ContainsKey(guid)) return null;
+            return GetItem<FoodItemSO>(guid,m_GeneratedFoodItems);
+        }
 
         private static T GetItem<T>(string guid,  Dictionary<string, T> cacheDataBase) where T : BaseItemSO
         {
@@ -147,6 +158,10 @@ namespace ArenaGame.Managers.SaveManager
             if (SaveData.SeedItems.ContainsKey(guid) && SaveData.SeedItems[guid] is T foundSeedItem)
             {
                 return foundSeedItem;
+            }
+            if (SaveData.FoodItems.ContainsKey(guid) && SaveData.FoodItems[guid] is T foundFoodItem)
+            {
+                return foundFoodItem;
             }
 
             return null;

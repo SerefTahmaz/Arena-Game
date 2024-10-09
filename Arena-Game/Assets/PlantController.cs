@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Gameplay.Farming;
 using UnityEngine;
 
 public class PlantController : MonoBehaviour
@@ -12,15 +13,16 @@ public class PlantController : MonoBehaviour
     
     public void Init(PlantItemSO plantSo)
     {
-        plantSo.Load();
-        var timeDifference = DateTime.Now - plantSo.CreationDate;
+        PlantItemSo = plantSo;
+        PlantItemSo.Load();
+        var timeDifference = DateTime.Now - PlantItemSo.CreationDate;
         if (timeDifference.Days >= 1)
         {
-            plantSo.PlantState = PlantState.FullyGrown;
-            plantSo.Save();
+            PlantItemSo.PlantState = PlantState.FullyGrown;
+            PlantItemSo.Save();
         }
         
-        switch (plantSo.PlantState)
+        switch (PlantItemSo.PlantState)
         {
             case PlantState.NewBorn:
                 foreach (var VARIABLE in m_FullyGrownLayer)
@@ -38,12 +40,9 @@ public class PlantController : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-
-    private void OnDestroy()
+    
+    public FoodItemSO GiveProducedFoodItemInsSO()
     {
-        if (PlantItemSo)
-        {
-            PlantItemSo.Save();
-        }
+        return PlantItemSo.GiveProducedFoodItemInsSO();
     }
 }

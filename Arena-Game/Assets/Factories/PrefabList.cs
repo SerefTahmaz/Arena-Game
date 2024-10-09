@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Main.Scripts;
+using ArenaGame.UI;
 using ArenaGame.UI.MenuInventory;
 using ArenaGame.UI.PopUps.DisconnectedPopUp;
 using ArenaGame.UI.PopUps.InfoPopUp;
@@ -18,6 +19,7 @@ public class PrefabList : ScriptableObject
     [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab; 
     [SerializeField] private NoWifiPopUpController m_NoWifiPopUpPrefab;
     [SerializeField] private SeedSelectorPopUpController m_SeedSelectorPopUpPrefab;
+    [SerializeField] private PlantFieldCollectPopUpController m_PlantFieldCollectPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -27,6 +29,7 @@ public class PrefabList : ScriptableObject
     public InfoPopUpController DisqualifyPopUpPrefab => m_DisqualifyPopUpPrefab;
     public NoWifiPopUpController NoWifiPopUpPrefab => m_NoWifiPopUpPrefab;
     public SeedSelectorPopUpController SeedSelectorPopUpPrefab => m_SeedSelectorPopUpPrefab;
+    public PlantFieldCollectPopUpController PlantFieldCollectPopUpPrefab => m_PlantFieldCollectPopUpPrefab;
 
     private static PrefabList m_Instance;
     
