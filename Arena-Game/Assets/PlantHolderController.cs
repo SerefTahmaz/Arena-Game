@@ -30,6 +30,7 @@ public class PlantHolderController : MonoBehaviour
     public void Init(IPlantHolderHandler plantHolderHandler)
     {
         m_PlantHolderHandler = plantHolderHandler;
+        m_AvailableSpotVfx.SetActive(true);
     }
     
     public void SpawnPlant(PlantItemSO plantSO)
@@ -38,6 +39,19 @@ public class PlantHolderController : MonoBehaviour
         m_InsPlantController = Instantiate(plantSO.PlantItemTemplate.PlantPrefab);
         InsPlantController.transform.SetParentResetTransform(m_PlantHolderPivot);
         InsPlantController.Init(plantSO);
+        
+        m_AvailableSpotVfx.SetActive(false);
+        plantSO.Load();
+        switch (plantSO.PlantState)
+        {
+            case PlantState.NewBorn:
+                break;
+            case PlantState.FullyGrown:
+                m_CollectSpotVfx.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -53,5 +67,7 @@ public class PlantHolderController : MonoBehaviour
         Destroy(InsPlantController.gameObject);
         m_InsPlantController = null;
         SeedItemSo = null;
+        m_AvailableSpotVfx.SetActive(true);
+        m_CollectSpotVfx.SetActive(false);
     }
 }
