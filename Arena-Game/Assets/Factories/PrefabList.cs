@@ -4,6 +4,7 @@ using ArenaGame.UI;
 using ArenaGame.UI.MenuInventory;
 using ArenaGame.UI.PopUps.DisconnectedPopUp;
 using ArenaGame.UI.PopUps.InfoPopUp;
+using Factories;
 using UI.EndScreen;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,6 +21,7 @@ public class PrefabList : ScriptableObject
     [SerializeField] private NoWifiPopUpController m_NoWifiPopUpPrefab;
     [SerializeField] private SeedSelectorPopUpController m_SeedSelectorPopUpPrefab;
     [SerializeField] private PlantFieldCollectPopUpController m_PlantFieldCollectPopUpPrefab;
+    [SerializeField] private TransactionShopPopUpController m_TransactionShopPopUpPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -30,6 +32,7 @@ public class PrefabList : ScriptableObject
     public NoWifiPopUpController NoWifiPopUpPrefab => m_NoWifiPopUpPrefab;
     public SeedSelectorPopUpController SeedSelectorPopUpPrefab => m_SeedSelectorPopUpPrefab;
     public PlantFieldCollectPopUpController PlantFieldCollectPopUpPrefab => m_PlantFieldCollectPopUpPrefab;
+    public TransactionShopPopUpController TransactionShopPopUpPrefab => m_TransactionShopPopUpPrefab;
 
     private static PrefabList m_Instance;
     

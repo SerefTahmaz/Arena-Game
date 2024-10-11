@@ -5,9 +5,11 @@ using UnityEngine;
 namespace Gameplay.Farming
 {
     [CreateAssetMenu(fileName = "Food Item", menuName = "Game/Item/Food Item", order = 0)]
-    public class FoodItemSO : BaseItemSO
+    public class FoodItemSO : BaseItemSO, ISellableItem
     {
         [SerializeField] private FoodItemTemplateSO m_FoodItemTemplate;
+
+        public int Price => m_FoodItemTemplate.Price;
 
         public FoodItemTemplateSO FoodItemTemplate
         {

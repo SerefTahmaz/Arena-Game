@@ -1,38 +1,23 @@
-﻿using System;
-using ArenaGame.Managers.SaveManager;
+﻿using ArenaGame.Managers.SaveManager;
 using DefaultNamespace;
 using Gameplay.Item;
-using Item;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class BaseItemSO : SerializableScriptableObject
+public interface ISellableItem
 {
-    [SerializeField] protected string m_ItemName;
-    [SerializeField] protected ItemType m_ItemType;
-    
-    public Action OnChanged { get; set; }
-    
-    public string ItemName => m_ItemName;
-    public ItemType ItemType => m_ItemType;
-    public abstract Sprite ItemSprite { get; }
-    
-    public virtual void Save()
-    {
-    }
-
-    public virtual void Load()
-    {
-    }
+    public int Price { get; }
 }
 
 [CreateAssetMenu(fileName = "Armor Item", menuName = "Game/Item/Armor Item", order = 0)]
-public class ArmorItemSO : BaseItemSO
+public class ArmorItemSO : BaseItemSO, ISellableItem
 {
     [SerializeField] private int m_Level;
     [SerializeField] private int m_NextLevelIncrement;
     [SerializeField] private ArmorItemTemplate m_ArmorItemTemplate;
 
+    public int Price => m_ArmorItemTemplate.Price;
+    
     public int Level
     {
         get => m_Level;

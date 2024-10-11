@@ -13,6 +13,7 @@ namespace Gameplay
     public class CharacterSO : SerializableScriptableObject
     {
         [SerializeField] private int m_Health;
+        [SerializeField] private int m_Currency;
         [SerializeField] private List<BaseItemSO> m_InventoryList;
 
         [SerializeField] private ArmorItemSO m_HelmArmor;
@@ -34,6 +35,7 @@ namespace Gameplay
         public ArmorItemSO LeggingArmor => m_LeggingArmor;
 
         public int Health => m_Health;
+        public int Currency => m_Currency;
 
         public void Save()
         {
@@ -44,6 +46,7 @@ namespace Gameplay
             }
             
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health = Health;
+            CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Currency = Currency;
             CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].InventoryList = InventoryList.Select((item =>
             {
                 item.Save();
@@ -65,7 +68,7 @@ namespace Gameplay
             if (CharacterSaveHandler.SaveData.Characters.ContainsKey(Guid.ToHexString()))
             {
                 m_Health = CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Health;
-                
+                m_Currency = CharacterSaveHandler.SaveData.Characters[Guid.ToHexString()].Currency;
                 //Convert to items
 
                 LoadEquipmentList();
@@ -192,5 +195,33 @@ namespace Gameplay
             m_GauntletsArmor = null;
             m_LeggingArmor = null;
         }
+        
+        public bool HasEnoughCurrency(int amount)
+        {
+            Load();
+            return Currency >= amount;
+        }
+        
+        public void SpendCurrency(int amount)
+        {
+            Load();
+            m_Currency -= amount;
+
+            if (m_Currency < 0)
+            {
+                Debug.Log("Currency cant be less than zero!!!!");
+            }
+            Save();
+        }
+        
+          
+        public void GainCurrency(int amount)
+        {
+            Load();
+            m_Currency += amount;
+            Save();
+        }
     }
+    
+   
 }

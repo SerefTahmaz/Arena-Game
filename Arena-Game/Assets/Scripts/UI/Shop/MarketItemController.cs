@@ -17,9 +17,7 @@ namespace UI.Shop
     
         private MarketItemSO m_MarketItemSo;
         private IMarketItemHandler m_MarketItemHandler;
-        private ArmorItemSO m_RewardItem;
-
-        private bool IsUnlocked => MarketItemSo.IsUnlocked();
+        private BaseItemSO m_RewardItem;
 
         public MarketItemSO MarketItemSo => m_MarketItemSo;
 
@@ -35,9 +33,9 @@ namespace UI.Shop
         {
             m_MarketItemSo = marketItemSo;
             m_MarketItemHandler = marketItemHandler;
-            m_RewardItem = marketItemSo.RewardItemTemplate.DuplicateUnique() as ArmorItemSO;
+            m_RewardItem = marketItemSo.RewardItemTemplate.DuplicateUnique();
         
-            m_Image.sprite = m_RewardItem.ItemTemplate.ItemSprite;
+            m_Image.sprite = m_RewardItem.ItemSprite;
 
             UpdateUI();
             
@@ -47,16 +45,7 @@ namespace UI.Shop
 
         public void UpdateUI()
         {
-            if (IsUnlocked)
-            {
-                m_Price.text = "";
-            }
-            else
-            {
-                m_Price.text = MarketItemSo.Price.ToString();
-            }
-            
-            m_UnlockedLayer.SetActive(IsUnlocked);
+            m_Price.text = MarketItemSo.Price.ToString();
         }
     
         public void Buy()
@@ -66,19 +55,7 @@ namespace UI.Shop
 
         private async UniTask BuyAsync()
         {
-            if(IsUnlocked) return;
-            
-            var popUp = GlobalFactory.PurchasePopUpFactory.Create();
-            var result = await popUp.Init(RewardItem.ItemName, MarketItemSo.Price);
-
-            if (result)
-            {
-                HandlePurchase();
-            }
-            else
-            {
-                Debug.Log("Purchase Canceled!");
-            }
+            m_MarketItemHandler.HandleBuy(this);
         }
 
         private bool m_IsPreviewing;
@@ -95,8 +72,7 @@ namespace UI.Shop
 
         public void DecreaseAmount()
         {
-            m_RewardItem = MarketItemSo.RewardItemTemplate.DuplicateUnique() as ArmorItemSO;
-            // MarketItemSo.UnlockItem();
+            m_RewardItem = MarketItemSo.RewardItemTemplate.DuplicateUnique();
             UpdateUI();
         }
 

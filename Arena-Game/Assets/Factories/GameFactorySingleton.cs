@@ -11,6 +11,7 @@ public class GameFactorySingleton : cSingleton<GameFactorySingleton>
     public IPopUpFactory NoWifiPopUpFactory { get; private set; }
     public ISeedSelectorPopUpFactory SeedSelectorPopUpFactory { get; private set; }
     public IPlantFieldCollectPopUpFactory PlantFieldCollectPopUpFactory { get; private set; }
+    public ITransactionShopPopUpFactory TransactionShopPopUpFactory { get; private set; }
     
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class GameFactorySingleton : cSingleton<GameFactorySingleton>
         NoWifiPopUpFactory = new PopUpFactory(PrefabList.Get().NoWifiPopUpPrefab);
         SeedSelectorPopUpFactory = new SeedSelectorPopUpFactory(PrefabList.Get().SeedSelectorPopUpPrefab);
         PlantFieldCollectPopUpFactory = new PlantFieldCollectPopUpFactory();
+        TransactionShopPopUpFactory = new TransactionShopPopUpFactory();
     }
 }
 
@@ -33,4 +35,6 @@ public class GlobalFactory
     public static IPopUpFactory NoWifiPopUpFactory => GameFactorySingleton.Instance.NoWifiPopUpFactory;
     public static ISeedSelectorPopUpFactory SelectorPopUpFactory => GameFactorySingleton.Instance.SeedSelectorPopUpFactory;
     public static IPlantFieldCollectPopUpFactory PlantFieldCollectPopUpFactory => GameFactorySingleton.Instance.PlantFieldCollectPopUpFactory;
+
+    public static ITransactionShopPopUpFactory TransactionShopPopUpFactory => GameFactorySingleton.Instance.TransactionShopPopUpFactory;
 }

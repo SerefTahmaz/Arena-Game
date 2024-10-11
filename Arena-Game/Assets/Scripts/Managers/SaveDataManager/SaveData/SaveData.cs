@@ -33,6 +33,7 @@ namespace ArenaGame.Managers.SaveManager
     public class Character
     {
         public int Health = 100;
+        public int Currency = 0;
         public List<string> InventoryList = new List<string>();
         
         public string HelmArmor;

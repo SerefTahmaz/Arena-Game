@@ -7,7 +7,9 @@ namespace DefaultNamespace
     public class SeedItemTemplateSO : BaseItemTemplateSO
     {
         [SerializeField] private PlantItemSO m_PlantToBeBorn;
+        [SerializeField] private int m_Price;
 
         public PlantItemSO PlantToBeBorn => m_PlantToBeBorn;
+        public int Price => m_Price;
     }
 }

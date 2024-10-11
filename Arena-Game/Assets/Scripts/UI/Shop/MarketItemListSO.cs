@@ -9,6 +9,10 @@ namespace UI.Shop
     {
         [SerializeField] private List<MarketItemSO> m_MarketItemSOs;
 
-        public List<MarketItemSO> MarketItemSOs => m_MarketItemSOs;
+        public List<MarketItemSO> MarketItemSOs
+        {
+            get => m_MarketItemSOs;
+            set => m_MarketItemSOs = value;
+        }
     }
 }

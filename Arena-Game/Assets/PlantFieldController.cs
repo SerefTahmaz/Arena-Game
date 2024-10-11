@@ -90,13 +90,12 @@ public class PlantFieldController : MonoBehaviour, IPlantHolderHandler
         {
             Debug.Log($"Selected seed name {selectedSeed.ItemName}");
             plantHolderController.PlantWithSeed(selectedSeed);
-            // await UniTask.DelayFrame(1);
             m_PlantFieldItemSo.Load();
             m_PlantFieldItemSo.PlantList[m_PlantHolders.IndexOf(plantHolderController)] = plantHolderController.InsPlantController.PlantItemSo;
             m_PlantFieldItemSo.Save();
             
-            // m_PlayerCharacter.Load();
-            // m_PlayerCharacter.RemoveInventory(selectedSeed);
+            m_PlayerCharacter.Load();
+            m_PlayerCharacter.RemoveInventory(selectedSeed);
         }
     }
 

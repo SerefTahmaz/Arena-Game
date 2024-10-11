@@ -16,25 +16,16 @@ namespace UI.Shop
         [SerializeField] private BaseItemSO rewardItemTemplate;
         [SerializeField] private int m_Price;
         
-        public int Price => m_Price;
-
-        public BaseItemSO RewardItemTemplate => rewardItemTemplate;
-
-        public void UnlockItem()
+        public int Price
         {
-            PlayerPrefs.SetString(Guid.ToHexString(),"true");
+            get => m_Price;
+            set => m_Price = value;
         }
 
-        public bool IsUnlocked()
+        public BaseItemSO RewardItemTemplate
         {
-            if (PlayerPrefs.GetString(Guid.ToHexString()) == "true")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            get => rewardItemTemplate;
+            set => rewardItemTemplate = value;
         }
     }
     
