@@ -35,6 +35,7 @@ namespace Factories
 
     public interface ITransactionShopPopUpController : IPopUpController
     {
+        public Action OnDismissed { get; set; }
         public void Init(CharacterSO playerSO, CharacterSO npcSO);
     }
 }

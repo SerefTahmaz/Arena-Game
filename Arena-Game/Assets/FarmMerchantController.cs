@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using Factories;
 using Gameplay;
 using UI.Shop;
 using UnityEngine;
@@ -9,12 +10,16 @@ public class FarmMerchantController : MonoBehaviour
 {
     [SerializeField] private CharacterSO m_FarmerChar;
     [SerializeField] private List<BaseItemSO> m_FarmerMarketSOs;
-    
+    [SerializeField] private GameObject m_FocusCam;
+
+    private ITransactionShopPopUpController m_InsTransactionShopPopUpController;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.attachedRigidbody && other.attachedRigidbody.TryGetComponent(out IPlayerMarker playerMarker))
         {
+            m_FocusCam.SetActive(true);
+            
             m_FarmerChar.Load();
             m_FarmerChar.InventoryList = new List<BaseItemSO>();
             m_FarmerChar.Save();
@@ -25,8 +30,16 @@ public class FarmMerchantController : MonoBehaviour
                 m_FarmerChar.AddInventory(VARIABLE);
                 m_FarmerChar.Save();
             }
-            var insPopUp = GlobalFactory.TransactionShopPopUpFactory.Create();
-            insPopUp.Init(GameplayStatics.GetPlayerCharacterSO(), m_FarmerChar);
+            m_InsTransactionShopPopUpController = GlobalFactory.TransactionShopPopUpFactory.Create();
+            m_InsTransactionShopPopUpController.Init(GameplayStatics.GetPlayerCharacterSO(), m_FarmerChar);
+            m_InsTransactionShopPopUpController.OnDismissed += OnTransactionDismissed;
         }
+    }
+
+    private void OnTransactionDismissed()
+    {
+        m_InsTransactionShopPopUpController.OnDismissed -= OnTransactionDismissed;
+        m_FocusCam.SetActive(false);
+        m_InsTransactionShopPopUpController = null;
     }
 }

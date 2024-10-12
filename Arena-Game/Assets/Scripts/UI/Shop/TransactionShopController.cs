@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Gameplay;
+using TMPro;
 using UnityEngine;
 
 namespace UI.Shop
 {
     public class TransactionShopController : ShopController
     {
+        [SerializeField] private TMP_Text m_ShopNameText;
+        
         private CharacterSO m_SourceCharacter;
         private CharacterSO m_TargetCharacter;
         private bool m_IsPlayerSelling;
@@ -22,6 +25,8 @@ namespace UI.Shop
             m_SourceCharacter.OnChanged += Refresh;
             m_TargetCharacter.OnChanged += Refresh;
             Refresh();
+
+            m_ShopNameText.text = sourceCharacter.name;
         }
 
         public void CleanUp()
