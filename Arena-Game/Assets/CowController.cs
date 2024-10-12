@@ -39,7 +39,7 @@ public class CowController : MonoBehaviour
         List<UniTask> tasks = new List<UniTask>();
         
         var rotT = transform.DORotateQuaternion(Quaternion.LookRotation(dir), 1).ToUniTask();
-        var moveT = transform.DOMove(point, m_Speed).SetSpeedBased().SetEase(Ease.Linear).ToUniTask();
+        var moveT = transform.DOMove(point, m_Speed).SetSpeedBased().SetEase(Ease.Linear).SetUpdate(UpdateType.Fixed).ToUniTask();
         var animT = DOVirtual.Float(0, 1, 0.25f, value =>
         {
             m_CowAnimator.SetFloat("Forward",value);
