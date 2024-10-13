@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5b15637da6d56944c85088df7030acb4
+guid: e3e1bc1ab26617c45b4bfa4a7bb5c0bf
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,18 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: material43
-    second: {fileID: 2100000, guid: 44679aeb8dcb54d449dbcb682c0dec76, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: material43.001
-    second: {fileID: 2100000, guid: 44679aeb8dcb54d449dbcb682c0dec76, type: 2}
+      name: defaultMat
+    second: {fileID: 2100000, guid: 987e658a9f24c5348a2efe8ec673ab25, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: material43_baseColor
-    second: {fileID: 2800000, guid: 2bd81f45749c460498eb06aa46ccb0c8, type: 3}
+      name: defaultMat_baseColor
+    second: {fileID: 2800000, guid: da235d30f64b0da4b83811f3ebac89de, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: defaultMat_normal
+    second: {fileID: 2800000, guid: d09a5b1e997c52a47871e8b9d2fe4b49, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -48,9 +48,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Idle
-      takeName: Armature|Idle
-      internalID: -2667872870478709385
+      name: Idle
+      takeName: Idle
+      internalID: -3100369314251171874
       firstFrame: 0
       lastFrame: 210
       wrapMode: 0
@@ -77,40 +77,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Walk
-      takeName: Armature|Walk
-      internalID: -5042076192036208768
+      name: Walk
+      takeName: Walk
+      internalID: 2667949614841947897
       firstFrame: 0
       lastFrame: 22
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Trot
-      takeName: Armature|Trot
-      internalID: 6208532281699116460
-      firstFrame: 0
-      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -160,7 +131,7 @@ ModelImporter:
     bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
-    maxBonesPerVertex: 10
+    maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
     meshOptimizationFlags: -1
