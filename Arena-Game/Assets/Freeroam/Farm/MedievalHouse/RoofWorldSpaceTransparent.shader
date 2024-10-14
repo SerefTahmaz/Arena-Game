@@ -9,11 +9,12 @@ Shader "RoofWorldSpaceTransparent"
 		[ASEBegin]_Tiling("Tiling", Float) = 2
 		_Albedo("Albedo", 2D) = "white" {}
 		_Normal("Normal", 2D) = "bump" {}
-		_Mask("Mask", 2D) = "white" {}
+		_Mask("Mask", 2D) = "black" {}
 		_Smoothness("Smoothness", Float) = 0.5
 		_Tint("Tint", Color) = (1,1,1,1)
 		_TileScale("TileScale", Vector) = (1,1,0,0)
-		[ASEEnd]_Offset("Offset", Vector) = (0,0,0,0)
+		_Offset("Offset", Vector) = (0,0,0,0)
+		[ASEEnd]_RotateUV("RotateUV", Float) = 0
 
 		[HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
         [HideInInspector]_QueueControl("_QueueControl", Float) = -1
@@ -262,6 +263,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -499,13 +501,16 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord8.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord8.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
-				float4 tex2DNode40 = tex2D( _Mask, ScaledUV35.xy );
+				float4 tex2DNode40 = tex2D( _Mask, ScaledUV35 );
 				
 				float3 Albedo = temp_output_45_0.rgb;
-				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35.xy ), 1.0f );
+				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35 ), 1.0f );
 				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = tex2DNode40.r;
@@ -778,6 +783,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -973,8 +979,11 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord2.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord2.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				float Alpha = temp_output_45_0.a;
 				float AlphaClipThreshold = 0.5;
@@ -1068,6 +1077,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -1243,8 +1253,11 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord2.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord2.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				float Alpha = temp_output_45_0.a;
 				float AlphaClipThreshold = 0.5;
@@ -1340,6 +1353,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -1523,8 +1537,11 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord4.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord4.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				
 				float3 Albedo = temp_output_45_0.rgb;
@@ -1612,6 +1629,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -1781,8 +1799,11 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord2.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord2.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				
 				float3 Albedo = temp_output_45_0.rgb;
@@ -1865,6 +1886,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -2052,11 +2074,14 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord4.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord4.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
 				
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
-				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35.xy ), 1.0f );
+				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35 ), 1.0f );
 				float Alpha = temp_output_45_0.a;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -2198,6 +2223,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -2433,13 +2459,16 @@ Shader "RoofWorldSpaceTransparent"
 
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord8.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord8.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
-				float4 tex2DNode40 = tex2D( _Mask, ScaledUV35.xy );
+				float4 tex2DNode40 = tex2D( _Mask, ScaledUV35 );
 				
 				float3 Albedo = temp_output_45_0.rgb;
-				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35.xy ), 1.0f );
+				float3 Normal = UnpackNormalScale( tex2D( _Normal, ScaledUV35 ), 1.0f );
 				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = tex2DNode40.r;
@@ -2624,6 +2653,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
@@ -2765,8 +2795,11 @@ Shader "RoofWorldSpaceTransparent"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				surfaceDescription.Alpha = temp_output_45_0.a;
 				surfaceDescription.AlphaClipThreshold = 0.5;
@@ -2846,6 +2879,7 @@ Shader "RoofWorldSpaceTransparent"
 			float2 _TileScale;
 			float2 _Offset;
 			float _Tiling;
+			float _RotateUV;
 			float _Smoothness;
 			#ifdef TESSELLATION_ON
 				float _TessPhongStrength;
@@ -2988,8 +3022,11 @@ Shader "RoofWorldSpaceTransparent"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
 				float3 appendResult34 = (float3(( IN.ase_texcoord.xy.x * ase_parentObjectScale.x ) , ( IN.ase_texcoord.xy.y * ase_parentObjectScale.y ) , 0.0));
-				float3 ScaledUV35 = ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) );
-				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35.xy ) );
+				float cos51 = cos( _RotateUV );
+				float sin51 = sin( _RotateUV );
+				float2 rotator51 = mul( ( ( float3( ( _TileScale * _Tiling ) ,  0.0 ) * appendResult34 ) + float3( _Offset ,  0.0 ) ).xy - float2( 0,0 ) , float2x2( cos51 , -sin51 , sin51 , cos51 )) + float2( 0,0 );
+				float2 ScaledUV35 = rotator51;
+				float4 temp_output_45_0 = ( _Tint * tex2D( _Albedo, ScaledUV35 ) );
 				
 				surfaceDescription.Alpha = temp_output_45_0.a;
 				surfaceDescription.AlphaClipThreshold = 0.5;
@@ -3020,7 +3057,7 @@ Shader "RoofWorldSpaceTransparent"
 }
 /*ASEBEGIN
 Version=18935
-0;73;1920;920;2804.477;616.0326;1;True;False
+0;73;1920;920;2176.405;572.5902;1;True;False
 Node;AmplifyShaderEditor.TexCoordVertexDataNode;29;-2332.334,-88.03005;Inherit;False;0;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ObjectScaleNode;27;-2366.334,120.9699;Inherit;False;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-2025.718,90.77167;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -3029,21 +3066,23 @@ Node;AmplifyShaderEditor.Vector2Node;47;-2379.477,-354.0326;Inherit;False;Proper
 Node;AmplifyShaderEditor.RangedFloatNode;12;-2310.363,-454.4512;Inherit;False;Property;_Tiling;Tiling;0;0;Create;True;0;0;0;False;0;False;2;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;34;-1768.718,-25.22829;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;48;-2071.477,-328.0326;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.Vector2Node;50;-1630.477,74.96741;Inherit;False;Property;_Offset;Offset;7;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;30;-1594.718,-155.2283;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.Vector2Node;50;-1630.477,74.96741;Inherit;False;Property;_Offset;Offset;7;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.RangedFloatNode;52;-1365.405,7.40979;Inherit;False;Property;_RotateUV;RotateUV;8;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;49;-1377.477,-116.0326;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT2;0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;35;-1244.465,-157.5172;Inherit;False;ScaledUV;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;36;-905.3494,35.36602;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RotatorNode;51;-1202.506,-101.7681;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;35;-1018.465,-158.5172;Inherit;False;ScaledUV;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;36;-905.3494,35.36602;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;25;-627.4373,10.44708;Inherit;True;Property;_Albedo;Albedo;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;44;-288.5081,-140.8197;Inherit;False;Property;_Tint;Tint;5;0;Create;True;0;0;0;False;0;False;1,1,1,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;45;70.49194,9.180298;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;46;213.5233,-114.0326;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.GetLocalVarNode;41;-1341.367,552.6982;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SamplerNode;40;-1097.455,510.7793;Inherit;True;Property;_Mask;Mask;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;42;-352.9324,469.5917;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;38;-920.4106,247.2388;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SamplerNode;37;-663.4106,221.2388;Inherit;True;Property;_Normal;Normal;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;40;-1097.455,510.7793;Inherit;True;Property;_Mask;Mask;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;38;-920.4106,247.2388;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;46;213.5233,-114.0326;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.RangedFloatNode;43;-640.9324,617.5917;Inherit;False;Property;_Smoothness;Smoothness;4;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;37;-663.4106,221.2388;Inherit;True;Property;_Normal;Normal;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;41;-1341.367,552.6982;Inherit;False;35;ScaledUV;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
@@ -3066,15 +3105,17 @@ WireConnection;30;0;48;0
 WireConnection;30;1;34;0
 WireConnection;49;0;30;0
 WireConnection;49;1;50;0
-WireConnection;35;0;49;0
+WireConnection;51;0;49;0
+WireConnection;51;2;52;0
+WireConnection;35;0;51;0
 WireConnection;25;1;36;0
 WireConnection;45;0;44;0
 WireConnection;45;1;25;0
-WireConnection;46;0;45;0
+WireConnection;40;1;41;0
 WireConnection;42;0;40;4
 WireConnection;42;1;43;0
+WireConnection;46;0;45;0
 WireConnection;37;1;38;0
-WireConnection;40;1;41;0
 WireConnection;1;0;45;0
 WireConnection;1;1;37;0
 WireConnection;1;3;40;1
@@ -3082,4 +3123,4 @@ WireConnection;1;4;42;0
 WireConnection;1;5;40;2
 WireConnection;1;6;46;3
 ASEEND*/
-//CHKSM=FD9968663CBFB8ED1AFE90B2D5DB3295C4116E48
+//CHKSM=BC9C9D18DC0DF9A9524949AB4E9B13B6555D64DF
