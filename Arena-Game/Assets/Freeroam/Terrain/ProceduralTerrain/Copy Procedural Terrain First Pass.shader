@@ -22,11 +22,11 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 		[HideInInspector]_Mask3("_Mask3", 2D) = "white" {}
 		[ASEBegin]_RockContrast("RockContrast", Float) = 0
 		_RockAmount("RockAmount", Float) = 0
-		_Snow("Snow", 2D) = "white" {}
+		_Rock("Rock", 2D) = "white" {}
 		_SnowDistance("SnowDistance", Float) = 0
 		_SnowSmooth("SnowSmooth", Float) = 0
 		_Grass("Grass", 2D) = "white" {}
-		[ASEEnd]_Rock("Rock", 2D) = "white" {}
+		[ASEEnd]_Snow("Snow", 2D) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 		[HideInInspector]_QueueOffset("_QueueOffset", Float) = 0
@@ -287,10 +287,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -341,9 +341,9 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			sampler2D _Splat3;
 			float4 _DiffuseRemapScale3;
 			sampler2D _TerrainHolesTexture;
-			sampler2D _Snow;
-			sampler2D _Grass;
 			sampler2D _Rock;
+			sampler2D _Grass;
+			sampler2D _Snow;
 			#ifdef UNITY_INSTANCING_ENABLED//ASE Terrain Instancing
 				TEXTURE2D(_TerrainHeightmapTexture);//ASE Terrain Instancing
 				TEXTURE2D( _TerrainNormalmapTexture);//ASE Terrain Instancing
@@ -647,15 +647,15 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 				clip(Hole100_g2 == 0.0f ? -1 : 1);
 				#endif
 				}
-				float2 uv_Snow = IN.ase_texcoord8.xy * _Snow_ST.xy + _Snow_ST.zw;
-				float2 uv_Grass = IN.ase_texcoord8.xy * _Grass_ST.xy + _Grass_ST.zw;
 				float2 uv_Rock = IN.ase_texcoord8.xy * _Rock_ST.xy + _Rock_ST.zw;
+				float2 uv_Grass = IN.ase_texcoord8.xy * _Grass_ST.xy + _Grass_ST.zw;
+				float2 uv_Snow = IN.ase_texcoord8.xy * _Snow_ST.xy + _Snow_ST.zw;
 				float4 transform52 = mul(GetObjectToWorldMatrix(),float4( IN.ase_texcoord9.xyz , 0.0 ));
 				float smoothstepResult42 = smoothstep( _SnowDistance , ( _SnowSmooth + _SnowDistance ) , transform52.y);
-				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Rock, uv_Rock ) , saturate( smoothstepResult42 ));
+				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Snow, uv_Snow ) , saturate( smoothstepResult42 ));
 				float dotResult33 = dot( float3(0,1,0) , IN.ase_normal );
 				float4 temp_cast_7 = (( abs( dotResult33 ) - _RockAmount )).xxxx;
-				float4 lerpResult36 = lerp( tex2D( _Snow, uv_Snow ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
+				float4 lerpResult36 = lerp( tex2D( _Rock, uv_Rock ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
 				float4 temp_output_59_0_g2 = SplatControl26_g2;
 				float4 lerpResult59 = lerp( localClipHoles100_g2 , lerpResult36 , temp_output_59_0_g2.x);
 				
@@ -942,10 +942,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -1307,10 +1307,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -1655,10 +1655,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -1709,9 +1709,9 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			sampler2D _Splat3;
 			float4 _DiffuseRemapScale3;
 			sampler2D _TerrainHolesTexture;
-			sampler2D _Snow;
-			sampler2D _Grass;
 			sampler2D _Rock;
+			sampler2D _Grass;
+			sampler2D _Snow;
 			#ifdef UNITY_INSTANCING_ENABLED//ASE Terrain Instancing
 				TEXTURE2D(_TerrainHeightmapTexture);//ASE Terrain Instancing
 				TEXTURE2D( _TerrainNormalmapTexture);//ASE Terrain Instancing
@@ -1964,15 +1964,15 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 				clip(Hole100_g2 == 0.0f ? -1 : 1);
 				#endif
 				}
-				float2 uv_Snow = IN.ase_texcoord4.xy * _Snow_ST.xy + _Snow_ST.zw;
-				float2 uv_Grass = IN.ase_texcoord4.xy * _Grass_ST.xy + _Grass_ST.zw;
 				float2 uv_Rock = IN.ase_texcoord4.xy * _Rock_ST.xy + _Rock_ST.zw;
+				float2 uv_Grass = IN.ase_texcoord4.xy * _Grass_ST.xy + _Grass_ST.zw;
+				float2 uv_Snow = IN.ase_texcoord4.xy * _Snow_ST.xy + _Snow_ST.zw;
 				float4 transform52 = mul(GetObjectToWorldMatrix(),float4( IN.ase_texcoord5.xyz , 0.0 ));
 				float smoothstepResult42 = smoothstep( _SnowDistance , ( _SnowSmooth + _SnowDistance ) , transform52.y);
-				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Rock, uv_Rock ) , saturate( smoothstepResult42 ));
+				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Snow, uv_Snow ) , saturate( smoothstepResult42 ));
 				float dotResult33 = dot( float3(0,1,0) , IN.ase_normal );
 				float4 temp_cast_7 = (( abs( dotResult33 ) - _RockAmount )).xxxx;
-				float4 lerpResult36 = lerp( tex2D( _Snow, uv_Snow ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
+				float4 lerpResult36 = lerp( tex2D( _Rock, uv_Rock ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
 				float4 temp_output_59_0_g2 = SplatControl26_g2;
 				float4 lerpResult59 = lerp( localClipHoles100_g2 , lerpResult36 , temp_output_59_0_g2.x);
 				
@@ -2073,10 +2073,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -2127,9 +2127,9 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			sampler2D _Splat3;
 			float4 _DiffuseRemapScale3;
 			sampler2D _TerrainHolesTexture;
-			sampler2D _Snow;
-			sampler2D _Grass;
 			sampler2D _Rock;
+			sampler2D _Grass;
+			sampler2D _Snow;
 			#ifdef UNITY_INSTANCING_ENABLED//ASE Terrain Instancing
 				TEXTURE2D(_TerrainHeightmapTexture);//ASE Terrain Instancing
 				TEXTURE2D( _TerrainNormalmapTexture);//ASE Terrain Instancing
@@ -2370,15 +2370,15 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 				clip(Hole100_g2 == 0.0f ? -1 : 1);
 				#endif
 				}
-				float2 uv_Snow = IN.ase_texcoord2.xy * _Snow_ST.xy + _Snow_ST.zw;
-				float2 uv_Grass = IN.ase_texcoord2.xy * _Grass_ST.xy + _Grass_ST.zw;
 				float2 uv_Rock = IN.ase_texcoord2.xy * _Rock_ST.xy + _Rock_ST.zw;
+				float2 uv_Grass = IN.ase_texcoord2.xy * _Grass_ST.xy + _Grass_ST.zw;
+				float2 uv_Snow = IN.ase_texcoord2.xy * _Snow_ST.xy + _Snow_ST.zw;
 				float4 transform52 = mul(GetObjectToWorldMatrix(),float4( IN.ase_texcoord3.xyz , 0.0 ));
 				float smoothstepResult42 = smoothstep( _SnowDistance , ( _SnowSmooth + _SnowDistance ) , transform52.y);
-				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Rock, uv_Rock ) , saturate( smoothstepResult42 ));
+				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Snow, uv_Snow ) , saturate( smoothstepResult42 ));
 				float dotResult33 = dot( float3(0,1,0) , IN.ase_normal );
 				float4 temp_cast_7 = (( abs( dotResult33 ) - _RockAmount )).xxxx;
-				float4 lerpResult36 = lerp( tex2D( _Snow, uv_Snow ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
+				float4 lerpResult36 = lerp( tex2D( _Rock, uv_Rock ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
 				float4 temp_output_59_0_g2 = SplatControl26_g2;
 				float4 lerpResult59 = lerp( localClipHoles100_g2 , lerpResult36 , temp_output_59_0_g2.x);
 				
@@ -2472,10 +2472,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -2877,10 +2877,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -2931,9 +2931,9 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			sampler2D _Splat3;
 			float4 _DiffuseRemapScale3;
 			sampler2D _TerrainHolesTexture;
-			sampler2D _Snow;
-			sampler2D _Grass;
 			sampler2D _Rock;
+			sampler2D _Grass;
+			sampler2D _Snow;
 			#ifdef UNITY_INSTANCING_ENABLED//ASE Terrain Instancing
 				TEXTURE2D(_TerrainHeightmapTexture);//ASE Terrain Instancing
 				TEXTURE2D( _TerrainNormalmapTexture);//ASE Terrain Instancing
@@ -3235,15 +3235,15 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 				clip(Hole100_g2 == 0.0f ? -1 : 1);
 				#endif
 				}
-				float2 uv_Snow = IN.ase_texcoord8.xy * _Snow_ST.xy + _Snow_ST.zw;
-				float2 uv_Grass = IN.ase_texcoord8.xy * _Grass_ST.xy + _Grass_ST.zw;
 				float2 uv_Rock = IN.ase_texcoord8.xy * _Rock_ST.xy + _Rock_ST.zw;
+				float2 uv_Grass = IN.ase_texcoord8.xy * _Grass_ST.xy + _Grass_ST.zw;
+				float2 uv_Snow = IN.ase_texcoord8.xy * _Snow_ST.xy + _Snow_ST.zw;
 				float4 transform52 = mul(GetObjectToWorldMatrix(),float4( IN.ase_texcoord9.xyz , 0.0 ));
 				float smoothstepResult42 = smoothstep( _SnowDistance , ( _SnowSmooth + _SnowDistance ) , transform52.y);
-				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Rock, uv_Rock ) , saturate( smoothstepResult42 ));
+				float4 lerpResult45 = lerp( tex2D( _Grass, uv_Grass ) , tex2D( _Snow, uv_Snow ) , saturate( smoothstepResult42 ));
 				float dotResult33 = dot( float3(0,1,0) , IN.ase_normal );
 				float4 temp_cast_7 = (( abs( dotResult33 ) - _RockAmount )).xxxx;
-				float4 lerpResult36 = lerp( tex2D( _Snow, uv_Snow ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
+				float4 lerpResult36 = lerp( tex2D( _Rock, uv_Rock ) , lerpResult45 , saturate( CalculateContrast(_RockContrast,temp_cast_7) ));
 				float4 temp_output_59_0_g2 = SplatControl26_g2;
 				float4 lerpResult59 = lerp( localClipHoles100_g2 , lerpResult36 , temp_output_59_0_g2.x);
 				
@@ -3442,10 +3442,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -3739,10 +3739,10 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 			float4 _Control_ST;
 			float4 _Splat1_ST;
 			float4 _Splat2_ST;
-			float4 _Rock_ST;
+			float4 _Snow_ST;
 			float4 _Grass_ST;
 			float4 _TerrainHolesTexture_ST;
-			float4 _Snow_ST;
+			float4 _Rock_ST;
 			float _SnowSmooth;
 			float _SnowDistance;
 			float _Smoothness0;
@@ -3984,33 +3984,32 @@ Shader "ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass"
 }
 /*ASEBEGIN
 Version=18935
-289;73;1013;620;4395.03;1925.514;2.432937;True;False
+0;73;1920;920;2715.771;1415.969;1;True;False
 Node;AmplifyShaderEditor.SaturateNode;53;-2025.12,-846.9247;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;58;-1488.249,-663.9941;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.DotProductOpNode;33;-1801,-601;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NormalVertexDataNode;32;-2089,-553;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;55;-1482,-529;Inherit;False;Property;_RockContrast;RockContrast;24;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;60;-945.5662,-581.9637;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SamplerNode;40;-1542.942,-1415.558;Inherit;True;Property;_Rock;Rock;26;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleContrastOpNode;54;-1315.487,-680.2727;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.AbsOpNode;35;-1641,-633;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;43;-2698.687,-696.606;Inherit;False;Property;_SnowSmooth;SnowSmooth;28;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;46;-2345.75,-1330.998;Inherit;True;Property;_Grass;Grass;29;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;45;-1842.714,-919.5662;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;41;-2715.706,-797.1316;Inherit;False;Property;_SnowDistance;SnowDistance;27;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;19;-1316.399,-375.3365;Inherit;False;Four Splats First Pass Terrain;0;;2;37452fdfb732e1443b7e39720d05b708;2,102,1,85,0;7;59;FLOAT4;0,0,0,0;False;60;FLOAT4;0,0,0,0;False;61;FLOAT3;0,0,0;False;57;FLOAT;0;False;58;FLOAT;0;False;201;FLOAT;0;False;62;FLOAT;0;False;8;FLOAT4;274;FLOAT4;0;FLOAT3;14;FLOAT;56;FLOAT;45;FLOAT;200;FLOAT;19;FLOAT3;17
+Node;AmplifyShaderEditor.LerpOp;36;-956.9825,-836.4105;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;57;-1826.249,-486.9941;Inherit;False;Property;_RockAmount;RockAmount;25;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;42;-2280.99,-870.4061;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;59;-550.5047,-621.9127;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ObjectToWorldTransfNode;52;-2797.18,-1026.311;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.PosVertexDataNode;51;-3049.18,-1033.311;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;47;-2339.592,-1116.998;Inherit;True;Property;_Snow;Snow;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;44;-2415.589,-742.7061;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;34;-2073,-713;Inherit;False;Constant;_Vector0;Vector 0;1;0;Create;True;0;0;0;False;0;False;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SaturateNode;56;-1104.249,-707.9941;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;50;-598.3956,-418.1381;Inherit;False;Constant;_Float0;Float 0;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;19;-1316.399,-375.3365;Inherit;False;Four Splats First Pass Terrain;0;;2;37452fdfb732e1443b7e39720d05b708;2,102,1,85,0;7;59;FLOAT4;0,0,0,0;False;60;FLOAT4;0,0,0,0;False;61;FLOAT3;0,0,0;False;57;FLOAT;0;False;58;FLOAT;0;False;201;FLOAT;0;False;62;FLOAT;0;False;8;FLOAT4;274;FLOAT4;0;FLOAT3;14;FLOAT;56;FLOAT;45;FLOAT;200;FLOAT;19;FLOAT3;17
-Node;AmplifyShaderEditor.LerpOp;36;-956.9825,-836.4105;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;45;-1842.714,-919.5662;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;46;-2345.75,-1330.998;Inherit;True;Property;_Grass;Grass;29;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;40;-1542.942,-1415.558;Inherit;True;Property;_Snow;Snow;26;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;43;-2698.687,-696.606;Inherit;False;Property;_SnowSmooth;SnowSmooth;28;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.AbsOpNode;35;-1641,-633;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleContrastOpNode;54;-1315.487,-680.2727;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;41;-2715.706,-797.1316;Inherit;False;Property;_SnowDistance;SnowDistance;27;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.BreakToComponentsNode;60;-945.5662,-581.9637;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.RangedFloatNode;55;-1482,-529;Inherit;False;Property;_RockContrast;RockContrast;24;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.NormalVertexDataNode;32;-2089,-553;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.DotProductOpNode;33;-1801,-601;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;58;-1488.249,-663.9941;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;47;-2339.592,-1116.998;Inherit;True;Property;_Rock;Rock;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;21;-271,-485;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=-100;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;4;BaseMapShader=ASESampleShaders/SRP Universal/TerrainBasePass;AddPassShader=ASESampleShaders/SRP Universal/TerrainAddPass;BaseMapShader=ASESampleShaders/SRP Universal/TerrainBasePass;AddPassShader=ASESampleShaders/SRP Universal/TerrainAddPass;0;Standard;40;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;1;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;True;;False;0
+Node;AmplifyShaderEditor.PosVertexDataNode;51;-3049.18,-1033.311;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;25;-784,-448;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;23;-784,-448;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;24;-784,-448;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
@@ -4020,7 +4019,22 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;22;-784,-448;Float;False;Fa
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;29;-784,-388;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalGBuffer;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;30;-784,-388;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;True;4;d3d11;glcore;gles;gles3;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;28;-784,-388;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;21;-271,-485;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;2;ASESampleShaders/SRP Universal/CopyProceduralTerrainFirstPass;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;19;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=-100;True;2;True;17;d3d9;d3d11;glcore;gles;gles3;metal;vulkan;xbox360;xboxone;xboxseries;ps4;playstation;psp2;n3ds;wiiu;switch;nomrt;0;False;True;1;1;False;-1;0;False;-1;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;False;False;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;4;BaseMapShader=ASESampleShaders/SRP Universal/TerrainBasePass;AddPassShader=ASESampleShaders/SRP Universal/TerrainAddPass;BaseMapShader=ASESampleShaders/SRP Universal/TerrainBasePass;AddPassShader=ASESampleShaders/SRP Universal/TerrainAddPass;0;Standard;40;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,-1;0;Translucency;0;0;  Translucency Strength;1,False,-1;0;  Normal Distortion;0.5,False,-1;0;  Scattering;2,False,-1;0;  Direct;0.9,False,-1;0;  Ambient;0.1,False,-1;0;  Shadow;0.5,False,-1;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;1;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,-1;0;  Type;0;0;  Tess;16,False,-1;0;  Min;10,False,-1;0;  Max;25,False,-1;0;  Edge Length;16,False,-1;0;  Max Displacement;25,False,-1;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;True;;False;0
 WireConnection;53;0;42;0
+WireConnection;58;0;35;0
+WireConnection;58;1;57;0
+WireConnection;33;0;34;0
+WireConnection;33;1;32;0
+WireConnection;60;0;19;274
+WireConnection;54;1;58;0
+WireConnection;54;0;55;0
+WireConnection;35;0;33;0
+WireConnection;45;0;46;0
+WireConnection;45;1;47;0
+WireConnection;45;2;53;0
+WireConnection;36;0;40;0
+WireConnection;36;1;45;0
+WireConnection;36;2;56;0
 WireConnection;42;0;52;2
 WireConnection;42;1;41;0
 WireConnection;42;2;44;0
@@ -4031,24 +4045,10 @@ WireConnection;52;0;51;0
 WireConnection;44;0;43;0
 WireConnection;44;1;41;0
 WireConnection;56;0;54;0
-WireConnection;36;0;40;0
-WireConnection;36;1;45;0
-WireConnection;36;2;56;0
-WireConnection;45;0;46;0
-WireConnection;45;1;47;0
-WireConnection;45;2;53;0
-WireConnection;35;0;33;0
-WireConnection;54;1;58;0
-WireConnection;54;0;55;0
-WireConnection;60;0;19;274
-WireConnection;33;0;34;0
-WireConnection;33;1;32;0
-WireConnection;58;0;35;0
-WireConnection;58;1;57;0
 WireConnection;21;0;59;0
 WireConnection;21;3;50;0
 WireConnection;21;4;50;0
 WireConnection;21;6;19;19
 WireConnection;21;8;19;17
 ASEEND*/
-//CHKSM=26D525CD6FF6E1810F6BFF04488D8BA6284A64A9
+//CHKSM=D61D3CC8F86CB6B382C1EA21EAD77B9D035040F8
