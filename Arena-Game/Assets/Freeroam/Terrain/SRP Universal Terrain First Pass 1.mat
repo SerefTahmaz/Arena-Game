@@ -23,6 +23,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlbedoBottom:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlbedoMid:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlbedoTop:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Control:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -30,6 +42,18 @@ Material:
     - _Grass:
         m_Texture: {fileID: 2800000, guid: 8f81199c7a78242fa94d2b11796326a2, type: 3}
         m_Scale: {x: 50, y: 50}
+        m_Offset: {x: 0, y: 0}
+    - _GrassAlbedo:
+        m_Texture: {fileID: 2800000, guid: 8f81199c7a78242fa94d2b11796326a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassMask:
+        m_Texture: {fileID: 2800000, guid: 592277751c386d34fa5609a321b5618e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassNormal:
+        m_Texture: {fileID: 2800000, guid: 84956715d52a7f040a6a341dfd449801, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask0:
         m_Texture: {fileID: 0}
@@ -63,13 +87,49 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalBottom:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMid:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTop:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Rock:
         m_Texture: {fileID: 2800000, guid: d334338b4cf3bed4797aa8658fd2a2b6, type: 3}
         m_Scale: {x: 50, y: 50}
         m_Offset: {x: 0, y: 0}
+    - _RockAlbedo:
+        m_Texture: {fileID: 2800000, guid: afbd2772cfa009b46bbd9838dd988440, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockMask:
+        m_Texture: {fileID: 2800000, guid: 3d2140ec449eb0049bc3eb51c3a7cf7b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockNormal:
+        m_Texture: {fileID: 2800000, guid: 527b74b713b11c54b8b3ee728b61cd6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Snow:
         m_Texture: {fileID: 2800000, guid: afbd2772cfa009b46bbd9838dd988440, type: 3}
         m_Scale: {x: 50, y: 50}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularBottom:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMid:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularTop:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Splat0:
         m_Texture: {fileID: 0}
@@ -122,6 +182,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _Falloff: 5
     - _Metallic0: 0
     - _Metallic1: 0
     - _Metallic2: 0
@@ -129,8 +190,8 @@ Material:
     - _ProceduralAmount: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RockAmount: 0.8
-    - _RockContrast: 6.63
+    - _RockAmount: 0.85
+    - _RockContrast: 17.22
     - _Smoothness0: 1
     - _Smoothness1: 1
     - _Smoothness2: 1
@@ -138,9 +199,13 @@ Material:
     - _SnowBegining: 1
     - _SnowDistance: 149.12
     - _SnowSmooth: 0.1
+    - _Tiling: 2
+    - _TriTiling: 45
+    - _TriplanarTiling: 50
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Empty: {r: 1, g: 0, b: 0.68333334, a: 1}
     - _Empty1: {r: 1, g: 0, b: 0.6691483, a: 1}
+    - _TriplanarOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Vector1: {r: 0.75, g: -0.53, b: 0, a: 0}
   m_BuildTextureStacks: []
