@@ -71,6 +71,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 527b74b713b11c54b8b3ee728b61cd6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Normal0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -163,6 +167,38 @@ Material:
         m_Texture: {fileID: 2800000, guid: 954882bd2b54c494c95a7b84a6d47b5c, type: 3}
         m_Scale: {x: 50, y: 50}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopAlbedo:
+        m_Texture: {fileID: 2800000, guid: 8f81199c7a78242fa94d2b11796326a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopMask:
+        m_Texture: {fileID: 2800000, guid: 592277751c386d34fa5609a321b5618e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopNormal:
+        m_Texture: {fileID: 2800000, guid: 84956715d52a7f040a6a341dfd449801, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarAlbedo:
+        m_Texture: {fileID: 2800000, guid: afbd2772cfa009b46bbd9838dd988440, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarMask:
+        m_Texture: {fileID: 2800000, guid: 3d2140ec449eb0049bc3eb51c3a7cf7b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TriplanarNormal:
+        m_Texture: {fileID: 2800000, guid: 527b74b713b11c54b8b3ee728b61cd6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -182,7 +218,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _Angle: 90
+    - _CoverageAmount: 0
+    - _CoverageFalloff: 2
     - _Falloff: 5
+    - _Float0: 0.2
+    - _LerpP: 0
     - _Metallic0: 0
     - _Metallic1: 0
     - _Metallic2: 0
@@ -199,13 +240,18 @@ Material:
     - _SnowBegining: 1
     - _SnowDistance: 149.12
     - _SnowSmooth: 0.1
+    - _TileR: 0.05
     - _Tiling: 2
-    - _TriTiling: 45
+    - _TriTiling: 0.1
     - _TriplanarTiling: 50
+    - _WorldtoObjectSwitch: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Empty: {r: 1, g: 0, b: 0.68333334, a: 1}
     - _Empty1: {r: 1, g: 0, b: 0.6691483, a: 1}
+    - _Forward: {r: 0, g: 0, b: 1, a: 0}
+    - _Forward1: {r: 0, g: 0, b: 1, a: 0}
+    - _Right: {r: 1, g: 0, b: 0, a: 0}
     - _TriplanarOffset: {r: 0, g: 0, b: 0, a: 0}
     - _Vector1: {r: 0.75, g: -0.53, b: 0, a: 0}
   m_BuildTextureStacks: []
