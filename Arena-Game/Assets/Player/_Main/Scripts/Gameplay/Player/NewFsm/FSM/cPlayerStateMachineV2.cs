@@ -16,6 +16,7 @@ public class cPlayerStateMachineV2 : cStateMachine
         [SerializeField] private ParticleSystem m_BloodExpo;
         [SerializeField] private HumanCharacter m_Character;
         [SerializeField] private cStatesBlackBoard m_BlackBoard;
+        [SerializeField] private bool m_DisableYCheck;
 
         // #region Properties
 
@@ -94,12 +95,15 @@ public class cPlayerStateMachineV2 : cStateMachine
             if(!CharacterNetworkController.IsOwner) return;
             base.Update();
 
-            if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
+            if (!m_DisableYCheck)
             {
-                if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
                 {
-                    var pos = transform.position;
-                    transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                    {
+                        var pos = transform.position;
+                        transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    }
                 }
             }
         }
