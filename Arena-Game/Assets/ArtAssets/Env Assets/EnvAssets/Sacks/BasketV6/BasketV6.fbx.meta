@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: da2d4d3fb181db84da3ddaab9b2527bc
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -9,6 +9,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: BasketV6
     second: {fileID: 2100000, guid: d46d2c0280908ef48bb8e46b8e26207a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CombinedBasket
+    second: {fileID: 2100000, guid: 8a6b64e33e3239543b16426d3be2c835, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
@@ -29,6 +34,31 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: BasketV6_roughness
     second: {fileID: 2800000, guid: 6693f1b44152c454291cc6dbffe28f56, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_LOD0_color
+    second: {fileID: 2800000, guid: 29ac558b1ddc5404a863025c37a3d1ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_LOD0_metallic
+    second: {fileID: 2800000, guid: 454af46261a6fc64982c376be47376ee, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_LOD0_normal
+    second: {fileID: 2800000, guid: 4ad502b7ab6d1bc4d8a759ab710cb7e3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_LOD0_roughness
+    second: {fileID: 2800000, guid: 38e92daf687a9c541a88bfab3ead5a7a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Body_LOD0_specular
+    second: {fileID: 2800000, guid: db35976a69b81ff4db941c4b5ddb00ff, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -59,12 +89,17 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.25
+    - 0.125
+    - 0.0625
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -92,6 +127,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -124,6 +160,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
