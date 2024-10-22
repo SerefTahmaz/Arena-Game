@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: CombiedAnimals
+    second: {fileID: 2100000, guid: 4fde1cf23e295e34eb71a51e85346f0b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: defaultMat
     second: {fileID: 2100000, guid: 987e658a9f24c5348a2efe8ec673ab25, type: 2}
   - first:
@@ -48,8 +53,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
-      takeName: Idle
+      name: Armature|Armature.002|Idle
+      takeName: Armature|Armature.002|Idle
       internalID: -3100369314251171874
       firstFrame: 0
       lastFrame: 210
@@ -77,8 +82,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Walk
-      takeName: Walk
+      name: Armature|Armature.002|Walk
+      takeName: Armature|Armature.002|Walk
       internalID: 2667949614841947897
       firstFrame: 0
       lastFrame: 22

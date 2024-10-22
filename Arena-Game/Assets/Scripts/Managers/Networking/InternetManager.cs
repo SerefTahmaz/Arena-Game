@@ -32,7 +32,7 @@ public class InternetManager : cSingleton<InternetManager>
             SetCheckInternetConnection(false);
         }
         
-        Debug.Log($"No internet duration: {m_NoInternetDuration}");
+        // Debug.Log($"No internet duration: {m_NoInternetDuration}");
     }
     
     public void SetCheckInternetConnection(bool value)

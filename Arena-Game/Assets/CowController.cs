@@ -27,11 +27,10 @@ public class CowController : MonoBehaviour
             await PickAPoint();
         }
     }
-
+ 
     public async UniTask PickAPoint()
     {
         var point = m_PatrolVolume.bounds.RandomPointInBounds();
-        Debug.Log(point);
         point.y = transform.position.y;
         var dir = point - transform.position;
         dir.y = 0;
