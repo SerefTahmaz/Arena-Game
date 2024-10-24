@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 552dedfc9858f9d439faa83ecb9610b0
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -14,6 +14,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: GuardRailBaked
     second: {fileID: 2100000, guid: 419057aef1b42d946b5c1b56a0d42d62, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP
+    second: {fileID: 2100000, guid: 8c6235bd83c4a7d4ab022fa1e9b2602a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -84,6 +89,36 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Wood
     second: {fileID: 2100000, guid: aa7472f7ab4137c4bb88142f57dd573e, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_alpha
+    second: {fileID: 2800000, guid: 5e9c4a3ed0296434e916e341ca5a8940, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_color
+    second: {fileID: 2800000, guid: 8d7176b120c28b141b403593aa9f5a5b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_metallic
+    second: {fileID: 2800000, guid: c57c4d87b589d6a4c8118a7f79a8a0c0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_normal
+    second: {fileID: 2800000, guid: 8397c55ac77a31a47a06336746b303bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_roughness
+    second: {fileID: 2800000, guid: 78a2739d9ec14b34594a435575108c45, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: MainBodyBuildingLP_specular
+    second: {fileID: 2800000, guid: 233918b620a09b34cb5b78724229b758, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -124,6 +159,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -151,6 +187,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -183,6 +220,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
