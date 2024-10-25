@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 7407a9a76dc4efc478dea2a5e2c8e3d1
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -62,8 +62,43 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP
+    second: {fileID: 2100000, guid: be8eaafc820a5ca45a67a209338a632f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Wood
     second: {fileID: 2100000, guid: 202f9dbdc177e074989c0506ce981b5f, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_alpha
+    second: {fileID: 2800000, guid: dcdc8523fad75054d93bd8b626e4ff02, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_color
+    second: {fileID: 2800000, guid: 9e645913fdc24f64394b21434258e965, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_metallic
+    second: {fileID: 2800000, guid: f1ac07ca7d8399b4eb11c3d461a2d6d1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_normal
+    second: {fileID: 2800000, guid: f7b0c1620c786d1428839a522f73949b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_roughness
+    second: {fileID: 2800000, guid: b4a83c2c79146774da15bb162cc40b44, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TopMiddleCastleBuildingLP_specular
+    second: {fileID: 2800000, guid: a70cd5712a4b88b40ba399b247d28965, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -97,13 +132,13 @@ ModelImporter:
     lODScreenPercentages:
     - 0.25
     - 0.125
-    - 0.0625
     - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -131,6 +166,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -163,6 +199,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
