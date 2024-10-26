@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 3e1d4b580792a6348b3b31936073cd2f
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -17,13 +17,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: MetalMedieval1K
-    second: {fileID: 2100000, guid: ae29f835d57c2c34ca4121f7a13af198, type: 2}
+      name: GateInner.002
+    second: {fileID: 2100000, guid: e3980bde8dfb011498ef6a14d2a4fc1a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: TowerUpperCube
-    second: {fileID: 2100000, guid: 3e31e453475326b48b0ae997e196fd06, type: 2}
+      name: Tower_LOD0
+    second: {fileID: 2100000, guid: 54ee0e50ad1447243ad5a4e4658f6372, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -32,73 +32,88 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bricks061_2K_Color2
-    second: {fileID: 2800000, guid: ac365a0489149084dab943a54018c182, type: 3}
+      name: GateInner_alpha
+    second: {fileID: 2800000, guid: 9ffb31bb07db1ea41ad19eec3d38dc58, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bricks061_2K_NormalGL
-    second: {fileID: 2800000, guid: b44e83ddcd4182b408f2ef5ec3df2f0a, type: 3}
+      name: GateInner_color
+    second: {fileID: 2800000, guid: e735d1ee89d4891448d4a82812b6fec3, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bricks061_2K_Roughness
-    second: {fileID: 2800000, guid: 8885464d7788678459dc81d97401d0bd, type: 3}
+      name: GateInner_metallic
+    second: {fileID: 2800000, guid: 74e29f3a33f832d489ba8d6a23b48c7e, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: MetalMedieval1K_Normal
-    second: {fileID: 2800000, guid: 37151c06c02dbcd4ca36d308a54f11dd, type: 3}
+      name: GateInner_normal
+    second: {fileID: 2800000, guid: 9cb280b32417f4b4297836142d50d8d3, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: MetalMedieval1K_color_albedo
-    second: {fileID: 2800000, guid: f524f98dd96127b4b8b135a881cfbe72, type: 3}
+      name: GateInner_roughness
+    second: {fileID: 2800000, guid: 8e7e48e301abe4a49a39e62d5a835037, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: GateInner_specular
+    second: {fileID: 2800000, guid: 8406b45155138de41b8511a2dae40bf7, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: TexturesCom_CastleGate_1K_albedo (1)
-    second: {fileID: 2800000, guid: a3e982a691b3e5f40846d7aa2e6b3dcf, type: 3}
+    second: {fileID: 2800000, guid: 7d80c6070551d3444840c24c1246c6da, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: TexturesCom_CastleGate_1K_metallic (1)
-    second: {fileID: 2800000, guid: ad13bfa970b14dc4eb73e26a313d17ab, type: 3}
+    second: {fileID: 2800000, guid: 890fc68ac2ce56649a32da3dbbd85043, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: TexturesCom_CastleGate_1K_normal (1)
-    second: {fileID: 2800000, guid: 603d3691a885931498d6b1c5685ac6ae, type: 3}
+    second: {fileID: 2800000, guid: e7eec808c2db6d346a19923b264edb18, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: TexturesCom_CastleGate_1K_roughness (1)
-    second: {fileID: 2800000, guid: 12fd3448ed9968c45b0dc864302ae1bb, type: 3}
+    second: {fileID: 2800000, guid: 7aa200620a0df9f4a9ba28b274889f44, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: TexturesCom_Metal_Medieval_1K_normal
-    second: {fileID: 2800000, guid: 33537b13350b50f4391dd579e52cc784, type: 3}
+    second: {fileID: 2800000, guid: fa558e7159408504b83947624e91096c, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: TowerUpperCube_color
-    second: {fileID: 2800000, guid: e2a506c28e949d840922c121e492a12c, type: 3}
+      name: Tower_LOD0_alpha
+    second: {fileID: 2800000, guid: 37a65f1865851ce479c63cc71717408a, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: TowerUpperCube_metallic
-    second: {fileID: 2800000, guid: 0e102ece1ce4099459d74a629786c166, type: 3}
+      name: Tower_LOD0_color
+    second: {fileID: 2800000, guid: bdc9bbe11f5e3bd4599ac7fa5b16e2bf, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: TowerUpperCube_normal
-    second: {fileID: 2800000, guid: e719ed6dc87bf244db26f5aeef1728ea, type: 3}
+      name: Tower_LOD0_metallic
+    second: {fileID: 2800000, guid: 8d9aa743468e40c4fa06be19e8526e34, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: TowerUpperCube_roughness
-    second: {fileID: 2800000, guid: 6c2304037c5925a4a9565f1776225439, type: 3}
+      name: Tower_LOD0_normal
+    second: {fileID: 2800000, guid: ce8cf8baad7a4a64b9882ab668c344ce, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tower_LOD0_roughness
+    second: {fileID: 2800000, guid: 95fd8d5dd74b49142a119e0a7396f7af, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tower_LOD0_specular
+    second: {fileID: 2800000, guid: 0a35d0de8199ffe4ca1eefb5674862fd, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -132,13 +147,13 @@ ModelImporter:
     lODScreenPercentages:
     - 0.25
     - 0.125
-    - 0.0625
     - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -166,6 +181,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -198,6 +214,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
