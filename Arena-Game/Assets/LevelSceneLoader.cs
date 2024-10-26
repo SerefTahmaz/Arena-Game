@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 public class LevelSceneLoader : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class LevelSceneLoader : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_SceneAsset.name));
     }
 }
+#endif
 
 
 #if UNITY_EDITOR

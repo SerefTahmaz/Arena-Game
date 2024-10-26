@@ -66,5 +66,6 @@ public class cJoystickController : cSingleton<cJoystickController>
         m_JoystickValue = m_Head.localPosition / m_HeadMax.localPosition.magnitude;
         m_JoystickValue.x = Mathf.Abs(m_JoystickValue.x )> m_Threshold ? m_JoystickValue.x : 0;
         m_JoystickValue.y = Mathf.Abs(m_JoystickValue.y )> m_Threshold ? m_JoystickValue.y : 0;
+        m_JoystickValue *= 2;
     }
 }
