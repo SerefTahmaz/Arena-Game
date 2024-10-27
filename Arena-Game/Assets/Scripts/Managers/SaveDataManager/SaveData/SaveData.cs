@@ -12,7 +12,6 @@ namespace ArenaGame.Managers.SaveManager
     {
         public string m_PlayerName = "NewPlayer";
         public bool m_IsPlayerSetName;
-        public int m_Currency;
         public int m_ExperiencePoint;
         public int m_WinsCount;
         public bool m_AudioState = true;

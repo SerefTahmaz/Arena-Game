@@ -1,5 +1,6 @@
 ﻿using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace ArenaGame
@@ -41,14 +42,14 @@ namespace ArenaGame
             Name = saveData.m_PlayerName;
             ProfilePicture = profilePicture;
             ExpPoint = saveData.m_ExperiencePoint;
-            Currency = saveData.m_Currency;
             WinsCount = saveData.m_WinsCount;
+            SaveGameHandler.Load();
         }
 
         public string Name { get; set; }
         public Texture2D ProfilePicture { get; set; }
         public int ExpPoint { get; set; }
-        public int Currency { get; set; }
+        public int Currency => GameplayStatics.GetPlayerCharacterSO().Currency;
         public int WinsCount { get; set; }
     }
 }

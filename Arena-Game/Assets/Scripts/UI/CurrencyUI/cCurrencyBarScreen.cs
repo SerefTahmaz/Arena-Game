@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace ArenaGame.UI.Currency
@@ -16,10 +17,9 @@ namespace ArenaGame.UI.Currency
 
         public int CurrentCurrencyAmount
         {
-            get => m_SaveManager.SaveData.m_Currency;
+            get => 0;
             set
             {
-                m_SaveManager.SaveData.m_Currency = value;
                 // PlayerMaxScore = value;
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace ArenaGame.Currency
@@ -10,28 +11,19 @@ namespace ArenaGame.Currency
         public static int Currency()
         {
             SaveGameHandler.Load();
-            return SaveGameHandler.SaveData.m_Currency;
+            return GameplayStatics.GetPlayerCharacterSO().Currency;
         }
         
         public static void GainCurrency(int amount)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
-            savaData.m_Currency += amount;
-            SaveGameHandler.Save();
+            var savaData = GameplayStatics.GetPlayerCharacterSO();
+            savaData.GainCurrency(amount);
         }
 
         public static void SpendCurrency(int amount)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
-            savaData.m_Currency -= amount;
-
-            if (savaData.m_Currency < 0)
-            {
-                Debug.Log("Currency cant be less than zero!!!!");
-            }
-            SaveGameHandler.Save();
+            var savaData = GameplayStatics.GetPlayerCharacterSO();
+            savaData.SpendCurrency(amount);
         }
 
         public static bool HasEnoughCurrency(int amount)

@@ -17,6 +17,7 @@ public abstract class InfoView : MonoBehaviour
     private int m_LastValue;
 
     public abstract int TargetValue { get; }
+    public abstract Action TargetChangeEvent { get; set; }
     
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public abstract class InfoView : MonoBehaviour
         m_LastValue = TargetValue;
         m_Text.text = m_LastValue.ToString();
         
-        SaveGameHandler.OnChanged += HandleOnChange;
+        TargetChangeEvent += HandleOnChange;
     }
 
     private void HandleOnChange()
