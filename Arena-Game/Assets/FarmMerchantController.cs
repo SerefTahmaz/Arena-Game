@@ -1,28 +1,49 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Factories;
 using Gameplay;
 using UI.Shop;
 using UnityEngine;
 
-public class FarmMerchantController : MonoBehaviour
+public class FarmMerchantController : InteractableNPC
 {
     [SerializeField] private CharacterSO m_FarmerChar;
     [SerializeField] private List<BaseItemSO> m_FarmerMarketSOs;
     [SerializeField] private GameObject m_FocusCam;
-    [SerializeField] private PlayerDetector m_PlayerDetector;
+    [SerializeField] private DialogHelper m_DialogHelper;
 
     private ITransactionShopPopUpController m_InsTransactionShopPopUpController;
 
-    private void Start()
+    private bool m_IsShowingInventory;
+
+    protected override void Start()
     {
-        m_PlayerDetector.OnPlayerEntered += HandleOnPlayerEntered;
+        base.Start();
     }
 
-    private void HandleOnPlayerEntered()
+    protected override async UniTask  HandleOnPlayerEnteredAsync()
     {
+        m_DialogHelper.ShowMerchantInventory += ShowInventory;
+        await base.HandleOnPlayerEnteredAsync();
+    }
+    
+    private void ShowInventory()
+    {
+        ShowInventoryAsync();
+    }
+
+    private async UniTask ShowInventoryAsync()
+    {
+        m_DialogHelper.ShowMerchantInventory -= ShowInventory;
+        m_IsShowingInventory = true;
+        if (m_DialogController)
+        {
+            m_DialogController.SetVisibility(false);
+        }
+        
         m_FocusCam.SetActive(true);
             
         m_FarmerChar.Load();
@@ -38,6 +59,9 @@ public class FarmMerchantController : MonoBehaviour
         m_InsTransactionShopPopUpController = GlobalFactory.TransactionShopPopUpFactory.Create();
         m_InsTransactionShopPopUpController.Init(GameplayStatics.GetPlayerCharacterSO(), m_FarmerChar);
         m_InsTransactionShopPopUpController.OnDismissed += OnTransactionDismissed;
+
+        await UniTask.WaitWhile((() => m_IsShowingInventory));
+        m_DialogHelper.ShowMerchantInventory += ShowInventory;
     }
 
     private void OnTransactionDismissed()
@@ -45,5 +69,16 @@ public class FarmMerchantController : MonoBehaviour
         m_InsTransactionShopPopUpController.OnDismissed -= OnTransactionDismissed;
         m_FocusCam.SetActive(false);
         m_InsTransactionShopPopUpController = null;
+        if (m_DialogController)
+        {
+            m_DialogController.SetVisibility(true);
+        }
+        m_IsShowingInventory = false;
+    }
+
+    protected override void OnDialogEnded()
+    {
+        base.OnDialogEnded();
+        m_DialogHelper.ShowMerchantInventory -= ShowInventory;
     }
 }

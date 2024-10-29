@@ -266,11 +266,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6328a94af566f694caa131b00f3d9a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DialogueGraph: {fileID: 11400000, guid: d9cdd676ab6dd6a4b9ddf0f0f928cc2c, type: 2}
   m_PlayerDialogOptionControllerPrefab: {fileID: 1746944351503522469, guid: ffb6f76bafaa1734cbc251d016b25630,
     type: 3}
   m_PlayerOptionLayout: {fileID: 2185876859053786095}
   m_NpcDialogText: {fileID: 4646237343263541300}
+  m_DialogURPSettings: {fileID: 11400000, guid: b74f05521253948448ec88623a48986d,
+    type: 2}
+  m_View: {fileID: 7890938153856308508}
+  m_CameraPivot: {fileID: 4093770503264116706}
 --- !u!1 &2604106715575980899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1235,8 @@ GameObject:
   - component: {fileID: 5697587070898186745}
   - component: {fileID: 8720269112790077786}
   - component: {fileID: 2112755893575321464}
+  - component: {fileID: 7662045078229779625}
+  - component: {fileID: 7890938153856308508}
   m_Layer: 5
   m_Name: DialogCanvas
   m_TagString: Untagged
@@ -1322,6 +1327,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &7662045078229779625
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5666808121295454211}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7890938153856308508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5666808121295454211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabf44c91dedd6444a7db7dec7489ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 7662045078229779625}
+  m_OnActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_IsActive: 1
 --- !u!1 &5870578897382278533
 GameObject:
   m_ObjectHideFlags: 0

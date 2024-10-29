@@ -16,8 +16,9 @@ namespace Gameplay.Character
         [SerializeField] private ParticleSystem m_BloodExpo;
         [SerializeField] private MovementController m_MovementController;
         [SerializeField] private HumanCharacterStateMachine m_CharacterStateMachine;
-        [SerializeField] private CharacterSO m_CharacterSo;
+        [SerializeField] private CharacterSO m_CharacterSo; 
         [SerializeField] private SkinManager m_SkinManager;
+        [SerializeField] private GameObject m_SkinPivot;
 
         public AnimationController AnimationController => m_AnimationController;
         public override cCharacterNetworkController CharacterNetworkController => PlayerCharacterNetworkController;
@@ -43,6 +44,11 @@ namespace Gameplay.Character
             m_BloodExpo.PlayWithClear();
             SoundEffectController.PlayDamageGrunt();
             // m_DustExpo.PlayWithClear();
+        }
+
+        public void SetVisibility(bool value)
+        {
+            m_SkinPivot.SetActive(value);
         }
     }
 }

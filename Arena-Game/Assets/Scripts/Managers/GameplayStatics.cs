@@ -1,4 +1,6 @@
-﻿using Gameplay;
+﻿using System.Linq;
+using Gameplay;
+using Gameplay.Character;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -20,6 +22,21 @@ namespace DefaultNamespace
         {
             var playerCharacter = Resources.Load<CharacterSO>("Characters/Player");
             return playerCharacter;
+        }
+
+        public static void SetPlayerVisibility(bool value)
+        {
+            InputManager.Instance.SetInput(value);
+            CameraManager.Instance.SetInput(value);
+            
+            var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
+            Debug.Log($"Owner player {instanceOwnerPlayer!=null}");
+            if (instanceOwnerPlayer)
+            {
+                instanceOwnerPlayer.GetComponent<HumanCharacter>().SetVisibility(value);
+            }
+            
+            
         }
     }
 }

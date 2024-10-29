@@ -274,6 +274,37 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!1 &5124198374703279569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2688992250683684911}
+  m_Layer: 0
+  m_Name: DialogPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2688992250683684911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5124198374703279569}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5391983, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7566908306454983206}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8450035033742090730
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +340,7 @@ Transform:
   - {fileID: 4526089268320102418}
   - {fileID: 5245032328462828182}
   - {fileID: 5189957980304885535}
+  - {fileID: 2688992250683684911}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2870691548762511648
@@ -323,13 +355,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5030e22c614a434d96d9813e16070fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PlayerDetector: {fileID: 4329003431389567066}
+  m_DialogueGraph: {fileID: 11400000, guid: d8aaa65cee53aa943b5ec23f3acf4ed6, type: 2}
+  m_DialogFocusPoint: {fileID: 2688992250683684911}
   m_FarmerChar: {fileID: 11400000, guid: 5cf905c795d2f1548afa362052f12397, type: 2}
   m_FarmerMarketSOs:
   - {fileID: 11400000, guid: bfe3bbc58e4fa8442867b8a5aa0456d4, type: 2}
   - {fileID: 11400000, guid: 929d9f09dc24dd14abd25b60ff3f2a43, type: 2}
   - {fileID: 11400000, guid: a6577987b3846764bb713cbb34207df0, type: 2}
   m_FocusCam: {fileID: 4377450181649966924}
-  m_PlayerDetector: {fileID: 4329003431389567066}
+  m_DialogHelper: {fileID: 11400000, guid: 7f98976c3e7eca34985dea34705e3d19, type: 2}
 --- !u!54 &8556546558273248177
 Rigidbody:
   m_ObjectHideFlags: 0
