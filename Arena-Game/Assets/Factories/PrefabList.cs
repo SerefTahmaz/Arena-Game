@@ -16,12 +16,13 @@ public class PrefabList : ScriptableObject
     [SerializeField] private InfoPopUpController m_InfoPopUpPrefab;
     [SerializeField] private DisconnectedPopUpController m_DisconnectedPopUpPrefab;
     [SerializeField] private WinCurrencyRewardController m_WinCurrencyRewardPrefab;
-    [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab;
+    [SerializeField] private WinUpgradeRewardController m_WinUpgradeRewardPrefab; 
     [SerializeField] private InfoPopUpController m_DisqualifyPopUpPrefab; 
     [SerializeField] private NoWifiPopUpController m_NoWifiPopUpPrefab;
     [SerializeField] private SeedSelectorPopUpController m_SeedSelectorPopUpPrefab;
     [SerializeField] private PlantFieldCollectPopUpController m_PlantFieldCollectPopUpPrefab;
     [SerializeField] private TransactionShopPopUpController m_TransactionShopPopUpPrefab;
+    [SerializeField] private DialogController m_DialogControllerPrefab;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -33,6 +34,7 @@ public class PrefabList : ScriptableObject
     public SeedSelectorPopUpController SeedSelectorPopUpPrefab => m_SeedSelectorPopUpPrefab;
     public PlantFieldCollectPopUpController PlantFieldCollectPopUpPrefab => m_PlantFieldCollectPopUpPrefab;
     public TransactionShopPopUpController TransactionShopPopUpPrefab => m_TransactionShopPopUpPrefab;
+    public DialogController DialogControllerPrefab => m_DialogControllerPrefab;
 
     private static PrefabList m_Instance;
     
