@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using RootMotion;
 using UnityEngine;
 
@@ -32,11 +33,11 @@ public class MultiplayerLocalHelper : Singleton<MultiplayerLocalHelper>
     
     public void StartGame()
     {
-        cUIManager.Instance.HidePage(Page.Loading);
+        if(cUIManager.Instance) cUIManager.Instance.HidePage(Page.Loading);
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
-        cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
+        GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
     }
 
     // Update is called once per frame

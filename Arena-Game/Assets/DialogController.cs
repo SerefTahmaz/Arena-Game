@@ -8,6 +8,7 @@ using DefaultNamespace;
 using Dialogue;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -23,6 +24,7 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
     [SerializeField] private UniversalRenderPipelineAsset m_DialogURPSettings;
     [SerializeField] private cView m_View;
     [SerializeField] private Transform m_CameraPivot;
+    [SerializeField] private GameObject m_EventSystem;
 
     private RenderPipelineAsset m_PreviousURPSetting;
 
@@ -42,6 +44,11 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
         m_CameraPivot.transform.forward = dialogFocusPoint.forward;
         
         GameplayStatics.SetPlayerVisibility(false);
+
+        if (FindObjectsOfType<EventSystem>().Length > 1)
+        {
+            Destroy(m_EventSystem);
+        }
 
         m_IsDialogShowing = true;
         await UniTask.WaitWhile((() => m_IsDialogShowing));

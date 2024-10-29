@@ -7,6 +7,8 @@ namespace DefaultNamespace
 {
     public static class GameplayStatics
     {
+        public static Transform OwnerPlayer { get; set; }
+        
         public static bool CheckInternetConnection()
         {
             if(Application.internetReachability == NetworkReachability.NotReachable)
@@ -23,20 +25,16 @@ namespace DefaultNamespace
             var playerCharacter = Resources.Load<CharacterSO>("Characters/Player");
             return playerCharacter;
         }
-
         public static void SetPlayerVisibility(bool value)
         {
             InputManager.Instance.SetInput(value);
             CameraManager.Instance.SetInput(value);
             
-            var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
-            Debug.Log($"Owner player {instanceOwnerPlayer!=null}");
-            if (instanceOwnerPlayer)
+            Debug.Log($"Owner player {OwnerPlayer!=null}");
+            if (OwnerPlayer)
             {
-                instanceOwnerPlayer.GetComponent<HumanCharacter>().SetVisibility(value);
+                OwnerPlayer.GetComponent<HumanCharacter>().SetVisibility(value);
             }
-            
-            
         }
     }
 }

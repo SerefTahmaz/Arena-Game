@@ -24,7 +24,8 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
         
         if (IsOwner)
         {
-            PlayerName.Value = cLobbyManager.Instance.PlayerName;
+            //TODO: Fix it
+            PlayerName.Value = "cLobbyManager.Instance.PlayerName";
         }
 
         m_HumanCharacter.CharacterName = PlayerName.Value.Value;

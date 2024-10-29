@@ -75,7 +75,6 @@ public class cGameManager : cSingleton<cGameManager>
         {
             m_OwnerPlayerId = transform1.GetComponent<IDamagable>().TeamID;
             m_OwnerPlayer = transform1;
-            CameraManager.Instance.OnPlayerSpawn();
         };
 
         HandleDisconnectionStates();

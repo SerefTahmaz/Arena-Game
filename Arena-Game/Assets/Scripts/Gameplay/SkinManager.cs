@@ -40,6 +40,11 @@ public class SkinManager : MonoBehaviour
 
         m_CharacterSO.OnChanged += Equipment;
     }
+    
+    private void OnDestroy()
+    {
+        m_CharacterSO.OnChanged -= Equipment;
+    }
 
     public void Equipment()
     {

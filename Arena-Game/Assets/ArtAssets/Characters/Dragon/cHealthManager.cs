@@ -72,6 +72,7 @@ public class cHealthManager : MonoBehaviour
     private void EnableHealthBar()
     {
         cHealthBar healthBar;
+        if (cGameManager.Instance == null) HealthBarState = eHealthBarState.World;
         switch (m_HealthBarState)
         {
             case eHealthBarState.World:

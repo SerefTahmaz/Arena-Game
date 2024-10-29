@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using ArenaGame.Utils;
+using DefaultNamespace;
 using DG.Tweening;
 using RootMotion;
 using UnityEngine;
@@ -113,7 +114,7 @@ public class CameraManager : cSingleton<CameraManager>
 
     public void OnPlayerSpawn()
     {
-        var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
+        var instanceOwnerPlayer = GameplayStatics.OwnerPlayer;
 
         _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
         _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
@@ -128,7 +129,7 @@ public class CameraManager : cSingleton<CameraManager>
 
     public void FixLook()
     {
-        var instanceOwnerPlayer = cGameManager.Instance.m_OwnerPlayer;
+        var instanceOwnerPlayer = GameplayStatics.OwnerPlayer;
         _gameplayCam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
             -instanceOwnerPlayer.forward * 5 + instanceOwnerPlayer.position + Vector3.up*2
             , instanceOwnerPlayer.rotation);
