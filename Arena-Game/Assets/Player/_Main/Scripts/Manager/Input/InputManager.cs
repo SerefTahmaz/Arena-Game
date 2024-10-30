@@ -25,7 +25,6 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     private Action _onRightClickUpEvent;
     private Action _onWalkSpeedUpEvent;
     private Action _onWalkSpeedNormalEvent;
-    private Action _onEKeyDownEvent;
     private Action _onDrawRightItem;
     private Action _onDrawLeftItem;
     private Action _onNum3Event;
@@ -35,6 +34,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     private Action _onEnableRightHandBuffEvent;
     private Action _onEnableLeftHandBuffEvent;
     private Action _onFKeyDownEvent;
+    public Action _onInteractionEvent;
 
     private void Start()
     {
@@ -79,6 +79,10 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             cMobileInputManager._onTwoHandedAttackEvent += () =>
             {
                 _onTwoHandedAttackEvent?.Invoke();
+            };
+            cMobileInputManager._onInteractionEvent += () =>
+            {
+                _onInteractionEvent?.Invoke();
             };
         }
     }
@@ -133,7 +137,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _onEKeyDownEvent?.Invoke();
+                _onInteractionEvent?.Invoke();
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -311,5 +315,15 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     public void RemoveListenerToOnFKeyDownEvent(Action listener)
     {
         _onFKeyDownEvent -= listener;
+    }
+    
+    public void AddListenerToOnInteractionEvent(Action listener)
+    {
+        _onInteractionEvent += listener;
+    }
+
+    public void RemoveListenerToOnInteractionEvent(Action listener)
+    {
+        _onInteractionEvent -= listener;
     }
 }

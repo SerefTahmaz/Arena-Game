@@ -33,4 +33,6 @@ public interface IInputManager
     public void RemoveListenerToOnEnableLeftHandBuffEvent(Action listener);
     public void AddListenerToOnFKeyDownEvent(Action listener);
     public void RemoveListenerToOnFKeyDownEvent(Action listener);
+    public void AddListenerToOnInteractionEvent(Action listener);
+    public void RemoveListenerToOnInteractionEvent(Action listener);
 }

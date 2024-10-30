@@ -24,10 +24,10 @@ public class FarmMerchantController : InteractableNPC
         base.Start();
     }
 
-    protected override async UniTask  HandleOnPlayerEnteredAsync()
+    protected override async UniTask  StartInteraction()
     {
         m_DialogHelper.ShowMerchantInventory += ShowInventory;
-        await base.HandleOnPlayerEnteredAsync();
+        await base.StartInteraction();
     }
     
     private void ShowInventory()

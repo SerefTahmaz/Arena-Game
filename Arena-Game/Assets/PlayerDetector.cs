@@ -7,7 +7,10 @@ using UnityEngine;
 public class PlayerDetector : MonoBehaviour
 {
     public Action OnPlayerEntered { get; set; }
+    public Action OnPlayerExit { get; set; }
     public bool IsDetectingPlayer { get; set; }
+    
+    public bool IsPlayerInside { get; set; }
 
     private void Awake()
     {
@@ -20,6 +23,17 @@ public class PlayerDetector : MonoBehaviour
         {
             Debug.Log("Player Detected");
             OnPlayerEntered?.Invoke();
+            IsPlayerInside = true;
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.attachedRigidbody && other.attachedRigidbody.TryGetComponent(out IPlayerMarker playerMarker) && IsDetectingPlayer)
+        {
+            Debug.Log("Player Detected");
+            OnPlayerExit?.Invoke();
+            IsPlayerInside = false;
         }
     }
 }
