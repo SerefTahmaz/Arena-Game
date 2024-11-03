@@ -12,6 +12,7 @@ public class PointFollower : MonoBehaviour
     [SerializeField] private MovementController m_MovementController;
     [SerializeField] private NavMeshAgent m_NavMeshAgent;
     [SerializeField] private int m_Index;
+    [SerializeField] private float m_OffsetDistance;
     
     
     // Start is called before the first frame update
@@ -25,13 +26,15 @@ public class PointFollower : MonoBehaviour
     void Update()
     {
         var path = new NavMeshPath();
-        var targetPoint = m_NavMeshAgent.nextPosition;
+        var targetPoint = m_NavMeshAgent.steeringTarget;
+      
         
         Vector3 dir = targetPoint - m_MovementTransform.position;
         dir.y = 0;
+        dir.Normalize();
         Vector3 movementVector = m_MovementTransform.forward;
         movementVector.y = 0;
-        var angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+        var angle = Vector3.SignedAngle(movementVector, dir, Vector3.up);
         
 
         if (Vector3.Distance(m_MovementTransform.position, m_Target.position) > m_StopDist)
@@ -45,6 +48,6 @@ public class PointFollower : MonoBehaviour
             m_MovementController.Move(Vector3.zero);
         }
 
-        
+        m_NavMeshAgent.nextPosition = transform.position;
     }
 }
