@@ -380,6 +380,7 @@ MonoBehaviour:
   m_ShowStates: 0
   m_BlackBoard: {fileID: 0}
   m_Character: {fileID: 6224497682964105866}
+  m_PatrolPath: {fileID: 0}
 --- !u!114 &6224497682964105866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +461,7 @@ MonoBehaviour:
   m_Speed: 0.5
   m_PositionSetDuration: 0
   m_YHelp: 0
+  m_TempTarget: {fileID: 0}
 --- !u!1 &3717043880563889036
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7261183686144620033
 Transform:
   m_ObjectHideFlags: 0
