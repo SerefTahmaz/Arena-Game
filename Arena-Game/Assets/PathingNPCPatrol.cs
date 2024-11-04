@@ -66,10 +66,10 @@ namespace Gameplay.Character.NPCHuman
                 return;
             }
             
-            // var targetPoint = Agent.desiredVelocity.normalized;
-            // Vector3 dir = targetPoint - MovementTransform.position;
+            var targetPoint = Agent.steeringTarget;
+            Vector3 dir = targetPoint - MovementTransform.position;
             // dir.y = 0;
-            // dir.Normalize();
+            dir.Normalize();
             // Vector3 movementVector = MovementTransform.forward;
             // movementVector.y = 0;
             // var angle = Vector3.SignedAngle(movementVector, dir, Vector3.up);
@@ -78,10 +78,11 @@ namespace Gameplay.Character.NPCHuman
             {
                 Agent.SetDestination(m_Target.position);
                 var desiredVelocityNormalized = Agent.desiredVelocity.normalized;
-                Debug.Log(desiredVelocityNormalized);
+                Debug.Log($"Velocity {desiredVelocityNormalized}");
+                Debug.Log($"Steering {dir}");
                 MovementController.Move(desiredVelocityNormalized*m_Speed);
-                
-                StateMachine.Character.Rigidbody.AddForce(Vector3.up*desiredVelocityNormalized.normalized.y*m_YHelp);
+
+                // StateMachine.Character.MovementTransform.position += Vector3.up * dir.y * m_YHelp;
             }
             else
             {
@@ -92,7 +93,7 @@ namespace Gameplay.Character.NPCHuman
             if (m_CurrentDuration <= 0)
             {
                 m_CurrentDuration = m_PositionSetDuration;
-                Agent.nextPosition = transform.position;
+                Agent.nextPosition = transform.position; 
             }
 
             m_CurrentDuration -= Time.deltaTime;
