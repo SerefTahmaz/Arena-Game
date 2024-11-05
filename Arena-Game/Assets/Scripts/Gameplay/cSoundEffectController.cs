@@ -77,6 +77,7 @@ public class cSoundEffectController : MonoBehaviour
             
             if (hit.distance < m_LowerLimit && footHelper.m_IsAbove)
             {
+                Debug.Log("Foot", transform);
                 footHelper.m_IsAbove = false;
                 footHelper.m_AudioSource.PlayOneShot(m_StepClips.OrderBy((clip => Random.Range(0,1000))).FirstOrDefault());
                 footHelper.m_AudioSource.volume = m_StepVolume;

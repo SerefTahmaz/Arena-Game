@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using _Main.Scripts.Gameplay;
-using ArenaGame.Utils;
-using DefaultNamespace;
-using DG.Tweening;
+﻿using DefaultNamespace;
 using FiniteStateMachine;
 using PlayerCharacter;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
 namespace Gameplay.Character.NPCHuman
 {
@@ -18,7 +11,7 @@ namespace Gameplay.Character.NPCHuman
         [SerializeField] private float m_StopDist;
         [SerializeField] private float m_Speed;
         [SerializeField] private float m_PositionSetDuration;
-        [SerializeField] private float m_YHelp;
+        // [SerializeField] private float m_YHelp;
         [SerializeField] private Transform m_TempTarget;
 
         private float m_CurrentDuration;
