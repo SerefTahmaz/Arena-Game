@@ -10026,11 +10026,14 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.5
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.25
+  m_GroundCheckDistance: 0.5
   m_PhysicMaterial: {fileID: 13400000, guid: 4c6cb8d1c179ca6478b75ed6c11ef750, type: 2}
   m_Rigidbody: {fileID: 6709115404066570955}
   m_Animator: {fileID: 3698630494902020446}
   m_Capsule: {fileID: 7297926399341711984}
+  m_YSpeedThreshold: 0
+  m_CharacterType: 0
+  m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
     m_Bits: 1024

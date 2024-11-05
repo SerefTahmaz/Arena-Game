@@ -10436,7 +10436,7 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.5
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.25
+  m_GroundCheckDistance: 0.5
   m_PhysicMaterial: {fileID: 13400000, guid: 4c6cb8d1c179ca6478b75ed6c11ef750, type: 2}
   m_Rigidbody: {fileID: 9188521894469903039}
   m_Animator: {fileID: 5550091048574385923}
@@ -10629,6 +10629,7 @@ MonoBehaviour:
   m_CharacterStateMachine: {fileID: 4612661772307771328}
   m_CharacterSo: {fileID: 11400000, guid: 9f8613d397590d749a19500de06228d1, type: 2}
   m_SkinManager: {fileID: 4187188776426606178}
+  m_SkinPivot: {fileID: 0}
 --- !u!114 &1869194423820427825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10685,44 +10686,44 @@ MonoBehaviour:
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
-    DestinationState: -74952761
+    DestinationState: 2022241699
     TransitionDuration: 0.25
-    TriggerNameHash: -940937956
+    TriggerNameHash: 679811234
     TransitionIndex: 0
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
-    DestinationState: -299002937
+    DestinationState: -74952761
     TransitionDuration: 0.25
-    TriggerNameHash: -428750845
+    TriggerNameHash: -940937956
     TransitionIndex: 1
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
     DestinationState: -299002937
     TransitionDuration: 0.25
-    TriggerNameHash: -1455896869
+    TriggerNameHash: -428750845
     TransitionIndex: 2
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
-    DestinationState: -1841401533
+    DestinationState: -299002937
     TransitionDuration: 0.25
-    TriggerNameHash: 1046274946
+    TriggerNameHash: -1455896869
     TransitionIndex: 3
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
     DestinationState: -1841401533
     TransitionDuration: 0.25
-    TriggerNameHash: -972068619
+    TriggerNameHash: 1046274946
     TransitionIndex: 4
   - IsCrossFadeExit: 0
     Layer: 7
     OriginatingState: -1253379948
-    DestinationState: 2022241699
+    DestinationState: -1841401533
     TransitionDuration: 0.25
-    TriggerNameHash: 679811234
+    TriggerNameHash: -972068619
     TransitionIndex: 5
   - IsCrossFadeExit: 0
     Layer: 7
