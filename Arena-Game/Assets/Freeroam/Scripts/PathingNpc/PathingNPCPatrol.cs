@@ -1,4 +1,6 @@
-﻿using DefaultNamespace;
+﻿using System.Linq;
+using DefaultNamespace;
+using DG.Tweening;
 using FiniteStateMachine;
 using PlayerCharacter;
 using UnityEngine;
@@ -12,7 +14,20 @@ namespace Gameplay.Character.NPCHuman
         [SerializeField] private float m_Speed;
         [SerializeField] private float m_PositionSetDuration;
         // [SerializeField] private float m_YHelp;
-        [SerializeField] private Transform m_TempTarget;
+        [SerializeField] private Transform m_TempTarget; 
+        [SerializeField] private float m_StopDuration;
+        [SerializeField] private float m_GivingWayDuration;
+        [SerializeField] private float m_AgentAvoidanceDist;
+        [SerializeField] private float m_StopSpeed;
+        [SerializeField] private float m_AgentDecisionLerpSpeed;
+        
+        [SerializeField] private Vector3 m_SpeedDebug;
+        [SerializeField] private float m_SpeedMagnitude;
+
+        private float m_StopDurationTimer;
+        private bool m_GivingWay;
+        private Tween m_GivingWayTween;
+        private Vector3 m_MovementVector;
 
         private float m_CurrentDuration;
         private Transform m_Target;
@@ -32,11 +47,16 @@ namespace Gameplay.Character.NPCHuman
         private void PickATargetPoint()
         {
             m_Target = StateMachine.PatrolPath.NextPoint(m_Target, MovementTransform);
+            Agent.SetDestination(m_Target.position);
         }
 
         public override void StateMachineUpdate()
         {
             base.StateMachineUpdate();
+            
+            m_SpeedDebug = StateMachine.Character.Rigidbody.velocity;
+            m_SpeedMagnitude = StateMachine.Character.Rigidbody.velocity.magnitude;
+
 
             if (m_TempTarget)
             {
@@ -63,9 +83,11 @@ namespace Gameplay.Character.NPCHuman
 
                 if (Vector3.Distance(MovementTransform.position, m_Target.position) > m_StopDist)
                 {
-                    Agent.SetDestination(m_Target.position);
+                    Agent.SetDestination(m_Target.position); 
                     var desiredVelocityNormalized = Agent.desiredVelocity.normalized;
-                    MovementController.Move(desiredVelocityNormalized*m_Speed);
+                    m_MovementVector = Vector3.Slerp(m_MovementVector, desiredVelocityNormalized,
+                        Time.deltaTime * m_AgentDecisionLerpSpeed);
+                    MovementController.Move(m_MovementVector*m_Speed);
 
                     // StateMachine.Character.MovementTransform.position += Vector3.up * dir.y * m_YHelp;
                 }
@@ -81,7 +103,47 @@ namespace Gameplay.Character.NPCHuman
                 Agent.nextPosition = transform.position; 
             }
 
+           
             m_CurrentDuration -= Time.deltaTime;
+
+            if (m_Target != null)
+            {
+                if (StateMachine.Character.Rigidbody.velocity.magnitude <= m_StopSpeed)
+                {
+                    var cols = Physics.OverlapSphere(MovementTransform.position, m_AgentAvoidanceDist);
+                    var otherAgents = cols.Where((collider1 =>
+                            collider1.attachedRigidbody &&
+                            collider1.attachedRigidbody.TryGetComponent(out AgentController agent) && !agent.IsGivingWay
+                            && Vector3.Dot(MovementTransform.forward, agent.transform.forward) < -.3f))
+                        .Select((collider1 => collider1.attachedRigidbody.GetComponent<AgentController>()))
+                        .Except((new []{AgentController}));
+            
+                    if (otherAgents.Any())
+                    {
+                        m_StopDurationTimer += Time.deltaTime;
+                    }
+                    else
+                    {
+                        m_StopDurationTimer = 0;
+                        // if (m_GivingWay)
+                        // {
+                        //     m_GivingWayTween.Complete(true);
+                        // }
+                    }
+            
+                    if (m_StopDurationTimer > m_StopDuration && !m_GivingWay)
+                    {
+                        m_StopDurationTimer = 0;
+                        AgentController.SetObstacle(true);
+                        m_GivingWay = true;
+                        m_GivingWayTween = DOVirtual.DelayedCall(m_GivingWayDuration, () =>
+                        {
+                            AgentController.SetObstacle(false);
+                            m_GivingWay = false;
+                        });
+                    }
+                }
+            }
         }
 
         public override void Exit()
