@@ -76,9 +76,9 @@ public class FarmMerchantController : InteractableNPC
         m_IsShowingInventory = false;
     }
 
-    protected override void OnDialogEnded()
+    protected override void HandleOnDialogEnded()
     {
-        base.OnDialogEnded();
+        base.HandleOnDialogEnded();
         m_DialogHelper.ShowMerchantInventory -= ShowInventory;
     }
 }

@@ -29,6 +29,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PathingPeasant_Female_1 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6224497682964105866, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_InteractableNpc
+      value: 
+      objectReference: {fileID: 3613347313001925454}
     - target: {fileID: 7418216324413099612, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -191,3 +196,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7374577188054438510}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3613347313001925454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6085193081814554912, guid: 171f8655bf0030d44bac6770164f1707,
+    type: 3}
+  m_PrefabInstance: {fileID: 7374577188054438510}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451f90ebcf06420ba6ef8a7552ee94a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

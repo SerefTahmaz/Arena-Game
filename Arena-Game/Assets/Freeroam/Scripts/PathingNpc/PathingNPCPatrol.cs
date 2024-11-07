@@ -148,6 +148,8 @@ namespace Gameplay.Character.NPCHuman
 
         public override void Exit()
         {
+            Agent.isStopped = true;
+            MovementController.Move(Vector3.zero);
             base.Exit();
         }
     }

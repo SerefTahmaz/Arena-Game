@@ -20,16 +20,20 @@ namespace Gameplay.Character.NPCHuman
         public override void Enter()
         {
             base.Enter();
+            StateMachine.Character.MovementController.Move(Vector3.zero);
+            StateMachine.Character.AgentController.SetObstacle(true);
         }
 
         public override void StateMachineUpdate()
         {
             base.StateMachineUpdate();
+            StateMachine.Character.MovementController.Move(Vector3.zero);
         }
 
         public override void Exit()
         {
             base.Exit();
+            StateMachine.Character.AgentController.SetObstacle(false);
         }
     }
 }

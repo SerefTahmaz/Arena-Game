@@ -29,6 +29,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PathingPasent_Male_1 Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6224497682964105866, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_InteractableNpc
+      value: 
+      objectReference: {fileID: 163443007055724766}
     - target: {fileID: 7418216324413099612, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -183,6 +188,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841cdd7f42db64242b612839f163362b, type: 3}
+--- !u!114 &163443007055724766 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7284288751897949415, guid: 841cdd7f42db64242b612839f163362b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7445106086263403577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451f90ebcf06420ba6ef8a7552ee94a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &977701643551909972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7693039853972102253, guid: 841cdd7f42db64242b612839f163362b,

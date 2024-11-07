@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Dialogue;
 using UnityEngine;
 
@@ -14,7 +15,9 @@ namespace DefaultNamespace
         protected DialogController m_DialogController;
         
         public bool InteractionAvailable { get; set; }
-
+        public Action OnDialogStarted { get; set; }
+        public Action OnDialogEnded { get; set; }
+        
         protected virtual void Start()
         {
             m_PlayerDetector.OnPlayerEntered += HandleOnPlayerEntered;
@@ -46,16 +49,18 @@ namespace DefaultNamespace
 
         protected virtual async UniTask StartInteraction()
         {
+            OnDialogStarted?.Invoke();
             m_DialogController = DialogController.CreateInstanceDialog();
             await m_DialogController.Init(m_DialogueGraph, m_DialogFocusPoint);
             await UniTask.WaitForSeconds(0.1f);
-            OnDialogEnded();
+            HandleOnDialogEnded();
         }
 
-        protected virtual void OnDialogEnded()
+        protected virtual void HandleOnDialogEnded()
         {
             if (m_PlayerDetector.IsPlayerInside)
             {
+                OnDialogEnded?.Invoke();
                 InputManager.Instance.AddListenerToOnInteractionEvent(HandleInteractionEvent);
                 m_InteractableUI.SetActive(true);
                 InteractionAvailable = true;

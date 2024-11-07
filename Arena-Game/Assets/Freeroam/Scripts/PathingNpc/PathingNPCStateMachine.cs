@@ -46,12 +46,14 @@ namespace Gameplay.Character.NPCHuman
 
         protected override void Start()
         {
+            Character.InteractableNpc.OnDialogStarted += ChangeToDialogState;
+            Character.InteractableNpc.OnDialogEnded += ChangeToPatrolState;
+            
             Empty.InitializeState("Empty", this);
             Patrol.InitializeState("Patrol", this);
             Dialog.InitializeState("Dialog", this);
             base.Start();
         }
-
         protected override void Update()
         {
             base.Update();
@@ -61,5 +63,16 @@ namespace Gameplay.Character.NPCHuman
         {
             return Patrol;
         }
+        
+        private void ChangeToDialogState()
+        {
+            ChangeState(Dialog);
+        }
+        
+        private void ChangeToPatrolState()
+        {
+            ChangeState(Patrol);
+        }
+
     }
 }

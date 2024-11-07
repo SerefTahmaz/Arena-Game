@@ -11,7 +11,8 @@ public class PathingCharacter: MonoBehaviour
     [SerializeField] private NavMeshAgent m_NavMeshAgent;
     [SerializeField] private MovementController m_MovementController;
     [SerializeField] private AgentController m_AgentController;
-    [SerializeField] private Rigidbody m_Rigidbody; 
+    [SerializeField] private Rigidbody m_Rigidbody;
+    [SerializeField] private InteractableNPC m_InteractableNpc;
  
     public Transform MovementTransform => m_MovementTransform;
     public Animator Animator => m_Animator;
@@ -19,4 +20,5 @@ public class PathingCharacter: MonoBehaviour
     public MovementController MovementController => m_MovementController;
     public AgentController AgentController => m_AgentController;
     public Rigidbody Rigidbody => m_Rigidbody;
+    public InteractableNPC InteractableNpc => m_InteractableNpc;
 }
