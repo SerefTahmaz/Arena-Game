@@ -7,8 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Elf
+    second: {fileID: 2100000, guid: ee16a79c8a9dcdc45a27a0579088b6c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Object_2.001
     second: {fileID: 2100000, guid: 3c410d77ecffe9c4db9b719c3b2877f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pillar.001
+    second: {fileID: 2100000, guid: 81164cfed9321144b80b4599c6a1b618, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -32,6 +42,26 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
+      name: Elf_LP_color
+    second: {fileID: 2800000, guid: 5b90e52fa55d273428d83a1c6352d123, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Elf_LP_metallic
+    second: {fileID: 2800000, guid: d1656d4b46b0e52448f0b798c522ce47, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Elf_LP_normal
+    second: {fileID: 2800000, guid: 66e1bbd2351d7504ea28637691cb8531, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Elf_LP_roughness
+    second: {fileID: 2800000, guid: 2af067c3c8327534e9127b5ea5953a62, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
       name: Object_2.001_color
     second: {fileID: 2800000, guid: e66d8c711acea154e881b44efabeaab0, type: 3}
   - first:
@@ -49,6 +79,26 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Object_2.001_roughness
     second: {fileID: 2800000, guid: d4e1dc500501f7b4fb3bb61201eef814, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PillarLP_color
+    second: {fileID: 2800000, guid: 88d51ccf4bb140045b4425a275b041c1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PillarLP_metallic
+    second: {fileID: 2800000, guid: f6642fbcf9d67874e98b05fbc60f8065, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PillarLP_normal
+    second: {fileID: 2800000, guid: cfd640a7b6312644885cbcce9d6b1e3c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PillarLP_roughness
+    second: {fileID: 2800000, guid: 481a89bfed583df40a00d9d8e3ef3c94, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
@@ -119,7 +169,11 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.25
+    - 0.125
+    - 0.0625
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
