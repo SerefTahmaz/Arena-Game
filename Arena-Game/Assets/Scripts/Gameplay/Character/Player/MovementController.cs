@@ -33,6 +33,13 @@ namespace PlayerCharacter
 		[SerializeField] private float m_YSpeedThreshold;
 		[SerializeField] private CharacterType m_CharacterType;
 		
+		[Header("Player Step Climb")] 
+		[SerializeField] private GameObject m_StepRayLower;
+		[SerializeField] private float m_StepHeight = .3f;
+		[SerializeField] private float m_StepSmooth = 0.1f;
+		[SerializeField] private bool m_DebugStepClimb;
+		[SerializeField] private float m_StepClimbCastDistance;
+		private Vector3 m_MoveInput;
 		
 		public enum CharacterType
 		{
@@ -65,6 +72,30 @@ namespace PlayerCharacter
 			
 			// Debug.Log($"{transform.name} Root Motion {m_Animator.applyRootMotion}");
 			// Move(Vector3.zero);
+		} 
+
+		private void FixedUpdate()
+		{
+			if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
+			if(m_MoveInput.magnitude > 0 || m_Rigidbody.velocity.magnitude > 0) StepClimb();
+		}
+		private void StepClimb()
+		{
+			StepClimbRaycast(transform.forward);
+			StepClimbRaycast(transform.TransformDirection(1.5f,0,1));
+			StepClimbRaycast(transform.TransformDirection(-1.5f,0,1)); 
+		}
+
+		private void StepClimbRaycast(Vector3 dir)
+		{
+			if (Physics.Raycast(m_StepRayLower.transform.position, dir, out var hitLower, m_StepClimbCastDistance+0.1f, Layermask))
+			{
+				if (!Physics.Raycast(m_StepRayLower.transform.position + Vector3.up*m_StepHeight, dir, out var hitUpper, m_StepClimbCastDistance+0.2f,Layermask))
+				{
+					m_Rigidbody.position -= new Vector3(0, -m_StepSmooth, 0);
+					if(m_DebugStepClimb) Debug.Log("Climbing step!!!!!!!!");
+				}
+			}
 		}
 
 		public void Move(Vector3 move, bool crouch = false, bool jump = false)
@@ -87,6 +118,8 @@ namespace PlayerCharacter
 			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
 			m_TurnAmount = Mathf.Atan2(move.x, move.z);
 			m_ForwardAmount = move.z;
+
+			m_MoveInput = move;
 
 			ApplyExtraTurnRotation();
 			
