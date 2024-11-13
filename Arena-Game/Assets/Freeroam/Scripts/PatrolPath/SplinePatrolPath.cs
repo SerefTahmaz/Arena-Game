@@ -72,9 +72,18 @@ namespace DefaultNamespace
                     }));
                 }
             }
-
+            
+            for (int i = 0; i < avaiablePoint.Count; i++)
+            {
+                if (avaiablePoint[i]&&avaiablePoint[i].Connection && avaiablePoint[i].Connection.ControlPointsList.Contains(m_PreviousTarget))
+                {
+                    avaiablePoint[i] = null;
+                }
+            }
+            
             avaiablePoint.RemoveAll((segment => segment == null));
             avaiablePoint.Remove(m_PreviousTarget);
+            
             m_PreviousTarget = CurrentTarget;
             m_CurrentTarget =  avaiablePoint.RandomItem();
         }
