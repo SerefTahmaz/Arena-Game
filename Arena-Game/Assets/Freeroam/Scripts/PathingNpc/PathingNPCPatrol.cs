@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DefaultNamespace;
 using DG.Tweening;
 using FiniteStateMachine;
@@ -12,7 +13,7 @@ namespace Gameplay.Character.NPCHuman
     {
         [SerializeField] private float m_StopDist;
         [SerializeField] private float m_Speed;
-        [SerializeField] private float m_PositionSetDuration;
+        [SerializeField] private float m_PositionSetDuration; 
         // [SerializeField] private float m_YHelp;
         [SerializeField] private Transform m_TempTarget; 
         [SerializeField] private float m_StopDuration;
@@ -20,6 +21,7 @@ namespace Gameplay.Character.NPCHuman
         [SerializeField] private float m_AgentAvoidanceDist;
         [SerializeField] private float m_StopSpeed;
         [SerializeField] private float m_AgentDecisionLerpSpeed;
+        [SerializeField] private SplineNavigator m_SplineNavigator;
         
         [SerializeField] private Vector3 m_SpeedDebug;
         [SerializeField] private float m_SpeedMagnitude;
@@ -30,24 +32,29 @@ namespace Gameplay.Character.NPCHuman
         private Vector3 m_MovementVector;
 
         private float m_CurrentDuration;
-        private Transform m_Target;
         
         private PathingNPCStateMachine StateMachine => m_StateMachine as PathingNPCStateMachine;
         private NavMeshAgent Agent => StateMachine.Character.NavMeshAgent;
         private Transform MovementTransform => StateMachine.Character.MovementTransform;
         private MovementController MovementController => StateMachine.Character.MovementController;
         private AgentController AgentController => StateMachine.Character.AgentController;
-        
+
+        public override void InitializeState(string stateName, cStateMachine playerStateMachine)
+        {
+            base.InitializeState(stateName, playerStateMachine);
+            m_SplineNavigator = new SplineNavigator(StateMachine.PatrolPath, transform.position, m_StopDist);
+        }
+
         public override void Enter()
         {
             base.Enter();
-            PickATargetPoint();
+            Agent.SetDestination(m_SplineNavigator.CurrentTargetPos);
         }
 
         private void PickATargetPoint()
         {
-            m_Target = StateMachine.PatrolPath.NextPoint(m_Target, MovementTransform);
-            Agent.SetDestination(m_Target.position);
+            m_SplineNavigator.PickNextPoint();
+            Agent.SetDestination(m_SplineNavigator.CurrentTargetPos);
         }
 
         public override void StateMachineUpdate()
@@ -66,12 +73,12 @@ namespace Gameplay.Character.NPCHuman
             }
             else
             {
-                if (m_Target == null)
-                {
-                    PickATargetPoint();
-                    MovementController.Move(Vector3.zero);
-                    return;
-                }
+                // if (m_Target == null)
+                // {
+                //     PickATargetPoint();
+                //     MovementController.Move(Vector3.zero);
+                //     return;
+                // }
             
                 var targetPoint = Agent.steeringTarget;
                 Vector3 dir = targetPoint - MovementTransform.position;
@@ -81,19 +88,18 @@ namespace Gameplay.Character.NPCHuman
                 // movementVector.y = 0;
                 // var angle = Vector3.SignedAngle(movementVector, dir, Vector3.up);
 
-                if (Vector3.Distance(MovementTransform.position, m_Target.position) > m_StopDist)
+                if (m_SplineNavigator.IsTargetReached(transform.position))
                 {
-                    Agent.SetDestination(m_Target.position); 
+                    PickATargetPoint();
+                }
+                else
+                {
+                    Agent.SetDestination(m_SplineNavigator.CurrentTargetPos); 
                     var desiredVelocityNormalized = Agent.desiredVelocity.normalized;
                     m_MovementVector = Vector3.Slerp(m_MovementVector, desiredVelocityNormalized,
                         Time.deltaTime * m_AgentDecisionLerpSpeed);
                     MovementController.Move(m_MovementVector*m_Speed);
-
                     // StateMachine.Character.MovementTransform.position += Vector3.up * dir.y * m_YHelp;
-                }
-                else
-                {
-                    PickATargetPoint();
                 }
             }
            
@@ -102,11 +108,10 @@ namespace Gameplay.Character.NPCHuman
                 m_CurrentDuration = m_PositionSetDuration;
                 Agent.nextPosition = transform.position; 
             }
-
-           
+            
             m_CurrentDuration -= Time.deltaTime;
 
-            if (m_Target != null)
+            if (m_SplineNavigator != null)
             {
                 if (StateMachine.Character.Rigidbody.velocity.magnitude <= m_StopSpeed)
                 {

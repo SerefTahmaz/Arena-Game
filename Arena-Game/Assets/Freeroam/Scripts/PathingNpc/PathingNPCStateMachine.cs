@@ -15,7 +15,7 @@ namespace Gameplay.Character.NPCHuman
         
         [SerializeField] private PathingNPCSMBlackboard m_BlackBoard;
         [SerializeField] private PathingCharacter m_Character;
-        [SerializeField] private PatrolPath m_PatrolPath;
+        [SerializeField] private SplinePatrolPath m_PatrolPath;
 
         // #region Properties
 
@@ -37,7 +37,7 @@ namespace Gameplay.Character.NPCHuman
 
         public override int TeamID { get; }
 
-        public PatrolPath PatrolPath => m_PatrolPath;
+        public SplinePatrolPath PatrolPath => m_PatrolPath;
 
         protected override void Awake()
         {
