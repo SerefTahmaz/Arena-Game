@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace PlayerCharacter
 {
-	public class MovementController : MonoBehaviour
+	public class OldMovementController : MonoBehaviour
 	{
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
@@ -18,7 +18,7 @@ namespace PlayerCharacter
 
 		[SerializeField] Rigidbody m_Rigidbody;
 		[SerializeField] Animator m_Animator;
-		// bool m_IsGrounded;
+		bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
 		const float k_Half = 0.5f;
 		float m_TurnAmount;
@@ -91,9 +91,16 @@ namespace PlayerCharacter
 			ApplyExtraTurnRotation();
 			
 			// control and velocity handling is different when grounded and airborne:
-			HandleGroundedMovement(crouch, jump);
+			if (m_IsGrounded)
+			{
+				HandleGroundedMovement(crouch, jump);
+			}
+			else
+			{
+				HandleAirborneMovement();
+			}
 
-			// ScaleCapsuleForCrouching(crouch);
+			ScaleCapsuleForCrouching(crouch);
 			PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
@@ -127,16 +134,16 @@ namespace PlayerCharacter
 
 		void PreventStandingInLowHeadroom()
 		{
-			// // prevent standing up in crouch-only zones
-			// if (!m_Crouching)
-			// {
-			// 	Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
-			// 	float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-			// 	if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-			// 	{
-			// 		m_Crouching = true;
-			// 	}
-			// }
+			// prevent standing up in crouch-only zones
+			if (!m_Crouching)
+			{
+				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
+				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
+				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+				{
+					m_Crouching = true;
+				}
+			}
 		}
 
 
@@ -147,7 +154,10 @@ namespace PlayerCharacter
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
 			// m_Animator.SetBool("Crouch", m_Crouching);
 			// m_Animator.SetBool("OnGround", m_IsGrounded);
-			
+			if (!m_IsGrounded)
+			{
+				// m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+			}
 
 			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
 			// (This code is reliant on the specific run cycle offset in our animations,
@@ -156,8 +166,22 @@ namespace PlayerCharacter
 				Mathf.Repeat(
 					m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
 			float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
+			if (m_IsGrounded)
+			{
+				// m_Animator.SetFloat("JumpLeg", jumpLeg);
+			}
 
-			m_Animator.speed = m_AnimSpeedMultiplier;
+			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
+			// which affects the movement speed because of the root motion.
+			if (m_IsGrounded && move.magnitude > 0)
+			{
+				m_Animator.speed = m_AnimSpeedMultiplier;
+			}
+			else
+			{
+				// don't use that while airborne
+				m_Animator.speed = 1;
+			}
 		}
 
 
@@ -178,6 +202,7 @@ namespace PlayerCharacter
 			{
 				// jump!
 				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
+				m_IsGrounded = false;
 				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.1f;
 			}
@@ -195,8 +220,8 @@ namespace PlayerCharacter
 		{
 			switch (m_CharacterType)
 			{
-				case CharacterType.Ground: 
-					if (Time.deltaTime > 0)
+				case CharacterType.Ground:
+					if (m_IsGrounded && Time.deltaTime > 0)
 					{
 						Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
 						
@@ -287,8 +312,6 @@ namespace PlayerCharacter
 			m_Animator.SetFloat("Forward", 0);
 		}
 
-		private bool m_IsGrounded;
-
 		public LayerMask Layermask;
 
 		void CheckGroundStatus()
@@ -304,13 +327,13 @@ namespace PlayerCharacter
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
-				// m_Animator.applyRootMotion = true;
+				m_Animator.applyRootMotion = true;
 			}
 			else
 			{
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
-				// m_Animator.applyRootMotion = false;
+				m_Animator.applyRootMotion = false;
 			}
 		}
 	}
