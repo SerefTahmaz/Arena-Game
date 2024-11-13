@@ -34,6 +34,7 @@ namespace PlayerCharacter
 		[SerializeField] private CharacterType m_CharacterType;
 		
 		[Header("Player Step Climb")] 
+		[SerializeField] private bool m_DisableStepClimb;
 		[SerializeField] private GameObject m_StepRayLower;
 		[SerializeField] private float m_StepHeight = .3f;
 		[SerializeField] private float m_StepSmooth = 0.1f;
@@ -76,8 +77,11 @@ namespace PlayerCharacter
 
 		private void FixedUpdate()
 		{
-			if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
-			if(m_MoveInput.magnitude > 0 || m_Rigidbody.velocity.magnitude > 0) StepClimb();
+			if (!m_DisableStepClimb)
+			{
+				if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
+				if(m_MoveInput.magnitude > 0 || m_Rigidbody.velocity.magnitude > 0) StepClimb();
+			}
 		}
 		private void StepClimb()
 		{

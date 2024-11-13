@@ -10244,6 +10244,37 @@ MonoBehaviour:
   m_InventoryItems:
   - {fileID: 4155718069147834528}
   - {fileID: 7850181927255306263}
+--- !u!1 &2059607312917974911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9162859496661939431}
+  m_Layer: 7
+  m_Name: Lower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9162859496661939431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059607312917974911}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.066, z: 0.103}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 371245303455099531}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2582915137298745287
 GameObject:
   m_ObjectHideFlags: 0
@@ -10443,6 +10474,11 @@ MonoBehaviour:
   m_Capsule: {fileID: 591083547921527992}
   m_YSpeedThreshold: 0
   m_CharacterType: 0
+  m_StepRayLower: {fileID: 2059607312917974911}
+  m_StepHeight: 0.3
+  m_StepSmooth: 0.01
+  m_DebugStepClimb: 0
+  m_StepClimbCastDistance: 0.28
   m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
@@ -15656,9 +15692,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.35569885, y: 0.8947179, z: 0.117488906}
   m_RotationAtRest: {x: -6.1759486, y: 32.03694, z: 143.07423}
   m_TranslationOffsets:
-  - {x: -0.000026166439, y: -0.000062048435, z: -0.000004887581}
+  - {x: -0.000026121736, y: -0.000062048435, z: -0.00000500679}
   m_RotationOffsets:
-  - {x: 0, y: 90.000175, z: -89.99999}
+  - {x: 0.000064886764, y: 90.00018, z: -90}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -20653,9 +20689,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.3663122, y: 0.89029175, z: 0.105284125}
   m_RotationAtRest: {x: -4.2653785, y: -28.019863, z: -151.99557}
   m_TranslationOffsets:
-  - {x: 0.000011146069, y: -0.00000500679, z: 0.000017017126}
+  - {x: 0.000011205673, y: -0.0000049471855, z: 0.00001694262}
   m_RotationOffsets:
-  - {x: -0.0000725707, y: 0, z: 0.00006830181}
+  - {x: -0.000064459884, y: 0, z: 0.000063179185}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -21280,7 +21316,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 969a05bad8f6ce141b7f17d72fa06476, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1406393444189003953, guid: 66d4e6ed58599ef45884acd64694dd67,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9162859496661939431}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66d4e6ed58599ef45884acd64694dd67, type: 3}
 --- !u!4 &371245303455099531 stripped
