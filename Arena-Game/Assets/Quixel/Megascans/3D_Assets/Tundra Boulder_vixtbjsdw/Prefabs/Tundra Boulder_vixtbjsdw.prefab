@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 585353152410055064}
   - component: {fileID: 1909182580201920411}
   - component: {fileID: 8366310603099715200}
-  - component: {fileID: 6268636796652494591}
   m_Layer: 10
   m_Name: Tundra Boulder_LOD3__vixtbjsdw
   m_TagString: Untagged
@@ -84,28 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6268636796652494591
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1397969930304261086}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2395478612243053449, guid: 9c8bf5ebb9a89eb44915c99d3e355317, type: 3}
 --- !u!1 &2199042853913544501
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +177,7 @@ GameObject:
   - component: {fileID: 744877352705357618}
   - component: {fileID: 4121062265515326628}
   - component: {fileID: 7606613659859509557}
+  - component: {fileID: 5190105827748787505}
   m_Layer: 10
   m_Name: Tundra Boulder_LOD5__vixtbjsdw
   m_TagString: Untagged
@@ -272,6 +250,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5190105827748787505
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2687716723655330176}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5477079903725177734, guid: 5f6557a1f2b7618458107148ea61a9eb, type: 3}
 --- !u!1 &7340402407027958698
 GameObject:
   m_ObjectHideFlags: 0

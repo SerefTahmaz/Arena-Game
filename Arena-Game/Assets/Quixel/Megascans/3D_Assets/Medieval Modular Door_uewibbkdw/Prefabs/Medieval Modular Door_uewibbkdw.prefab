@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2196839065588431463}
   - component: {fileID: 479139750678425600}
   - component: {fileID: 8617677151987869024}
-  - component: {fileID: 3374682559782508226}
   m_Layer: 0
   m_Name: Medieval Modular Door_LOD0__uewibbkdw
   m_TagString: Untagged
@@ -84,28 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3374682559782508226
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 266843883367997251}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7413306498103537583, guid: f60bee31c6a969e43ad27df71eef1d2c, type: 3}
 --- !u!1 &605329353921421249
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +116,7 @@ Transform:
   - {fileID: 2196839065588431463}
   - {fileID: 5457396144916362130}
   - {fileID: 4267922648098596918}
+  - {fileID: 7766010992370950826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &3631685901400695503
@@ -179,7 +157,6 @@ GameObject:
   - component: {fileID: 5457396144916362130}
   - component: {fileID: 7319804798801020604}
   - component: {fileID: 1632751617740934230}
-  - component: {fileID: 6440179486132566377}
   m_Layer: 0
   m_Name: Medieval Modular Door_LOD2__uewibbkdw
   m_TagString: Untagged
@@ -252,28 +229,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6440179486132566377
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3727239237889844452}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 3340047571469516578, guid: 4f9bfde755d45f0408be55f0c50337e0, type: 3}
 --- !u!1 &6006786709594555566
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,8 +240,7 @@ GameObject:
   - component: {fileID: 4267922648098596918}
   - component: {fileID: 615738184016982422}
   - component: {fileID: 6486741462626683091}
-  - component: {fileID: 2387729798482676586}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Medieval Modular Door_LOD4__uewibbkdw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,25 +312,34 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2387729798482676586
-MeshCollider:
+--- !u!1 &6851685867159730395
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6006786709594555566}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 9195156963789230118, guid: 7a4d67e3450caab41a538c03eb97cb09, type: 3}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7766010992370950826}
+  m_Layer: 0
+  m_Name: Cols
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7766010992370950826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851685867159730395}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3241184015620925741}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
