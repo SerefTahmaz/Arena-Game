@@ -15224,10 +15224,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.3414356
+  m_Height: 1.7828012
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: -0, y: 0.8913945, z: 0}
 --- !u!114 &2981108744869295001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15291,12 +15291,13 @@ MonoBehaviour:
   m_Capsule: {fileID: 461723727096984322}
   m_YSpeedThreshold: 0
   m_CharacterType: 0
+  m_DisableStepClimb: 0
   m_StepRayLower: {fileID: 6929408387783273477}
   m_StepHeight: 0.3
   m_StepSmooth: 0.01
-  m_EnableFlyingMode: 0
   m_DebugStepClimb: 0
   m_StepClimbCastDistance: 0.28
+  m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
     m_Bits: 1024
@@ -20636,9 +20637,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.35569885, y: 0.8947179, z: 0.117488906}
   m_RotationAtRest: {x: -6.1759486, y: 32.03694, z: 143.07423}
   m_TranslationOffsets:
-  - {x: -0.00002618879, y: -0.00006210804, z: -0.000004887581}
+  - {x: -0.000026151538, y: -0.000061929226, z: -0.000004887581}
   m_RotationOffsets:
-  - {x: 0, y: 90.00018, z: -89.99999}
+  - {x: 0, y: 90.00019, z: -90}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -20757,9 +20758,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.3663122, y: 0.89029175, z: 0.105284125}
   m_RotationAtRest: {x: -4.2653785, y: -28.019863, z: -151.99557}
   m_TranslationOffsets:
-  - {x: 0.000011146069, y: -0.000005066395, z: 0.000017017126}
+  - {x: 0.000011205673, y: -0.000004827976, z: 0.00001692772}
   m_RotationOffsets:
-  - {x: -0.00007513201, y: 0, z: 0.000060404396}
+  - {x: -0.00006574054, y: 0, z: 0.0000578431}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
