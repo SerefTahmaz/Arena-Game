@@ -47,7 +47,6 @@ public class ItemRandomizer : MonoBehaviour
                 if (item.m_Possibilty >= value)
                 {
                     oneSelected = true;
-                    Debug.Log(value);
                     item.m_Item.SetActive(true);
                     if(itemGroup.m_IsExclusive) break;
                 }

@@ -94,7 +94,7 @@ namespace Gameplay.Character.NPCHuman
                 }
                 else
                 {
-                    Agent.SetDestination(m_SplineNavigator.CurrentTargetPos); 
+                    if(Agent.enabled) Agent.SetDestination(m_SplineNavigator.CurrentTargetPos); 
                     var desiredVelocityNormalized = Agent.desiredVelocity.normalized;
                     m_MovementVector = Vector3.Slerp(m_MovementVector, desiredVelocityNormalized,
                         Time.deltaTime * m_AgentDecisionLerpSpeed);
