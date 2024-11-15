@@ -6,11 +6,14 @@ using DG.Tweening;
 using Gameplay.Character;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class StartDebugModeGame : MonoBehaviour
 {
+#if UNITY_EDITOR
     [SerializeField] private UnityTransport m_UnityTransport;
     
     void Start()
@@ -48,4 +51,5 @@ public class StartDebugModeGame : MonoBehaviour
         go.GetComponent<HumanCharacter>().CharacterNetworkController.m_TeamId.Value = 10;
         return go;
     }
+#endif
 }
