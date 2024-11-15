@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8431395444834533308}
-  - component: {fileID: 1239737999384857149}
+  - component: {fileID: 6202118274238430271}
   m_Layer: 0
   m_Name: ArenaWall
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7421812992698027636}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &1239737999384857149
+--- !u!205 &6202118274238430271
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,28 +41,24 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8072254306944389765}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0, y: 1.112351, z: 0.001034379}
-  m_Size: 3.6101356
+  m_LocalReferencePoint: {x: 0, y: 1.1146749, z: -0.00000011920929}
+  m_Size: 3.5606883
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.42382464
+  - screenRelativeHeight: 0.19120386
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3522766399708901341}
-  - screenRelativeHeight: 0.2727532
+  - screenRelativeHeight: 0.03537735
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 365794373611445696}
-  - screenRelativeHeight: 0.08063266
+  - screenRelativeHeight: 0.011974869
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8954164042457001671}
-  - screenRelativeHeight: 0.01
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 6849011030615417492}
   m_Enabled: 1
 --- !u!1 &8602004547107371407
 GameObject:
@@ -311,12 +307,6 @@ MeshRenderer:
 --- !u!23 &3522766399708901341 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -3344402638190098878, guid: faab5376ce9cbd34b97b17f133e0d000,
-    type: 3}
-  m_PrefabInstance: {fileID: 7022566358426085791}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &6849011030615417492 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -4721538379994887413, guid: faab5376ce9cbd34b97b17f133e0d000,
     type: 3}
   m_PrefabInstance: {fileID: 7022566358426085791}
   m_PrefabAsset: {fileID: 0}
