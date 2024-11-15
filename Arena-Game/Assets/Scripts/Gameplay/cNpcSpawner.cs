@@ -12,44 +12,16 @@ using UnityEditor;
 
 public class cNpcSpawner : cSingleton<cNpcSpawner>
 {
-    [SerializeField] private GameObject m_Dragon;
-    [SerializeField] private GameObject m_Troll;
     [SerializeField] private GameObject m_EnemyHuman;
     
     [SerializeField] private Transform m_TrollSpawnPoint;
     [SerializeField] private Transform m_DragonSpawnPoint;
-    
-    public void SpawnDragon()
-    {
-        GameObject go = Instantiate(m_Dragon, m_DragonSpawnPoint.position, Quaternion.identity);
-        go.GetComponent<NetworkObject>().Spawn();
-    }
-    
-    public void SpawnTroll()
-    {
-        GameObject go = Instantiate(m_Troll, m_TrollSpawnPoint.position, Quaternion.identity);
-        go.GetComponent<NetworkObject>().Spawn();
-    }
     
     public GameObject EnemyHuman()
     {
         GameObject go = Instantiate(m_EnemyHuman, m_TrollSpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
         return go;
-    }
-
-    private void Update()
-    {
-        if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.T))
-        {
-            SpawnDragon();
-            Destroy(gameObject);
-        }
-        if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.Y))
-        {
-            SpawnTroll();
-            Destroy(gameObject);
-        }
     }
 }
 
@@ -62,10 +34,6 @@ public class cNpcSpawnerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if (GUILayout.Button("Click"))
-        {
-            (target as cNpcSpawner).SpawnDragon();
-        }
     }
 }
 #endif
