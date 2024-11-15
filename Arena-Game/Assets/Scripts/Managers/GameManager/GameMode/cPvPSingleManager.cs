@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gameplay.Character;
 using Gameplay.Character.NPCHuman;
@@ -31,19 +32,20 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         LoopStart();
     }
 
-    private void LoopStart()
+    private async UniTask LoopStart()
     {
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading,true);
+        
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
-
-        Transform player=null;
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-        MapManager.instance.SetMap(currentMap);
+        await MapManager.instance.SetMap(currentMap);
+        
+        Transform player=null;
         
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {

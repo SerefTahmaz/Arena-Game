@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Managers.SaveManager;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FiniteStateMachine;
 using Gameplay.Character.NPCHuman;
@@ -20,10 +21,6 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     public void StartGame()
     {
-        SaveGameHandler.Load();
-        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-        MapManager.instance.SetMap(currentMap);
-        
         cGameManager.Instance.m_OnNpcDied = delegate { };
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
         
@@ -38,11 +35,15 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         LoopStart();
     }
 
-    private void LoopStart()
+    private async UniTask LoopStart()
     {
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading);
+        
+        SaveGameHandler.Load();
+        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        await MapManager.instance.SetMap(currentMap);
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();

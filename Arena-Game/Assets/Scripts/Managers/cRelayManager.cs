@@ -69,6 +69,7 @@ public class cRelayManager : cSingleton<cRelayManager>
 
             NetworkManager.Singleton.StartClient();
 
+            //TODO: make it async
             MapManager.instance.SetMap(cLobbyManager.Instance.LastMapIndex);
             
             Debug.Log($"Last map index {cLobbyManager.Instance.LastMapIndex}");

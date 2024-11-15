@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gameplay.Character;
 using Unity.Netcode;
@@ -16,10 +17,6 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            SaveGameHandler.Load();
-            var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-            MapManager.instance.SetMap(currentMap);
-            
             cGameManager.Instance.m_OnPlayerDied = delegate { };
             cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
             
@@ -39,11 +36,16 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         // Debug.Log("Server Stopped!!!!!!!");
     }
 
-    private void LoopStart()
+    private async UniTask LoopStart()
     {
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading);
+        
+        SaveGameHandler.Load();
+        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        await MapManager.instance.SetMap(currentMap);
+        
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
