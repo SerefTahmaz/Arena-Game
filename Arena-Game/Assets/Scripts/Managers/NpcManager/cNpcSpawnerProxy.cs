@@ -24,6 +24,9 @@ public class cNpcSpawnerProxy : NetworkBehaviour
     {
         if (IsHost)
         {
+            NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
+            cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
+            
             GameObject go = Instantiate(m_NetworkPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
             go.GetComponent<NetworkObject>().Spawn();
             foreach (var VARIABLE in  go.GetComponentsInChildren<cHealthManager>())

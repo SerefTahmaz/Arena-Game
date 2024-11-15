@@ -6,17 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PVELevel", menuName = "Game/PVELevel/Level")]
 public class PVELevelSO : ScriptableObject
 {
-#if UNITY_EDITOR
-    public UnityEditor.SceneAsset m_SceneToLoad;
-
-    private void OnValidate()
-    {
-        if (m_SceneToLoad != null)
-        {
-            m_SceneName = m_SceneToLoad.name;
-        }
-    }
-#endif
     [SerializeField] private Sprite m_Icon;
     [SerializeField] private string m_NameText;
     [SerializeField] private string m_SceneName;

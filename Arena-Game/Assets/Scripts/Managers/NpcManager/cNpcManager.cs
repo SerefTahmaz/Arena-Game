@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Utils;
 using FiniteStateMachine;
+using Unity.Netcode;
 using UnityEngine;
 
 public class cNpcManager : cSingleton<cNpcManager>
 {
     public List<GameObject> m_Npcs = new List<GameObject>();
+
+    private List<GameObject> m_ToBeRemovedEndGameEndPrefabs = new List<GameObject>();
 
     public bool CheckIsAllNpcsDied()
     {
@@ -32,5 +35,18 @@ public class cNpcManager : cSingleton<cNpcManager>
     public void SetParents()
     {
         
+    }
+
+    public void AddToBeRemovedAtEndNetworkPrefab(GameObject networkPrefab)
+    {
+        m_ToBeRemovedEndGameEndPrefabs.Add(networkPrefab);
+    }
+
+    public void RemovePrefabsFromNetwork()
+    {
+        foreach (var networkPrefab in m_ToBeRemovedEndGameEndPrefabs)
+        {
+            NetworkManager.Singleton.RemoveNetworkPrefab(networkPrefab);
+        }
     }
 }

@@ -313,7 +313,6 @@ public class cGameManager : cSingleton<cGameManager>
     public void LeaveGame()
     {
         NetworkManager.Singleton.Shutdown();
-        m_OnMainMenuButton.Invoke();
         cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(false);
         
         //Clean up
@@ -322,6 +321,10 @@ public class cGameManager : cSingleton<cGameManager>
         
         cUIManager.Instance.ShowPage(Page.StartMenu);
         cUIManager.Instance.StartMenuNode.Activate();
+        
+        m_OnMainMenuButton.Invoke();
+        
+        cNpcManager.Instance.RemovePrefabsFromNetwork();
     }
 
     public async UniTask HandleWin()
