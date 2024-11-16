@@ -34,11 +34,11 @@ namespace WaterSystem.Data
                 EditorGUIUtility.labelWidth = rect.width * 0.2f;
                 Rect ampRect = new Rect(rect.x, rect.y + standardLine, rect.width * 0.5f, standardHeight);
                 var waveAmp = element.FindPropertyRelative("amplitude");
-                waveAmp.floatValue = EditorGUI.Slider(ampRect, "Swell Height", waveAmp.floatValue, 0.1f, 30f);
+                waveAmp.floatValue = EditorGUI.Slider(ampRect, "Swell Height", waveAmp.floatValue, 0, 30f);
                 // Wavelength
                 Rect lengthRect = new Rect(rect.x + ampRect.width, rect.y + standardLine, rect.width * 0.5f, standardHeight);
                 var waveLen = element.FindPropertyRelative("wavelength");
-                waveLen.floatValue = EditorGUI.Slider(lengthRect, "Wavelength", waveLen.floatValue, 1.0f, 200f);
+                waveLen.floatValue = EditorGUI.Slider(lengthRect, "Wavelength", waveLen.floatValue, 0, 200f);
                 EditorGUIUtility.labelWidth = preWidth;
                 // Directional controls
                 Rect dirToggleRect = new Rect(rect.x, rect.y + 2 + standardLine * 2, rect.width * 0.5f, standardHeight);
@@ -197,13 +197,13 @@ namespace WaterSystem.Data
                 var basicSettings = serializedObject.FindProperty("_basicWaveSettings");
                 // Wave count (display warning of on mobile platform and over 6) dropdown  1 > 10
                 var autoCount = basicSettings.FindPropertyRelative("numWaves");
-                EditorGUILayout.IntSlider(autoCount, 1, 10, new GUIContent("Wave Count", waveCountTT), null);
+                EditorGUILayout.IntSlider(autoCount, 0, 10, new GUIContent("Wave Count", waveCountTT), null);
                 // Average Wave height - slider 0.05 - 30
                 var avgHeight = basicSettings.FindPropertyRelative("amplitude");
-                EditorGUILayout.Slider(avgHeight, 0.1f, 30.0f, new GUIContent("Avg Swell Height", avgHeightTT), null);
+                EditorGUILayout.Slider(avgHeight, 0, 30.0f, new GUIContent("Avg Swell Height", avgHeightTT), null);
                 // Average Wavelength - slider 1 - 200
                 var avgWavelength = basicSettings.FindPropertyRelative("wavelength");
-                EditorGUILayout.Slider(avgWavelength, 1.0f, 200.0f, new GUIContent("Avg Wavelength", avgWavelengthTT), null);
+                EditorGUILayout.Slider(avgWavelength, 0, 200.0f, new GUIContent("Avg Wavelength", avgWavelengthTT), null);
                 // Wind direction - slider -180-180
                 EditorGUILayout.BeginHorizontal();
                 var windDir = basicSettings.FindPropertyRelative("direction");

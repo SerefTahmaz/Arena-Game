@@ -252,7 +252,7 @@ half4 WaterFragment(WaterVertexOutput IN) : SV_Target
     half3 sss = directLighting * shadow + GI;
 
 	// Foam
-	half3 foamMap = SAMPLE_TEXTURE2D(_FoamMap, sampler_FoamMap,  IN.uv.zw).rgb; //r=thick, g=medium, b=light
+	half3 foamMap = SAMPLE_TEXTURE2D(_FoamMap, sampler_FoamMap,  IN.uv.zw*2).rgb; //r=thick, g=medium, b=light
 	half depthEdge = saturate(depth.x * 20);
 	half waveFoam = saturate(IN.additionalData.z - 0.75 * 0.5); // wave tips
 	half depthAdd = saturate(1 - depth.x * 4) * 0.5;
