@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ArenaGame.Managers.SaveManager;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using Managers;
 using RootMotion;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +14,7 @@ using UnityEngine.SceneManagement;
 public class MapManager : Singleton<MapManager>
 {
     [SerializeField] private string m_FreeroamLevel;
+    [SerializeField] private PrewarmHelper m_PreWarmObject;
     
     private List<MapSO> Maps => MapListSO.Get().MapSOs;
 
@@ -35,7 +37,15 @@ public class MapManager : Singleton<MapManager>
         m_CurrentLevel = levelIndex;
         await SceneManager.LoadSceneAsync(Maps[m_CurrentLevel.Value].SceneName, LoadSceneMode.Additive);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(Maps[m_CurrentLevel.Value].SceneName));
+        await PrewarmShaders(levelIndex);
+
         cUIManager.Instance.HidePage(Page.Loading);
+    }
+
+    private async Task PrewarmShaders(int index)
+    {
+        var insPrewarm = Instantiate(m_PreWarmObject);
+        await insPrewarm.PrewarmShaders(index);
     }
 
     private async Task RemoveCurrentLevel()
@@ -61,6 +71,7 @@ public class MapManager : Singleton<MapManager>
         m_IsFreeroamLoaded = true;
         await SceneManager.LoadSceneAsync(m_FreeroamLevel, LoadSceneMode.Additive);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
+        await PrewarmShaders(-1);
         cUIManager.Instance.HidePage(Page.Loading);
     }
 
