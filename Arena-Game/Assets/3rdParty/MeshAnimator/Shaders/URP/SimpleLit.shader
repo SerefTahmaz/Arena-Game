@@ -1,4 +1,4 @@
-// Shader targeted for low end devices. Single Pass Forward Rendering.
+﻿// Shader targeted for low end devices. Single Pass Forward Rendering.
 Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
 {
     // Keep properties of StandardSpecular shader for upgrade reasons.
@@ -375,7 +375,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
             // Material Keywords
             #pragma shader_feature_local_fragment _EMISSION
             #pragma shader_feature_local_fragment _SPECGLOSSMAP
-            #pragma shader_feature EDITOR_VISUALIZATION
+            #pragma shader_feature_local EDITOR_VISUALIZATION
 
             // -------------------------------------
             // Includes

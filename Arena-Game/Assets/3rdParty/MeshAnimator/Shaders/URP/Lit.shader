@@ -1,4 +1,4 @@
-Shader "Mesh Animator/Universal Render Pipeline/Lit"
+﻿Shader "Mesh Animator/Universal Render Pipeline/Lit"
 {
     Properties
     {
@@ -423,7 +423,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Lit"
             #pragma shader_feature_local_fragment _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
             #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
             #pragma shader_feature_local_fragment _SPECGLOSSMAP
-            #pragma shader_feature EDITOR_VISUALIZATION
+            #pragma shader_feature_local EDITOR_VISUALIZATION
 
             // -------------------------------------
             // Includes

@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor
+﻿// Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "ASESampleShaders/Community/URP Reflection Probe"
 {
@@ -1273,7 +1273,7 @@ Shader "ASESampleShaders/Community/URP Reflection Probe"
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
-			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{
@@ -1627,7 +1627,7 @@ Shader "ASESampleShaders/Community/URP Reflection Probe"
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
-			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{

@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor
+﻿// Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "ASESampleShaders/SRP Universal/GlintSparkle"
 {
@@ -98,8 +98,8 @@ Shader "ASESampleShaders/SRP Universal/GlintSparkle"
 			#define ASE_NEEDS_FRAG_WORLD_TANGENT
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
-			#pragma shader_feature _INVERTDIRECTION_ON
-			#pragma shader_feature _DIRECTION_X _DIRECTION_Y _DIRECTION_Z
+			#pragma shader_feature_local _INVERTDIRECTION_ON
+			#pragma shader_feature_local _DIRECTION_X _DIRECTION_Y _DIRECTION_Z
 
 
 			sampler2D _Normals;
@@ -693,8 +693,8 @@ Shader "ASESampleShaders/SRP Universal/GlintSparkle"
 			#define ASE_NEEDS_FRAG_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
-			#pragma shader_feature _INVERTDIRECTION_ON
-			#pragma shader_feature _DIRECTION_X _DIRECTION_Y _DIRECTION_Z
+			#pragma shader_feature_local _INVERTDIRECTION_ON
+			#pragma shader_feature_local _DIRECTION_X _DIRECTION_Y _DIRECTION_Z
 
 
 			sampler2D _Normals;
@@ -721,7 +721,7 @@ Shader "ASESampleShaders/SRP Universal/GlintSparkle"
 			CBUFFER_END
 
 
-			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{
@@ -953,7 +953,7 @@ Shader "ASESampleShaders/SRP Universal/GlintSparkle"
 			CBUFFER_END
 
 
-			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+			#pragma shader_feature_local _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			struct VertexInput
 			{
