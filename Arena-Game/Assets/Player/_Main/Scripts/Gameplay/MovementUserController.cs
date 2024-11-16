@@ -17,7 +17,7 @@ public class MovementUserController : MonoBehaviour
     private float _moveScale = 1;
     private float _moveActivateScale = 1;
 
-    private MovementController _movementController;
+    [SerializeField] private MovementController _movementController;
     private IInputManager _inputManager;
 
     private void Start()
