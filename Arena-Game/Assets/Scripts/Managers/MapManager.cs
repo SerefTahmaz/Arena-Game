@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -43,6 +44,10 @@ public class MapManager : Singleton<MapManager>
         {
             await SceneManager.UnloadSceneAsync(Maps[m_CurrentLevel.Value].SceneName);
             m_CurrentLevel = null;
+            await UniTask.WaitForSeconds(1);
+            GC.Collect();
+            Resources.UnloadUnusedAssets();
+            await UniTask.WaitForSeconds(1);
         }
     }
 
@@ -64,6 +69,10 @@ public class MapManager : Singleton<MapManager>
         if (m_IsFreeroamLoaded)
         {
             await SceneManager.UnloadSceneAsync(m_FreeroamLevel);
+            await UniTask.WaitForSeconds(1);
+            GC.Collect();
+            Resources.UnloadUnusedAssets();
+            await UniTask.WaitForSeconds(1);
             m_IsFreeroamLoaded = false;
         }
     }
