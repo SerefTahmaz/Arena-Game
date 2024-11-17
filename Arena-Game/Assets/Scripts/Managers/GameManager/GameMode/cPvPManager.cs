@@ -39,6 +39,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
+        var lobbyPlayerCount = cLobbyManager.Instance.JoinedLobby.Players.Count;
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
         cUIManager.Instance.ShowPage(Page.Loading,this);
         
@@ -53,9 +54,9 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             OnClientConnected(VARIABLE.Key);
         }
 
-        await UniTask.WaitUntil((() => m_ConnectedClientCounts >= cLobbyManager.Instance.JoinedLobby.Players.Count));
+        await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
         MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
-        cUIManager.Instance.HidePage(Page.Loading,false);
+        cUIManager.Instance.HidePage(Page.Loading,this);
     }
     
     private void OnClientConnected(ulong obj)

@@ -32,6 +32,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
+            cUIManager.Instance.ShowPage(Page.Loading,this);
             cGameManager.Instance.HandleStartingRelay();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
@@ -45,6 +46,7 @@ public class cRelayManager : cSingleton<cRelayManager>
             MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
             cGameManager.Instance.StartGame();
             Debug.Log("GameStarted!!!");
+            cUIManager.Instance.HidePage(Page.Loading,this);
             return joinCode;
         }
         catch (RelayServiceException e)

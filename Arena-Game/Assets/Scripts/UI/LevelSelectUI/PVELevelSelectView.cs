@@ -61,6 +61,9 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
 
     private void OnStartSelectedSinglePlayer()
     {
+        cUIManager.Instance.ShowPage(Page.Loading, this);
+        cLobbyManager.Instance.m_OnGameStarted += HandleOnGameStartedSingle;
+        
         void Created()
         {
             cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(true);
@@ -72,6 +75,12 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
             m_IsPrivate = true, 
             m_GameMode = eGameMode.PvE
         }, Created);
+    }
+
+    private void HandleOnGameStartedSingle()
+    {
+        cLobbyManager.Instance.m_OnGameStarted -= HandleOnGameStartedSingle;
+        cUIManager.Instance.HidePage(Page.Loading, this);
     }
 
     public void Activate()

@@ -37,6 +37,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     public Action m_OnLobbyUpdate= delegate {  };
     
     public int LastMapIndex { get; set; }
+    public Action m_OnGameStarted { get; set; }
     
     
 
@@ -467,6 +468,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             try
             {
                 Debug.Log("Start Game");
+                m_OnGameStarted?.Invoke();
 
                 string relayCode = await cRelayManager.Instance.CreateRelay();
                 
