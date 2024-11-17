@@ -92,6 +92,11 @@ namespace ArenaGame.Utils
         {
             return enumeration.OrderBy((arg => Random.Range(0, 999999))).FirstOrDefault();
         }
+        
+        public static bool IsEmpty<T>(this IEnumerable<T> enumeration)
+        {
+            return !enumeration.Any();
+        }
 
         public static List<Transform> GetChilds(this GameObject target)
         {

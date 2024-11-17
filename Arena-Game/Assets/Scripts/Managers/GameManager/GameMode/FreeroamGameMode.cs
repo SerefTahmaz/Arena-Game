@@ -28,9 +28,8 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStartAsync()
     {
-        cUIManager.Instance.HidePage(Page.MainMenu);
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading,true);
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         cPlayerManager.Instance.DestroyPlayers();
         
         SaveGameHandler.Load();
@@ -45,6 +44,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
         {
             if (m_IsActive)
             {
+                cUIManager.Instance.HidePage(Page.Loading,this);
                 MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
                 var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
             } 
@@ -75,7 +75,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
     {
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
         Debug.Log("GameEnded!!!!!!!!!!");
     }
 }

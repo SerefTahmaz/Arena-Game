@@ -37,9 +37,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.HidePage(Page.MainMenu);
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading);
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
@@ -83,6 +82,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         DOVirtual.DelayedCall(1, () =>
         {
             m_ProjectSceneManager.UnloadScene();
+            cUIManager.Instance.HidePage(Page.Loading,this);
             MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
             
             if (cGameManager.Instance.m_OwnerPlayer != null)
@@ -136,6 +136,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         {
             VARIABLE.GetComponentInChildren<cStateMachine>().m_enemies.Clear();
         }
+        
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ArenaGame;
 using DefaultNamespace;
 using DG.Tweening;
 using Gameplay.Character;
@@ -24,8 +25,7 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
         
         if (IsOwner)
         {
-            //TODO: Fix it
-            PlayerName.Value = "cLobbyManager.Instance.PlayerName";
+            PlayerName.Value = ProfileGenerator.GetPlayerProfile().Name;
         }
 
         m_HumanCharacter.CharacterName = PlayerName.Value.Value;

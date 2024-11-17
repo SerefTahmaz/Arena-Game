@@ -10,6 +10,7 @@ public class StartMenuUIController : MonoBehaviour
 {
     [SerializeField] private cView m_View;
     [SerializeField] private StartButtonController m_StartButton;
+    [SerializeField] private cView m_ProfileView;
     [SerializeField] private cButton m_FreeroamButton;
     
     // Start is called before the first frame update
@@ -23,12 +24,14 @@ public class StartMenuUIController : MonoBehaviour
     private void HandleStartButtonClicked()
     {
         InventoryPreviewManager.Instance.SetState(false);
+        m_ProfileView.Deactivate();
     }
 
     private void HandleOnActivate()
     {
         InventoryPreviewManager.Instance.SetState(true);
         CheckDisqualifiedState();
+        m_ProfileView.Activate();
     }
 
     private void CheckDisqualifiedState()

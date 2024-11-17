@@ -12,6 +12,9 @@ public class MultiplayerNetworkHelper : NetworkBehaviour
     
     public NetworkVariable<bool> m_IsGameStarted = new NetworkVariable<bool>(false,NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server);
+    
+    public NetworkVariable<bool> m_IsMapLoaded = new NetworkVariable<bool>(false,NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
 
 
     [ClientRpc]
@@ -45,5 +48,6 @@ public class MultiplayerNetworkHelper : NetworkBehaviour
         if(!IsHost) return;
         
         m_IsGameStarted.Value = false;
+        m_IsMapLoaded.Value = false;
     }
 }

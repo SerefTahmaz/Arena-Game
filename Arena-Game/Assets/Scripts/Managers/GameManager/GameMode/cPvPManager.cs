@@ -12,6 +12,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 {
     private int m_SpawnOffset;
     private bool m_IsActive;
+    private int m_ConnectedClientCounts;
 
     public void StartGame()
     {
@@ -38,9 +39,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.HidePage(Page.MainMenu);
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading);
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
@@ -53,10 +53,9 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             OnClientConnected(VARIABLE.Key);
         }
 
-        DOVirtual.DelayedCall(5, () =>
-        {
-            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
-        });
+        await UniTask.WaitUntil((() => m_ConnectedClientCounts >= cLobbyManager.Instance.JoinedLobby.Players.Count));
+        MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+        cUIManager.Instance.HidePage(Page.Loading,false);
     }
     
     private void OnClientConnected(ulong obj)
@@ -69,6 +68,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot, obj);
         go.GetComponent<HumanCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
         m_SpawnOffset++;
+        m_ConnectedClientCounts++;
     }
 
     private void CheckPvPSuccess()
@@ -95,7 +95,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-        
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
         Debug.Log("GameEnded!!!!!!!!!!");
     }
 }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DefaultNamespace;
 using RootMotion;
 using UnityEngine;
@@ -21,6 +18,7 @@ public class MultiplayerLocalHelper : Singleton<MultiplayerLocalHelper>
 
     private void OnOwnerPlayerSpawn(Transform ownerPlayer)
     {
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         if (NetworkHelper.m_IsGameStarted.Value)
         {
             StartGame();
@@ -33,7 +31,7 @@ public class MultiplayerLocalHelper : Singleton<MultiplayerLocalHelper>
     
     public void StartGame()
     {
-        if(cUIManager.Instance) cUIManager.Instance.HidePage(Page.Loading);
+        cUIManager.Instance.HidePage(Page.Loading,this);
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();

@@ -100,13 +100,13 @@ public class cGameManager : cSingleton<cGameManager>
             }
         };
 
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         //TODO: Hide when loading completes!
         DOVirtual.DelayedCall(2, () =>
         {
-            cUIManager.Instance.HidePage(Page.Loading);
+            cUIManager.Instance.HidePage(Page.Loading,this);
+            cUIManager.Instance.ShowPage(Page.StartMenu,this,true);
         });
-        
-        cUIManager.Instance.ShowPage(Page.StartMenu);
     }
 
     private void HandleDisconnectionStates()
@@ -210,6 +210,9 @@ public class cGameManager : cSingleton<cGameManager>
 
     public void StartGame()
     {
+        m_IsBossUIBeingUsed = false;
+        m_IsPlayerUIBeingUsed = false;
+        
         switch (m_CurrentGameMode)
         {
             case eGameMode.PvE:
@@ -237,9 +240,6 @@ public class cGameManager : cSingleton<cGameManager>
     
     public void StartGameClient()
     {
-        cUIManager.Instance.HidePage(Page.MainMenu);
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading);
         IsGameplayActive = true;
     }
 
@@ -319,45 +319,65 @@ public class cGameManager : cSingleton<cGameManager>
         cNpcManager.Instance.DestroyNpcs();
         cPlayerManager.Instance.DestroyPlayers();
         
-        cUIManager.Instance.ShowPage(Page.StartMenu);
-        cUIManager.Instance.StartMenuNode.Activate();
+        cUIManager.Instance.ShowPage(Page.StartMenu,this);
         
         m_OnMainMenuButton.Invoke();
         
         cNpcManager.Instance.RemovePrefabsFromNetwork();
+        
+        Debug.Log("Called leave");
     }
 
     public async UniTask HandleWin()
     {
         await GameEnd(); 
-        cUIManager.Instance.ShowPage(Page.Win);
+        cUIManager.Instance.ShowPage(Page.Win,this);
     }
 
     public void HandleWinContinueButton()
     {
-        cUIManager.Instance.HidePage(Page.Win);
+        cUIManager.Instance.HidePage(Page.Win,this);
         LeaveGame();
     }
 
     public async UniTask HandleLose()
     {
         await GameEnd();
-        cUIManager.Instance.ShowPage(Page.Lose);
+        cUIManager.Instance.ShowPage(Page.Lose,this);
+    }
+
+    public async UniTask HandleFreeroamEnd()
+    {
+        StopGame();
+        LeaveGame();
     }
 
     private async UniTask GameEnd()
     {
-        IsGameplayActive = false;
-        InputManager.Instance.SetInput(false);
-        CameraManager.Instance.SetInput(false);
+        StopGame();
         await UniTask.WaitForSeconds(2);
-        
-        cUIManager.Instance.HidePage(Page.Gameplay);
+    }
+
+    private void StopGame()
+    {
+        IsGameplayActive = false;
+        SetInput(false);
+    }
+
+    public void SetInput(bool value)
+    {
+        InputManager.Instance.SetInput(value);
+        CameraManager.Instance.SetInput(value);
     }
 
     public void HandleLoseContinueButton()
     {
-        cUIManager.Instance.HidePage(Page.Lose);
+        cUIManager.Instance.HidePage(Page.Lose,this);
         LeaveGame();
+    }
+
+    public void HandleStartingRelay()
+    {
+        cUIManager.Instance.HidePage(Page.StartMenu,this);
     }
 }

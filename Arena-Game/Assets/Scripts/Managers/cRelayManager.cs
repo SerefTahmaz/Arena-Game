@@ -32,6 +32,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
+            cGameManager.Instance.HandleStartingRelay();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
@@ -52,13 +53,24 @@ public class cRelayManager : cSingleton<cRelayManager>
             return null;
         }
     }
+    
+    public async void StartSinglePlayer()
+    {
+        cGameManager.Instance.HandleStartingRelay();
+        NetworkManager.Singleton.StartHost();
+        MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
+        cGameManager.Instance.StartGame();
+    }
 
     [Command]
     public async void JoinRelay(string joinCode)
     {
         try
         {
+            cUIManager.Instance.ShowPage(Page.Loading,this);
             cGameManager.Instance.StartGameClient();
+            //TODO: make it async
+            await MapManager.instance.SetMap(cLobbyManager.Instance.LastMapIndex);
             
             Debug.Log("Joined relay with " + joinCode);
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
@@ -68,22 +80,13 @@ public class cRelayManager : cSingleton<cRelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
-
-            //TODO: make it async
-            MapManager.instance.SetMap(cLobbyManager.Instance.LastMapIndex);
             
             Debug.Log($"Last map index {cLobbyManager.Instance.LastMapIndex}");
+            cUIManager.Instance.HidePage(Page.Loading,this);
         }
         catch (RelayServiceException e)
         {
             Debug.Log(e);
         }
-    }
-
-    public async void StartSinglePlayer()
-    {
-        NetworkManager.Singleton.StartHost();
-        MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
-        cGameManager.Instance.StartGame();
     }
 }

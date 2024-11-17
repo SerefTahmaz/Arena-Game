@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class cGameplayMenuUIController : MonoBehaviour
 {
     [SerializeField] private cView m_MenuView;
+    public UnityEvent OnActivateEvent { get; set; }
 
     public void OnClick()
     {
@@ -16,6 +19,7 @@ public class cGameplayMenuUIController : MonoBehaviour
         else
         {
             m_MenuView.Activate();
+            OnActivateEvent?.Invoke();
         }
     }
 

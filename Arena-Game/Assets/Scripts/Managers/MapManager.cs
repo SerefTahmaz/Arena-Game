@@ -30,7 +30,7 @@ public class MapManager : Singleton<MapManager>
 
     public async UniTask SetMap(int levelIndex)
     {
-        cUIManager.Instance.ShowPage(Page.Loading);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         await RemoveCurrentLevel();
         await UnloadFreeroam();
         
@@ -39,7 +39,7 @@ public class MapManager : Singleton<MapManager>
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(Maps[m_CurrentLevel.Value].SceneName));
         await PrewarmShaders(levelIndex);
 
-        cUIManager.Instance.HidePage(Page.Loading);
+        cUIManager.Instance.HidePage(Page.Loading,this);
     }
 
     private async Task PrewarmShaders(int index)
@@ -63,7 +63,7 @@ public class MapManager : Singleton<MapManager>
 
     public async UniTask LoadFreeroamLevel()
     {
-        cUIManager.Instance.ShowPage(Page.Loading);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         
         await UnloadFreeroam();
         await RemoveCurrentLevel();
@@ -72,7 +72,7 @@ public class MapManager : Singleton<MapManager>
         await SceneManager.LoadSceneAsync(m_FreeroamLevel, LoadSceneMode.Additive);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
         await PrewarmShaders(-1);
-        cUIManager.Instance.HidePage(Page.Loading);
+        cUIManager.Instance.HidePage(Page.Loading,this);
     }
 
     public async UniTask UnloadFreeroam()

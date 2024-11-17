@@ -34,9 +34,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.HidePage(Page.MainMenu);
-        cUIManager.Instance.ShowPage(Page.Gameplay);
-        cUIManager.Instance.ShowPage(Page.Loading,true);
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Loading,this);
         var insMatchMaking = MatchMakingController.CreateInstanceMatchMaking();
         await insMatchMaking.Init();
         
@@ -54,26 +53,25 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             player = OnClientConnected(VARIABLE.Key).transform;
         }
 
-        DOVirtual.DelayedCall(5, () =>
-        {
-            if (m_IsActive)
-            {
-                MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
-                
-                var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
-                var pos = new Vector3(0, 0, 5);
-                var dir = Vector3.zero - pos;
-                var lookRot = Quaternion.LookRotation(dir.normalized);
-                enemyHuman.transform.rotation = lookRot;
-                enemyHuman.transform.position = pos;
+        cUIManager.Instance.HidePage(Page.Loading,this);
 
-                if (cGameManager.Instance.m_OwnerPlayer != null)
-                {
-                    m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
-                    if(!m_NPCNonActiveAtStart) m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
-                }
-            } 
-        });
+        if (m_IsActive)
+        {
+            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+                
+            var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
+            var pos = new Vector3(0, 0, 5);
+            var dir = Vector3.zero - pos;
+            var lookRot = Quaternion.LookRotation(dir.normalized);
+            enemyHuman.transform.rotation = lookRot;
+            enemyHuman.transform.position = pos;
+
+            if (cGameManager.Instance.m_OwnerPlayer != null)
+            {
+                m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
+                if(!m_NPCNonActiveAtStart) m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+            }
+        } 
     }
     
     private GameObject OnClientConnected(ulong obj)
@@ -132,7 +130,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
     {
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
         Debug.Log("GameEnded!!!!!!!!!!");
     }
 }

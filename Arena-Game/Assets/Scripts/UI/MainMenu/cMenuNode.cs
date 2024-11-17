@@ -20,22 +20,37 @@ public class cMenuNode : MonoBehaviour
         m_ParentNode = menuNode;
     }
 
+    public void Activate(bool instant = false)
+    {
+        if(m_ParentNode != null) m_ParentNode.Deactivate(instant);
+        if(m_ChildsView != null) m_ChildsView.Activate(instant);
+        OnActivateEvent.Invoke();
+    }
+    
+    public void Deactivate(bool instant = false)
+    {
+        if(m_ChildsView != null) m_ChildsView.Deactivate(instant);
+        OnDeActivateEvent.Invoke();
+    }
+    
     public void Activate()
     {
-        if(m_ParentNode != null) m_ParentNode.Deactivate();
-        if(m_ChildsView != null) m_ChildsView.Activate();
-        OnActivateEvent.Invoke();
+        Activate(false);
     }
     
     public void Deactivate()
     {
-        if(m_ChildsView != null) m_ChildsView.Deactivate();
-        OnDeActivateEvent.Invoke();
+        Deactivate(false);
+    }
+    
+    public void EnableParent(bool instant = false)
+    {
+        if(m_ParentNode != null) m_ParentNode.Activate(instant);
+        Deactivate(instant);
     }
     
     public void EnableParent()
     {
-        if(m_ParentNode != null) m_ParentNode.Activate();
-        Deactivate();
+        EnableParent(false);
     }
 }
