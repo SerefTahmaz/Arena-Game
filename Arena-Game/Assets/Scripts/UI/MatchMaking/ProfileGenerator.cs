@@ -26,6 +26,14 @@ namespace ArenaGame
         {
             SaveGameHandler.SaveProfileImage(texture);
         }
+
+        public static void SaveProfileName(string newName)
+        {
+            SaveGameHandler.Load();
+            var savaData = SaveGameHandler.SaveData;
+            savaData.m_PlayerName = newName;
+            SaveGameHandler.Save();
+        }
     }
 
     public class PlayerDataModel

@@ -81,9 +81,10 @@ namespace ArenaGame.Managers.SaveManager
             // Write the returned byte array to a file in the project folder
             File.WriteAllBytes(Application.persistentDataPath + "/SavedProfileImages/SavedScreen.jpg", bytes);
 
-#if UNITY_EDITOR
-            EditorUtility.RevealInFinder(Application.persistentDataPath);
-#endif
+            OnChanged?.Invoke();
+// #if UNITY_EDITOR
+//             EditorUtility.RevealInFinder(Application.persistentDataPath);
+// #endif
         }
         
         private static Texture2D DuplicateTexture(Texture2D source)
@@ -96,7 +97,7 @@ namespace ArenaGame.Managers.SaveManager
                 height,
                 0,
                 RenderTextureFormat.Default,
-                RenderTextureReadWrite.Linear);
+                RenderTextureReadWrite.sRGB);
 
             Graphics.Blit(source, renderTex);
             RenderTexture previous = RenderTexture.active;
