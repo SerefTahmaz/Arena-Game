@@ -23,6 +23,7 @@ public class PrefabList : ScriptableObject
     [SerializeField] private PlantFieldCollectPopUpController m_PlantFieldCollectPopUpPrefab;
     [SerializeField] private TransactionShopPopUpController m_TransactionShopPopUpPrefab;
     [SerializeField] private DialogController m_DialogControllerPrefab;
+    [SerializeField] private MatchMakingController m_MatchMakingController;
   
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
     public InfoPopUpController InfoPopUpPrefab => m_InfoPopUpPrefab;
@@ -35,6 +36,7 @@ public class PrefabList : ScriptableObject
     public PlantFieldCollectPopUpController PlantFieldCollectPopUpPrefab => m_PlantFieldCollectPopUpPrefab;
     public TransactionShopPopUpController TransactionShopPopUpPrefab => m_TransactionShopPopUpPrefab;
     public DialogController DialogControllerPrefab => m_DialogControllerPrefab;
+    public MatchMakingController MatchMakingController => m_MatchMakingController;
 
     private static PrefabList m_Instance;
     

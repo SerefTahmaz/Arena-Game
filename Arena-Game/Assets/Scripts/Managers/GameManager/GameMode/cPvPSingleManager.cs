@@ -37,6 +37,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         cUIManager.Instance.HidePage(Page.MainMenu);
         cUIManager.Instance.ShowPage(Page.Gameplay);
         cUIManager.Instance.ShowPage(Page.Loading,true);
+        var insMatchMaking = MatchMakingController.CreateInstanceMatchMaking();
+        await insMatchMaking.Init();
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
