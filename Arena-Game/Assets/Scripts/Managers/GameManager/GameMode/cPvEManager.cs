@@ -52,6 +52,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             OnClientConnected(VARIABLE.Key);
         }
         
+        //TODO: Start it when all clients ready
         DOVirtual.DelayedCall(5, (() =>
         {
             if (m_IsActive)

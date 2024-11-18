@@ -22,28 +22,25 @@ public class cNpcSpawnerProxy : NetworkBehaviour
 
     public void SpawnNpc()
     {
+        NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
+        cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
         if (IsHost)
         {
-            NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
-            cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
-            
             GameObject go = Instantiate(m_NetworkPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
             go.GetComponent<NetworkObject>().Spawn();
-            foreach (var VARIABLE in  go.GetComponentsInChildren<cHealthManager>())
-            {
-                VARIABLE.HealthBarState = m_HealthBarState;
-            }
 
+            var character = go.GetComponentInChildren<cCharacterNetworkController>();
             if (m_SetTeamId)
             {
-                var character = go.GetComponentInChildren<cCharacterNetworkController>();
                 character.m_TeamId.Value = m_TeamId;
             }
+
+            character.HealthBarState.Value = m_HealthBarState;
            
             cNpcManager.Instance.m_Npcs.Add(go);
-            
+            gameObject.SetActive(false);
             // go.GetComponentInChildren<cStateMachine>().m_enemies.AddRange(FindObjectsOfType<cPlayerStateMachineV2>().Select((v2 => v2.transform)).ToList());
         }
-        gameObject.SetActive(false);
+        
     }
 }

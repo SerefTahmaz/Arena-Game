@@ -233,7 +233,8 @@ public class cGameManager : cSingleton<cGameManager>
         m_GameStarted.Invoke();
         GameModeHandler.StartGame();
 
-        IsGameplayActive = true;
+        StartGameClient();
+        
         m_IsServerDisconnectedClient = false;
         m_IsServerDisconnectedItself = false;
     }
@@ -241,6 +242,7 @@ public class cGameManager : cSingleton<cGameManager>
     public void StartGameClient()
     {
         IsGameplayActive = true;
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
     }
 
     // private async UniTask StartRound()
@@ -360,6 +362,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     private void StopGame()
     {
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
         IsGameplayActive = false;
         SetInput(false);
     }
