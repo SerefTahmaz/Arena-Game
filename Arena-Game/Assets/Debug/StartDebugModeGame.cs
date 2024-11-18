@@ -22,7 +22,7 @@ public class StartDebugModeGame : MonoBehaviour
         {
             m_UnityTransport.SetConnectionData("127.0.0.1", 7777);
             NetworkManager.Singleton.StartHost();
-            MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
+            MultiplayerLocalHelper.Instance.NetworkHelper.ResetState();
         
             foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
             {
@@ -32,7 +32,7 @@ public class StartDebugModeGame : MonoBehaviour
             DOVirtual.DelayedCall(2, () =>
             {
 
-                MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+                MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
                 var playerSM = GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
             });
         });

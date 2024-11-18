@@ -33,7 +33,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
         cPlayerManager.Instance.DestroyPlayers();
         
         SaveGameHandler.Load();
-        await MapManager.instance.LoadFreeroamLevel();
+        await MapManager.Instance.LoadFreeroamLevel();
         
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
@@ -45,7 +45,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
             if (m_IsActive)
             {
                 cUIManager.Instance.HidePage(Page.Loading,this);
-                MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+                MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
                 var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
             } 
         });

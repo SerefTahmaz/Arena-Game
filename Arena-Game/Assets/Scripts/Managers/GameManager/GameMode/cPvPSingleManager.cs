@@ -44,7 +44,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-        await MapManager.instance.SetMap(currentMap);
+        await MapManager.Instance.SetMap(currentMap);
         
         Transform player=null;
         
@@ -57,7 +57,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
         if (m_IsActive)
         {
-            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+            MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
                 
             var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
             var pos = new Vector3(0, 0, 5);

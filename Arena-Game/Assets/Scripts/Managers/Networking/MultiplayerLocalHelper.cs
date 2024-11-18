@@ -1,8 +1,8 @@
+using ArenaGame.Utils;
 using DefaultNamespace;
-using RootMotion;
 using UnityEngine;
 
-public class MultiplayerLocalHelper : Singleton<MultiplayerLocalHelper>
+public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
 {
     [SerializeField] private MultiplayerNetworkHelper m_MultiplayerNetworkHelper;
  

@@ -3,23 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArenaGame.Managers.SaveManager;
+using ArenaGame.Utils;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Managers;
-using RootMotion;
-using UnityEditor;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapManager : Singleton<MapManager>
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+public class MapManager : cSingleton<MapManager>
 {
     [SerializeField] private string m_FreeroamLevel;
     [SerializeField] private PrewarmHelper m_PreWarmObject;
-    
+     
     private List<MapSO> Maps => MapListSO.Get().MapSOs;
 
     private int? m_CurrentLevel;
     private bool m_IsFreeroamLoaded;
+    private bool m_NetworkLoading;
     
     // Start is called before the first frame update
     void Start()
@@ -41,6 +46,30 @@ public class MapManager : Singleton<MapManager>
 
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
+    
+    public async UniTask SetMapNetwork(int levelIndex)
+    {
+        cUIManager.Instance.ShowPage(Page.Loading,this);
+        await RemoveCurrentLevel();
+        await UnloadFreeroam();
+        
+        m_NetworkLoading = false;
+        m_CurrentLevel = levelIndex;
+        NetworkManager.Singleton.SceneManager.LoadScene(Maps[m_CurrentLevel.Value].SceneName, LoadSceneMode.Additive);
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnLoadCompleted;
+        await UniTask.WaitUntil((() => m_NetworkLoading));
+        m_NetworkLoading = false;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(Maps[m_CurrentLevel.Value].SceneName));
+        await PrewarmShaders(levelIndex);
+
+        cUIManager.Instance.HidePage(Page.Loading,this);
+    }
+
+    private void OnLoadCompleted(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnLoadCompleted;
+        m_NetworkLoading = true;
+    }
 
     private async Task PrewarmShaders(int index)
     {
@@ -48,7 +77,7 @@ public class MapManager : Singleton<MapManager>
         await insPrewarm.PrewarmShaders(index);
     }
 
-    private async Task RemoveCurrentLevel()
+    public async Task RemoveCurrentLevel()
     {
         if (m_CurrentLevel != null)
         {
@@ -87,4 +116,31 @@ public class MapManager : Singleton<MapManager>
             m_IsFreeroamLoaded = false;
         }
     }
+
+    public async UniTask SetMapIndex(int instanceLastMapIndex)
+    {
+        cUIManager.Instance.ShowPage(Page.Loading,this,true);
+        
+        m_CurrentLevel = instanceLastMapIndex;
+        await PrewarmShaders(instanceLastMapIndex);
+
+        cUIManager.Instance.HidePage(Page.Loading,this);
+    }
 }
+
+
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(MapManager))]
+public class MapManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        if (GUILayout.Button("Click"))
+        {
+            // (target as MapManager).MarkAsActive();
+        }
+    }
+}
+#endif

@@ -12,9 +12,12 @@ using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class cRelayManager : cSingleton<cRelayManager>
 {
+    private object m_ClientLoadingLock = new object();
+    
     // // Start is called before the first frame update
     // async void Start()
     // {
@@ -43,7 +46,10 @@ public class cRelayManager : cSingleton<cRelayManager>
             
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
-            MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
+            NetworkManager.Singleton.SceneManager.SetClientSynchronizationMode(LoadSceneMode.Additive);
+            NetworkManager.Singleton.SceneManager.VerifySceneBeforeLoading = SceneVerification;
+            
+            MultiplayerLocalHelper.Instance.NetworkHelper.ResetState();
             cGameManager.Instance.StartGame();
             Debug.Log("GameStarted!!!");
             cUIManager.Instance.HidePage(Page.Loading,this);
@@ -55,12 +61,22 @@ public class cRelayManager : cSingleton<cRelayManager>
             return null;
         }
     }
-    
+
+    private bool SceneVerification(int sceneindex, string scenename, LoadSceneMode loadscenemode)
+    {
+        if (scenename == "Main")
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     public async void StartSinglePlayer()
     {
         cGameManager.Instance.HandleStartingRelay();
         NetworkManager.Singleton.StartHost();
-        MultiplayerLocalHelper.instance.NetworkHelper.ResetState();
+        MultiplayerLocalHelper.Instance.NetworkHelper.ResetState();
         cGameManager.Instance.StartGame();
     }
 
@@ -69,10 +85,11 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
+            cGameManager.Instance.HandleStartingRelay();
             cUIManager.Instance.ShowPage(Page.Loading,this);
             cGameManager.Instance.StartGameClient();
-            //TODO: make it async
-            await MapManager.instance.SetMap(cLobbyManager.Instance.LastMapIndex);
+            // //TODO: make it async
+            await MapManager.Instance.RemoveCurrentLevel();
             
             Debug.Log("Joined relay with " + joinCode);
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
@@ -82,6 +99,8 @@ public class cRelayManager : cSingleton<cRelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
+            cUIManager.Instance.ShowPage(Page.Loading, m_ClientLoadingLock,true);
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManagerOnOnLoadComplete;
             
             Debug.Log($"Last map index {cLobbyManager.Instance.LastMapIndex}");
             cUIManager.Instance.HidePage(Page.Loading,this);
@@ -90,5 +109,12 @@ public class cRelayManager : cSingleton<cRelayManager>
         {
             Debug.Log(e);
         }
+    }
+
+    private void SceneManagerOnOnLoadComplete(ulong clientid, string scenename, LoadSceneMode loadscenemode)
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadComplete -= SceneManagerOnOnLoadComplete;
+        cUIManager.Instance.HidePage(Page.Loading, m_ClientLoadingLock);
+        MapManager.Instance.SetMapIndex(cLobbyManager.Instance.LastMapIndex);
     }
 }

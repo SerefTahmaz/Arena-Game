@@ -42,7 +42,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-        await MapManager.instance.SetMap(currentMap);
+        await MapManager.Instance.SetMapNetwork(currentMap); 
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
@@ -83,7 +83,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         {
             m_ProjectSceneManager.UnloadScene();
             cUIManager.Instance.HidePage(Page.Loading,this);
-            MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+            MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
             
             if (cGameManager.Instance.m_OwnerPlayer != null)
             {
@@ -106,12 +106,12 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             PVELevelSelectView.Instance.SelectNext();
             
             OnGameEnd();
-            MultiplayerLocalHelper.instance.NetworkHelper.HandleWinClientRpc();
+            MultiplayerLocalHelper.Instance.NetworkHelper.HandleWinClientRpc();
         }
         else if (isAllPlayersDead)
         {
             OnGameEnd();
-            MultiplayerLocalHelper.instance.NetworkHelper.HandleLoseClientRpc();
+            MultiplayerLocalHelper.Instance.NetworkHelper.HandleLoseClientRpc();
         }
     }
     

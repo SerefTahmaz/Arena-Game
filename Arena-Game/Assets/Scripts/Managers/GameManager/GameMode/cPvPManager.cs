@@ -45,7 +45,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
-        await MapManager.instance.SetMap(currentMap);
+        await MapManager.Instance.SetMapNetwork(currentMap); 
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
@@ -55,7 +55,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         }
 
         await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
-        MultiplayerLocalHelper.instance.NetworkHelper.m_IsGameStarted.Value = true;
+        MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
     
@@ -79,7 +79,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             Debug.Log($"Game Ended");
 
             OnGameEnd();
-            MultiplayerLocalHelper.instance.NetworkHelper.CheckGameEndClientRpc();
+            MultiplayerLocalHelper.Instance.NetworkHelper.CheckGameEndClientRpc();
         }
     }
     
