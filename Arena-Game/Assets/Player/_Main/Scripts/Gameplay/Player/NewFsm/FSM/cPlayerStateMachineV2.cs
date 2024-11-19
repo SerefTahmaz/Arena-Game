@@ -83,7 +83,7 @@ public class cPlayerStateMachineV2 : cStateMachine
             base.Start();
             
             GameplayStatics.OwnerPlayer = transform;
-            cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(this.transform);
+            cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(Character);
             CameraManager.Instance.OnPlayerSpawn();
            
             

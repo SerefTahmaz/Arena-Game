@@ -36,7 +36,7 @@ public class cGameManager : cSingleton<cGameManager>
     private int m_SpawnOffset;
     private eGameMode m_CurrentGameMode = eGameMode.PvE;
     
-    public Transform m_OwnerPlayer;
+    public cCharacter m_OwnerPlayer;
     public int m_OwnerPlayerId;
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };

@@ -8,7 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
-{
+{ 
     public class cTrollStateMachine : cCharacterStateMachine
     {
         #region PritaveFields
@@ -85,6 +85,8 @@ namespace FiniteStateMachine
 
         public override void OnDamage(DamageWrapper damageWrapper)
         {
+            Debug.Log("Damagingg trol!!!!!");
+            
             if(CurrentState == m_Death) return;
             
             base.OnDamage(damageWrapper);

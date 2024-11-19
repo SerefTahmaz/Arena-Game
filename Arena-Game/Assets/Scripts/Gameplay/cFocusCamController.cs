@@ -13,7 +13,7 @@ public class cFocusCamController : MonoBehaviour
     [SerializeField] private float m_Height;
     [SerializeField] private Transform m_Focus;
     
-    private Transform m_Player => cGameManager.Instance.m_OwnerPlayer;
+    private Transform m_Player => cGameManager.Instance.m_OwnerPlayer.MovementTransform;
     public int m_PlayerId => cGameManager.Instance.m_OwnerPlayerId;
     
     private void Update()

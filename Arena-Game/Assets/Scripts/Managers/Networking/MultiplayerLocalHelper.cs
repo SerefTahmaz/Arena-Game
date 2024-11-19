@@ -16,7 +16,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
         cPlayerManager.Instance.m_OwnerPlayerSpawn += OnOwnerPlayerSpawn;
     }
 
-    private void OnOwnerPlayerSpawn(Transform ownerPlayer)
+    private void OnOwnerPlayerSpawn(cCharacter ownerPlayer)
     {
         cUIManager.Instance.ShowPage(Page.Loading,this);
         if (NetworkHelper.m_IsGameStarted.Value)

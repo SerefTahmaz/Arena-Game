@@ -9,7 +9,7 @@ public class SnowVFXController : MonoBehaviour
     {
         if (cGameManager.Instance != null && cGameManager.Instance.m_OwnerPlayer != null)
         {
-            transform.position = cGameManager.Instance.m_OwnerPlayer.position;
+            transform.position = cGameManager.Instance.m_OwnerPlayer.MovementTransform.position;
         }
     }
 }

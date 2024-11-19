@@ -12,7 +12,7 @@ public class cPlayerManager : cSingleton<cPlayerManager>
 {
     [SerializeField] private GameObject m_Player;
     
-    public Action<Transform> m_OwnerPlayerSpawn= delegate {  };
+    public Action<cCharacter> m_OwnerPlayerSpawn= delegate {  };
 
     public List<GameObject> m_Players = new List<GameObject>();
 

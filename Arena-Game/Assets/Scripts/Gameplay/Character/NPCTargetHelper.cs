@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiniteStateMachine;
+using STNest.Utils;
 using UnityEngine;
 
 namespace ArenaGame
@@ -9,26 +11,53 @@ namespace ArenaGame
     {
         private cStateMachine m_StateMachine;
 
-        private List<Transform> Enemies => m_StateMachine.m_enemies;
+        private ObservableList<cCharacter> Enemies => m_StateMachine.m_enemies;
 
         public NPCTargetHelper(cStateMachine stateMachine)
         {
             m_StateMachine = stateMachine;
+            stateMachine.m_enemies.Updated += EnemiesOnUpdated;
         }
+
+        private void EnemiesOnUpdated()
+        {
+            m_FocusDuration = 2;
+            m_CurrentTarget = Enemies.Last();
+        }
+
+        private cCharacter m_CurrentTarget;
+        private float m_FocusDuration;
         
-        private Transform m_CurrentTarget;
         public Transform Target()
         {
             if (Enemies.Count <= 0) return null;
-        
-            if (m_CurrentTarget != null && Enemies.Contains(m_CurrentTarget) && Random.value>.05f)
+
+            Enemies.RemoveAll((character => !character.HealthManager.HasHealth));
+            if (!Enemies.Contains(m_CurrentTarget))
             {
-                return m_CurrentTarget;
+                m_CurrentTarget = null;
+            }
+        
+            if (m_CurrentTarget != null && m_FocusDuration > 0)
+            {
+                m_FocusDuration -= Time.deltaTime;
+                return m_CurrentTarget.MovementTransform;
             }
             else
             {
-                m_CurrentTarget=Enemies.OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.position))).FirstOrDefault();
-                return m_CurrentTarget;
+                if (m_CurrentTarget == null || Vector3.Distance(m_StateMachine.transform.position, m_CurrentTarget.MovementTransform.position) > 10)
+                {
+                    m_CurrentTarget=Enemies.OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.MovementTransform.position))).FirstOrDefault();
+                }
+
+                if (m_CurrentTarget)
+                {
+                    return m_CurrentTarget.MovementTransform;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
     }
