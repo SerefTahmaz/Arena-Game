@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ArenaGame;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
 using DG.Tweening;
@@ -10,7 +11,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using UnityEngine;
+using UnityEngine; 
 using Random = UnityEngine.Random;
 
 public class cLobbyManager : cSingleton<cLobbyManager>
@@ -44,7 +45,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     private async void Start()
     {
         m_IconIndex = Random.Range(0, 4).ToString();
-        m_PlayerName = "player" + Random.Range(10, 99);
+        m_PlayerName = "player" + Guid.NewGuid();
         var options = new InitializationOptions();
         options.SetProfile(PlayerName);
         await UnityServices.InitializeAsync(options);
@@ -310,7 +311,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     {
         return new Player(data: new Dictionary<string, PlayerDataObject>()
         {
-            { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName) },
+            { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().Name) },
             { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, IconIndex) },
             { "IsReady", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IsPlayerReady.ToString()) }
         });
@@ -358,7 +359,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             {
                 Data = new Dictionary<string, PlayerDataObject>()
                 {
-                    { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName)}
+                    { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().Name)}
                 }
             });
         }

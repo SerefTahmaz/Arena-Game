@@ -73,6 +73,7 @@ public class cLobbyUI : cSingleton<cLobbyUI>
         var gameMode = lobby.Data["GameMode"].Value;
         m_LobbyUnit.UpdateUI(lobbyName,playerCount,gameMode);
 
+        Debug.Log($"<color = green> players in lobby {lobby.Players.Count}");
         foreach (var VARIABLE in lobby.Players)
         {
             var ins = Instantiate(m_PlayerUnit, m_LayoutTransform);

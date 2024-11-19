@@ -26,6 +26,8 @@ public class MapManager : cSingleton<MapManager>
     private bool m_IsFreeroamLoaded;
     private bool m_NetworkLoading;
     
+    public Action<int> OnMapLoaded { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,7 @@ public class MapManager : cSingleton<MapManager>
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(Maps[m_CurrentLevel.Value].SceneName));
         await PrewarmShaders(levelIndex);
 
+        OnMapLoaded?.Invoke(levelIndex);
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
     
@@ -62,6 +65,7 @@ public class MapManager : cSingleton<MapManager>
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(Maps[m_CurrentLevel.Value].SceneName));
         await PrewarmShaders(levelIndex);
 
+        OnMapLoaded?.Invoke(levelIndex);
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
 
@@ -101,6 +105,8 @@ public class MapManager : cSingleton<MapManager>
         await SceneManager.LoadSceneAsync(m_FreeroamLevel, LoadSceneMode.Additive);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(m_FreeroamLevel));
         await PrewarmShaders(-1);
+        
+        OnMapLoaded?.Invoke(-1);
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
 
@@ -124,6 +130,7 @@ public class MapManager : cSingleton<MapManager>
         m_CurrentLevel = instanceLastMapIndex;
         await PrewarmShaders(instanceLastMapIndex);
 
+        OnMapLoaded?.Invoke(instanceLastMapIndex);
         cUIManager.Instance.HidePage(Page.Loading,this);
     }
 }
