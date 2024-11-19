@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ArenaGame.Managers.SaveManager;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -23,7 +24,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
     public void StartGame()
     {
         cGameManager.Instance.m_OnPlayerDied = delegate { };
-        cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
+        cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
@@ -86,6 +87,12 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         m_SpawnOffset++;
         return go;
     }
+    
+    private void HandlePlayerDied()
+    {
+        cPlayerManager.Instance.PlayerDied();
+        CheckPvPSuccess();
+    }
 
     private void CheckPvPSuccess()
     {
@@ -117,7 +124,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             }
         }
     }
-    
+
     private void OnMainMenuButton()
     {
         if (m_IsActive)

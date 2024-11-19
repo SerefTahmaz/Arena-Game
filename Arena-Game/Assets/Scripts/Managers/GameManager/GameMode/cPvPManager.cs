@@ -19,7 +19,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         if (NetworkManager.Singleton.IsHost)
         {
             cGameManager.Instance.m_OnPlayerDied = delegate { };
-            cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
+            cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
@@ -72,7 +72,13 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         m_ConnectedClientCounts++;
     }
 
-    private void CheckPvPSuccess()
+    private void HandlePlayerDied()
+    {
+        cPlayerManager.Instance.PlayerDied();
+        CheckLastStandingPlayer();
+    }
+
+    private void CheckLastStandingPlayer()
     {
         if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
         {
@@ -82,7 +88,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             MultiplayerLocalHelper.Instance.NetworkHelper.CheckGameEndClientRpc();
         }
     }
-    
+
     private void OnMainMenuButton()
     {
         if (m_IsActive)

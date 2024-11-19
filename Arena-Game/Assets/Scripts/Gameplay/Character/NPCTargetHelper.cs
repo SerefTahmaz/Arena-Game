@@ -21,8 +21,12 @@ namespace ArenaGame
 
         private void EnemiesOnUpdated()
         {
-            m_FocusDuration = 2;
-            m_CurrentTarget = Enemies.Last();
+            Debug.Log($"Enemies Updated");
+            if (Enemies.Count > 0)
+            {
+                m_FocusDuration = 2;
+                m_CurrentTarget = Enemies.Last();
+            }
         }
 
         private cCharacter m_CurrentTarget;
@@ -30,9 +34,21 @@ namespace ArenaGame
         
         public Transform Target()
         {
-            if (Enemies.Count <= 0) return null;
+            if (Enemies.Count <= 0)
+            {
+                var player = GameObject.FindObjectsOfType<cPlayerStateMachineV2>().Where((v2 => v2.Character.HealthManager.HasHealth))
+                    .OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.Character.MovementTransform.position))).FirstOrDefault();
+                if (player)
+                {
+                    Enemies.Add(player.Character);
+                }
+                return null;
+            }
 
-            Enemies.RemoveAll((character => !character.HealthManager.HasHealth));
+            if (Enemies.Where((character => !character.HealthManager.HasHealth)).Any())
+            {
+                Enemies.RemoveAll((character => !character.HealthManager.HasHealth));
+            }
             if (!Enemies.Contains(m_CurrentTarget))
             {
                 m_CurrentTarget = null;
@@ -45,7 +61,8 @@ namespace ArenaGame
             }
             else
             {
-                if (m_CurrentTarget == null || Vector3.Distance(m_StateMachine.transform.position, m_CurrentTarget.MovementTransform.position) > 10)
+                // Debug.Log($"Distance {Vector3.Distance(m_StateMachine.transform.position, m_CurrentTarget.MovementTransform.position) }");
+                if (m_CurrentTarget == null || Vector3.Distance(m_StateMachine.transform.position, m_CurrentTarget.MovementTransform.position) > 8)
                 {
                     m_CurrentTarget=Enemies.OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.MovementTransform.position))).FirstOrDefault();
                 }

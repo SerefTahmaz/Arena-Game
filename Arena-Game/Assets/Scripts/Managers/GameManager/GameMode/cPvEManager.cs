@@ -25,7 +25,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
         
         cGameManager.Instance.m_OnPlayerDied = delegate { };
-        cGameManager.Instance.m_OnPlayerDied += CheckSuccess;
+        cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
@@ -91,17 +91,23 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
                 foreach (var npcIns in cNpcManager.Instance.m_Npcs)
                 {
                     var npcSm = npcIns.GetComponentInChildren<cStateMachine>();
-                    if(!m_NPCNonActiveAtStart) npcSm.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                    if (!m_NPCNonActiveAtStart)
+                    {
+                        npcSm.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                    }
                 }
             }
         });
     }
+    
+    private void HandlePlayerDied()
+    {
+        cPlayerManager.Instance.PlayerDied();
+        CheckSuccess();
+    }
 
     private void CheckSuccess()
     {
-        var players = FindObjectsOfType<cPlayerStateMachineV2>().Where((v2 => v2.CurrentState != v2.Dead));
-        var isAllPlayersDead = !players.Any();
-        
         if (cNpcManager.Instance.CheckIsAllNpcsDied())
         {
             PVELevelSelectView.Instance.SelectNext();
@@ -109,7 +115,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             OnGameEnd();
             MultiplayerLocalHelper.Instance.NetworkHelper.HandleWinClientRpc();
         }
-        else if (isAllPlayersDead)
+        else if (cPlayerManager.Instance.IsAllPlayersDead())
         {
             OnGameEnd();
             MultiplayerLocalHelper.Instance.NetworkHelper.HandleLoseClientRpc();

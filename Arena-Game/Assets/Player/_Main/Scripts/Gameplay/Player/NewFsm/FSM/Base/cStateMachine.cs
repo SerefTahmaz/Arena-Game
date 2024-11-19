@@ -84,7 +84,14 @@ namespace FiniteStateMachine
 
         public virtual void OnDamage(DamageWrapper damageWrapper)
         {
-            if (m_enemies.Contains(damageWrapper.Instigator) == false && damageWrapper.Instigator != null)
+            if(damageWrapper.Instigator == null) return;
+            
+            if (m_enemies.Contains(damageWrapper.Instigator))
+            {
+                m_enemies.Remove(damageWrapper.Instigator);
+            }
+            
+            if (m_enemies.Contains(damageWrapper.Instigator) == false)
             {
                 m_enemies.Add(damageWrapper.Instigator);
             }

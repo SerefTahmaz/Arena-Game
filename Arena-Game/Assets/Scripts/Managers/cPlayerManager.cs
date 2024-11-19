@@ -20,8 +20,12 @@ public class cPlayerManager : cSingleton<cPlayerManager>
 
     public bool CheckExistLastStandingPlayer()
     {
-        m_DeathPlayerCount++;
         return m_DeathPlayerCount >= m_Players.Count - 1;
+    }
+
+    public bool IsAllPlayersDead()
+    {
+        return m_DeathPlayerCount >= m_Players.Count;
     }
 
     public void DestroyPlayers()
@@ -31,6 +35,7 @@ public class cPlayerManager : cSingleton<cPlayerManager>
             Destroy(VARIABLE);
         }
         m_Players.Clear();
+        m_DeathPlayerCount = 0;
     }
 
     public GameObject SpawnPlayer(Vector3 pos, Quaternion rot, ulong id)
@@ -38,5 +43,10 @@ public class cPlayerManager : cSingleton<cPlayerManager>
         var go = Instantiate(m_Player,pos, rot);
         go.GetComponent<NetworkObject>().SpawnAsPlayerObject(id);
         return go;
+    }
+
+    public void PlayerDied()
+    {
+        m_DeathPlayerCount++;
     }
 }
