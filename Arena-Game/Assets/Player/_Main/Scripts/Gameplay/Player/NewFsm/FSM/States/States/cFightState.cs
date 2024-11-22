@@ -27,6 +27,7 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.InputManager.AddListenerToOnDrawRightItem(SwitchRightSword);
             
             m_PlayerStateMachine.InputManager.AddListenerToOnEnableLeftHandBuffEvent(TryCharge);
+            m_PlayerStateMachine.InputManager.AddListenerToOnEnableRightHandBuffEvent(TryCharge);
             
             m_PlayerStateMachine.InputManager.AddListenerToOnNum3Event(OnHelloEveryone);
             m_PlayerStateMachine.InputManager.AddListenerToOnNum4Event(OnStretching);
@@ -99,6 +100,7 @@ namespace FiniteStateMachine
             m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawRightItemEvent(SwitchRightSword);
             
             m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(TryCharge);
+            m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(TryCharge);
             
             m_PlayerStateMachine.InputManager.RemoveListenerToOnNum3Event(OnHelloEveryone);
             m_PlayerStateMachine.InputManager.RemoveListenerToOnNum4Event(OnStretching);
@@ -116,6 +118,7 @@ namespace FiniteStateMachine
                 m_PlayerStateMachine.InputManager.RemoveListenerToOnDrawRightItemEvent(SwitchRightSword);
             
                 m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableLeftHandBuffEvent(TryCharge);
+                m_PlayerStateMachine.InputManager.RemoveListenerToOnEnableRightHandBuffEvent(TryCharge);
             
                 m_PlayerStateMachine.InputManager.RemoveListenerToOnNum3Event(OnHelloEveryone);
                 m_PlayerStateMachine.InputManager.RemoveListenerToOnNum4Event(OnStretching);
