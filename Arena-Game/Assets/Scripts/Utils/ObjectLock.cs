@@ -10,11 +10,12 @@ namespace STNest.Utils
     [Serializable]
     public class UIObjectLock
     {
-        public bool IsActive => m_Activators.Any() && m_Deactivators.IsEmpty();
+        public bool IsActive => m_Activators.Count >= m_MinumumActivator && m_Deactivators.IsEmpty();
 
         [SerializeField] private List<Object> m_Activators = new List<object>();
         [SerializeField] private List<Object> m_Deactivators = new List<object>();
         [SerializeField] private int m_TokensCount;
+        [SerializeField] private int m_MinumumActivator = 1;
 
         public void AddActivator(Object token)
         {

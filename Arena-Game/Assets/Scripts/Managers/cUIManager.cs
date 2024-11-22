@@ -85,5 +85,6 @@ public enum Page
     Gameplay,
     Win,
     Lose,
-    StartMenu
+    StartMenu,
+    Scoreboard
 }

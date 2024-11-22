@@ -5180,6 +5180,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6773087942556744662}
   - component: {fileID: 4085239678147643472}
+  - component: {fileID: 6779706049532982560}
+  - component: {fileID: 433360849323265198}
+  - component: {fileID: 7895495180977651497}
   m_Layer: 5
   m_Name: Scoreboard
   m_TagString: Untagged
@@ -5221,6 +5224,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MenuView: {fileID: 692501111189164797}
+--- !u!114 &6779706049532982560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731348528793204100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa855cb845616f4d8309cd32ad91aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ParentNode: {fileID: 0}
+  m_ChildsView: {fileID: 7895495180977651497}
+  m_OnActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!225 &433360849323265198
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731348528793204100}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7895495180977651497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731348528793204100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabf44c91dedd6444a7db7dec7489ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 433360849323265198}
+  m_OnActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_IsActive: 0
 --- !u!1 &4752412116347481166
 GameObject:
   m_ObjectHideFlags: 0
@@ -6376,26 +6431,37 @@ MonoBehaviour:
     m_View: {fileID: 1300959167484297617}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
   - m_Page: 0
     m_View: {fileID: 2102548636379170605}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
   - m_Page: 2
     m_View: {fileID: 7536878865072830733}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
   - m_Page: 1
     m_View: {fileID: 2846135477982932812}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
   - m_Page: 3
     m_View: {fileID: 7756798199663071329}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
   - m_Page: 4
     m_View: {fileID: 6026453109933711860}
     m_Lock:
       m_TokensCount: 0
+      m_MinumumActivator: 1
+  - m_Page: 6
+    m_View: {fileID: 6779706049532982560}
+    m_Lock:
+      m_TokensCount: 0
+      m_MinumumActivator: 0
   m_MainMenuNode: {fileID: 2102548636379170605}
   m_StartMenuNode: {fileID: 1300959167484297617}
 --- !u!225 &8595913275241183925

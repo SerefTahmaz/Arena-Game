@@ -29,6 +29,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
     private async UniTask LoopStartAsync()
     {
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.HidePage(Page.Scoreboard,this);
         cUIManager.Instance.ShowPage(Page.Loading,this);
         cPlayerManager.Instance.DestroyPlayers();
         
@@ -76,6 +77,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
         cUIManager.Instance.HidePage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Scoreboard,this);
         Debug.Log("GameEnded!!!!!!!!!!");
     }
 }
