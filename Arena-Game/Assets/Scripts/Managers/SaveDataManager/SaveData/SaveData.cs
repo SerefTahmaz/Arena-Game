@@ -20,6 +20,7 @@ namespace ArenaGame.Managers.SaveManager
         public int m_CurrentPVELevel;
         public int m_CurrentMap;
         public bool m_IsPlayerDisqualified;
+        public bool m_IsPlayerClosedAppInGameplay;
     }
 
     [Serializable]

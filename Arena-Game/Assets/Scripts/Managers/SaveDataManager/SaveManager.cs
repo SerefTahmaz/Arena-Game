@@ -29,7 +29,7 @@ namespace ArenaGame.Managers.SaveManager
         {
             SaveGameHandler.Load();
             
-            SaveLoop().Forget();
+            // SaveLoop().Forget();
             DOVirtual.DelayedCall(2, () =>
             {
                 SaveGameHandler.Save();

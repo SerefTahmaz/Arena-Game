@@ -18,6 +18,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         if (NetworkManager.Singleton.IsHost)
         {
+            cGameManager.Instance.StartGameClient(true);
+            
             cGameManager.Instance.m_OnPlayerDied = delegate { };
             cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             

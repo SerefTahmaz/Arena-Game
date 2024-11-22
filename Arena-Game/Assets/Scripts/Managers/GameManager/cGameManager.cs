@@ -64,7 +64,17 @@ public class cGameManager : cSingleton<cGameManager>
 
     public IGameModeHandler GameModeHandler => m_GameModeHandler;
 
-    public bool IsGameplayActive { get; set; }
+    public bool IsGameplayActive
+    {
+        get => m_IsGameplayActive;
+        set => m_IsGameplayActive = value;
+    }
+
+    public bool IsOnlineGameplayActive
+    {
+        get => m_IsOnlineGameplayActive;
+        set => m_IsOnlineGameplayActive = value;
+    }
 
     private bool m_IsServerDisconnectedClient;
     private bool m_IsServerDisconnectedItself;
@@ -116,7 +126,7 @@ public class cGameManager : cSingleton<cGameManager>
         {
             if (IsGameplayActive)
             {
-                GameEnd();
+                StopGame();
                 var insDisconnectedPopUpController = GlobalFactory.DisconnectedPopUpFactory.Create();
                 insDisconnectedPopUpController.Init("Disconnected from the server");
 
@@ -159,7 +169,7 @@ public class cGameManager : cSingleton<cGameManager>
                     {
                         if (!m_IsServerDisconnectedItself)
                         {
-                            GameEnd();
+                            StopGame();
                             var insDisconnectedPopUpController = GlobalFactory.DisconnectedPopUpFactory.Create();
                             insDisconnectedPopUpController.Init("Opponent disconnected from the server");
                             insDisconnectedPopUpController.ActivateButton();
@@ -184,10 +194,18 @@ public class cGameManager : cSingleton<cGameManager>
 
     private void OnApplicationQuit()
     {
-        if (IsGameplayActive)
+        if (IsOnlineGameplayActive)
         {
             SetPlayerDisqualified();
         }
+    }
+    
+    public void SetClosedAppInGameplay(bool value)
+    {
+        Debug.Log($"Closed App In Gameplay {value}");
+        SaveGameHandler.Load();
+        SaveGameHandler.SaveData.m_IsPlayerClosedAppInGameplay = value;
+        SaveGameHandler.Save();
     }
 
     public void HandleNoInternet()
@@ -232,16 +250,15 @@ public class cGameManager : cSingleton<cGameManager>
         }
         m_GameStarted.Invoke();
         GameModeHandler.StartGame();
-
-        StartGameClient();
         
         m_IsServerDisconnectedClient = false;
         m_IsServerDisconnectedItself = false;
     }
     
-    public void StartGameClient()
+    public void StartGameClient(bool isOnline = false)
     {
         IsGameplayActive = true;
+        IsOnlineGameplayActive = isOnline;
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
     }
 
@@ -298,6 +315,8 @@ public class cGameManager : cSingleton<cGameManager>
     
     public Action m_OnMainMenuButton = delegate {  };
     [SerializeField] private cGameManagerNetworkBehaviour m_GameManagerNetworkBehaviour;
+    [SerializeField] private bool m_IsOnlineGameplayActive;
+    [SerializeField] private bool m_IsGameplayActive;
 
     public void OnMainMenuButtonClick()
     {
@@ -364,6 +383,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         cUIManager.Instance.HidePage(Page.Gameplay,this);
         IsGameplayActive = false;
+        IsOnlineGameplayActive = false;
         SetInput(false);
     }
 

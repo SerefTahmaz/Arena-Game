@@ -14,6 +14,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
 
     public void StartGame()
     {
+        cGameManager.Instance.StartGameClient();
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
         m_IsActive = true;

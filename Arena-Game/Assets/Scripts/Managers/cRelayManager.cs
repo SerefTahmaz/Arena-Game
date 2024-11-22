@@ -87,7 +87,7 @@ public class cRelayManager : cSingleton<cRelayManager>
         {
             cGameManager.Instance.HandleStartingRelay();
             cUIManager.Instance.ShowPage(Page.Loading,this);
-            cGameManager.Instance.StartGameClient();
+            cGameManager.Instance.StartGameClient(true);
             // //TODO: make it async
             await MapManager.Instance.RemoveCurrentLevel();
             

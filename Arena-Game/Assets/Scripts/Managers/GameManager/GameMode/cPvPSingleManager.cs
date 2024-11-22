@@ -23,6 +23,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     public void StartGame()
     {
+        cGameManager.Instance.StartGameClient(true);
+        
         cGameManager.Instance.m_OnPlayerDied = delegate { };
         cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             

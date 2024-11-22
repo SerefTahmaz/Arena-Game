@@ -21,6 +21,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     public void StartGame()
     {
+        cGameManager.Instance.StartGameClient(true);
+        
         cGameManager.Instance.m_OnNpcDied = delegate { };
         cGameManager.Instance.m_OnNpcDied += CheckSuccess;
         
