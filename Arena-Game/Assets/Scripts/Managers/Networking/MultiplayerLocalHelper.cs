@@ -18,7 +18,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
 
     private void OnOwnerPlayerSpawn(cCharacter ownerPlayer)
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        if(cUIManager.Instance) cUIManager.Instance.ShowPage(Page.Loading,this);
         if (NetworkHelper.m_IsGameStarted.Value)
         {
             StartGame();
@@ -31,7 +31,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
     
     public void StartGame()
     {
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        if(cUIManager.Instance) cUIManager.Instance.HidePage(Page.Loading,this);
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
