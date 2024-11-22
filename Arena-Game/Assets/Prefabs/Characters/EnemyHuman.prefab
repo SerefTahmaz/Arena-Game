@@ -10832,7 +10832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentStateName: 
   m_CurrentSubState: 
-  m_enemies: []
+  m_enemies:
+    _list: []
   m_ShowStates: 0
   m_DustExpo: {fileID: 5972044415902910586}
   m_BloodExpo: {fileID: 8979167419569163546}
@@ -10850,6 +10851,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  m_DisableYCheck: 1
 --- !u!114 &4612661772307771328
 MonoBehaviour:
   m_ObjectHideFlags: 0

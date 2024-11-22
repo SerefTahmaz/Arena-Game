@@ -1,11 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ArenaGame.Utils;
 using UnityEngine;
 using Object = System.Object;
 
 namespace STNest.Utils
 {
+    [Serializable]
+    public class UIObjectLock
+    {
+        public bool IsActive => m_Activators.Any() && m_Deactivators.IsEmpty();
+
+        [SerializeField] private List<Object> m_Activators = new List<object>();
+        [SerializeField] private List<Object> m_Deactivators = new List<object>();
+        [SerializeField] private int m_TokensCount;
+
+        public void AddActivator(Object token)
+        {
+            if (m_Deactivators.Contains(token))
+            {
+                m_Deactivators.Remove(token);
+            }
+            else
+            {
+                if (m_Activators.Contains(token)) throw new Exception();
+                m_Activators.Add(token);
+            }
+        }
+        
+        public void AddDeactivator(Object token)
+        {
+            if (m_Activators.Contains(token))
+            {
+                m_Activators.Remove(token);
+            }
+            else
+            {
+                if (m_Deactivators.Contains(token)) throw new Exception();
+                m_Deactivators.Add(token);
+            }
+        }
+    }
+    
     [Serializable]
     public class ObjectLock
     {

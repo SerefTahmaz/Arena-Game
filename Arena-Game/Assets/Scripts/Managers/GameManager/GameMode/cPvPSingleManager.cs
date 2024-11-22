@@ -35,7 +35,6 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.ShowPage(Page.Gameplay,this);
         cUIManager.Instance.ShowPage(Page.Loading,this);
         var insMatchMaking = MatchMakingController.CreateInstanceMatchMaking();
         await insMatchMaking.Init();
@@ -137,7 +136,6 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
     {
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        cUIManager.Instance.HidePage(Page.Gameplay,this);
         Debug.Log("GameEnded!!!!!!!!!!");
     }
 }

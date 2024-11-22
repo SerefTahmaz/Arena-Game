@@ -31,7 +31,7 @@ public class cUIManager : cSingleton<cUIManager>
         var lockablePage = m_LockablePages[page];
         lockablePage.EnablePage(token);
 
-        if (!lockablePage.IsUnlocked)
+        if (lockablePage.IsActive)
         {
             Debug.Log($"Enabled {page}");
             lockablePage.View.Activate(instant);
@@ -43,7 +43,7 @@ public class cUIManager : cSingleton<cUIManager>
         var lockablePage = m_LockablePages[page];
         lockablePage.DisablePage(token);
 
-        if (lockablePage.IsUnlocked)
+        if (!lockablePage.IsActive)
         {
             lockablePage.View.Deactivate(instant);
         }
@@ -61,19 +61,19 @@ public class cUIManager : cSingleton<cUIManager>
         [SerializeField] private Page m_Page;
         [SerializeField] private cMenuNode m_View;
         
-        [SerializeField] private ObjectLock m_Lock = new ObjectLock();
-        public bool IsUnlocked => m_Lock.LockState;
+        [SerializeField] private UIObjectLock m_Lock = new UIObjectLock();
+        public bool IsActive => m_Lock.IsActive;
         public Page Page => m_Page;
         public cMenuNode View => m_View;
 
         public void EnablePage(object token)
         {
-            m_Lock.ActivateLock(token);
+            m_Lock.AddActivator(token);
         }
 
         public void DisablePage(object token)
         {
-            m_Lock.DeactivateLock(token);
+            m_Lock.AddDeactivator(token);
         }
     }
 }

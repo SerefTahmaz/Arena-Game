@@ -45,7 +45,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     private async void Start()
     {
         m_IconIndex = Random.Range(0, 4).ToString();
-        m_PlayerName = "player" + Guid.NewGuid();
+        m_PlayerName = "player" + Guid.NewGuid().ToString().Substring(0,20);
+        Debug.Log($"{PlayerName.Length} Player Name {PlayerName}");
         var options = new InitializationOptions();
         options.SetProfile(PlayerName);
         await UnityServices.InitializeAsync(options);

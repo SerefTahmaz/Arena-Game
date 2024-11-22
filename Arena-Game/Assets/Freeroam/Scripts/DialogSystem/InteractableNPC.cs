@@ -27,29 +27,25 @@ namespace DefaultNamespace
         private void HandleInteractionEvent()
         {
             if(FindObjectOfType<DialogController>()) return;
-            m_InteractableUI.SetActive(false);
-            InputManager.Instance.RemoveListenerToOnInteractionEvent(HandleInteractionEvent);
-            InteractionAvailable = false;
+            
+            PlayerInteractionHelper.Instance.RemoveInteractionList(this);
             StartInteraction();
         }
 
         private void HandleOnPlayerExit()
         {
-            m_InteractableUI.SetActive(false);
-            InputManager.Instance.RemoveListenerToOnInteractionEvent(HandleInteractionEvent);
-            InteractionAvailable = false;
+            PlayerInteractionHelper.Instance.RemoveInteractionList(this);
         }
 
         private void HandleOnPlayerEntered()
         {
-            m_InteractableUI.SetActive(true);
-            InputManager.Instance.AddListenerToOnInteractionEvent(HandleInteractionEvent);
-            InteractionAvailable = true;
+            PlayerInteractionHelper.Instance.AddInteractionList(this);
         }
 
         protected virtual async UniTask StartInteraction()
         {
             OnDialogStarted?.Invoke();
+            PlayerInteractionHelper.Instance.HandleDialogStarted(this);
             m_DialogController = DialogController.CreateInstanceDialog();
             await m_DialogController.Init(m_DialogueGraph, m_DialogFocusPoint);
             await UniTask.WaitForSeconds(0.1f);
@@ -61,9 +57,24 @@ namespace DefaultNamespace
             if (m_PlayerDetector.IsPlayerInside)
             {
                 OnDialogEnded?.Invoke();
-                InputManager.Instance.AddListenerToOnInteractionEvent(HandleInteractionEvent);
+                PlayerInteractionHelper.Instance.AddInteractionList(this);
+            }
+            PlayerInteractionHelper.Instance.HandleDialogEnded(this);
+        }
+
+        public void SetInteraction(bool value)
+        {
+            if (value)
+            {
                 m_InteractableUI.SetActive(true);
+                InputManager.Instance.AddListenerToOnInteractionEvent(HandleInteractionEvent);
                 InteractionAvailable = true;
+            }
+            else
+            {
+                m_InteractableUI.SetActive(false);
+                InputManager.Instance.RemoveListenerToOnInteractionEvent(HandleInteractionEvent);
+                InteractionAvailable = false;
             }
         }
     }

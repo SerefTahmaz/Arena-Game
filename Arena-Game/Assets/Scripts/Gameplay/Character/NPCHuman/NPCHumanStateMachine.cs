@@ -26,6 +26,7 @@ namespace Gameplay.Character.NPCHuman
 
         [SerializeField] private float m_YDistance;
         [SerializeField] private LayerMask m_LayerMask;
+        [SerializeField] private bool m_DisableYCheck;
 
         #endregion
 
@@ -80,12 +81,15 @@ namespace Gameplay.Character.NPCHuman
         {
             base.Update();
 
-            if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
+            if (!m_DisableYCheck)
             {
-                if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
                 {
-                    var pos = transform.position;
-                    transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                    {
+                        var pos = transform.position;
+                        transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    }
                 }
             }
         }
