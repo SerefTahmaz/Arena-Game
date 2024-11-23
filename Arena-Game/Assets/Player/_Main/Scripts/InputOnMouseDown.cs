@@ -3,8 +3,6 @@ using Cinemachine;
 
 public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 {
-    [SerializeField] private Transform m_ReferencePivot;
-    
     public string HorizontalInput = "Mouse X";
     public string VerticalInput = "Mouse Y";
 
