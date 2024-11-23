@@ -16,6 +16,7 @@ public class SkinManager : MonoBehaviour
     [SerializeField] private SkinnedMeshRenderer m_ReferenceSkinnedMesh;
     [SerializeField] private GameObject m_DefaultSet;
     [SerializeField] private GameObject m_HairGO;
+    [SerializeField] private ArmorItemSO m_BasePant;
 
     private SkinArmor m_SpawnedHelm;
     private SkinArmor m_SpawnedChest;
@@ -75,6 +76,10 @@ public class SkinManager : MonoBehaviour
         {
             EquipItem(m_CharacterSO.LeggingArmor);
         }
+        else
+        {
+            EquipItem(m_BasePant);
+        }
     }
 
     public void EquipItem(ArmorItemSO itemSO)
@@ -125,7 +130,7 @@ public class SkinManager : MonoBehaviour
                 if (m_CharacterSO.GauntletsArmor) EquipItem(m_CharacterSO.GauntletsArmor); else ClearEquip(armorItemArmorType);
                 break;
             case ArmorType.Legging:
-                if (m_CharacterSO.LeggingArmor) EquipItem(m_CharacterSO.LeggingArmor); else ClearEquip(armorItemArmorType);
+                if (m_CharacterSO.LeggingArmor) EquipItem(m_CharacterSO.LeggingArmor); else EquipItem(m_BasePant);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(armorItemArmorType), armorItemArmorType, null);
