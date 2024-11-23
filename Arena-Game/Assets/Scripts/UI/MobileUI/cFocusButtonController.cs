@@ -26,6 +26,8 @@ public class cFocusButtonController : MonoBehaviour
             {
                 m_ActiveOverlayIU.SetActive(false);
             }
+            
+            Debug.Log($"Cam changed {type}");
         };
         
         InputManager.Instance.AddListenerToOnFocusCharEvent(HandleFocusCharEvent);

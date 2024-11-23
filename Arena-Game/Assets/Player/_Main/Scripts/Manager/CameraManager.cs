@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using ArenaGame.Utils;
+using Cinemachine.Manager;
 using DefaultNamespace;
 using DG.Tweening;
 using RootMotion;
@@ -17,18 +18,6 @@ public class CameraManager : cSingleton<CameraManager>
     [SerializeField] private CinemachineFreeLook m_CinemachineFreeLook;
 
     private GameCamera m_CurrentCam;
-    
-    [Serializable]
-    public class GameCamera
-    {
-        public GameObject m_Cam;
-        public cCamShake m_CameraShake;
-
-        public void SetActive(bool value)
-        {
-            m_Cam.SetActive(value);
-        }
-    }
 
     private List<GameCamera> cams = new List<GameCamera>();
     private bool _isEscaped = false;
@@ -74,6 +63,10 @@ public class CameraManager : cSingleton<CameraManager>
 
     public void SetCamera(CameraType cam)
     {
+        if(!cams[(int)cam].IsAvailable()) return;
+        
+        if(m_CurrentCam != null) m_CurrentCam.Exit();
+        
         foreach (var VARIABLE in cams)
         {
             VARIABLE.SetActive(false);
@@ -83,7 +76,8 @@ public class CameraManager : cSingleton<CameraManager>
 
         m_CurrentCamType = cam;
         m_CurrentCam = cams[(int)cam];
-        OnCameraChange.Invoke(cam);
+        m_CurrentCam.Enter();
+        OnCameraChange.Invoke(m_CurrentCamType);
     }
     
     public void EnableGameplayCam()

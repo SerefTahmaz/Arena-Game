@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
+using Cinemachine.Manager;
 using DG.Tweening;
 using UnityEngine;
 
-public class CMFocusCamController : MonoBehaviour
+public class CMFocusCamController : GameCamera
 {
     [SerializeField] private CinemachineTargetGroup m_CinemachineTargetGroup;
     [SerializeField] private CinemachineVirtualCamera m_VirtualCamera;
@@ -17,23 +18,18 @@ public class CMFocusCamController : MonoBehaviour
     private bool m_IsActive;
     private IDamagable target;
 
-    private void Awake()
+    public override void Enter()
     {
-        CameraManager.Instance.OnCameraChange += CameraChange;
+        base.Enter();
+        m_IsActive = true;
+        FindATarget();
     }
 
-    private void CameraChange(CameraManager.CameraType cameraType)
+    public override void Exit()
     {
-        if (cameraType == CameraManager.CameraType.Focus)
-        {
-            m_IsActive = true;
-            FindATarget();
-        }
-        else
-        {
-            m_IsActive = false;
-            FocusCharHelper.Instance.Target = null;
-        }
+        base.Exit();
+        m_IsActive = false;
+        FocusCharHelper.Instance.Target = null;
     }
 
     private void FindATarget()
@@ -56,6 +52,15 @@ public class CMFocusCamController : MonoBehaviour
             m_VirtualCamera.Follow = m_Player.GetComponent<IDamagable>().FocusPoint;
             FocusCharHelper.Instance.Target = target.FocusPoint;
         }
+    }
+
+    public override bool IsAvailable()
+    {
+        var founded = FindObjectsOfType<MonoBehaviour>()
+            .Where((behaviour => behaviour.TryGetComponent(out IDamagable damagable) && !damagable.IsDead && damagable.TeamID != m_PlayerId))
+            .Select((behaviour =>behaviour.GetComponent<IDamagable>() )).
+            OrderBy((transform1 => Vector3.Distance(m_Player.MovementTransform.position, transform1.FocusPoint.position))).FirstOrDefault();
+        return founded != null;
     }
 
     private void Update()
