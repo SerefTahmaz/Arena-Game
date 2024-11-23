@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Utils;
+using STNest.Utils;
 using UnityEngine;
 
 public class cCreatureAnimationEventsController : MonoBehaviour
@@ -91,37 +92,43 @@ public class cCreatureAnimationEventsController : MonoBehaviour
 
     public void OnClawSlashStart()
     {
-        m_AudioSource.PlayOneShot(m_ClawSlash);
+        PlayOneShot(m_ClawSlash);
     }
     
     public void OnMutantSwipingStart()
     {
-        m_AudioSource.PlayOneShot(m_MutantSwipingClip);
+        PlayOneShot(m_MutantSwipingClip);
     }
     
     public void OnSpinAttackStart()
     {
-        m_AudioSource.PlayOneShot(m_SpinAttackClip);
+        PlayOneShot(m_SpinAttackClip);
     }
     
     public void OnComboAttackStart()
     {
-        m_AudioSource.PlayOneShot(m_ComboAttackClip);
+        PlayOneShot(m_ComboAttackClip);
     }
     
     public void OnRollStart()
     {
-        m_AudioSource.PlayOneShot(m_OnRollClip);
+        PlayOneShot(m_OnRollClip);
     }
     
     public void DeadStart()
     {
-        m_AudioSource.PlayOneShot(m_OnDeadClip);
+        PlayOneShot(m_OnDeadClip);
     }
     
     public void HitBodyStart()
     {
-        m_AudioSource.PlayOneShot(m_HitBodyClip);
+        PlayOneShot(m_HitBodyClip, Helpers.RandomPentatonicPitch());
+    }
+    
+    public void PlayOneShot(AudioClip audioClip, float pitch = 1)
+    {
+        m_AudioSource.pitch = pitch;
+        m_AudioSource.PlayOneShot(audioClip);
     }
 
     public void OnStep()

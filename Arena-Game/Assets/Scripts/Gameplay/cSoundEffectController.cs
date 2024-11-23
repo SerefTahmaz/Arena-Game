@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Utils;
+using STNest.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -86,21 +87,21 @@ public class cSoundEffectController : MonoBehaviour
 
     public void PlaySwordDraw()
     {
-        m_OneShotSource.PlayOneShot(m_SwordDraw);
+        PlayOneShot(m_SwordDraw);
     }
 
     [SerializeField] private List<AudioClip> m_DlashClips;
 
     public void PlayDSlash(int trackIndex)
     {
-        m_OneShotSource.PlayOneShot(m_DlashClips[trackIndex-1]);
+        PlayOneShot(m_DlashClips[trackIndex-1]);
     }
     
     [SerializeField] private List<AudioClip> m_FireChargeClips;
 
     public void PlayFireCharge(int trackIndex)
     {
-        m_OneShotSource.PlayOneShot(m_FireChargeClips[trackIndex-1]);
+        PlayOneShot(m_FireChargeClips[trackIndex-1]);
     }
 
     [SerializeField] private AudioSource m_AudioSourceLoop;
@@ -115,24 +116,24 @@ public class cSoundEffectController : MonoBehaviour
 
     public void PlayDualAttack(int trackIndex)
     {
-        m_OneShotSource.PlayOneShot(m_DualAttackClips[trackIndex-1]);
+        PlayOneShot(m_DualAttackClips[trackIndex-1]);
     }
 
     public void PlayJumpSound()
     {
-        m_OneShotSource.PlayOneShot(m_JumpSound);
+        PlayOneShot(m_JumpSound);
     }
     
     public void PlayChargeSwordsSound()
     {
-        m_OneShotSource.PlayOneShot(m_ChargeSwordsSound);
+        PlayOneShot(m_ChargeSwordsSound);
     }
     
     [SerializeField] private AudioSource m_StretchingSource;
     [SerializeField] private AudioClip m_StretchingClip;
     public void PlayStretching()
     {
-        m_StretchingSource.PlayOneShot(m_StretchingClip);
+        PlayOneShot(m_StretchingClip);
     }
 
     [SerializeField] private AudioSource m_VoiceSource;
@@ -141,16 +142,22 @@ public class cSoundEffectController : MonoBehaviour
 
     public void PlayHelloEveryone()
     {
-        m_VoiceSource.PlayOneShot(m_HelloEveryone);
+        PlayOneShot(m_HelloEveryone);
     }
 
     public void PlayDamageGrunt()
     {
-        m_OneShotSource.PlayOneShot(m_Grunts.RandomItem());
+        PlayOneShot(m_Grunts.RandomItem());
     }
     
     public void PlayDead()
     {
-        m_OneShotSource.PlayOneShot(m_DeadSound);
+        PlayOneShot(m_DeadSound);
+    }
+    
+    public void PlayOneShot(AudioClip audioClip, float pitch = 1)
+    {
+        m_OneShotSource.pitch = pitch;
+        m_OneShotSource.PlayOneShot(audioClip);
     }
 }

@@ -15248,6 +15248,7 @@ MonoBehaviour:
     type: 3}
   m_OnRoarFrontFaceClip: {fileID: 8300000, guid: 4a1170ba455595a499f68f2f7910b441,
     type: 3}
+  m_DamageSound: {fileID: 8300000, guid: 964d22bc89c4c1547829d21dfff6bd9e, type: 3}
   m_AudioSource: {fileID: 2453536979232918481}
   m_WalkSource: {fileID: 2453536980615951321}
   m_StepAudioClips:
@@ -15272,6 +15273,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 904a457ba6dea3849a80e97c18c309e2, type: 3}
   m_WeaponDamageEffector: {fileID: 1337864500853155957}
   m_AreaDamageEffector: {fileID: 7938982240417250503}
+  m_TrollCharacter: {fileID: 0}
 --- !u!114 &5771096420572015554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15288,7 +15290,7 @@ MonoBehaviour:
   m_Animator: {fileID: 211114692697353439}
   m_HealthManager: {fileID: 3777455144383054266}
   m_CharacterName: Troll
-  m_StartHealth: 5
+  m_StartHealth: 99999
   m_DamageManager: {fileID: 1904541981851620238}
   m_TeamId: 2
   m_NavMeshAgent: {fileID: 0}
