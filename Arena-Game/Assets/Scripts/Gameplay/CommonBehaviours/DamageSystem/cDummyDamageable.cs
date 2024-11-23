@@ -12,4 +12,5 @@ public class cDummyDamageable : MonoBehaviour, IDamagable
 
     public int TeamID { get; }
     public Transform FocusPoint => m_FocusPoint;
+    public bool IsDead => false;
 }

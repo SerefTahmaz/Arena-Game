@@ -5,6 +5,8 @@ public interface IDamagable
     public void Damage(DamageWrapper damageWrapper);
     public int TeamID { get; }
     public Transform FocusPoint { get; }
+    public bool IsDead { get; }
+    public Transform transform { get; }
 }
 
 public class DamageWrapper

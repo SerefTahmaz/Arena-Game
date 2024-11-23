@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class CMFocusCamController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
     [SerializeField] private CinemachineTargetGroup m_CinemachineTargetGroup;
     [SerializeField] private CinemachineVirtualCamera m_VirtualCamera;
     
@@ -16,6 +15,7 @@ public class CMFocusCamController : MonoBehaviour
     public int m_PlayerId => cGameManager.Instance.m_OwnerPlayerId;
 
     private bool m_IsActive;
+    private IDamagable target;
 
     private void Awake()
     {
@@ -27,35 +27,45 @@ public class CMFocusCamController : MonoBehaviour
         if (cameraType == CameraManager.CameraType.Focus)
         {
             m_IsActive = true;
-            
-            target = FindObjectsOfType<MonoBehaviour>().Where((behaviour => behaviour.TryGetComponent(out IDamagable _)))
-                .Where((behaviour =>
-                {
-                    Debug.Log($"{behaviour.GetComponent<IDamagable>().TeamID}  {m_PlayerId}");
-                    
-                    return behaviour.GetComponent<IDamagable>().TeamID != m_PlayerId;
-                })).Select((behaviour =>behaviour.GetComponent<IDamagable>().FocusPoint )).
-                OrderBy((transform1 => Vector3.Distance(m_Player.MovementTransform.position, transform1.position))).FirstOrDefault();
-
-        
-            if (target == null)
-            {
-                CameraManager.Instance.EnableGameplayCam();
-            }
-            else
-            {
-                // m_CinemachineVirtualCamera.LookAt = target.transform;
-
-                m_CinemachineTargetGroup.m_Targets[0].target = target;
-                m_CinemachineTargetGroup.m_Targets[1].target = m_Player.GetComponent<IDamagable>().FocusPoint;
-                m_VirtualCamera.Follow = m_Player.GetComponent<IDamagable>().FocusPoint;
-                FocusCharHelper.Instance.Target = target;
-            }
+            FindATarget();
         }
         else
         {
             m_IsActive = false;
             FocusCharHelper.Instance.Target = null;
+        }
+    }
+
+    private void FindATarget()
+    {
+        target = FindObjectsOfType<MonoBehaviour>()
+            .Where((behaviour => behaviour.TryGetComponent(out IDamagable damagable) && !damagable.IsDead && damagable.TeamID != m_PlayerId))
+            .Select((behaviour =>behaviour.GetComponent<IDamagable>() )).
+            OrderBy((transform1 => Vector3.Distance(m_Player.MovementTransform.position, transform1.FocusPoint.position))).FirstOrDefault();
+
+        if (target == null)
+        {
+            CameraManager.Instance.EnableGameplayCam();
+        }
+        else
+        {
+            // m_CinemachineVirtualCamera.LookAt = target.transform;
+
+            m_CinemachineTargetGroup.m_Targets[0].target = target.FocusPoint;
+            m_CinemachineTargetGroup.m_Targets[1].target = m_Player.GetComponent<IDamagable>().FocusPoint;
+            m_VirtualCamera.Follow = m_Player.GetComponent<IDamagable>().FocusPoint;
+            FocusCharHelper.Instance.Target = target.FocusPoint;
+        }
+    }
+
+    private void Update()
+    {
+        if (m_IsActive)
+        {
+            if (target != null && target.IsDead)
+            {
+                FindATarget();
+            }
         }
     }
 }
