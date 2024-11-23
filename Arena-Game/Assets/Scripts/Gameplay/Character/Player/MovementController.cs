@@ -80,7 +80,7 @@ namespace PlayerCharacter
 			if (!m_DisableStepClimb)
 			{
 				if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
-				if(m_MoveInput.magnitude > 0 || m_Rigidbody.velocity.magnitude > 0) StepClimb();
+				if(m_MoveInput.magnitude > 0) StepClimb();
 			}
 		}
 		private void StepClimb()
