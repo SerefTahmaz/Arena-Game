@@ -33,7 +33,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     private Action _onTwoHandedAttackEvent;
     private Action _onEnableRightHandBuffEvent;
     private Action _onEnableLeftHandBuffEvent;
-    private Action _onFKeyDownEvent;
+    private Action _onFocusCharEvent;
     public Action _onInteractionEvent;
 
     private void Start()
@@ -83,6 +83,10 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             cMobileInputManager._onInteractionEvent += () =>
             {
                 _onInteractionEvent?.Invoke();
+            };
+            cMobileInputManager._onFocusEvent += () =>
+            {
+                _onFocusCharEvent?.Invoke();
             };
         }
     }
@@ -177,7 +181,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                _onFKeyDownEvent?.Invoke();
+                _onFocusCharEvent?.Invoke();
             }
         }
         
@@ -307,14 +311,14 @@ public class InputManager : cSingleton<InputManager>, IInputManager
         _onEnableLeftHandBuffEvent -= listener;
     }
     
-    public void AddListenerToOnFKeyDownEvent(Action listener)
+    public void AddListenerToOnFocusCharEvent(Action listener)
     {
-        _onFKeyDownEvent += listener;
+        _onFocusCharEvent += listener;
     }
 
-    public void RemoveListenerToOnFKeyDownEvent(Action listener)
+    public void RemoveListenerToOnFocusCharEvent(Action listener)
     {
-        _onFKeyDownEvent -= listener;
+        _onFocusCharEvent -= listener;
     }
     
     public void AddListenerToOnInteractionEvent(Action listener)

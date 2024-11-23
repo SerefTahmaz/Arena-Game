@@ -53,7 +53,7 @@ public class cAnimationEventsController : MonoBehaviour
     public void OnGroundAttack()
     {
         m_GroundCrackParticle.PlayWithClear();
-        FindObjectOfType<cCamShake>().ShakeCamera(10,5,.5f);
+        CameraManager.Instance.ShakeCamera(10,5,.5f);
     }
 
     public void InitSwordTrail(string direction)

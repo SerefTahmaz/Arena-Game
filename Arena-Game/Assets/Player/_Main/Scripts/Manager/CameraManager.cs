@@ -11,16 +11,30 @@ using UnityEngine.EventSystems;
 
 public class CameraManager : cSingleton<CameraManager>
 {
-    [SerializeField] private GameObject _gameplayCam;
+    [SerializeField] private GameCamera _gameplayCam;
     [SerializeField] private InputOnMouseDown _gameplayCamInput;
-    [SerializeField] private GameObject m_focusCam;
+    [SerializeField] private GameCamera m_focusCam;
     [SerializeField] private CinemachineFreeLook m_CinemachineFreeLook;
 
-    private List<GameObject> cams = new List<GameObject>();
+    private GameCamera m_CurrentCam;
+    
+    [Serializable]
+    public class GameCamera
+    {
+        public GameObject m_Cam;
+        public cCamShake m_CameraShake;
+
+        public void SetActive(bool value)
+        {
+            m_Cam.SetActive(value);
+        }
+    }
+
+    private List<GameCamera> cams = new List<GameCamera>();
     private bool _isEscaped = false;
     
     private Action<CameraType> m_OnCameraChange = delegate(CameraType type) {  };
-    private CameraType m_CurrentCam = CameraType.Gameplay;
+    private CameraType m_CurrentCamType = CameraType.Gameplay;
     
     public enum CameraType
     {
@@ -35,21 +49,21 @@ public class CameraManager : cSingleton<CameraManager>
         set => m_OnCameraChange = value;
     }
 
-    public CameraType CurrentCam => m_CurrentCam;
+    public CameraType CurrentCamType => m_CurrentCamType;
 
     private void Awake()
     {
-        cMobileInputManager._onFocusEvent += () =>
-        {
-            if (_gameplayCam.activeSelf)
-            {
-                SetCamera(CameraType.Focus);
-            }
-            else
-            {
-                SetCamera(CameraType.Gameplay);
-            }
-        };
+        // cMobileInputManager._onFocusEvent += () =>
+        // {
+        //     if (_gameplayCam.activeSelf)
+        //     {
+        //         SetCamera(CameraType.Focus);
+        //     }
+        //     else
+        //     {
+        //         SetCamera(CameraType.Gameplay);
+        //     }
+        // };
     }
 
     private void Start()
@@ -67,7 +81,8 @@ public class CameraManager : cSingleton<CameraManager>
         
         cams[(int)cam].SetActive(true);
 
-        m_CurrentCam = cam;
+        m_CurrentCamType = cam;
+        m_CurrentCam = cams[(int)cam];
         OnCameraChange.Invoke(cam);
     }
     
@@ -116,9 +131,9 @@ public class CameraManager : cSingleton<CameraManager>
     {
         var instanceOwnerPlayer = GameplayStatics.OwnerPlayer;
 
-        _gameplayCam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
-        _gameplayCam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
-        _gameplayCam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
+        _gameplayCam.m_Cam.GetComponent<CinemachineFreeLook>().LookAt = instanceOwnerPlayer;
+        _gameplayCam.m_Cam.GetComponent<CinemachineFreeLook>().Follow = instanceOwnerPlayer;
+        _gameplayCam.m_Cam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
             -instanceOwnerPlayer.forward * 5 + instanceOwnerPlayer.position + Vector3.up*2
             , instanceOwnerPlayer.rotation);
         
@@ -130,14 +145,19 @@ public class CameraManager : cSingleton<CameraManager>
     public void FixLook()
     {
         var instanceOwnerPlayer = GameplayStatics.OwnerPlayer;
-        _gameplayCam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
+        _gameplayCam.m_Cam.GetComponent<CinemachineFreeLook>().ForceCameraPosition(
             -instanceOwnerPlayer.forward * 5 + instanceOwnerPlayer.position + Vector3.up*2
             , instanceOwnerPlayer.rotation);
     }
 
     public GameObject GetCam(CameraType cam)
     {
-        return cams[(int)cam];
+        return cams[(int)cam].m_Cam;
+    }
+
+    public void ShakeCamera(int intensity, int freq, float time)
+    {
+        m_CurrentCam.m_CameraShake.ShakeCamera(intensity,freq,time);
     }
 }
 

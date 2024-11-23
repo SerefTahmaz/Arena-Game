@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class cFocusButtonController : MonoBehaviour
 {
-    [SerializeField] private GameObject m_IsFocusCamActive;
-    
+    [SerializeField] private GameObject m_ActiveOverlayIU;
 
     private void Awake()
     {
@@ -16,18 +16,20 @@ public class cFocusButtonController : MonoBehaviour
         {
             if (type == CameraManager.CameraType.Focus)
             {
-                m_IsFocusCamActive.SetActive(true);
+                m_ActiveOverlayIU.SetActive(true);
             }
             else
             {
-                m_IsFocusCamActive.SetActive(false);
+                m_ActiveOverlayIU.SetActive(false);
             }
         };
+        
+        InputManager.Instance.AddListenerToOnFocusCharEvent(HandleFocusCharEvent);
     }
 
-    public void OnClick()
+    private void HandleFocusCharEvent()
     {
-        if (CameraManager.Instance.CurrentCam != CameraManager.CameraType.Focus)
+        if (CameraManager.Instance.CurrentCamType != CameraManager.CameraType.Focus)
         {
             CameraManager.Instance.EnableFocusCam();
         }

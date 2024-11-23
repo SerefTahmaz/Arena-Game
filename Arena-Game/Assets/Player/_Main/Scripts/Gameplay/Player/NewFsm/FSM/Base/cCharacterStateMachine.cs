@@ -6,7 +6,9 @@ using UnityEngine;
 public abstract class cCharacterStateMachine:cStateMachine
 {
     private NPCTargetHelper m_NpcTargetHelper;
-    
+
+    public NPCTargetHelper NpcTargetHelper => m_NpcTargetHelper;
+
     protected override void Awake()
     {
         base.Awake();
@@ -15,6 +17,6 @@ public abstract class cCharacterStateMachine:cStateMachine
 
     public Transform Target()
     {
-        return m_NpcTargetHelper.Target();
+        return NpcTargetHelper.Target();
     }
 }

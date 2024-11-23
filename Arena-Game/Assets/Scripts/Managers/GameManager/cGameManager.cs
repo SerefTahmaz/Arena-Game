@@ -83,7 +83,7 @@ public class cGameManager : cSingleton<cGameManager>
     {
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
         {
-            m_OwnerPlayerId = transform1.GetComponent<IDamagable>().TeamID;
+            m_OwnerPlayerId = transform1.GetComponent<cCharacterNetworkController>().m_TeamId.Value;
             m_OwnerPlayer = transform1;
         };
 

@@ -7,12 +7,13 @@ using UnityEngine.Events;
 public class cDamageReicever : MonoBehaviour,IDamagable
 {
     [SerializeField] private UnityEvent<DamageWrapper> m_OnDamage;
+    [SerializeField] private Transform m_FocusPoint;
 
     private int m_TeamId;
     
     private bool m_Damaged = false;
 
-    public Transform FocusPoint => transform;
+    public Transform FocusPoint => m_FocusPoint;
 
     public UnityEvent<DamageWrapper> OnDamage
     {

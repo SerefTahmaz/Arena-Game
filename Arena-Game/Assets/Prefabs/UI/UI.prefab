@@ -622,6 +622,7 @@ RectTransform:
   - {fileID: 738308231417945919}
   - {fileID: 6773087942556744662}
   - {fileID: 6206555504119593316}
+  - {fileID: 5127485547742806340}
   m_Father: {fileID: 8599824551065670790}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1822,8 +1823,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: NaN, y: NaN}
-  m_SizeDelta: {x: 181.98, y: 181.9787}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 158.0971, y: 158.0971}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1561424140691901712
 CanvasRenderer:
@@ -1853,7 +1854,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0cd43a9284bcb9a4e8c45e5c3c24f700, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd1a67bdb9b14eb499d46422aa2a7b00, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6580,6 +6581,56 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsActive: 1
+--- !u!1 &5691306238152855966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5127485547742806340}
+  - component: {fileID: 8856317654212040472}
+  m_Layer: 5
+  m_Name: FocusCharHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5127485547742806340
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691306238152855966}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4188027748411089344}
+  m_Father: {fileID: 1923649746911223367}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8856317654212040472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5691306238152855966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429e41887aa09cd4580a3f97a2a80731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Pivot: {fileID: 4188027748411089344}
 --- !u!1 &5746342042347533367
 GameObject:
   m_ObjectHideFlags: 0
@@ -6863,6 +6914,81 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsActive: 1
+--- !u!1 &5881558997165909800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4188027748411089344}
+  - component: {fileID: 7477466594164936055}
+  - component: {fileID: 5275762899533198624}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4188027748411089344
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881558997165909800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5127485547742806340}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 63.7681, y: 63.7681}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7477466594164936055
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881558997165909800}
+  m_CullTransparentMesh: 1
+--- !u!114 &5275762899533198624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5881558997165909800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 37a23dcd20433a34a82fbdd58f4d4a32, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5935427227539486356
 GameObject:
   m_ObjectHideFlags: 0
@@ -14765,7 +14891,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2652303118899641379}
+      objectReference: {fileID: 133071782834249343}
     - target: {fileID: 2067805488019937018, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -14774,12 +14900,12 @@ PrefabInstance:
     - target: {fileID: 2067805488019937018, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: OnFocusEvent
       objectReference: {fileID: 0}
     - target: {fileID: 2067805488019937018, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: cFocusButtonController, Assembly-CSharp
+      value: cMobileInputManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2067805488019937018, guid: 64f5572ea6146204ba02592e05f4467a,
         type: 3}
@@ -15039,7 +15165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93169c7c1e6add4fb84815a9f1a7e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsFocusCamActive: {fileID: 1230584986545621949}
+  m_ActiveOverlayIU: {fileID: 1230584986545621949}
 --- !u!1001 &3008940657336955235
 PrefabInstance:
   m_ObjectHideFlags: 0

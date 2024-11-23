@@ -13,7 +13,7 @@ public class cDamageEffector : cDamageEffectorBase
             var collisionPoint = other.ClosestPoint(transform.position);
             DamageIt(damagable, new DamageWrapper()
             {
-                amount = 10, 
+                amount = 5, 
                 pos = collisionPoint, 
                 isHeavyDamage = false,
                 damager = transform,

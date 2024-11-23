@@ -71,7 +71,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             if (cGameManager.Instance.m_OwnerPlayer != null)
             {
                 m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
-                if(!m_NPCNonActiveAtStart) m_NPCHumanStateMachine.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                if(!m_NPCNonActiveAtStart)  m_NPCHumanStateMachine.NpcTargetHelper.IsAggressive = true;
             }
         } 
     }

@@ -12,6 +12,8 @@ namespace ArenaGame
         private cStateMachine m_StateMachine;
 
         private ObservableList<cCharacter> Enemies => m_StateMachine.m_enemies;
+        
+        public bool IsAggressive { get; set; }
 
         public NPCTargetHelper(cStateMachine stateMachine)
         {
@@ -36,11 +38,14 @@ namespace ArenaGame
         {
             if (Enemies.Count <= 0)
             {
-                var player = GameObject.FindObjectsOfType<cPlayerStateMachineV2>().Where((v2 => v2.Character.HealthManager.HasHealth))
-                    .OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.Character.MovementTransform.position))).FirstOrDefault();
-                if (player)
+                if (IsAggressive)
                 {
-                    Enemies.Add(player.Character);
+                    var player = GameObject.FindObjectsOfType<cPlayerStateMachineV2>().Where((v2 => v2.Character.HealthManager.HasHealth))
+                        .OrderBy((v2 => Vector3.Distance(m_StateMachine.transform.position, v2.Character.MovementTransform.position))).FirstOrDefault();
+                    if (player)
+                    {
+                        Enemies.Add(player.Character);
+                    }
                 }
                 return null;
             }

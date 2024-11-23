@@ -15254,7 +15254,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentStateName: 
   m_CurrentSubState: 
-  m_enemies: []
+  m_enemies:
+    _list: []
   m_ShowStates: 0
   m_DustExpo: {fileID: 8785589410320336244}
   m_BloodExpo: {fileID: 2349041352535707584}
@@ -15615,6 +15616,7 @@ MonoBehaviour:
   m_OnDamage:
     m_PersistentCalls:
       m_Calls: []
+  m_FocusPoint: {fileID: 7478456128093363735}
 --- !u!114 &2429274270307719355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20636,7 +20638,7 @@ ParentConstraint:
   serializedVersion: 2
   m_Weight: 1
   m_TranslationAtRest: {x: -0.35569885, y: 0.8947179, z: 0.117488906}
-  m_RotationAtRest: {x: -6.175948, y: 32.03694, z: 143.07423}
+  m_RotationAtRest: {x: -6.1759486, y: 32.03694, z: 143.07423}
   m_TranslationOffsets:
   - {x: -0.000026151538, y: -0.000061929226, z: -0.000004887581}
   m_RotationOffsets:

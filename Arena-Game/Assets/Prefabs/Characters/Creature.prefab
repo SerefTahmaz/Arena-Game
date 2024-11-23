@@ -10033,6 +10033,7 @@ MonoBehaviour:
   m_Capsule: {fileID: 7297926399341711984}
   m_YSpeedThreshold: 0
   m_CharacterType: 0
+  m_DisableStepClimb: 0
   m_StepRayLower: {fileID: 7996631170448277451}
   m_StepHeight: 0.3
   m_StepSmooth: 0.01
@@ -10095,7 +10096,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentStateName: 
   m_CurrentSubState: 
-  m_enemies: []
+  m_enemies:
+    _list: []
   m_ShowStates: 0
   m_AvailableAttacks: -1
   m_CooldownDurationRange: {x: 0.1, y: 2}
@@ -10317,6 +10319,7 @@ MonoBehaviour:
   m_OnDamage:
     m_PersistentCalls:
       m_Calls: []
+  m_FocusPoint: {fileID: 4516118352244988308}
 --- !u!114 &485665121009816389
 MonoBehaviour:
   m_ObjectHideFlags: 0

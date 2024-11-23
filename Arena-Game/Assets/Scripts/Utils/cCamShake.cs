@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class cCamShake : cSingleton<cCamShake>
+public class cCamShake : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCameraBase m_CinemachineVirtualCamera;
     private float m_ShakerTimer;

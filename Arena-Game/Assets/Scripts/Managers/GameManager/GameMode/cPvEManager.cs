@@ -92,10 +92,10 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             {
                 foreach (var npcIns in cNpcManager.Instance.m_Npcs)
                 {
-                    var npcSm = npcIns.GetComponentInChildren<cStateMachine>();
+                    var npcSm = npcIns.GetComponentInChildren<cCharacterStateMachine>();
                     if (!m_NPCNonActiveAtStart)
                     {
-                        npcSm.m_enemies.Add( cGameManager.Instance.m_OwnerPlayer);
+                        npcSm.NpcTargetHelper.IsAggressive = true;
                     }
                 }
             }
