@@ -84,6 +84,6 @@ public class cMobileInputManager : MonoBehaviour
 
     private void Update()
     {
-        _input = cJoystickController.JoystickValue;
+        _input = cJoystickController.Instance.JoystickValue;
     }
 }

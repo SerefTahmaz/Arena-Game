@@ -3,6 +3,8 @@ using Cinemachine;
 
 public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 {
+    [SerializeField] private Transform m_ReferencePivot;
+    
     public string HorizontalInput = "Mouse X";
     public string VerticalInput = "Mouse Y";
 
@@ -45,9 +47,16 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 
     public void OnClick()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && m_Id == -1)
         {
-            m_Id = Input.GetTouch(Input.touchCount - 1).fingerId;
+            for (int i = 0; i < Input.touchCount; i++)
+            {
+                if (Input.GetTouch(i).phase == TouchPhase.Began)
+                {
+                    m_Id = Input.GetTouch(i).fingerId;
+                    return;
+                }
+            }
         }
     }
 
@@ -55,8 +64,11 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
     
     private Vector2 m_JoystickValue;
 
-    private void Update()
+    private void Update() 
     {
+        Debug.Log($"Horizontal {Input.GetAxis(HorizontalInput)}");
+        Debug.Log($"Vertical {Input.GetAxis(VerticalInput)}"); 
+        
         Touch controllingTouch = new Touch();
         var clicked = false;
         for (int i = 0; i < Input.touchCount; i++)
