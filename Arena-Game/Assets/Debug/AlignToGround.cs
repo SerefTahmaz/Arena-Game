@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using RootMotion;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [ExecuteInEditMode]
 public class AlignToGround : MonoBehaviour
@@ -28,5 +30,11 @@ public class AlignToGround : MonoBehaviour
                 transform.position = hit.point;
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        transform.Rotate(0,Random.Range(-180.0f,180.0f),0);
+        transform.localScale *= Random.Range(0.8f, 1.2f);
     }
 }
