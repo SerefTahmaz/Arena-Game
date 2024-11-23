@@ -29,6 +29,7 @@ namespace ArenaGame.Experience
 
             if (savaData.m_ExperiencePoint < 0)
             {
+                savaData.m_ExperiencePoint = 0;
                 Debug.Log("Currency cant be less than zero!!!!");
             }
             SaveGameHandler.Save();

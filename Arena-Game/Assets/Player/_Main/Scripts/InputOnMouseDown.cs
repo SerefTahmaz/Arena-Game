@@ -64,9 +64,6 @@ public class InputOnMouseDown : MonoBehaviour, AxisState.IInputAxisProvider
 
     private void Update() 
     {
-        Debug.Log($"Horizontal {Input.GetAxis(HorizontalInput)}");
-        Debug.Log($"Vertical {Input.GetAxis(VerticalInput)}"); 
-        
         Touch controllingTouch = new Touch();
         var clicked = false;
         for (int i = 0; i < Input.touchCount; i++)

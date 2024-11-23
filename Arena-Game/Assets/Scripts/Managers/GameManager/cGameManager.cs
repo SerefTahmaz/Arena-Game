@@ -41,6 +41,7 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
+    public Action m_GameEnded = delegate {  };
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
     public ISaveManager SaveManager
@@ -343,6 +344,7 @@ public class cGameManager : cSingleton<cGameManager>
         cUIManager.Instance.ShowPage(Page.StartMenu,this);
         
         m_OnMainMenuButton.Invoke();
+        m_GameEnded.Invoke();
         
         cNpcManager.Instance.RemovePrefabsFromNetwork();
         

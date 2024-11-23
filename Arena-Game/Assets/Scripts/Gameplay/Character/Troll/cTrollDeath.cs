@@ -16,6 +16,12 @@ namespace FiniteStateMachine
         {
             base.Enter();
             AnimationController.SetTrigger(cTrollAnimationController.TrollAnimationState.Dead);
+           
+            DOVirtual.Float(0, 1, 1, value =>
+            {
+                StateMachine.TrollCharacter.MovementController.Move(Vector3.zero);
+            });
+            Debug.Log("Stopping Movement");
             cGameManager.Instance.m_OnNpcDied.Invoke();
             // StateMachine.Character.DragonNetworkController.OnEndFightServerRpc();
             StateMachine.TrollCharacter.TrollNetworkController.OnDeathServerRpc();

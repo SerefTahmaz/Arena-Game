@@ -209,6 +209,7 @@ namespace Gameplay
 
             if (m_Currency < 0)
             {
+                m_Currency = 0;
                 Debug.Log("Currency cant be less than zero!!!!");
             }
             Save();
