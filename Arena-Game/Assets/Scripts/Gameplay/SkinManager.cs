@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay;
 using Gameplay.Item;
 using Item;
@@ -28,6 +29,7 @@ public class SkinManager : MonoBehaviour
     {
         public ArmorController m_ArmorController;
         public ArmorItemSO armorItemTemplate;
+        public Action OnRemove { get; set; }
     }
 
     private void Awake()
@@ -82,28 +84,28 @@ public class SkinManager : MonoBehaviour
         }
     }
 
-    public void EquipItem(ArmorItemSO itemSO)
+    public SkinArmor EquipItem(ArmorItemSO itemSO)
     {
         switch (itemSO.ArmorType)
         {
             case ArmorType.Helm:
-                EquipItem(itemSO, "_HelmMask", ref m_SpawnedHelm);
+                return EquipItem(itemSO, "_HelmMask", ref m_SpawnedHelm);
                 break;
             case ArmorType.Chest:
-                EquipItem(itemSO, "_ChestMask", ref m_SpawnedChest);
+                return EquipItem(itemSO, "_ChestMask", ref m_SpawnedChest);
                 break;
             case ArmorType.Gauntlets:
-                EquipItem(itemSO, "_GauntletsMask", ref m_SpawnedGauntlets);
+                return EquipItem(itemSO, "_GauntletsMask", ref m_SpawnedGauntlets);
                 break;
             case ArmorType.Legging:
-                EquipItem(itemSO, "_LeggingMask", ref m_SpawnedLegging);
+                return EquipItem(itemSO, "_LeggingMask", ref m_SpawnedLegging);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void EquipItem(ArmorItemSO itemSO, string maskKey, ref SkinArmor spawnHolder)
+    private SkinArmor EquipItem(ArmorItemSO itemSO, string maskKey, ref SkinArmor spawnHolder)
     {
         ClearEquip(itemSO.ArmorType);
         //TODO: Handle hair state clearing
@@ -114,6 +116,7 @@ public class SkinManager : MonoBehaviour
         spawnHolder = new SkinArmor() { armorItemTemplate = itemSO, m_ArmorController = insArmor };
         m_ReferenceSkinnedMesh.material.SetTexture(maskKey, itemSO.ItemTemplate.BodyMask);
         if(itemSO.ItemTemplate.HideHair) m_HairGO.SetActive(false);
+        return spawnHolder;
     }
 
     public void DefaultEquip(ArmorType armorItemArmorType)
@@ -144,6 +147,7 @@ public class SkinManager : MonoBehaviour
             case ArmorType.Helm:
                 m_ReferenceSkinnedMesh.material.SetTexture("_HelmMask", Texture2D.blackTexture);
                 if (m_SpawnedHelm != null) {
+                    m_SpawnedHelm.OnRemove?.Invoke();
                     Destroy(m_SpawnedHelm.m_ArmorController.gameObject);
                     m_SpawnedHelm = null;
                 }
@@ -152,6 +156,7 @@ public class SkinManager : MonoBehaviour
             case ArmorType.Chest:
                 m_ReferenceSkinnedMesh.material.SetTexture("_ChestMask", Texture2D.blackTexture);
                 if (m_SpawnedChest != null) {
+                    m_SpawnedChest.OnRemove?.Invoke();
                     Destroy(m_SpawnedChest.m_ArmorController.gameObject);
                     m_SpawnedChest = null;
                 }
@@ -159,6 +164,7 @@ public class SkinManager : MonoBehaviour
             case ArmorType.Gauntlets:
                 m_ReferenceSkinnedMesh.material.SetTexture("_GauntletsMask", Texture2D.blackTexture);
                 if (m_SpawnedGauntlets != null) {
+                    m_SpawnedGauntlets.OnRemove?.Invoke();
                     Destroy(m_SpawnedGauntlets.m_ArmorController.gameObject);
                     m_SpawnedGauntlets = null;
                 }
@@ -166,6 +172,7 @@ public class SkinManager : MonoBehaviour
             case ArmorType.Legging:
                 m_ReferenceSkinnedMesh.material.SetTexture("_LeggingMask", Texture2D.blackTexture);
                 if (m_SpawnedLegging != null) {
+                    m_SpawnedLegging.OnRemove?.Invoke();
                     Destroy(m_SpawnedLegging.m_ArmorController.gameObject);
                     m_SpawnedLegging = null;
                 }
@@ -181,6 +188,18 @@ public class SkinManager : MonoBehaviour
         ClearEquip(ArmorType.Chest);
         ClearEquip(ArmorType.Gauntlets);
         ClearEquip(ArmorType.Legging);
+    }
+    
+    public bool IsItemEquiped(ArmorItemSO armorItemSo)
+    {
+        var skinArmors = new List<SkinArmor>()
+        {
+            m_SpawnedHelm,
+            m_SpawnedChest,
+            m_SpawnedGauntlets,
+            m_SpawnedLegging
+        };
+        return skinArmors.Any((armor => armor!=null && armor.armorItemTemplate == armorItemSo));
     }
 }
 

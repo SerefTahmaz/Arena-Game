@@ -13,7 +13,7 @@ namespace UI.Shop
         [SerializeField] private Transform m_LayoutParent;
         [SerializeField] protected MarketItemListSO m_MarketItemListSo;
         
-        private List<MarketItemController> m_MarketItemControllers = new List<MarketItemController>();
+        protected List<MarketItemController> m_MarketItemControllers = new List<MarketItemController>();
 
         public virtual void Init()
         {

@@ -11,6 +11,8 @@ public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
     [SerializeField] private SkinManager m_SkinManager;
     [SerializeField] private Transform m_FreeroamLevelPivot;
     [SerializeField] private Transform m_ArenaLevelPivot;
+    
+    public Action<ArmorType> OnArmorEquip { get; set; }
 
     private void Awake()
     {
@@ -29,9 +31,10 @@ public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
         }
     }
 
-    public void Equip(ArmorItemSO armorItemTemplate)
+    public SkinManager.SkinArmor Equip(ArmorItemSO armorItemTemplate)
     {
-        m_SkinManager.EquipItem(armorItemTemplate);
+        OnArmorEquip?.Invoke(armorItemTemplate.ArmorType);
+        return m_SkinManager.EquipItem(armorItemTemplate);
     }
 
     public void Unequip(ArmorItemSO armorItemTemplate)
@@ -47,5 +50,10 @@ public class InventoryPreviewManager : cSingleton<InventoryPreviewManager>
     public void SetState(bool state)
     {
         m_Pivot.SetActive(state);
+    }
+    
+    public bool IsItemEquiped(ArmorItemSO armorItemSo)
+    {
+        return m_SkinManager.IsItemEquiped(armorItemSo);
     }
 }

@@ -1,6 +1,8 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Gameplay;
+using Gameplay.Item;
 using UnityEngine;
 
 namespace UI.Shop
@@ -22,6 +24,17 @@ namespace UI.Shop
             m_MenuNode.OnDeActivateEvent.AddListener(OnDeactivate);
         }
         
+        private void UpdateItemsState()
+        {
+            foreach (var VARIABLE in m_MarketItemControllers)
+            {
+                if (VARIABLE.RewardItem is ArmorItemSO armorItemSo)
+                {
+                    VARIABLE.SetPreviewState(InventoryPreviewManager.Instance.IsItemEquiped(armorItemSo));
+                }
+            }
+        }
+
         private void OnDeactivate()
         {
             InventoryPreviewManager.Instance.ClearEquipment();
@@ -63,16 +76,20 @@ namespace UI.Shop
         public override void HandlePreview(MarketItemController marketItemController)
         {
             base.HandlePreview(marketItemController);
+            
+            var armorItemSo = marketItemController.RewardItem as ArmorItemSO;
             if (!marketItemController.IsPreviewing)
             {
+                InventoryPreviewManager.Instance.Equip(armorItemSo);
                 marketItemController.SetPreviewState(true);
-                InventoryPreviewManager.Instance.Equip(marketItemController.RewardItem as ArmorItemSO);
             }
             else
             {
                 marketItemController.SetPreviewState(false);
-                InventoryPreviewManager.Instance.Unequip(marketItemController.RewardItem as ArmorItemSO);
+                InventoryPreviewManager.Instance.Unequip(armorItemSo);
             }
+            
+            UpdateItemsState();
         }
     }
 }
