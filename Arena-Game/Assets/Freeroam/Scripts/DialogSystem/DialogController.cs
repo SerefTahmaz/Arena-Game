@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.UI;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Dialogue;
@@ -23,6 +24,7 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
     [SerializeField] private TMP_Text m_NpcDialogText;
     [SerializeField] private UniversalRenderPipelineAsset m_DialogURPSettings;
     [SerializeField] private cView m_View;
+    [SerializeField] private CinemachineVirtualCamera m_Camera;
     [SerializeField] private Transform m_CameraPivot;
     [SerializeField] private GameObject m_EventSystem;
 
@@ -40,8 +42,9 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
         RestartDialog();
         SetQualitySetting();
 
-        m_CameraPivot.transform.position = dialogFocusPoint.position;
-        m_CameraPivot.transform.forward = dialogFocusPoint.forward;
+        m_CameraPivot.position = dialogFocusPoint.position;
+        m_CameraPivot.forward = dialogFocusPoint.forward;
+        m_Camera.LookAt = dialogFocusPoint;
         
         GameplayStatics.SetPlayerVisibility(false);
 

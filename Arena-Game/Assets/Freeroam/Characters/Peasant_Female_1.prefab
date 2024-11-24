@@ -39,25 +39,25 @@ ParentConstraint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2149008600030732835}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: -0.0038, y: 1.569, z: 0.046}
+  m_TranslationAtRest: {x: -0.0038, y: 1.558, z: 0.046}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: -0.0038051605, y: 0.0749197, z: 0.06966543}
+  - {x: -0.0038061142, y: 0.071694255, z: 0.083652906}
   m_RotationOffsets:
-  - {x: 0, y: -0.003898851, z: 0}
+  - {x: 0, y: -0.0038986644, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
   m_AffectRotationX: 1
   m_AffectRotationY: 1
   m_AffectRotationZ: 1
-  m_Active: 0
+  m_Active: 1
   m_IsLocked: 0
   m_Sources:
-  - sourceTransform: {fileID: 0}
+  - sourceTransform: {fileID: 4372959554185802257}
     weight: 1
 --- !u!1 &7308307836556417267
 GameObject:
@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerDetector: {fileID: 3332371831155809072}
+  m_InteractableUI: {fileID: 6752345826981697214}
   m_DialogueGraph: {fileID: 11400000, guid: dda7a05148dd50e43bf6f5b2bc542940, type: 2}
   m_DialogFocusPoint: {fileID: 6914542040020121872}
-  m_InteractableUI: {fileID: 6752345826981697214}
 --- !u!1001 &7384443284544553644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -291,6 +291,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae7aa5c84a6117a419c98400da108509, type: 3}
+--- !u!4 &4372959554185802257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: ae7aa5c84a6117a419c98400da108509,
+    type: 3}
+  m_PrefabInstance: {fileID: 7569622001866135285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7964064431091691806 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ae7aa5c84a6117a419c98400da108509,

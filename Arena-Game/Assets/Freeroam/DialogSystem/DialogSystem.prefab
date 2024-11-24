@@ -274,6 +274,7 @@ MonoBehaviour:
   m_DialogURPSettings: {fileID: 11400000, guid: b74f05521253948448ec88623a48986d,
     type: 2}
   m_View: {fileID: 7890938153856308508}
+  m_Camera: {fileID: 8854443788259997361}
   m_CameraPivot: {fileID: 4093770503264116706}
   m_EventSystem: {fileID: 8000832756563289244}
 --- !u!1 &2604106715575980899
@@ -1541,12 +1542,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: -0.25, y: 0, z: 0}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0.5
-  m_VerticalDamping: 0.5
+  m_HorizontalDamping: 2.55
+  m_VerticalDamping: 2.97
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0

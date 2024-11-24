@@ -13,7 +13,6 @@ public class PlantHolderController : MonoBehaviour
     [SerializeField] private GameObject m_AvailableSpotVfx;
     [SerializeField] private GameObject m_CollectSpotVfx;
      
-    private IPlantHolderHandler m_PlantHolderHandler;
     private PlantController m_InsPlantController;
     
     public PlantItemSO SeedItemSo { get; set; }
@@ -27,9 +26,8 @@ public class PlantHolderController : MonoBehaviour
         SpawnPlant(insPlant);
     }
 
-    public void Init(IPlantHolderHandler plantHolderHandler)
+    public void Init()
     {
-        m_PlantHolderHandler = plantHolderHandler;
         m_AvailableSpotVfx.SetActive(true);
     }
     
@@ -51,14 +49,6 @@ public class PlantHolderController : MonoBehaviour
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.attachedRigidbody && other.attachedRigidbody.TryGetComponent(out IPlayerMarker _))
-        {
-            m_PlantHolderHandler.HandleOnPlayerEnter(this);
         }
     }
 

@@ -42,19 +42,19 @@ ParentConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: -0.0038, y: 1.373, z: 0.025}
+  m_TranslationAtRest: {x: -0.0038, y: 1.595, z: 0.029}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
+  - {x: -0.0037994385, y: 0.064394474, z: 0.058905184}
   m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: -0.00389992, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
   m_AffectRotationX: 1
   m_AffectRotationY: 1
   m_AffectRotationZ: 1
-  m_Active: 0
+  m_Active: 1
   m_IsLocked: 0
   m_Sources:
   - sourceTransform: {fileID: 3272313458342750799}
@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerDetector: {fileID: 2151690299111321229}
+  m_InteractableUI: {fileID: 6967848125353329498}
   m_DialogueGraph: {fileID: 11400000, guid: 858473b4734216544bf26045b4f161f5, type: 2}
   m_DialogFocusPoint: {fileID: 6834765408680282590}
-  m_InteractableUI: {fileID: 6967848125353329498}
 --- !u!114 &3516560902505739741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
     - m_Item: {fileID: 3856143522632350723}
       m_Possibilty: 0.53
     m_IsExclusive: 0
+    m_IsOneHasToBeSeleceted: 0
 --- !u!1001 &5103432759973895849
 PrefabInstance:
   m_ObjectHideFlags: 0

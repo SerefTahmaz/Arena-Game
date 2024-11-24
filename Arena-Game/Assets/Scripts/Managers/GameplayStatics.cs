@@ -27,14 +27,19 @@ namespace DefaultNamespace
         }
         public static void SetPlayerVisibility(bool value)
         {
-            InputManager.Instance.SetInput(value);
-            CameraManager.Instance.SetInput(value);
+            SetPlayerInput(value);
             
             Debug.Log($"Owner player {OwnerPlayer!=null}");
             if (OwnerPlayer)
             {
                 OwnerPlayer.GetComponent<HumanCharacter>().SetVisibility(value);
             }
+        }
+        
+        public static void SetPlayerInput(bool value)
+        {
+            InputManager.Instance.SetInput(value);
+            CameraManager.Instance.SetInput(value);
         }
     }
 }

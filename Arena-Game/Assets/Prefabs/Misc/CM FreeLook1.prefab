@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 8421420728706831495}
   - component: {fileID: 4151408768091766444}
   - component: {fileID: 8794506043580010401}
+  - component: {fileID: 3080710686009656246}
   m_Layer: 0
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -349,7 +350,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 50000
+    FarClipPlane: 2000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -519,6 +520,20 @@ MonoBehaviour:
   m_Damping: 0
   m_DampingWhenOccluded: 0
   m_OptimalTargetDistance: 0
+--- !u!114 &3080710686009656246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421420728706831491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b8d27b9e5804c4f8a4812352c944e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Cam: {fileID: 8421420728706831491}
+  m_CameraShake: {fileID: 4151408768091766444}
 --- !u!1 &8421420728825370870
 GameObject:
   m_ObjectHideFlags: 0

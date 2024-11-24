@@ -19,12 +19,7 @@ public class FarmMerchantController : InteractableNPC
 
     private bool m_IsShowingInventory;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override async UniTask  StartInteraction()
+    protected override async UniTask StartInteraction()
     {
         m_DialogHelper.ShowMerchantInventory += ShowInventory;
         await base.StartInteraction();

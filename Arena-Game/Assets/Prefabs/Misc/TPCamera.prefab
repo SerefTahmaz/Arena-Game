@@ -192,13 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c601794605dbe48847587ff1c2639d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameplayCam:
-    m_Cam: {fileID: 2683492264912536248}
-    m_CameraShake: {fileID: 7529891241698093207}
+  _gameplayCam: {fileID: 8873123140778808717}
   _gameplayCamInput: {fileID: 2683492264912536252}
-  m_focusCam:
-    m_Cam: {fileID: 4959525553740848219}
-    m_CameraShake: {fileID: 1829580216589868808}
+  m_focusCam: {fileID: 8972199465363860984}
   m_CinemachineFreeLook: {fileID: 2683492264912536249}
 --- !u!1 &7870023862887838876
 GameObject:
@@ -426,11 +422,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8421420728706831490, guid: 642d0869f8ca636458467b1cd085005f,
-        type: 3}
-      propertyPath: m_Lens.FarClipPlane
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 8421420728706831491, guid: 642d0869f8ca636458467b1cd085005f,
         type: 3}
       propertyPath: m_Name
@@ -541,19 +532,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 642d0869f8ca636458467b1cd085005f, type: 3}
---- !u!1 &2683492264912536248 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8421420728706831491, guid: 642d0869f8ca636458467b1cd085005f,
-    type: 3}
-  m_PrefabInstance: {fileID: 5900639616904484411}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2683492264912536249 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8421420728706831490, guid: 642d0869f8ca636458467b1cd085005f,
     type: 3}
   m_PrefabInstance: {fileID: 5900639616904484411}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2683492264912536248}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 319d2fe34a804e245819465c9505ea59, type: 3}
@@ -565,7 +550,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5900639616904484411}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2683492264912536248}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bf8f52c113c4d1fbfc62b278a9452a9, type: 3}
@@ -577,16 +562,16 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5900639616904484411}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7529891241698093207 stripped
+--- !u!114 &8873123140778808717 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4151408768091766444, guid: 642d0869f8ca636458467b1cd085005f,
+  m_CorrespondingSourceObject: {fileID: 3080710686009656246, guid: 642d0869f8ca636458467b1cd085005f,
     type: 3}
   m_PrefabInstance: {fileID: 5900639616904484411}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2683492264912536248}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aaac35cf0834984fb5264bd2cbc910c, type: 3}
+  m_Script: {fileID: 11500000, guid: 82b8d27b9e5804c4f8a4812352c944e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6136011705588237003
@@ -747,5 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 530d1eb464796274e9a0cadb45222f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Cam: {fileID: 4959525553740848219}
+  m_CameraShake: {fileID: 1829580216589868808}
   m_CinemachineTargetGroup: {fileID: 6211292056031296020}
   m_VirtualCamera: {fileID: 4752593949058634937}

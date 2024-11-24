@@ -46,8 +46,8 @@ namespace Gameplay.Character.NPCHuman
 
         protected override void Start()
         {
-            Character.InteractableNpc.OnDialogStarted += ChangeToDialogState;
-            Character.InteractableNpc.OnDialogEnded += ChangeToPatrolState;
+            Character.InteractableNpc.OnInteractionStarted += ChangeToDialogState;
+            Character.InteractableNpc.OnInteractionEnded += ChangeToPatrolState;
             
             Empty.InitializeState("Empty", this);
             Patrol.InitializeState("Patrol", this);

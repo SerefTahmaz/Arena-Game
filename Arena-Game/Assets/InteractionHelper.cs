@@ -1,21 +1,18 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using ArenaGame.Utils;
 using DefaultNamespace;
 using STNest.Utils;
 using UnityEngine;
 
-public class PlayerInteractionHelper : cSingleton<PlayerInteractionHelper>
+public class InteractionHelper : cSingleton<InteractionHelper>
 {
-    private ObservableList<InteractableNPC> m_InteractableNpcs = new ObservableList<InteractableNPC>();
+    private ObservableList<BaseInteractable> m_InteractableItems = new ObservableList<BaseInteractable>();
 
-    private InteractableNPC m_CurrentInteractableNpc;
+    private BaseInteractable m_CurrentInteractableNpc;
 
-    public ObservableList<InteractableNPC> InteractableNpcs => m_InteractableNpcs;
+    public ObservableList<BaseInteractable> InteractableNpcs => m_InteractableItems;
 
-    public void AddInteractionList(InteractableNPC interactableNpc)
+    public void AddInteractionList(BaseInteractable interactableNpc)
     {
         if (!InteractableNpcs.Contains(interactableNpc))
         {
@@ -23,7 +20,7 @@ public class PlayerInteractionHelper : cSingleton<PlayerInteractionHelper>
         }
     }
 
-    public void RemoveInteractionList(InteractableNPC interactableNpc)
+    public void RemoveInteractionList(BaseInteractable interactableNpc)
     {
         if (!InteractableNpcs.Contains(interactableNpc)) return;
 
@@ -54,12 +51,12 @@ public class PlayerInteractionHelper : cSingleton<PlayerInteractionHelper>
         }
     }
     
-    public void HandleDialogStarted(InteractableNPC interactableNpc)
+    public void HandleDialogStarted(BaseInteractable interactableNpc)
     {
         cUIManager.Instance.HidePage(Page.Gameplay,this);
     }
 
-    public void HandleDialogEnded(InteractableNPC interactableNpc)
+    public void HandleDialogEnded(BaseInteractable interactableNpc)
     {
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
     }

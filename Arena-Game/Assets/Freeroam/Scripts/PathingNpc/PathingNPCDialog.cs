@@ -21,6 +21,7 @@ namespace Gameplay.Character.NPCHuman
         {
             base.Enter();
             StateMachine.Character.MovementController.Move(Vector3.zero);
+            StateMachine.Character.Animator.SetTrigger("StartDialog");
             StateMachine.Character.AgentController.SetObstacle(true);
         }
 
@@ -33,6 +34,7 @@ namespace Gameplay.Character.NPCHuman
         public override void Exit()
         {
             base.Exit();
+            StateMachine.Character.Animator.SetTrigger("EndDialog");
             StateMachine.Character.AgentController.SetObstacle(false);
         }
     }
