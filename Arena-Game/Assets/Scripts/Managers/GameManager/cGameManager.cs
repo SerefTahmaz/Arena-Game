@@ -5,6 +5,7 @@ using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Gameplay.Character;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -36,7 +37,7 @@ public class cGameManager : cSingleton<cGameManager>
     private int m_SpawnOffset;
     private eGameMode m_CurrentGameMode = eGameMode.PvE;
     
-    public cCharacter m_OwnerPlayer;
+    public HumanCharacter m_OwnerPlayer;
     public int m_OwnerPlayerId;
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };

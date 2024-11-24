@@ -5,6 +5,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using ArenaGame.Utils;
 using FiniteStateMachine;
+using Gameplay.Character;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class cPlayerManager : cSingleton<cPlayerManager>
 {
     [SerializeField] private GameObject m_Player;
     
-    public Action<cCharacter> m_OwnerPlayerSpawn= delegate {  };
+    public Action<HumanCharacter> m_OwnerPlayerSpawn= delegate {  };
 
     public List<GameObject> m_Players = new List<GameObject>();
 
