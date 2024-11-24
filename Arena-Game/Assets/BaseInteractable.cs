@@ -38,7 +38,7 @@ public class BaseInteractable : MonoBehaviour
     protected virtual async UniTask StartInteraction()
     {
         OnInteractionStarted?.Invoke();
-        InteractionHelper.HandleDialogStarted(this);
+        InteractionHelper.HandleInteractionStarted(this);
         await HandleInteraction();
         await UniTask.WaitForSeconds(0.1f);
         HandleOnDialogEnded();
@@ -56,7 +56,7 @@ public class BaseInteractable : MonoBehaviour
             OnInteractionEnded?.Invoke();
             InteractionHelper.AddInteractionList(this);
         }
-        InteractionHelper.HandleDialogEnded(this);
+        InteractionHelper.HandleInteractionEnded(this);
     }
 
     public void SetInteraction(bool value)

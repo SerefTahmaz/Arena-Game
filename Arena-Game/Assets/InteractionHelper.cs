@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ArenaGame.Utils;
 using DefaultNamespace;
 using STNest.Utils;
@@ -6,57 +7,73 @@ using UnityEngine;
 
 public class InteractionHelper : cSingleton<InteractionHelper>
 {
-    private ObservableList<BaseInteractable> m_InteractableItems = new ObservableList<BaseInteractable>();
+    private ObservableList<BaseInteractable> m_Interactables = new ObservableList<BaseInteractable>();
+    private BaseInteractable m_CurrentInteractable;
 
-    private BaseInteractable m_CurrentInteractableNpc;
-
-    public ObservableList<BaseInteractable> InteractableNpcs => m_InteractableItems;
+    public ObservableList<BaseInteractable> Interactables => m_Interactables;
+    
+    public Action OnCurrentInteractableChanged { get; set; }
+    public BaseInteractable CurrentInteractable => m_CurrentInteractable;
 
     public void AddInteractionList(BaseInteractable interactableNpc)
     {
-        if (!InteractableNpcs.Contains(interactableNpc))
+        if (!Interactables.Contains(interactableNpc))
         {
-            InteractableNpcs.Add(interactableNpc);
+            Interactables.Add(interactableNpc);
         }
     }
 
     public void RemoveInteractionList(BaseInteractable interactableNpc)
     {
-        if (!InteractableNpcs.Contains(interactableNpc)) return;
+        if (!Interactables.Contains(interactableNpc)) return;
 
         interactableNpc.SetInteraction(false);
-        InteractableNpcs.Remove(interactableNpc);
+        Interactables.Remove(interactableNpc);
     }
 
     private void Update()
     {
-        if(InteractableNpcs.Count <= 0) return;
+        if (Interactables.Count <= 0)
+        {
+            SetCurrentInteractable(null);
+            return;
+        }
         
         var player = FindObjectOfType<PlayerMarker>();
         if (player)
         {
             var pos = player.transform;
 
-            foreach (var VARIABLE in InteractableNpcs)
+            foreach (var VARIABLE in Interactables)
             {
                 VARIABLE.SetInteraction(false);
             }
 
-            var closest = InteractableNpcs.OrderBy((npc => Vector3.Distance(pos.position, npc.transform.position))).FirstOrDefault();
+            var closest = Interactables.OrderBy((npc => Vector3.Distance(pos.position, npc.transform.position))).FirstOrDefault();
             
             if (closest != null)
             {
                 closest.SetInteraction(true);
+                SetCurrentInteractable(closest);
             }
         }
     }
+
+    public void SetCurrentInteractable(BaseInteractable interactable)
+    {
+        if (interactable != null && CurrentInteractable != interactable)
+        {
+            m_CurrentInteractable = interactable;
+            OnCurrentInteractableChanged?.Invoke();
+        }
+    }
     
-    public void HandleDialogStarted(BaseInteractable interactableNpc)
+    public void HandleInteractionStarted(BaseInteractable interactableNpc)
     {
         cUIManager.Instance.HidePage(Page.Gameplay,this);
     }
 
-    public void HandleDialogEnded(BaseInteractable interactableNpc)
+    public void HandleInteractionEnded(BaseInteractable interactableNpc)
     {
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
     }

@@ -4,20 +4,37 @@ using System.Collections.Generic;
 using ArenaGame.UI;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionButtonController : MonoBehaviour
 {
     [SerializeField] private GameObject m_Button;
+    [SerializeField] private Image m_Image;
+    [SerializeField] private Sprite m_PlantIcon;
+    [SerializeField] private Sprite m_NpcIcon;
 
     private void Awake()
     {
         SetButton(false);
-        PlayerInteractionHelper.Instance.InteractableNpcs.Updated += InteractableNpcsOnUpdated;
+        PlayerInteractionHelper.Instance.Interactables.Updated += InteractablesOnUpdated;
+        PlayerInteractionHelper.Instance.OnCurrentInteractableChanged += CurrentInteractableChanged;
     }
 
-    private void InteractableNpcsOnUpdated()
+    private void CurrentInteractableChanged()
     {
-        SetButton(PlayerInteractionHelper.Instance.InteractableNpcs.Count > 0);
+        if (PlayerInteractionHelper.Instance.CurrentInteractable is InteractableNPC)
+        {
+            m_Image.sprite = m_NpcIcon;
+        }
+        if (PlayerInteractionHelper.Instance.CurrentInteractable is InteractablePlant)
+        {
+            m_Image.sprite = m_PlantIcon;
+        }
+    }
+
+    private void InteractablesOnUpdated()
+    {
+        SetButton(PlayerInteractionHelper.Instance.Interactables.Count > 0);
     }
 
     public void SetButton(bool value)
