@@ -44,7 +44,7 @@ namespace DefaultNamespace
                 {
                     case PlantState.NewBorn:
                         var infoPopUp = GlobalFactory.InfoPopUpFactory.Create();
-                        infoPopUp.Init("Plant is growing. Check back later");
+                        await infoPopUp.Init("Plant is growing. Check back later");
                         break;
                     case PlantState.FullyGrown:
                         var collectPopUp = GlobalFactory.PlantFieldCollectPopUpFactory.Create();

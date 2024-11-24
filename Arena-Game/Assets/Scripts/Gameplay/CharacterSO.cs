@@ -184,9 +184,9 @@ namespace Gameplay
                 return;
             }
             
-            if (IsItemEquiped(itemSO as ArmorItemSO))
+            if (itemSO is ArmorItemSO armorItemSo && IsItemEquiped(armorItemSo))
             {
-                UnequipItem(itemSO as ArmorItemSO);
+                UnequipItem(armorItemSo);
             }
             
             InventoryList.Remove(itemSO);
