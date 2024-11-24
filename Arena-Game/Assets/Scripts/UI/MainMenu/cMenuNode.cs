@@ -14,6 +14,8 @@ public class cMenuNode : MonoBehaviour
 
     public UnityEvent OnActivateEvent => m_OnActivateEvent;
     public UnityEvent OnDeActivateEvent => m_OnDeActivateEvent;
+    
+    public bool IsActive { get; set; }
 
     public void SetParentNode(cMenuNode menuNode)
     {
@@ -25,12 +27,14 @@ public class cMenuNode : MonoBehaviour
         if(m_ParentNode != null) m_ParentNode.Deactivate(instant);
         if(m_ChildsView != null) m_ChildsView.Activate(instant);
         OnActivateEvent.Invoke();
+        IsActive = true;
     }
     
     public void Deactivate(bool instant = false)
     {
         if(m_ChildsView != null) m_ChildsView.Deactivate(instant);
         OnDeActivateEvent.Invoke();
+        IsActive = false;
     }
     
     public void Activate()

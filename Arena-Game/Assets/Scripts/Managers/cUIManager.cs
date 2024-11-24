@@ -34,7 +34,15 @@ public class cUIManager : cSingleton<cUIManager>
         if (lockablePage.IsActive)
         {
             Debug.Log($"Enabled {page}");
-            lockablePage.View.Activate(instant);
+
+            if (lockablePage.View.IsActive)
+            {
+                lockablePage.View.Activate(true);
+            }
+            else
+            {
+                lockablePage.View.Activate(instant);
+            }
         }
     }
     
