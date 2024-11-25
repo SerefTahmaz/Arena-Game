@@ -7,6 +7,7 @@ public class ChickController : MonoBehaviour
     [SerializeField] private Transform m_Mother;
     [SerializeField] private float m_DistanceToFollow;
     [SerializeField] private Animator m_Animator;
+    [SerializeField] private float m_Speed;
 
     private Vector3 targetOffset;
     
@@ -23,15 +24,15 @@ public class ChickController : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, m_Mother.position+targetOffset) < m_DistanceToFollow)
         {
-            m_Animator.SetFloat("Forward",Mathf.Lerp(m_Animator.GetFloat("Forward"),0,Time.deltaTime*10));
+            m_Animator.SetFloat("Forward",Mathf.Lerp(m_Animator.GetFloat("Forward"),0,Time.deltaTime*2));
         }
-        else
+        else 
         {
             Vector3 dir = m_Mother.position+targetOffset - transform.position;
             dir.Normalize();
             var lookDir = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookDir, Time.deltaTime*5);
-            transform.position = Vector3.Lerp(transform.position, m_Mother.position+targetOffset, Time.deltaTime * 2);
+            transform.position = Vector3.Lerp(transform.position, m_Mother.position+targetOffset, Time.deltaTime * 2 * m_Speed);
             
             m_Animator.SetFloat("Forward",Mathf.Lerp(m_Animator.GetFloat("Forward"),5,Time.deltaTime*10));
         }
