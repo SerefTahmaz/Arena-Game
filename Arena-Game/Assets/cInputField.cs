@@ -14,6 +14,8 @@ namespace DefaultNamespace
 
         public UnityEvent<string> OnValueChanged => m_OnValueChanged;
 
+        public string Text => m_InputField.text;
+
         // Start is called before the first frame update
         void Start()
         {
