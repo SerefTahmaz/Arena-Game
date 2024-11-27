@@ -33,7 +33,30 @@ public class RegistrationManager : MonoBehaviour
 
     private async UniTask RegisterUser()
     {
-        var result = await m_AuthService.CreateUserWithMailAndPassword(m_EmailField.Text, m_PasswordField.Text);
+        if (m_ImagePicker.Image == null)
+        {
+            Debug.Log("Please select a profile image!");
+            return;
+        }
+        if (String.IsNullOrEmpty(m_EmailField.Text))
+        {
+            Debug.Log("Please enter a email");
+            return;
+        }
+        if (String.IsNullOrEmpty(m_PasswordField.Text))
+        {
+            Debug.Log("Please enter a password");
+            return;
+        }
+        if (String.IsNullOrEmpty(m_UserNameField.Text))
+        {
+            Debug.Log("Please enter a username");
+            return;
+        }
+        
+        var credentials = new AuthCredentials(m_EmailField.Text, m_PasswordField.Text, m_UserNameField.Text, m_ImagePicker.Image);
+        
+        var result = await m_AuthService.RegisterUser(credentials);
 
         switch (result)
         {

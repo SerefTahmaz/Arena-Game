@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using ArenaGame;
 using ArenaGame.UI;
+using ArenaGame.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ImagePicker : MonoBehaviour
 {
-    [SerializeField] private cView m_View;
     [SerializeField] private Button m_Button;
     [SerializeField] private RawImage m_RawImage;
     
@@ -39,6 +39,7 @@ public class ImagePicker : MonoBehaviour
                 }
 
                 m_RawImage.texture = texture;
+                Image = texture.DuplicateTexture();
             }
         } );
 

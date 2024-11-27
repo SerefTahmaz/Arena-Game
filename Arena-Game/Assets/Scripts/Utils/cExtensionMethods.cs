@@ -153,6 +153,29 @@ namespace ArenaGame.Utils
         {
             return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
         }
+        
+        public static Texture2D DuplicateTexture(this Texture2D source)
+        {
+            var width = 128;
+            var height = 128;
+        
+            RenderTexture renderTex = RenderTexture.GetTemporary(
+                width,
+                height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.sRGB);
+
+            Graphics.Blit(source, renderTex);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTex;
+            Texture2D readableText = new Texture2D(width, height);
+            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            readableText.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(renderTex);
+            return readableText;
+        }
     }
 }
 
