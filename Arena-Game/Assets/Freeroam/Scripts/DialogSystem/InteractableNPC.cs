@@ -12,7 +12,7 @@ namespace DefaultNamespace
 
         protected DialogController m_DialogController;
 
-        public override InteractionHelper InteractionHelper => PlayerInteractionHelper.Instance;
+        public override InteractionHelper<PlayerInteractionHelper> InteractionHelper => PlayerInteractionHelper.Instance;
 
         protected override void HandleInteractionEvent()
         {

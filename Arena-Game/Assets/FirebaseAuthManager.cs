@@ -176,6 +176,12 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
             
         return requestResult;
     }
+
+    public void SignOut()
+    {
+        Debug.Log("Sign out call");
+        FirebaseAuth.DefaultInstance.SignOut();
+    }
 }
 
 public interface IAuthService
@@ -183,6 +189,7 @@ public interface IAuthService
     UniTask<RequestResult> SignInWithMailAndPassword(string mail, string password);
     // UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password);
     UniTask<RequestResult> RegisterUser(AuthCredentials authCredentials);
+    void SignOut();
 }
 
 public struct AuthCredentials

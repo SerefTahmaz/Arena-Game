@@ -12,6 +12,7 @@ public class RegistrationManager : MonoBehaviour
     [SerializeField] private cInputField m_UserNameField;
     [SerializeField] private ImagePicker m_ImagePicker;
     [SerializeField] private cButton m_RegisterButton;
+    [SerializeField] private cMenuNode m_MenuNode;
 
     private bool m_RegisterProcessing;
     
@@ -65,6 +66,8 @@ public class RegistrationManager : MonoBehaviour
                 break;
             case RequestResult.Success:
                 Debug.Log("Register Successful!");
+                m_MenuNode.Deactivate();
+                AuthManager.Instance.AuthenticateUserAndConfigureUI();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

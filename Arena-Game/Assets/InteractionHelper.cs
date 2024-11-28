@@ -5,7 +5,7 @@ using DefaultNamespace;
 using STNest.Utils;
 using UnityEngine;
 
-public class InteractionHelper : cSingleton<InteractionHelper>
+public class InteractionHelper<T> : cSingleton<T> where T : MonoBehaviour
 {
     private ObservableList<BaseInteractable> m_Interactables = new ObservableList<BaseInteractable>();
     private BaseInteractable m_CurrentInteractable;

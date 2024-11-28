@@ -14,7 +14,7 @@ namespace DefaultNamespace
         private PlantFieldController m_PlantFieldController;
         private CharacterSO m_PlayerCharacter;
 
-        public override InteractionHelper InteractionHelper => PlayerInteractionHelper.Instance;
+        public override InteractionHelper<PlayerInteractionHelper> InteractionHelper => PlayerInteractionHelper.Instance;
         
         public void Init(PlantFieldController plantFieldController)
         {

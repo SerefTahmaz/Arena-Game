@@ -10,6 +10,8 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private cInputField m_EmailField;
     [SerializeField] private cInputField m_PasswordField;
     [SerializeField] private cButton m_LoginButton;
+    [SerializeField] private cButton m_DontHaveAccountButton;
+    [SerializeField] private cMenuNode m_MenuNode;
     
     private IAuthService m_AuthService;
     private bool m_LoginProcessing;
@@ -18,6 +20,12 @@ public class LoginManager : MonoBehaviour
     {
         m_AuthService = authService;
         m_LoginButton.OnClickEvent.AddListener(HandleLogInButtonClicked);
+        m_DontHaveAccountButton.OnClickEvent.AddListener(HandleDontHaveAccountButtonCLicked);
+    }
+
+    private void HandleDontHaveAccountButtonCLicked()
+    {
+        
     }
 
     private void HandleLogInButtonClicked()
@@ -39,11 +47,18 @@ public class LoginManager : MonoBehaviour
                 break;
             case RequestResult.Success:
                 Debug.Log("Login Successful!");
+                m_MenuNode.Deactivate();
+                AuthManager.Instance.AuthenticateUserAndConfigureUI();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
         m_LoginProcessing = false;
+    }
+
+    public void ActivateUI()
+    {
+        m_MenuNode.Activate();
     }
 }

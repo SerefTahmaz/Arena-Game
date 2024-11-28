@@ -94,5 +94,6 @@ public enum Page
     Win,
     Lose,
     StartMenu,
-    Scoreboard
+    Scoreboard,
+    Authentication
 }

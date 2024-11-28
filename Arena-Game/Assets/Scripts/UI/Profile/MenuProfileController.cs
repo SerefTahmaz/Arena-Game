@@ -16,13 +16,20 @@ using UnityEditor;
 public class MenuProfileController : MonoBehaviour
 {
     [SerializeField] private cView m_View;
-    [SerializeField] private Button m_Button;
+    [SerializeField] private Button m_Button; 
     [SerializeField] private RawImage m_RawImage;
+    [SerializeField] private LogOutButtonController m_LogOutButtonController;
 
     private void Awake()
     {
         m_Button.onClick.AddListener(HandleImageClick);
+        m_LogOutButtonController.OnLogOut += HandleLogOutButtonClicked;
         LoadProfile();
+    }
+
+    private void HandleLogOutButtonClicked()
+    {
+        m_View.Deactivate();
     }
 
     private void LoadProfile()

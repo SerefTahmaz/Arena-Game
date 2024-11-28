@@ -11,7 +11,7 @@ public class BaseInteractable : MonoBehaviour
     public Action OnInteractionStarted { get; set; }
     public Action OnInteractionEnded { get; set; }
     
-    public virtual InteractionHelper InteractionHelper { get; set; }
+    public virtual InteractionHelper<PlayerInteractionHelper> InteractionHelper { get; set; }
         
     private void Start()
     {

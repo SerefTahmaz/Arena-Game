@@ -6,6 +6,6 @@ using DefaultNamespace;
 using STNest.Utils;
 using UnityEngine;
 
-public class PlayerInteractionHelper : InteractionHelper
+public class PlayerInteractionHelper : InteractionHelper<PlayerInteractionHelper>
 {
 }
