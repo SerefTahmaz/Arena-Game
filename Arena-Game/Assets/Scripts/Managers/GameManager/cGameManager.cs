@@ -112,6 +112,9 @@ public class cGameManager : cSingleton<cGameManager>
             }
         };
 
+        cUIManager.Instance.ShowPage(Page.StartMenu,this,true);
+        cUIManager.Instance.HidePage(Page.StartMenu,this,true);
+        
         cUIManager.Instance.ShowPage(Page.Loading,this);
         //TODO: Hide when loading completes!
         DOVirtual.DelayedCall(2, () =>
@@ -124,8 +127,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     private void HandleUserAuthenticated()
     {
-        AuthManager.Instance.OnUserAuthenticated -= HandleUserAuthenticated;
-        cUIManager.Instance.ShowPage(Page.StartMenu,this,true);
+        cUIManager.Instance.ShowStartMenu();
     }
 
     private void HandleDisconnectionStates()

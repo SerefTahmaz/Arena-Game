@@ -19,7 +19,7 @@ public class MenuProfileController : MonoBehaviour
     [SerializeField] private Button m_Button; 
     [SerializeField] private RawImage m_RawImage;
     [SerializeField] private LogOutButtonController m_LogOutButtonController;
-
+ 
     private void Awake()
     {
         m_Button.onClick.AddListener(HandleImageClick);

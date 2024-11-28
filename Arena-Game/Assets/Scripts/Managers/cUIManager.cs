@@ -62,6 +62,11 @@ public class cUIManager : cSingleton<cUIManager>
         m_CanvasGroup.interactable = state;
         m_CanvasGroup.blocksRaycasts = state;
     }
+
+    public void ShowStartMenu()
+    {
+        m_StartMenuNode.Activate();
+    }
     
     [Serializable]
     public class LockableItem

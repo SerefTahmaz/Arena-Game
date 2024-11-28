@@ -39,7 +39,7 @@ public class AuthManager : cSingleton<AuthManager>
     public void SignOut()
     { 
         AuthService.SignOut();
-        m_LoginManager.ActivateUI();
+        AuthenticateUserAndConfigureUI();
     }
 }
 

@@ -28,7 +28,7 @@ public class LogOutButtonController : MonoBehaviour
         var insChoice = ChoicePopUpUIController.Create();
 
         var isSuccessful = await insChoice.Init("Are you sure you want to log out?");
-
+ 
         if (isSuccessful)
         {
             AuthManager.Instance.SignOut();
