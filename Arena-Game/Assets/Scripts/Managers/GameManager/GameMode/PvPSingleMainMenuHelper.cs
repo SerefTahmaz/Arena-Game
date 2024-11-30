@@ -13,6 +13,11 @@ public class PvPSingleMainMenuHelper : MonoBehaviour
         transform.DOScale(0.05f, 0.8f).SetLoops(-1, LoopType.Yoyo).SetRelative(true);
     }
 
+    private void OnDestroy()
+    {
+        transform.DOKill();
+    }
+
     public void OnClick()
     {
         Main.Instance.UnityTransport.SetConnectionData("127.0.0.1", 7777);

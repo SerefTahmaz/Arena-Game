@@ -43,7 +43,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         var lobbyPlayerCount = cLobbyManager.Instance.JoinedLobby.Players.Count;
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        LoadingScreen.Instance.ShowPage(this);
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
@@ -58,7 +58,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
         await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
         MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
     }
     
     private void OnClientConnected(ulong obj)

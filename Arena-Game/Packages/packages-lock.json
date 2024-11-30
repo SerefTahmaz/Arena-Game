@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cysharp.unitask": {
+      "version": "2.5.4",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -394,6 +401,15 @@
       "source": "git",
       "dependencies": {},
       "hash": "4d27475bed66d56aca8b7d585b98fe503525e593"
+    },
+    "extensions.unity.imageloader": {
+      "version": "5.3.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.cysharp.unitask": "2.5.4"
+      },
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

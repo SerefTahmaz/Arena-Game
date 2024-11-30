@@ -31,8 +31,7 @@ namespace ArenaGame.UI.MenuInventory
 
         public async UniTask<SeedItemSO> WaitForSelection()
         {
-            m_CharacterSo.Load();
-            Refresh(m_CharacterSo.InventoryList.Where((so => so as SeedItemSO)).ToList());
+            Refresh(m_CharacterSo.GetCharacterSave().InventoryList.Where((so => so as SeedItemSO)).ToList());
             m_HasPlayerSelected = false;
             m_SelectedSeedItemSo = null;
             await UniTask.WaitUntil((() => m_HasPlayerSelected));

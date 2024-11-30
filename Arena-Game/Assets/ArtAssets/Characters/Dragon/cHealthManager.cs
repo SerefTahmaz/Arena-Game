@@ -50,7 +50,11 @@ public class cHealthManager : MonoBehaviour
         {
             m_HealthBar = m_WorldHealthBar;
             CurrentHealth.OnValueChanged += (value, newValue) => { UpdateUIClientRpc(); };
-            if(m_Character.CharacterNetworkController.IsOwner) CurrentHealth.Value = StartHealth;
+            if (m_Character.CharacterNetworkController.IsOwner)
+            {
+                Debug.Log($"StartHealth Health {StartHealth}");
+                CurrentHealth.Value = StartHealth;
+            }
             m_HealthController.m_OnDied += () =>
             {
                 m_OnDied.Invoke();
@@ -79,7 +83,7 @@ public class cHealthManager : MonoBehaviour
                 m_HealthBar = m_WorldHealthBar;
                 break;
             case eHealthBarState.UIBoss:
-                healthBar = cGameManager.Instance.GiveMeBossUIHealthBar();
+                healthBar = GameHealthBarManager.Instance.GiveMeBossUIHealthBar();
                 if (healthBar != null)
                 {
                     m_HealthBar = healthBar;
@@ -89,7 +93,7 @@ public class cHealthManager : MonoBehaviour
             case eHealthBarState.UIPlayer:
                 if (CharacterNetworkController.IsOwner)
                 {
-                    healthBar = cGameManager.Instance.GiveMePlayerUIHealthBar();
+                    healthBar = GameHealthBarManager.Instance.GiveMePlayerUIHealthBar();
                     if (healthBar != null)
                     {
                         m_HealthBar = healthBar;

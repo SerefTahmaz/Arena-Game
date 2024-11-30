@@ -86,10 +86,10 @@ namespace UI.EndScreen
             //Upgrade Reward
             var randomEquiptedItems = new List<ArmorItemSO>()
             {
-                m_PlayerChar.HelmArmor,
-                m_PlayerChar.ChestArmor,
-                m_PlayerChar.GauntletsArmor,
-                m_PlayerChar.LeggingArmor
+                m_PlayerChar.GetCharacterSave().HelmArmor,
+                m_PlayerChar.GetCharacterSave().ChestArmor,
+                m_PlayerChar.GetCharacterSave().GauntletsArmor,
+                m_PlayerChar.GetCharacterSave().LeggingArmor
             };
             randomEquiptedItems.RemoveAll((so => so == null));
             randomEquiptedItems.Shuffle();

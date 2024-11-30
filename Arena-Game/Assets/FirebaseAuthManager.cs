@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using Firebase.Storage;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public static class FirebaseRef
     public static StorageReference STORAGE_PROFILE_IMAGES = STORAGE_REF.Child("profile_images");
     public static DatabaseReference DB_REF = FirebaseDatabase.DefaultInstance.RootReference;
     public static DatabaseReference REF_USERS = DB_REF.Child("users");
+    public static DatabaseReference REF_CHARACTERS = DB_REF.Child("characters");
 }
 
 public class FirebaseAuthManager : MonoBehaviour,IAuthService
@@ -20,30 +22,55 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
     private FirebaseAuth auth;
     private FirebaseUser user;
 
-    public void Init()
-    {
-        InitializeFirebase();
-    }
+    public FirebaseUser User => user;
 
-    void InitializeFirebase() {
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.StateChanged += AuthStateChanged;
-        AuthStateChanged(this, null);
+    public async UniTask Init()
+    {
+        await InitializeFirebase();
+    } 
+
+    public async UniTask InitializeFirebase()
+    {
+        bool isInitCompleted = false;
+        await Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            var dependencyStatus = task.Result;
+            if (dependencyStatus == Firebase.DependencyStatus.Available) {
+                // Create and hold a reference to your FirebaseApp,
+                // where app is a Firebase.FirebaseApp property of your application class.
+                var app = Firebase.FirebaseApp.DefaultInstance;
+                auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+                auth.StateChanged += AuthStateChanged;
+                AuthStateChanged(this, null);
+                
+                //TODO: ENABLE ON DEVICE
+                FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+
+                // Set a flag here to indicate whether Firebase is ready to use by your app.
+            } else {
+                UnityEngine.Debug.LogError(System.String.Format(
+                    "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                // Firebase Unity SDK is not safe to use here.
+            }
+
+            isInitCompleted = true;
+        });
+
+        await UniTask.WaitUntil((() => isInitCompleted));
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs) {
-        if (auth.CurrentUser != user) {
-            bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null
+        if (auth.CurrentUser != User) {
+            bool signedIn = User != auth.CurrentUser && auth.CurrentUser != null
                                                      && auth.CurrentUser.IsValid();
-            if (!signedIn && user != null) {
-                Debug.Log("Signed out " + user.UserId);
+            if (!signedIn && User != null) {
+                Debug.Log("Signed out " + User.UserId);
             }
             user = auth.CurrentUser;
             if (signedIn) {
-                Debug.Log("Signed in " + user.UserId);
-                var displayName = user.DisplayName ?? "";
-                var emailAddress = user.Email ?? "";
-                var photoUrl = user.PhotoUrl ?? default;
+                Debug.Log("Signed in " + User.UserId);
+                var displayName = User.DisplayName ?? "";
+                var emailAddress = User.Email ?? "";
+                var photoUrl = User.PhotoUrl ?? default;
             }
         }
     }
@@ -135,9 +162,9 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
 
         var values = new Dictionary<string, object>()
         {
-            { "email", authCredentials.Email },
-            { "username", authCredentials.Username },
-            { "profileImageUrl", profileImageUrl }
+            { "m_Email", authCredentials.Email },
+            { "m_Username", authCredentials.Username },
+            { "m_ProfileImageUrl", profileImageUrl }
         };
 
         var databaseTask = FirebaseRef.REF_USERS.Child(uid).UpdateChildrenAsync(values);

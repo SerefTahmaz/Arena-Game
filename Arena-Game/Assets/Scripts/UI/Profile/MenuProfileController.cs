@@ -25,11 +25,12 @@ public class MenuProfileController : MonoBehaviour
         m_Button.onClick.AddListener(HandleImageClick);
         m_LogOutButtonController.OnLogOut += HandleLogOutButtonClicked;
         LoadProfile();
+        SaveGameHandler.OnChanged += LoadProfile;
     }
 
     private void HandleLogOutButtonClicked()
     {
-        m_View.Deactivate();
+        // m_View.Deactivate();
     }
 
     private void LoadProfile()
@@ -41,6 +42,11 @@ public class MenuProfileController : MonoBehaviour
         {
             m_RawImage.texture = PPTex;
         }
+    }
+
+    private void OnDestroy()
+    {
+        SaveGameHandler.OnChanged -= LoadProfile;
     }
 
     public void HandleImageClick()

@@ -37,7 +37,7 @@ public class MapManager : cSingleton<MapManager>
 
     public async UniTask SetMap(int levelIndex)
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        LoadingScreen.Instance.ShowPage(this);
         await RemoveCurrentLevel();
         await UnloadFreeroam();
         
@@ -47,12 +47,12 @@ public class MapManager : cSingleton<MapManager>
         await PrewarmShaders(levelIndex);
 
         OnMapLoaded?.Invoke(levelIndex);
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
     }
     
     public async UniTask SetMapNetwork(int levelIndex)
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        LoadingScreen.Instance.ShowPage(this);
         await RemoveCurrentLevel();
         await UnloadFreeroam();
         
@@ -66,7 +66,7 @@ public class MapManager : cSingleton<MapManager>
         await PrewarmShaders(levelIndex);
 
         OnMapLoaded?.Invoke(levelIndex);
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
     }
 
     private void OnLoadCompleted(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
@@ -96,7 +96,7 @@ public class MapManager : cSingleton<MapManager>
 
     public async UniTask LoadFreeroamLevel()
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        LoadingScreen.Instance.ShowPage(this);
         
         await UnloadFreeroam();
         await RemoveCurrentLevel();
@@ -107,7 +107,7 @@ public class MapManager : cSingleton<MapManager>
         await PrewarmShaders(-1);
         
         OnMapLoaded?.Invoke(-1);
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
     }
 
     public async UniTask UnloadFreeroam()
@@ -125,13 +125,13 @@ public class MapManager : cSingleton<MapManager>
 
     public async UniTask SetMapIndex(int instanceLastMapIndex)
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this,true);
+        LoadingScreen.Instance.ShowPage(this,true);
         
         m_CurrentLevel = instanceLastMapIndex;
         await PrewarmShaders(instanceLastMapIndex);
 
         OnMapLoaded?.Invoke(instanceLastMapIndex);
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
     }
 }
 

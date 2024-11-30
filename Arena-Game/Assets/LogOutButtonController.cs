@@ -31,10 +31,12 @@ public class LogOutButtonController : MonoBehaviour
  
         if (isSuccessful)
         {
-            AuthManager.Instance.SignOut();
-            OnLogOut?.Invoke();
+            cGameManager.Instance.HandleSighOut();
+            // OnLogOut?.Invoke();
         }
-        
-        m_Button.Activate();
+        else
+        {
+            m_Button.Activate();
+        }
     }
 }

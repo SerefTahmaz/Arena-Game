@@ -35,7 +35,14 @@ namespace Gameplay.Character
 
         public CharacterSO CharacterSo => m_CharacterSo;
 
-        public override int StartHealth => m_CharacterSo.Health;
+        public override int StartHealth
+        {
+            get
+            {
+                Debug.Log($"Characters Health {m_CharacterSo.GetCharacterSave().Health}");
+                return m_CharacterSo.GetCharacterSave().Health;
+            }
+        }
 
         public SkinManager SkinManager => m_SkinManager;
 

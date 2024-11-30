@@ -41,42 +41,44 @@ public class SkinManager : MonoBehaviour
     {
         Equipment();
 
-        m_CharacterSO.OnChanged += Equipment;
-    }
+        m_CharacterSO.GetCharacterSave().OnChanged += Equipment;
+    } 
     
     private void OnDestroy()
     {
-        m_CharacterSO.OnChanged -= Equipment;
+        if(m_CharacterSO.GetCharacterSave() != null) m_CharacterSO.GetCharacterSave().OnChanged -= Equipment;
     }
 
     public void Equipment()
     {
-        if(!Application.isPlaying) return;
+        if (!Application.isPlaying)
+        {
+            Debug.Log("Application");
+            return;
+        }
         
         m_DefaultSet.SetActive(false);
-        
-        m_CharacterSO.Load();
         
         ClearEquip(ArmorType.Helm);
         ClearEquip(ArmorType.Chest);
         ClearEquip(ArmorType.Gauntlets);
         ClearEquip(ArmorType.Legging);
 
-        if (m_CharacterSO.HelmArmor != null)
+        if (m_CharacterSO.GetCharacterSave().HelmArmor != null)
         {
-            EquipItem(m_CharacterSO.HelmArmor);
+            EquipItem(m_CharacterSO.GetCharacterSave().HelmArmor);
         }
-        if (m_CharacterSO.ChestArmor != null)
+        if (m_CharacterSO.GetCharacterSave().ChestArmor != null)
         {
-            EquipItem(m_CharacterSO.ChestArmor);
+            EquipItem(m_CharacterSO.GetCharacterSave().ChestArmor);
         }
-        if (m_CharacterSO.GauntletsArmor != null)
+        if (m_CharacterSO.GetCharacterSave().GauntletsArmor != null)
         {
-            EquipItem(m_CharacterSO.GauntletsArmor);
+            EquipItem(m_CharacterSO.GetCharacterSave().GauntletsArmor);
         }
-        if (m_CharacterSO.LeggingArmor != null)
+        if (m_CharacterSO.GetCharacterSave().LeggingArmor != null)
         {
-            EquipItem(m_CharacterSO.LeggingArmor);
+            EquipItem(m_CharacterSO.GetCharacterSave().LeggingArmor);
         }
         else
         {
@@ -124,16 +126,16 @@ public class SkinManager : MonoBehaviour
         switch (armorItemArmorType)
         {
             case ArmorType.Helm:
-                if (m_CharacterSO.HelmArmor) EquipItem(m_CharacterSO.HelmArmor); else ClearEquip(armorItemArmorType);
+                if (m_CharacterSO.GetCharacterSave().HelmArmor) EquipItem(m_CharacterSO.GetCharacterSave().HelmArmor); else ClearEquip(armorItemArmorType);
                 break;
             case ArmorType.Chest:
-                if (m_CharacterSO.ChestArmor) EquipItem(m_CharacterSO.ChestArmor); else ClearEquip(armorItemArmorType);
+                if (m_CharacterSO.GetCharacterSave().ChestArmor) EquipItem(m_CharacterSO.GetCharacterSave().ChestArmor); else ClearEquip(armorItemArmorType);
                 break;
             case ArmorType.Gauntlets:
-                if (m_CharacterSO.GauntletsArmor) EquipItem(m_CharacterSO.GauntletsArmor); else ClearEquip(armorItemArmorType);
+                if (m_CharacterSO.GetCharacterSave().GauntletsArmor) EquipItem(m_CharacterSO.GetCharacterSave().GauntletsArmor); else ClearEquip(armorItemArmorType);
                 break;
             case ArmorType.Legging:
-                if (m_CharacterSO.LeggingArmor) EquipItem(m_CharacterSO.LeggingArmor); else EquipItem(m_BasePant);
+                if (m_CharacterSO.GetCharacterSave().LeggingArmor) EquipItem(m_CharacterSO.GetCharacterSave().LeggingArmor); else EquipItem(m_BasePant);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(armorItemArmorType), armorItemArmorType, null);

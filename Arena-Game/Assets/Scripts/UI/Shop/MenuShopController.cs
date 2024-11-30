@@ -60,14 +60,13 @@ namespace UI.Shop
         public override void HandlePurchase(MarketItemController marketItemController)
         {
             base.HandlePurchase(marketItemController);
-            m_TargetCharacterSO.Load();
-            var isItemInInventory = m_TargetCharacterSO.IsItemInInventory(marketItemController.RewardItem);
+            var isItemInInventory = m_TargetCharacterSO.GetCharacterSave().IsItemInInventory(marketItemController.RewardItem);
             if (!isItemInInventory)
             {
-                m_TargetCharacterSO.AddInventory(marketItemController.RewardItem);
+                m_TargetCharacterSO.GetCharacterSave().AddInventory(marketItemController.RewardItem);
                 
                 if(marketItemController.RewardItem is ArmorItemSO rewardArmorItem) 
-                    m_TargetCharacterSO.EquipItem(rewardArmorItem);
+                    m_TargetCharacterSO.GetCharacterSave().EquipItem(rewardArmorItem);
             }
 
             marketItemController.DecreaseAmount();

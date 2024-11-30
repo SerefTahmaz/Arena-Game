@@ -94,7 +94,6 @@ public class cUIManager : cSingleton<cUIManager>
 public enum Page
 {
     MainMenu,
-    Loading,
     Gameplay,
     Win,
     Lose,

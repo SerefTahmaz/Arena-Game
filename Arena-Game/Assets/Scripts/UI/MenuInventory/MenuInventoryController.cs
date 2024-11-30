@@ -23,10 +23,9 @@ public class MenuInventoryController : ItemViewer,IMenuInventoryItemHandler
     protected override void Init()
     {
         base.Init();
-        m_CharacterSo.Load();
         m_MenuNode.OnActivateEvent.AddListener((() =>
         {
-            Refresh(m_CharacterSo.InventoryList);
+            Refresh(m_CharacterSo.GetCharacterSave().InventoryList);
         }));
     }
 
@@ -41,7 +40,7 @@ public class MenuInventoryController : ItemViewer,IMenuInventoryItemHandler
         base.HandleClick(menuInventoryItemController);
         if (menuInventoryItemController is ArmorMenuInventoryItemController armorInventoryItem)
         {
-            var isItemEquiped = m_CharacterSo.IsItemEquiped(armorInventoryItem.itemTemplate);
+            var isItemEquiped = m_CharacterSo.GetCharacterSave().IsItemEquiped(armorInventoryItem.itemTemplate);
             Debug.Log(isItemEquiped);
             if (isItemEquiped)
             {
@@ -67,18 +66,18 @@ public class MenuInventoryController : ItemViewer,IMenuInventoryItemHandler
         {
             if (VARIABLE is ArmorMenuInventoryItemController armorMenuInventoryItemController)
             {
-                armorMenuInventoryItemController.SetEquipState(m_CharacterSo.IsItemEquiped(armorMenuInventoryItemController.itemTemplate));
+                armorMenuInventoryItemController.SetEquipState(m_CharacterSo.GetCharacterSave().IsItemEquiped(armorMenuInventoryItemController.itemTemplate));
             }
         }
     }
  
     private void EquipItem(ArmorItemSO itemTemplate)
     {
-        m_CharacterSo.EquipItem(itemTemplate);
+        m_CharacterSo.GetCharacterSave().EquipItem(itemTemplate);
     }
 
     private void UnequipItem(ArmorItemSO itemTemplate)
     {
-        m_CharacterSo.UnequipItem(itemTemplate);
+        m_CharacterSo.GetCharacterSave().UnequipItem(itemTemplate);
     }
 }

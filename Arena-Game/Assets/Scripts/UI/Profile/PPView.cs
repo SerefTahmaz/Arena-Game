@@ -17,6 +17,12 @@ public class PPView : MonoBehaviour
     void Start()
     {
         SaveGameHandler.OnChanged += HandleOnChange;
+        UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        SaveGameHandler.OnChanged -= HandleOnChange;
     }
 
     private void HandleOnChange()

@@ -18,13 +18,19 @@ namespace ArenaGame.Managers.SaveManager
             set => m_SaveData = value;
         }
 
-        private static bool m_Loaded = false;
+        public static bool m_Loaded = false;
 
-        private static string m_SaveFilePath => Application.persistentDataPath + "/ItemData.json";
+        private static string m_SaveFilePath => Application.persistentDataPath  + "/ItemData-"+AuthManager.Instance.Uid+".json";
 
         public static void Load(){
             if(m_Loaded) return;
         
+            m_GeneratedArmorItems.Clear();
+            m_GeneratedFoodItems.Clear();
+            m_GeneratedPlantItems.Clear();
+            m_GeneratedSeedItems.Clear();
+            m_GeneratedPlantFieldItems.Clear();
+            
             if (File.Exists(m_SaveFilePath))
             {
                 string loadPlayerData = File.ReadAllText(m_SaveFilePath);
@@ -187,9 +193,9 @@ namespace ArenaGame.Managers.SaveManager
         [MenuItem("SaveData/Item/ShowFileLoc")]
         public static void ShowFileLoc()
         {
-            if (File.Exists(m_SaveFilePath))
+            if (File.Exists(Application.persistentDataPath))
             {
-                EditorUtility.RevealInFinder(m_SaveFilePath);
+                EditorUtility.RevealInFinder( Application.persistentDataPath);
             }
             else
                 Debug.Log("There is nothing to show!");

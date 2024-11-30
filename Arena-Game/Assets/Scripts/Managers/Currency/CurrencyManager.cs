@@ -11,19 +11,19 @@ namespace ArenaGame.Currency
         public static int Currency()
         {
             SaveGameHandler.Load();
-            return GameplayStatics.GetPlayerCharacterSO().Currency;
+            return GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
         }
         
         public static void GainCurrency(int amount)
         {
             var savaData = GameplayStatics.GetPlayerCharacterSO();
-            savaData.GainCurrency(amount);
+            savaData.GetCharacterSave().GainCurrency(amount);
         }
 
         public static void SpendCurrency(int amount)
         {
             var savaData = GameplayStatics.GetPlayerCharacterSO();
-            savaData.SpendCurrency(amount);
+            savaData.GetCharacterSave().SpendCurrency(amount);
         }
 
         public static bool HasEnoughCurrency(int amount)

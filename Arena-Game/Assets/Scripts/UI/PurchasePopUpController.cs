@@ -26,10 +26,10 @@ public class PurchasePopUpController : YesNoPopUpController, IPurchasePopUpContr
 
     public override void HandleYes()
     {
-        if (m_TargetChar.HasEnoughCurrency(m_Amount))
+        if (m_TargetChar.GetCharacterSave().HasEnoughCurrency(m_Amount))
         {
-            m_TargetChar.SpendCurrency(m_Amount);
-            if(m_SourceChar != null) m_SourceChar.GainCurrency(m_Amount);
+            m_TargetChar.GetCharacterSave().SpendCurrency(m_Amount);
+            if(m_SourceChar != null) m_SourceChar.GetCharacterSave().GainCurrency(m_Amount);
             isSuccessfully = true;
         }
         else

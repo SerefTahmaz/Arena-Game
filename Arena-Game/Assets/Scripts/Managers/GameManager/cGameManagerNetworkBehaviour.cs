@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class cGameManagerNetworkBehaviour : NetworkBehaviour
 {
-    [SerializeField] private cButton m_MainMenuButton;
-    
     [ClientRpc]
     public void OnHostLeaveClientRpc()
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
@@ -14,37 +15,29 @@ using UnityEditor;
 
 public class DatabaseManager : MonoBehaviour
 {
-    public void Save()
-    {
-        WriteAndReadSave();
-    }
-
-    private async UniTask WriteAndReadSave()
-    {
-        SaveGameHandler.Load();
-        var saveData = SaveGameHandler.SaveData;
-        var saveDataJson = JsonConvert.SerializeObject(saveData);
-        
-        var firebaseDatabase = FirebaseDatabase.DefaultInstance.RootReference;
-        await firebaseDatabase.Child("users").Child(SystemInfo.deviceUniqueIdentifier).SetRawJsonValueAsync(saveDataJson).AsUniTask();
-        var readData = await firebaseDatabase.Child("users").Child(SystemInfo.deviceUniqueIdentifier).GetValueAsync().AsUniTask();
-        var deserializedData = JsonConvert.DeserializeObject<SaveData>(readData.GetRawJsonValue());
-        Debug.Log($"{deserializedData.m_PlayerName} {deserializedData.m_ExperiencePoint}");
-    }
-
-    public class User {
-        public string username;
-        public string email;
-
-        public User() {
-        }
-
-        public User(string username, string email) {
-            this.username = username;
-            this.email = email;
-        }
-    }
-    
+    // private void Start()
+    // {
+    //     FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(true);
+    // }
+    //
+    // public void Save()
+    // { 
+    //     WriteAndReadSave();
+    // }
+    //
+    // private async UniTask WriteAndReadSave()
+    // {
+    //     SaveGameHandler.Load();
+    //     var saveData = SaveGameHandler.SaveData;
+    //     var saveDataJson = JsonConvert.SerializeObject(saveData);
+    //     
+    //     var firebaseDatabase = FirebaseDatabase.DefaultInstance.RootReference;
+    //     await firebaseDatabase.Child("users").Child(SystemInfo.deviceUniqueIdentifier).SetRawJsonValueAsync(saveDataJson).AsUniTask();
+    //     var readData = await firebaseDatabase.Child("users").Child(SystemInfo.deviceUniqueIdentifier).GetValueAsync().AsUniTask();
+    //     var deserializedData = JsonConvert.DeserializeObject<SaveData>(readData.GetRawJsonValue());
+    //     Debug.Log($"{deserializedData.m_PlayerName} {deserializedData.m_ExperiencePoint}");
+    // }
+    //
     // private void writeNewUser(string userId, string name, string email) {
     //     User user = new User(name, email);
     //     string json = JsonUtility.ToJson(user);
@@ -63,7 +56,6 @@ public class DatabaseManagerEditor : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Click"))
         {
-            (target as DatabaseManager).Save();
         }
     }
 }

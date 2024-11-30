@@ -35,7 +35,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
-            cUIManager.Instance.ShowPage(Page.Loading,this);
+            LoadingScreen.Instance.ShowPage(this);
             cGameManager.Instance.HandleStartingRelay();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
@@ -52,7 +52,7 @@ public class cRelayManager : cSingleton<cRelayManager>
             MultiplayerLocalHelper.Instance.NetworkHelper.ResetState();
             cGameManager.Instance.StartGame();
             Debug.Log("GameStarted!!!");
-            cUIManager.Instance.HidePage(Page.Loading,this);
+            LoadingScreen.Instance.HidePage(this);
             return joinCode;
         }
         catch (RelayServiceException e)
@@ -86,7 +86,7 @@ public class cRelayManager : cSingleton<cRelayManager>
         try
         {
             cGameManager.Instance.HandleStartingRelay();
-            cUIManager.Instance.ShowPage(Page.Loading,this);
+            LoadingScreen.Instance.ShowPage(this);
             cGameManager.Instance.StartGameClient(true);
             // //TODO: make it async
             await MapManager.Instance.RemoveCurrentLevel();
@@ -99,11 +99,11 @@ public class cRelayManager : cSingleton<cRelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
-            cUIManager.Instance.ShowPage(Page.Loading, m_ClientLoadingLock,true);
+            LoadingScreen.Instance.ShowPage(m_ClientLoadingLock, true);
             NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManagerOnOnLoadComplete;
             
             Debug.Log($"Last map index {cLobbyManager.Instance.LastMapIndex}");
-            cUIManager.Instance.HidePage(Page.Loading,this);
+            LoadingScreen.Instance.HidePage(this);
         }
         catch (RelayServiceException e)
         {
@@ -114,7 +114,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     private void SceneManagerOnOnLoadComplete(ulong clientid, string scenename, LoadSceneMode loadscenemode)
     {
         NetworkManager.Singleton.SceneManager.OnLoadComplete -= SceneManagerOnOnLoadComplete;
-        cUIManager.Instance.HidePage(Page.Loading, m_ClientLoadingLock);
+        LoadingScreen.Instance.HidePage(m_ClientLoadingLock);
         MapManager.Instance.SetMapIndex(cLobbyManager.Instance.LastMapIndex);
     }
 }

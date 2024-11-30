@@ -49,7 +49,7 @@ public class cHealthBar : MonoBehaviour
     public void UpdateUI()
     {
         m_NameText.text = PlayerName;
-        m_Image.fillAmount = CurrentHealth.Value / StartHealth;
+        m_Image.fillAmount = CurrentHealth.Value / Mathf.Max(StartHealth,0.001f);
         m_DelayTween.Kill();
         m_DelayTween = DOVirtual.DelayedCall(1, () => m_IsDelayCompleted = true);
         

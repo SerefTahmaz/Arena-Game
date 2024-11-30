@@ -37,9 +37,9 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.ShowPage(Page.Loading,this);
         var insMatchMaking = MatchMakingController.CreateInstanceMatchMaking();
         await insMatchMaking.Init();
+        LoadingScreen.Instance.ShowPage(this);
         
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
@@ -55,7 +55,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             player = OnClientConnected(VARIABLE.Key).transform;
         }
 
-        cUIManager.Instance.HidePage(Page.Loading,this);
+        LoadingScreen.Instance.HidePage(this);
 
         if (m_IsActive)
         {

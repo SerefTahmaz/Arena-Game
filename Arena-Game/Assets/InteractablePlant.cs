@@ -51,9 +51,8 @@ namespace DefaultNamespace
                         var isSuccessfull = await collectPopUp.Init();
                         if (isSuccessfull)
                         {
-                            m_PlayerCharacter.Load();
                             var producedFoodItemSOIns = plantHolderController.InsPlantController.GiveProducedFoodItemInsSO();
-                            m_PlayerCharacter.AddInventory(producedFoodItemSOIns);
+                            m_PlayerCharacter.GetCharacterSave().AddInventory(producedFoodItemSOIns);
                             plantHolderController.DestroyPlant();
                             m_PlantFieldController.SaveSeed(this, null);
                         }
@@ -81,8 +80,7 @@ namespace DefaultNamespace
                 Debug.Log($"Selected seed name {selectedSeed.ItemName}");
                 plantHolderController.PlantWithSeed(selectedSeed);
                 m_PlantFieldController.SaveSeed(this, plantHolderController.InsPlantController.PlantItemSo);
-                m_PlayerCharacter.Load();
-                m_PlayerCharacter.RemoveInventory(selectedSeed);
+                m_PlayerCharacter.GetCharacterSave().RemoveInventory(selectedSeed);
             }
         }
 

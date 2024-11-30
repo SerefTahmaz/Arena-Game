@@ -40,7 +40,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     private async UniTask LoopStart()
     {
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
-        cUIManager.Instance.ShowPage(Page.Loading,this);
+        LoadingScreen.Instance.ShowPage(this);
         
         SaveGameHandler.Load();
         var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
@@ -85,7 +85,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         DOVirtual.DelayedCall(1, () =>
         {
             m_ProjectSceneManager.UnloadScene();
-            cUIManager.Instance.HidePage(Page.Loading,this);
+            LoadingScreen.Instance.HidePage(this);
             MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
             
             if (cGameManager.Instance.m_OwnerPlayer != null)

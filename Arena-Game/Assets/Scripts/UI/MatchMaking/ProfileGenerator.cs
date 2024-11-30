@@ -1,5 +1,6 @@
 ﻿using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
+using Authentication;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace ArenaGame
         {
             SaveGameHandler.Load();
             var savaData = SaveGameHandler.SaveData;
-            savaData.m_PlayerName = newName;
+            savaData.m_Username = newName;
             SaveGameHandler.Save();
         }
     }
@@ -45,19 +46,18 @@ namespace ArenaGame
             ExpPoint = expPoint;
         }
 
-        public PlayerDataModel(SaveData saveData, Texture2D profilePicture)
+        public PlayerDataModel(User saveData, Texture2D profilePicture)
         {
-            Name = saveData.m_PlayerName;
+            Name = saveData.m_Username;
             ProfilePicture = profilePicture;
             ExpPoint = saveData.m_ExperiencePoint;
             WinsCount = saveData.m_WinsCount;
-            SaveGameHandler.Load();
         }
 
         public string Name { get; set; }
         public Texture2D ProfilePicture { get; set; }
         public int ExpPoint { get; set; }
-        public int Currency => GameplayStatics.GetPlayerCharacterSO().Currency;
+        public int Currency => GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
         public int WinsCount { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Extensions.Unity.ImageLoader;
 using Gameplay.Character;
 using Unity.Netcode;
 using UnityEngine;
@@ -23,18 +24,13 @@ public class cGameManager : cSingleton<cGameManager>
     [SerializeField] private cPlayerIconList m_PlayerIconList;
     [SerializeField] private SaveManager m_InstanceSaveManager;
     [SerializeField] private NetworkObject m_NetworkObject;
-    [SerializeField] private cHealthBar m_BossUIHealthBar;
-    [SerializeField] private cHealthBar m_PlayerUIHealthBar;
-    [SerializeField] private bool m_IsBossUIBeingUsed;
-    [SerializeField] private bool m_IsPlayerUIBeingUsed;
+    
     [SerializeField] private cPvPManager m_PvPManager;
     [SerializeField] private cPvEManager m_PvEManager;
     [SerializeField] private cPvPSingleManager m_CPvPSingleManager;
     [SerializeField] private FreeroamGameMode m_FreeroamGameMode;
 
     private IGameModeHandler m_GameModeHandler;
-    private ISaveManager m_SaveManager;
-    private int m_SpawnOffset;
     private eGameMode m_CurrentGameMode = eGameMode.PvE;
     
     public HumanCharacter m_OwnerPlayer;
@@ -45,18 +41,6 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_GameEnded = delegate {  };
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
-    public ISaveManager SaveManager
-    {
-        get
-        {
-            if (m_SaveManager == null)
-            {
-                m_SaveManager = m_InstanceSaveManager.GetComponent<ISaveManager>();
-            }
-
-            return m_SaveManager;
-        }
-    }
 
     public eGameMode CurrentGameMode
     {
@@ -81,53 +65,33 @@ public class cGameManager : cSingleton<cGameManager>
     private bool m_IsServerDisconnectedClient;
     private bool m_IsServerDisconnectedItself;
 
+    private void Awake()
+    {
+        ImageLoader.Init();
+    }
+
     private void Start()
     {
+        DOVirtual.DelayedCall(2, () =>
+        {
+            InternetManager.Instance.SetCheckInternetConnection(true);
+        },false);
+        
+        HandleDisconnectionStates();
+        
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
         {
             m_OwnerPlayerId = transform1.GetComponent<cCharacterNetworkController>().m_TeamId.Value;
             m_OwnerPlayer = transform1;
         };
-
-        HandleDisconnectionStates();
-
-        DOVirtual.DelayedCall(2, () =>
-        {
-            InternetManager.Instance.SetCheckInternetConnection(true);
-        },false);
-
-        m_BossUIHealthBar.m_OnVisibleUpdate += b =>
-        {
-            if (b == false)
-            {
-                m_IsBossUIBeingUsed = false;
-            }
-        };
-        
-        m_PlayerUIHealthBar.m_OnVisibleUpdate += b =>
-        {
-            if (b == false)
-            {
-                m_IsPlayerUIBeingUsed = false;
-            }
-        };
-
-        cUIManager.Instance.ShowPage(Page.StartMenu,this,true);
-        cUIManager.Instance.HidePage(Page.StartMenu,this,true);
-        
-        cUIManager.Instance.ShowPage(Page.Loading,this);
-        //TODO: Hide when loading completes!
-        DOVirtual.DelayedCall(2, () =>
-        {
-            cUIManager.Instance.HidePage(Page.Loading,this);
-            AuthManager.Instance.OnUserAuthenticated += HandleUserAuthenticated;
-            AuthManager.Instance.AuthenticateUserAndConfigureUI();
-        });
     }
 
-    private void HandleUserAuthenticated()
+    public async UniTask StartMainScene()
     {
-        cUIManager.Instance.ShowStartMenu();
+        LoadingScreen.Instance.ShowPage(this,true);
+        await SceneManager.LoadSceneAsync("TempMain",LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("TempMain"));
+        LoadingScreen.Instance.HidePage(this);
     }
 
     private void HandleDisconnectionStates()
@@ -214,7 +178,6 @@ public class cGameManager : cSingleton<cGameManager>
     public void SetClosedAppInGameplay(bool value)
     {
         Debug.Log($"Closed App In Gameplay {value}");
-        SaveGameHandler.Load();
         SaveGameHandler.SaveData.m_IsPlayerClosedAppInGameplay = value;
         SaveGameHandler.Save();
     }
@@ -232,15 +195,13 @@ public class cGameManager : cSingleton<cGameManager>
     public void SetPlayerDisqualified()
     {
         Debug.Log("Disqualified!!!");
-        SaveGameHandler.Load();
         SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
         SaveGameHandler.Save();
     }
 
     public void StartGame()
     {
-        m_IsBossUIBeingUsed = false;
-        m_IsPlayerUIBeingUsed = false;
+        GameHealthBarManager.Instance.ResetStates();
         
         switch (m_CurrentGameMode)
         {
@@ -271,57 +232,6 @@ public class cGameManager : cSingleton<cGameManager>
         IsGameplayActive = true;
         IsOnlineGameplayActive = isOnline;
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
-    }
-
-    // private async UniTask StartRound()
-    // {
-    //     await UniTask.WaitForSeconds(10);
-    //     m_ProjectSceneManager.SpawnScene(cLevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
-    //     if (NetworkManager.Singleton.IsHost)
-    //     {
-    //         m_OnNpcDied = delegate {  };
-    //         m_OnNpcDied += CheckSuccess;
-    //     }
-    // }
-    
-    private Scene loadedScene;
-
-    private int clientCount;
-    private void OnClientStarted()
-    {
-        clientCount++;
-        Debug.Log($"client count {clientCount}");
-    }
-
-    private void OnLoaded(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
-    {
-        Debug.Log("Loaded!!!!");
-    }
-    
-    public cHealthBar GiveMeBossUIHealthBar()
-    {
-        if (m_IsBossUIBeingUsed)
-        {
-            return null;
-        }
-        else
-        {
-            m_IsBossUIBeingUsed = true;
-            return m_BossUIHealthBar;
-        }
-    }
-    
-    public cHealthBar GiveMePlayerUIHealthBar()
-    {
-        if (m_IsPlayerUIBeingUsed)
-        {
-            return null;
-        }
-        else
-        {
-            m_IsPlayerUIBeingUsed = true;
-            return m_PlayerUIHealthBar;
-        }
     }
     
     public Action m_OnMainMenuButton = delegate {  };
@@ -414,5 +324,15 @@ public class cGameManager : cSingleton<cGameManager>
     public void HandleStartingRelay()
     {
         cUIManager.Instance.HidePage(Page.StartMenu,this);
+    }
+
+    public async UniTask HandleSighOut()
+    {
+        LoadingScreen.Instance.ShowPage(this);
+        await MapManager.Instance.RemoveCurrentLevel();
+        await MapManager.Instance.UnloadFreeroam();
+        await SceneManager.UnloadSceneAsync("TempMain");
+        LoadingScreen.Instance.HidePage(this);
+        AuthManager.Instance.SignOut();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ArenaGame.Managers.SaveManager;
 using ArenaGame.UI;
 using ArenaGame.Utils;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
         }
         m_LevelSelectUnits.Clear();
         
-        int currentLevel = cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel;
+        int currentLevel = SaveGameHandler.SaveData.m_CurrentPVELevel;
         m_CurrentIndex = currentLevel;
         for (var index = 0; index < m_LevelListSo.LevelList.Count; index++)
         {
@@ -61,7 +62,7 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
 
     private void OnStartSelectedSinglePlayer()
     {
-        cUIManager.Instance.ShowPage(Page.Loading, this);
+        LoadingScreen.Instance.ShowPage(this);
         cLobbyManager.Instance.m_OnGameStarted += HandleOnGameStartedSingle;
         
         void Created()
@@ -80,7 +81,7 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
     private void HandleOnGameStartedSingle()
     {
         cLobbyManager.Instance.m_OnGameStarted -= HandleOnGameStartedSingle;
-        cUIManager.Instance.HidePage(Page.Loading, this);
+        LoadingScreen.Instance.HidePage(this);
     }
 
     public void Activate()
@@ -92,10 +93,10 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
     public void SelectNext()
     {
         m_CurrentIndex++;
-        if (m_CurrentIndex > cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel)
+        if (m_CurrentIndex > SaveGameHandler.SaveData.m_CurrentPVELevel)
         {
-            cGameManager.Instance.SaveManager.SaveData.m_CurrentPVELevel = m_CurrentIndex;
-            cGameManager.Instance.SaveManager.Save();
+            SaveGameHandler.SaveData.m_CurrentPVELevel = m_CurrentIndex;
+            SaveGameHandler.Save();
         }
         
         OnSelect(m_LevelSelectUnits[m_CurrentIndex % m_LevelSelectUnits.Count]);

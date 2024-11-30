@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
@@ -17,9 +18,13 @@ public class MapSelectButtonController : MonoBehaviour
         SaveGameHandler.OnChanged += RefreshUI;
     }
 
+    private void OnDestroy()
+    {
+        SaveGameHandler.OnChanged -= RefreshUI;
+    }
+
     private void RefreshUI()
     {
-        SaveGameHandler.Load();
         var saveGame = SaveGameHandler.SaveData;
 
         var currentMapSo = MapListSO.Get().MapSOs[saveGame.m_CurrentMap];

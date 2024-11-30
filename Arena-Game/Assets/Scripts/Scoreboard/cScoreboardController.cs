@@ -77,14 +77,14 @@ public class cScoreboardController : NetworkBehaviour
     {
         foreach (var VARIABLE in m_GeneratedUIUnits)
         {
-            Destroy(VARIABLE.gameObject);
+            if(VARIABLE) Destroy(VARIABLE.gameObject);
         }
         m_GeneratedUIUnits.Clear();
 
         var orderedUnits = cScoreClientHolder.Instance.m_ClientScoreUnitsDic.Values.OrderByDescending((controller => controller.KillCount.Value)).ThenBy((controller => controller.DeadCount.Value));
         foreach (var VARIABLE in orderedUnits)
         {
-            var ins = Instantiate(m_ScoreboardUIUnitController, m_UITransform);
+            var ins = Instantiate(m_ScoreboardUIUnitController, FindObjectOfType<cGameplayMenuUIController>().ScoreBoardUITransform);
             ins.Init(VARIABLE.PlayerName.Value.Value, VARIABLE.KillCount.Value, VARIABLE.DeadCount.Value, VARIABLE.IconIndex.Value);
             m_GeneratedUIUnits.Add(ins);
         }

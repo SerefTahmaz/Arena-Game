@@ -40,17 +40,15 @@ public class FarmMerchantController : InteractableNPC
         }
         
         m_FocusCam.SetActive(true);
-            
-        m_FarmerChar.Load();
-        m_FarmerChar.InventoryList = new List<BaseItemSO>();
-        m_FarmerChar.Save();
-        m_FarmerChar.GainCurrency(999999);
+        
+        m_FarmerChar.GetCharacterSave().InventoryList = new List<BaseItemSO>();
+        m_FarmerChar.GetCharacterSave().GainCurrency(999999);
         var items = m_FarmerMarketSOs.Select((so => so.DuplicateUnique()));
         foreach (var VARIABLE in  items)
         {
-            m_FarmerChar.AddInventory(VARIABLE);
-            m_FarmerChar.Save();
+            m_FarmerChar.GetCharacterSave().AddInventory(VARIABLE);
         }
+        m_FarmerChar.GetCharacterSave().Save();
         m_InsTransactionShopPopUpController = GlobalFactory.TransactionShopPopUpFactory.Create();
         m_InsTransactionShopPopUpController.Init(GameplayStatics.GetPlayerCharacterSO(), m_FarmerChar);
         m_InsTransactionShopPopUpController.OnDismissed += OnTransactionDismissed;

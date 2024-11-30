@@ -21,28 +21,26 @@ namespace DefaultNamespace
         
         public void Equip()
         {
-            m_CharacterSo.Load();
-            m_CharacterSo.ClearEquipment();
-            m_CharacterSo.Save();
+            m_CharacterSo.GetCharacterSave().ClearEquipment();
+            m_CharacterSo.GetCharacterSave().Save();
             foreach (var armorItem in m_ArmorItems)
             {
                 var ins = armorItem.DuplicateUnique() as ArmorItemSO;
                 ins.Save();
-                m_CharacterSo.EquipItem(ins);
+                m_CharacterSo.GetCharacterSave().EquipItem(ins);
             }
-            m_CharacterSo.Save();
+            m_CharacterSo.GetCharacterSave().Save();
         }
         
         public void SetInventory()
         {
-            m_CharacterSo.Load();
-            m_CharacterSo.InventoryList = m_InventoryItems.Select((item =>
+            m_CharacterSo.GetCharacterSave().InventoryList = m_InventoryItems.Select((item =>
             {
                 var ins = item.DuplicateUnique();
                 ins.Save();
                 return ins as BaseItemSO;
             })).ToList();
-            m_CharacterSo.Save();
+            m_CharacterSo.GetCharacterSave().Save();
         }
     }
     

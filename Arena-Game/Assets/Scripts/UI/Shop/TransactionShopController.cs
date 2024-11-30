@@ -22,8 +22,8 @@ namespace UI.Shop
             m_SourceCharacter = sourceCharacter;
             m_TargetCharacter = targetCharacter;
             m_IsPlayerSelling = isPlayerSelling;
-            m_SourceCharacter.OnChanged += Refresh;
-            m_TargetCharacter.OnChanged += Refresh;
+            m_SourceCharacter.GetCharacterSave().OnChanged += Refresh;
+            m_TargetCharacter.GetCharacterSave().OnChanged += Refresh;
             Refresh();
 
             m_ShopNameText.text = sourceCharacter.name;
@@ -31,22 +31,21 @@ namespace UI.Shop
 
         public void CleanUp()
         {
-            m_SourceCharacter.OnChanged -= Refresh;
-            m_TargetCharacter.OnChanged -= Refresh;
+            m_SourceCharacter.GetCharacterSave().OnChanged -= Refresh;
+            m_TargetCharacter.GetCharacterSave().OnChanged -= Refresh;
         }
 
         private void OnDestroy()
         {
-            if(m_SourceCharacter) m_SourceCharacter.OnChanged -= Refresh;
-            if(m_TargetCharacter) m_TargetCharacter.OnChanged -= Refresh;
+            if(m_SourceCharacter) m_SourceCharacter.GetCharacterSave().OnChanged -= Refresh;
+            if(m_TargetCharacter) m_TargetCharacter.GetCharacterSave().OnChanged -= Refresh;
         }
 
         public override void Refresh()
         {
             m_MarketItemListSo = ScriptableObject.CreateInstance<MarketItemListSO>();
             m_MarketItemListSo.MarketItemSOs = new List<MarketItemSO>();
-            m_SourceCharacter.Load();
-            foreach (var VARIABLE in m_SourceCharacter.InventoryList)
+            foreach (var VARIABLE in m_SourceCharacter.GetCharacterSave().InventoryList)
             {
                 if (VARIABLE is ISellableItem sellableItem)
                 {
@@ -79,16 +78,14 @@ namespace UI.Shop
         public override void HandlePurchase(MarketItemController marketItemController)
         {
             base.HandlePurchase(marketItemController);
-            m_TargetCharacter.Load();
-            var isItemInInventory = m_TargetCharacter.IsItemInInventory(marketItemController.RewardItem);
+            var isItemInInventory = m_TargetCharacter.GetCharacterSave().IsItemInInventory(marketItemController.RewardItem);
             if (!isItemInInventory)
             {
-                m_TargetCharacter.AddInventory(marketItemController.RewardItem);
-                m_TargetCharacter.Save();
+                m_TargetCharacter.GetCharacterSave().AddInventory(marketItemController.RewardItem);
+                m_TargetCharacter.GetCharacterSave().Save();
             }
-            m_SourceCharacter.Load();
-            m_SourceCharacter.RemoveInventory(marketItemController.MarketItemSo.RewardItemTemplate);
-            m_SourceCharacter.Save();
+            m_SourceCharacter.GetCharacterSave().RemoveInventory(marketItemController.MarketItemSo.RewardItemTemplate);
+            m_SourceCharacter.GetCharacterSave().Save();
             marketItemController.DecreaseAmount();
             Refresh();
         }
