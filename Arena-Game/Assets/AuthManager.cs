@@ -35,7 +35,7 @@ public class AuthManager : cSingleton<AuthManager>
         m_LoginManager.Init(m_FirebaseAuthManager);
         m_RegistrationManager.Init(m_FirebaseAuthManager);
         LoadingScreen.Instance.HidePage(this);
-        AuthenticateUserAndConfigureUI();
+        // AuthenticateUserAndConfigureUI();
     }
 
     public void AuthenticateUserAndConfigureUI()
