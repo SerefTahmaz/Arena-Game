@@ -652,12 +652,6 @@ extern "C" {
     return [FBSDKSettings.sharedSettings isAdvertiserTrackingEnabled];
   }
 
-  BOOL IOSFBDomainErrorEnabled(BOOL domainErrorEnabled)
-  {
-    [FBSDKSettings.sharedSettings setIsDomainErrorEnabled:domainErrorEnabled];
-    return [FBSDKSettings.sharedSettings isDomainErrorEnabled];
-  }
-
   char* IOSFBSdkVersion()
   {
     const char* string = [[FBSDKSettings.sharedSettings sdkVersion] UTF8String];
