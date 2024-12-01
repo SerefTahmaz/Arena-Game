@@ -49,7 +49,7 @@ public class FacebookLogin : MonoBehaviour
     }
     public void loginBtnForFB (){
 // Permission option list      https://developers.facebook.com/docs/facebook-login/permissions/
-        var permissons = new List<string>()   {"email","user_birthday","user_friends",  "public_profile"};
+        var permissons = new List<string>()   {"email", "public_profile"};
         FB.LogInWithReadPermissions(permissons, authStatusCallback);
     }
     private void authStatusCallback (ILoginResult result) {
