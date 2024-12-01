@@ -35,6 +35,7 @@ public class AuthManager : cSingleton<AuthManager>
         m_LoginManager.Init(m_FirebaseAuthManager);
         m_RegistrationManager.Init(m_FirebaseAuthManager);
         LoadingScreen.Instance.HidePage(this);
+        AuthenticateUserAndConfigureUI();
     }
 
     public void AuthenticateUserAndConfigureUI()
@@ -55,9 +56,9 @@ public class AuthManager : cSingleton<AuthManager>
     private async UniTask StartGame()
     {
         SaveGameHandler.m_Loaded = false;
-        await SaveGameHandler.Load(true);
+        await SaveGameHandler.Load();
         ItemSaveHandler.m_Loaded = false; 
-        ItemSaveHandler.Load();
+        await ItemSaveHandler.Load();
         await CharacterSaveManager.Instance.Init();
         await cGameManager.Instance.StartMainScene();
     }

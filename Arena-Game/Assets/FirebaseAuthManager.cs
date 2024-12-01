@@ -15,6 +15,7 @@ public static class FirebaseRef
     public static DatabaseReference DB_REF = FirebaseDatabase.DefaultInstance.RootReference;
     public static DatabaseReference REF_USERS = DB_REF.Child("users");
     public static DatabaseReference REF_CHARACTERS = DB_REF.Child("characters");
+    public static DatabaseReference REF_ITEMS = DB_REF.Child("items");
 }
 
 public class FirebaseAuthManager : MonoBehaviour,IAuthService
@@ -41,7 +42,7 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
                 auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
                 auth.StateChanged += AuthStateChanged;
                 AuthStateChanged(this, null);
-                
+                 
                 //TODO: ENABLE ON DEVICE
                 FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
 

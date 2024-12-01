@@ -30,8 +30,8 @@ namespace ArenaGame.Managers.SaveManager
 
         public static Action OnChanged = delegate { };
 
-        public static async UniTask Load(bool forceLoad=false){
-            if(m_Loaded&& !forceLoad) return;
+        public static async UniTask Load(){
+            if(m_Loaded) return;
         
             // if (File.Exists(m_SaveFilePath))
             // {
@@ -66,7 +66,7 @@ namespace ArenaGame.Managers.SaveManager
             {
                 Load();
             }
-
+ 
             // string savePlayerData = JsonConvert.SerializeObject(SaveData);
             // File.WriteAllText(m_SaveFilePath, savePlayerData);
 

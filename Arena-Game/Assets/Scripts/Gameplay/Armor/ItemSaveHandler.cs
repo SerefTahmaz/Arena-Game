@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Authentication;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Gameplay.Farming;
+using Mono.CSharp;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -22,7 +25,7 @@ namespace ArenaGame.Managers.SaveManager
 
         private static string m_SaveFilePath => Application.persistentDataPath  + "/ItemData-"+AuthManager.Instance.Uid+".json";
 
-        public static void Load(){
+        public static async UniTask Load(){
             if(m_Loaded) return;
         
             m_GeneratedArmorItems.Clear();
@@ -31,18 +34,22 @@ namespace ArenaGame.Managers.SaveManager
             m_GeneratedSeedItems.Clear();
             m_GeneratedPlantFieldItems.Clear();
             
-            if (File.Exists(m_SaveFilePath))
+            // if (File.Exists(m_SaveFilePath))
+            // {
+            //     string loadPlayerData = File.ReadAllText(m_SaveFilePath);
+            //     SaveData = JsonConvert.DeserializeObject<ItemData>(loadPlayerData);
+            //
+            //     // Debug.Log("Load game complete!");
+            //     m_Loaded = true;
+            // }
+            
+            if (AuthManager.Instance.IsAuthenticated)
             {
-                string loadPlayerData = File.ReadAllText(m_SaveFilePath);
-                SaveData = JsonConvert.DeserializeObject<ItemData>(loadPlayerData);
-  
-                // Debug.Log("Load game complete!");
+                var itemData = await ItemService.FetchItems(AuthManager.Instance.Uid);
+                SaveData = itemData == null ? new ItemData() : itemData;
                 m_Loaded = true;
             }
-            // else
-            //     Debug.Log("There is no save files to load!");
         }
-
 
         public static void Save()
         {
@@ -51,10 +58,13 @@ namespace ArenaGame.Managers.SaveManager
                 Load();
             }
             
-            string savePlayerData = JsonConvert.SerializeObject(SaveData);
-            File.WriteAllText(m_SaveFilePath, savePlayerData);
-
-            // Debug.Log("Save file created at: ");
+            // string savePlayerData = JsonConvert.SerializeObject(SaveData);
+            // File.WriteAllText(m_SaveFilePath, savePlayerData);
+            
+            if (AuthManager.Instance.IsAuthenticated)
+            {
+                ItemService.UpdateItems(AuthManager.Instance.Uid,SaveData);
+            }
         }
 
         public static BaseItemSO GetItem(string guid)
@@ -82,7 +92,6 @@ namespace ArenaGame.Managers.SaveManager
             Load();
             if (!SaveData.WeaponItems.ContainsKey(guid)) return null;
             
-            var seriliazedIns = SaveData.WeaponItems[guid];
             var ins = ScriptableObject.CreateInstance<ArmorItemSO>();
             ins.SetGuid(guid);
             ins.Load();
