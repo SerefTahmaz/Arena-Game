@@ -12,18 +12,26 @@ public class FacebookSignInController : BaseAuthProvider
 {
     [SerializeField] private cButton m_Button;
     
-    // Start function from Unity's MonoBehavior
-    void Start ()
+    private bool m_Initalized = false;
+    
+    public override async UniTask Init(IAuthService authService)
     {
+        await base.Init(authService);
+        m_Button.OnClickEvent.AddListener(HandleButtonClicked);
         LoadingScreen.Instance.ShowPage(this);
+
+        m_Initalized = false;
         if (!FB.IsInitialized) {
             FB.Init(InitCallback, OnHideUnity);
         } else {
             // Already initialized
             FB.ActivateApp();
         }
-    }
 
+        await UniTask.WaitUntil((() => m_Initalized));
+        LoadingScreen.Instance.HidePage(this);
+    }
+    
     private void InitCallback ()
     {
         if (FB.IsInitialized) {
@@ -35,14 +43,8 @@ public class FacebookSignInController : BaseAuthProvider
             Debug.Log("Something went wrong to Initialize the Facebook SDK");
             gameObject.SetActive(false);
         }
-        
-        LoadingScreen.Instance.HidePage(this);
-    }
 
-    public override void Init(IAuthService authService)
-    {
-        base.Init(authService);
-        m_Button.OnClickEvent.AddListener(HandleButtonClicked);
+        m_Initalized = true;
     }
 
     private void HandleButtonClicked()

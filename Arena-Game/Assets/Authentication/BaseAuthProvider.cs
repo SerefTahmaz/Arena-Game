@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Authentication
 {
@@ -6,7 +7,7 @@ namespace Authentication
     {
         protected IAuthService m_AuthService;
         
-        public virtual void Init(IAuthService authService)
+        public virtual async UniTask Init(IAuthService authService)
         {
             m_AuthService = authService;
         }

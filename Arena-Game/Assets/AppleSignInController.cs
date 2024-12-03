@@ -9,18 +9,23 @@ using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using AppleAuth.Native;
+using Authentication;
+using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Extensions;
 using TMPro;
 using UnityEngine;
 
-public class AppleSignInController : MonoBehaviour
+public class AppleSignInController : BaseAuthProvider
 {
-    [SerializeField] private TMP_Text m_Email;
-    [SerializeField] private TMP_Text m_UserName;
-    [SerializeField] private TMP_Text m_UserId;
-    
+    [SerializeField] private cButton m_Button;
     private IAppleAuthManager appleAuthManager;
+
+    public override async UniTask Init(IAuthService authService)
+    {
+        await base.Init(authService);
+        m_Button.OnClickEvent.AddListener(HandleButtonClicked);
+    }
 
     void Start()
     {
@@ -30,7 +35,7 @@ public class AppleSignInController : MonoBehaviour
             // Creates a default JSON deserializer, to transform JSON Native responses to C# instances
             var deserializer = new PayloadDeserializer();
             // Creates an Apple Authentication manager with the deserializer
-            this.appleAuthManager = new AppleAuthManager(deserializer);    
+            appleAuthManager = new AppleAuthManager(deserializer);    
         }
     }
 
@@ -38,17 +43,63 @@ public class AppleSignInController : MonoBehaviour
     {
         // Updates the AppleAuthManager instance to execute
         // pending callbacks inside Unity's execution loop
-        if (this.appleAuthManager != null)
+        if (appleAuthManager != null)
         {
-            this.appleAuthManager.Update();
+            appleAuthManager.Update();
         }
     }
-
-    private void PerformFirebaseAuthentication(
-        IAppleIDCredential appleIdCredential,
-        string rawNonce,
-        Action<FirebaseUser> firebaseAuthCallback)
+    
+    public void HandleButtonClicked()
     {
+        PerformLoginWithAppleIdAndFirebase();
+    }
+    
+    public async UniTask PerformLoginWithAppleIdAndFirebase()
+    {
+        m_Button.DeActivate(); 
+        var appleAuthLoadingToken = new object();
+        MiniLoadingScreen.Instance.ShowPage(appleAuthLoadingToken);
+        
+        var rawNonce = GenerateRandomString(32);
+        var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
+
+        var loginArgs = new AppleAuthLoginArgs(
+            LoginOptions.IncludeEmail | LoginOptions.IncludeFullName,
+            nonce);
+
+        if (appleAuthManager != null)
+        {
+            bool isAppleCallbackReceieved = false;
+            ICredential appleCredential = null;
+            appleAuthManager.LoginWithAppleId(
+                loginArgs,
+                credential =>
+                {
+                    isAppleCallbackReceieved = true;
+                    appleCredential = credential;
+                },
+                error =>
+                {
+                    isAppleCallbackReceieved = true;
+                    // Something went wrong
+                });
+
+            UniTask.WaitUntil((() => isAppleCallbackReceieved));
+            if (appleCredential is IAppleIDCredential appleIdCredential)
+            {
+                await PerformFirebaseAuthentication(appleIdCredential, rawNonce);
+            }
+        }
+        
+        MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
+        m_Button.Activate();
+    }
+
+    private async UniTask PerformFirebaseAuthentication(IAppleIDCredential appleIdCredential, string rawNonce)
+    {
+        var loadingToken = new object();
+        MiniLoadingScreen.Instance.ShowPage(loadingToken);
+        
         var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken);
         var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode);
         var firebaseCredential = OAuthProvider.GetCredential(
@@ -57,79 +108,40 @@ public class AppleSignInController : MonoBehaviour
             rawNonce,
             authorizationCode);
 
-        FirebaseAuth.DefaultInstance.SignInWithCredentialAsync(firebaseCredential)
-            .ContinueWithOnMainThread(task => HandleSignInWithUser(task, firebaseAuthCallback));
-    }
-
-    private void HandleSignInWithUser(Task<FirebaseUser> task, Action<FirebaseUser> firebaseUserCallback)
-    {
-        if (task.IsCanceled)
+        var task = m_AuthService.SignInWithCredentialAsync(firebaseCredential);
+        var user = await task;
+        
+        if (task.Status == UniTaskStatus.Canceled)
         {
             Debug.Log("Firebase auth was canceled");
-            firebaseUserCallback(null);
         }
-        else if (task.IsFaulted)
+        else if (task.Status == UniTaskStatus.Faulted)
         {
             Debug.Log("Firebase auth failed");
-            firebaseUserCallback(null);
         }
         else
         {
-            var firebaseUser = task.Result;
-            Debug.Log("Firebase auth completed | User ID:" + firebaseUser.UserId);
-            m_UserName.text = firebaseUser.DisplayName;
-            m_Email.text = firebaseUser.Email;
-            m_UserId.text = firebaseUser.UserId;
-            
-            firebaseUserCallback(firebaseUser);
+            Debug.Log("Firebase auth completed | User ID:" + user.UserId);
         }
+        
+        MiniLoadingScreen.Instance.HidePage(loadingToken);
     }
     
-    public void PerformQuickLoginWithFirebase(Action<FirebaseUser> firebaseAuthCallback)
+    public async UniTask PerformQuickLoginWithFirebase()
     {
         var rawNonce = GenerateRandomString(32);
         var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
 
         var quickLoginArgs = new AppleAuthQuickLoginArgs(nonce);
 
-        this.appleAuthManager.QuickLogin(
+        appleAuthManager.QuickLogin(
             quickLoginArgs,
             credential =>
             {
                 var appleIdCredential = credential as IAppleIDCredential;
                 if (appleIdCredential != null)
                 {
-                    this.PerformFirebaseAuthentication(appleIdCredential, rawNonce, firebaseAuthCallback);
-                }
-            },
-            error =>
-            {
-                // Something went wrong
-            });
-    }
-
-    public void PerformLoginWithAppleIdAndFirebase()
-    {
-        PerformLoginWithAppleIdAndFirebase((user =>{} ));
-    }
-    
-    public void PerformLoginWithAppleIdAndFirebase(Action<FirebaseUser> firebaseAuthCallback)
-    {
-        var rawNonce = GenerateRandomString(32);
-        var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
-
-        var loginArgs = new AppleAuthLoginArgs(
-            LoginOptions.IncludeEmail | LoginOptions.IncludeFullName,
-            nonce);
-
-        this.appleAuthManager.LoginWithAppleId(
-            loginArgs,
-            credential =>
-            {
-                var appleIdCredential = credential as IAppleIDCredential;
-                if (appleIdCredential != null)
-                {
-                    this.PerformFirebaseAuthentication(appleIdCredential, rawNonce, firebaseAuthCallback);
+                    PerformFirebaseAuthentication(appleIdCredential, rawNonce);
                 }
             },
             error =>

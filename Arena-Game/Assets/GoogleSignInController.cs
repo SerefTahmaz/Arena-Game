@@ -3,6 +3,7 @@ using Authentication;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using Google;
+using Mono.CSharp;
 using UnityEngine;
 
 public class GoogleSignInController : BaseAuthProvider
@@ -11,10 +12,10 @@ public class GoogleSignInController : BaseAuthProvider
     
     private string api = "1068966136010-54pe02ev4aeeolbmc0prms92b3bnu46b.apps.googleusercontent.com";
     private GoogleSignInConfiguration m_Configuration;
-    
-    public override void Init(IAuthService authService)
+
+    public override async UniTask Init(IAuthService authService)
     {
-        base.Init(authService);
+        await base.Init(authService);
         m_Configuration = new GoogleSignInConfiguration
         {
             WebClientId = api,

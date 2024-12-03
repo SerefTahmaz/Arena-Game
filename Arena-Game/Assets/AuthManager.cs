@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.UI;
 using ArenaGame.Utils;
@@ -32,12 +33,18 @@ public class AuthManager : cSingleton<AuthManager>
     {
         LoadingScreen.Instance.ShowPage(this,true);
         await m_FirebaseAuthManager.Init();
+        LoadingScreen.Instance.HidePage(this);
+        MiniLoadingScreen.Instance.ShowPage(this);
+        List<UniTask> initTasks = new List<UniTask>();
         foreach (var authProvider in m_AuthProviders)
         {
-            authProvider.Init(m_FirebaseAuthManager);
+            var task = authProvider.Init(m_FirebaseAuthManager);
+            initTasks.Add(task);
         }
-        LoadingScreen.Instance.HidePage(this);
-        // AuthenticateUserAndConfigureUI();
+
+        await UniTask.WhenAll(initTasks);
+        MiniLoadingScreen.Instance.HidePage(this);
+        AuthenticateUserAndConfigureUI();
     }
 
     public void AuthenticateUserAndConfigureUI()
@@ -77,4 +84,3 @@ public class AuthManager : cSingleton<AuthManager>
         AuthenticateUserAndConfigureUI();
     }
 }
-

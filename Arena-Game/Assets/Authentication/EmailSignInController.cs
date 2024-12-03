@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Authentication
 {
@@ -8,9 +9,9 @@ namespace Authentication
         [SerializeField] private RegistrationManager m_RegistrationManager;
         [SerializeField] private cMenuNode m_MenuNode;
         
-        public override void Init(IAuthService authService)
+        public override async UniTask Init(IAuthService authService)
         {
-            base.Init(authService);
+            await base.Init(authService);
             m_LoginManager.Init(authService);
             m_RegistrationManager.Init(authService);
             m_LoginManager.OnLoggedInUser += HideUI;
