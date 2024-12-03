@@ -15,6 +15,8 @@ public class LoginManager : MonoBehaviour
     
     private IAuthService m_AuthService;
     private bool m_LoginProcessing;
+    
+    public Action OnLoggedInUser { get; set; }
 
     public void Init(IAuthService authService)
     {
@@ -38,6 +40,7 @@ public class LoginManager : MonoBehaviour
 
     private async UniTask LoginUser()
     {
+        MiniLoadingScreen.Instance.ShowPage(this);
         var result = await m_AuthService.SignInWithMailAndPassword(m_EmailField.Text, m_PasswordField.Text);
 
         switch (result)
@@ -47,13 +50,14 @@ public class LoginManager : MonoBehaviour
                 break;
             case RequestResult.Success:
                 Debug.Log("Login Successful!");
-                m_MenuNode.Deactivate();
+                OnLoggedInUser?.Invoke();
                 AuthManager.Instance.AuthenticateUserAndConfigureUI();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
+        MiniLoadingScreen.Instance.HidePage(this);
         m_LoginProcessing = false;
     }
 

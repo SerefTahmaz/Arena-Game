@@ -179,6 +179,19 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
         return RequestResult.Success;
     }
 
+    public async UniTask<FirebaseUser> SignInWithCredentialAsync(Credential credential)
+    {
+        var authTask =  auth.SignInWithCredentialAsync(credential);
+        await authTask;
+        if (authTask.IsFaulted || authTask.IsCanceled)
+        {
+            Debug.Log("Credential hatası");
+            return null;
+        }
+
+        return authTask.Result;
+    }
+
     private async UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password)
     {
         RequestResult requestResult = RequestResult.Failed;
@@ -216,7 +229,8 @@ public interface IAuthService
 {
     UniTask<RequestResult> SignInWithMailAndPassword(string mail, string password);
     // UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password);
-    UniTask<RequestResult> RegisterUser(AuthCredentials authCredentials);
+    UniTask<RequestResult> RegisterUser(AuthCredentials authCredentials); 
+    UniTask<FirebaseUser> SignInWithCredentialAsync(Credential credential);
     void SignOut();
 }
 

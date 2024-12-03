@@ -17,6 +17,8 @@ public class RegistrationManager : MonoBehaviour
     private bool m_RegisterProcessing;
     
     private IAuthService m_AuthService;
+    
+    public Action OnLoggedInUser { get; set; }
 
     public void Init(IAuthService authService)
     {
@@ -66,7 +68,7 @@ public class RegistrationManager : MonoBehaviour
                 break;
             case RequestResult.Success:
                 Debug.Log("Register Successful!");
-                m_MenuNode.Deactivate();
+                OnLoggedInUser?.Invoke();
                 AuthManager.Instance.AuthenticateUserAndConfigureUI();
                 break;
             default:

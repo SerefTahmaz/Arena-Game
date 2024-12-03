@@ -13,6 +13,7 @@ namespace Authentication
         public static async UniTask<User> FetchUser(string uid)
         {
             var snapshot = await FirebaseRef.REF_USERS.Child(uid).GetValueAsync();
+            if (!snapshot.Exists) return null;
             var user =  JsonConvert.DeserializeObject<User>(snapshot.GetRawJsonValue());
             return user;
         }

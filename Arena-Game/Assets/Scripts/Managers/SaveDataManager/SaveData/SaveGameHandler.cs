@@ -47,6 +47,10 @@ namespace ArenaGame.Managers.SaveManager
             if (AuthManager.Instance.IsAuthenticated)
             {
                 var user = await UserService.FetchUser(AuthManager.Instance.Uid);
+                if (user == null)
+                {
+                    user = new User();
+                }
                 SaveData = user;
                 if (!string.IsNullOrEmpty(SaveData.m_ProfileImageUrl))
                 {

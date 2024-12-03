@@ -8,13 +8,13 @@ using Authentication;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AuthManager : cSingleton<AuthManager>
 {
     [SerializeField] private FirebaseAuthManager m_FirebaseAuthManager;
-    [SerializeField] private LoginManager m_LoginManager;
-    [SerializeField] private RegistrationManager m_RegistrationManager;
-    [SerializeField] private cView m_View;
+    [SerializeField] private List<BaseAuthProvider> m_AuthProviders;
+    [SerializeField] private List<cView> m_Views;
     
     public Action OnUserAuthenticated { get; set; }
 
@@ -32,8 +32,10 @@ public class AuthManager : cSingleton<AuthManager>
     {
         LoadingScreen.Instance.ShowPage(this,true);
         await m_FirebaseAuthManager.Init();
-        m_LoginManager.Init(m_FirebaseAuthManager);
-        m_RegistrationManager.Init(m_FirebaseAuthManager);
+        foreach (var authProvider in m_AuthProviders)
+        {
+            authProvider.Init(m_FirebaseAuthManager);
+        }
         LoadingScreen.Instance.HidePage(this);
         // AuthenticateUserAndConfigureUI();
     }
@@ -42,13 +44,19 @@ public class AuthManager : cSingleton<AuthManager>
     {
         if (FirebaseAuth.DefaultInstance.CurrentUser == null)
         {
-            m_View.Activate();
-            m_LoginManager.ActivateUI();
+            Debug.Log("No logged in user");
+            foreach (var view in m_Views)
+            {
+                view.Activate();
+            }
         }
         else
         {
             OnUserAuthenticated?.Invoke();
-            m_View.Deactivate();
+            foreach (var view in m_Views)
+            {
+                view.Deactivate();
+            }
             StartGame();
         }
     }

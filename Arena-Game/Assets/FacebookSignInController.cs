@@ -1,31 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using Authentication;
 using Cysharp.Threading.Tasks;
 using Extensions.Unity.ImageLoader;
 using Facebook.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class FacebookLogin : MonoBehaviour
+ 
+public class FacebookSignInController : BaseAuthProvider
 {
-    [SerializeField] private Image m_profileImage;
-    [SerializeField] private RawImage m_RawImage;
-    [SerializeField] private TMP_Text m_UserName;
-    
+    [SerializeField] private cButton m_Button;
     
     // Start function from Unity's MonoBehavior
     void Start ()
     {
+        LoadingScreen.Instance.ShowPage(this);
         if (!FB.IsInitialized) {
-            FB.Init(initCallback, onHideUnity);
+            FB.Init(InitCallback, OnHideUnity);
         } else {
             // Already initialized
             FB.ActivateApp();
         }
     }
 
-    private void initCallback ()
+    private void InitCallback ()
     {
         if (FB.IsInitialized) {
             // Signal an app activation App Event
@@ -34,10 +33,24 @@ public class FacebookLogin : MonoBehaviour
             // ...
         } else {
             Debug.Log("Something went wrong to Initialize the Facebook SDK");
+            gameObject.SetActive(false);
         }
+        
+        LoadingScreen.Instance.HidePage(this);
     }
 
-    private void onHideUnity (bool isGameScreenShown)
+    public override void Init(IAuthService authService)
+    {
+        base.Init(authService);
+        m_Button.OnClickEvent.AddListener(HandleButtonClicked);
+    }
+
+    private void HandleButtonClicked()
+    {
+        LoginFB();
+    }
+
+    private void OnHideUnity (bool isGameScreenShown)
     {
         if (!isGameScreenShown) {
             // Pause the game - we will need to hide
@@ -47,24 +60,40 @@ public class FacebookLogin : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-    public void loginBtnForFB (){
-// Permission option list      https://developers.facebook.com/docs/facebook-login/permissions/
+    
+    public async UniTask LoginFB (){
+        MiniLoadingScreen.Instance.ShowPage(this);
+        
+        // Permission option list      https://developers.facebook.com/docs/facebook-login/permissions/
         var permissons = new List<string>()   {"email", "public_profile"};
-        FB.LogInWithReadPermissions(permissons, authStatusCallback);
+        FB.LogInWithReadPermissions(permissons, AuthStatusCallback);
     }
-    private void authStatusCallback (ILoginResult result) {
+    private void AuthStatusCallback (ILoginResult result) {
+        MiniLoadingScreen.Instance.HidePage(this);
         if (FB.IsLoggedIn) {
             // AccessToken class will have session details
             var accessToken = Facebook.Unity.AccessToken.CurrentAccessToken;
             // current access token's User ID : aToken.UserId
-            loginviaFirebaseFacebook(accessToken.TokenString); 
-            
-
+            LoginViaFirebaseFacebook(accessToken.TokenString); 
         } else {
             Debug.Log("User cancelled login");
         }
     }
 
+    private async UniTask LoginViaFirebaseFacebook (string accessToken){
+        var loadingToken = new object();
+        MiniLoadingScreen.Instance.ShowPage(loadingToken);
+        
+        Firebase.Auth.Credential credential = Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
+        var user = await m_AuthService.SignInWithCredentialAsync(credential);
+        
+        MiniLoadingScreen.Instance.HidePage(loadingToken);
+        if(user == null) return;
+
+        Debug.Log($"Facebook sign in successful! {user.UserId}");
+        AuthManager.Instance.AuthenticateUserAndConfigureUI();
+    }
+    
     private async UniTask DisplayProfile()
     {
         await UniTask.WaitForFixedUpdate();
@@ -77,8 +106,8 @@ public class FacebookLogin : MonoBehaviour
             // The user's Id, unique to the Firebase project.
             string uid = user.UserId;
 
-            m_UserName.text = user.DisplayName;
-            m_profileImage.sprite = await ImageLoader.LoadSprite(user.PhotoUrl.OriginalString);
+            // m_UserName.text = user.DisplayName;
+            // m_profileImage.sprite = await ImageLoader.LoadSprite(user.PhotoUrl.OriginalString);
             
             FB.API("/me/picture?type=square&height=128&width=128", HttpMethod.GET, DisplayProfilePic);
         }
@@ -91,7 +120,7 @@ public class FacebookLogin : MonoBehaviour
         if (result.Texture != null)
         {
             Debug.Log("Profile Pic");
-            m_RawImage.texture = result.Texture;
+            // m_RawImage.texture = result.Texture;
             //if (FB_profilePic != null) FB_profilePic.sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
             /*JSONObject json = new JSONObject(result.RawResult);
 
@@ -102,29 +131,8 @@ public class FacebookLogin : MonoBehaviour
             Debug.Log(result.Error);
         }
     }
-
-    private void loginviaFirebaseFacebook (string accessToken){
-        var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        Firebase.Auth.Credential credential =
-            Firebase.Auth.FacebookAuthProvider.GetCredential(accessToken);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
-            if (task.IsCanceled) {
-                Debug.LogError("SignInWithCredentialAsync was canceled.");
-                return;
-            }
-            if (task.IsFaulted) {
-                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                return;
-            }
-
-            Firebase.Auth.FirebaseUser newUser = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                newUser.DisplayName, newUser.UserId);
-            DisplayProfile();
-        });
-    }
     
-    void getProfileData (){
+    void GetProfileData (){
         var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         Firebase.Auth.FirebaseUser user = auth.CurrentUser;
         if (user != null) {
@@ -136,8 +144,8 @@ public class FacebookLogin : MonoBehaviour
         }
     }
     
-    void logout(){
-        var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.SignOut();
-    }
+    // void logout(){
+    //     var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+    //     auth.SignOut();
+    // }
 }
