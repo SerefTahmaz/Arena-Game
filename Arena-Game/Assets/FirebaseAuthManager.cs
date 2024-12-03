@@ -192,30 +192,26 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
         return authTask.Result;
     }
 
-    private async UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password)
+    public async UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password)
     {
-        RequestResult requestResult = RequestResult.Failed;
-            
-        await auth.CreateUserWithEmailAndPasswordAsync(mail, password).ContinueWith(task => {
-            if (task.IsCanceled) {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
-                requestResult = RequestResult.Failed;
-                return;
-            }
-            if (task.IsFaulted) {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                requestResult = RequestResult.Failed;
-                return;
-            }
+        var task = auth.CreateUserWithEmailAndPasswordAsync(mail, password);
+        await task;
+        
+        if (task.IsCanceled) {
+            Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+            return  RequestResult.Failed;
+        }
+        if (task.IsFaulted) {
+            Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+            return RequestResult.Failed;
+        }
 
-            // Firebase user has been created.
-            AuthResult result = task.Result;
-            Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-                result.User.DisplayName, result.User.UserId);
-            requestResult = RequestResult.Success;
-        });
-            
-        return requestResult;
+        // Firebase user has been created.
+        AuthResult result = task.Result;
+        Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+            result.User.DisplayName, result.User.UserId);
+        
+        return RequestResult.Success;
     }
 
     public void SignOut()
@@ -228,7 +224,7 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
 public interface IAuthService
 {
     UniTask<RequestResult> SignInWithMailAndPassword(string mail, string password);
-    // UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password);
+    UniTask<RequestResult> CreateUserWithMailAndPassword(string mail, string password);
     UniTask<RequestResult> RegisterUser(AuthCredentials authCredentials); 
     UniTask<FirebaseUser> SignInWithCredentialAsync(Credential credential);
     void SignOut();
