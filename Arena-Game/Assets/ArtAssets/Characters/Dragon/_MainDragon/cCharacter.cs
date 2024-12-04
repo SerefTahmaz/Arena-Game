@@ -25,11 +25,7 @@ public abstract class cCharacter: MonoBehaviour
         get;
     }
 
-    public string CharacterName
-    {
-        get => m_CharacterName;
-        set => m_CharacterName = value;
-    }
+    public string CharacterName => CharacterNetworkController.PlayerName.Value.ToString();
 
     public virtual int StartHealth => m_StartHealth;
 

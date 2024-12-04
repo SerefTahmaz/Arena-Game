@@ -5,6 +5,7 @@ using ArenaGame.UI;
 using ArenaGame.Utils;
 using DG.Tweening;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class cHealthManager : MonoBehaviour
     [SerializeField] private cHealthController m_HealthController;
     [SerializeField] private eHealthBarState m_HealthBarState;
 
-    public string PlayerName => m_Character.CharacterName;
+    public NetworkVariable<FixedString128Bytes> PlayerName => m_Character.CharacterNetworkController.PlayerName;
     
     public NetworkVariable<float> CurrentHealth => m_Character.CharacterNetworkController.CurrentHealth;
 
@@ -55,6 +56,9 @@ public class cHealthManager : MonoBehaviour
                 Debug.Log($"StartHealth Health {StartHealth}");
                 CurrentHealth.Value = StartHealth;
             }
+
+            PlayerName.OnValueChanged += (value, newValue) => { UpdateUIClientRpc(); }; 
+            
             m_HealthController.m_OnDied += () =>
             {
                 m_OnDied.Invoke();

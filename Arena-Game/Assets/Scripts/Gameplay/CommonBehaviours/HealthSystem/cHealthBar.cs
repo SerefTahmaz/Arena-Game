@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ArenaGame.UI;
 using DG.Tweening;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
@@ -22,7 +23,7 @@ public class cHealthBar : MonoBehaviour
 
     private float StartHealth => HealthManager.StartHealth;
     private NetworkVariable<float> CurrentHealth => HealthManager.CurrentHealth;
-    private string PlayerName => HealthManager.PlayerName;
+    private NetworkVariable<FixedString128Bytes> PlayerName => HealthManager.PlayerName;
 
     public cHealthManager HealthManager
     {
@@ -48,7 +49,7 @@ public class cHealthBar : MonoBehaviour
     
     public void UpdateUI()
     {
-        m_NameText.text = PlayerName;
+        m_NameText.text = PlayerName.Value.ToString();
         m_Image.fillAmount = CurrentHealth.Value / Mathf.Max(StartHealth,0.001f);
         m_DelayTween.Kill();
         m_DelayTween = DOVirtual.DelayedCall(1, () => m_IsDelayCompleted = true);

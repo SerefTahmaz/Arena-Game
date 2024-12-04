@@ -8,12 +8,15 @@ namespace ArenaGame
 {
     public class ProfileGenerator : MonoBehaviour
     {
+        public static PlayerDataModel LastGeneratedRandomProfile { get; set; }
+        
         public static PlayerDataModel GetRandomProfile()
         {
             var randomImage = Resources.Load<Texture2D>($"MatchMaking/PPs/PP ({Random.Range(1, 573)})");
             var randomName = Resources.Load<TextAsset>("MatchMaking/RandomProfileNames");
             var randomNames = randomName.text.Split("\n");
-            return new PlayerDataModel(randomNames.RandomItem(), randomImage, Random.Range(50, 250));
+            LastGeneratedRandomProfile = new PlayerDataModel(randomNames.RandomItem(), randomImage, Random.Range(50, 250));
+            return LastGeneratedRandomProfile;
         }
 
         public static PlayerDataModel GetPlayerProfile()

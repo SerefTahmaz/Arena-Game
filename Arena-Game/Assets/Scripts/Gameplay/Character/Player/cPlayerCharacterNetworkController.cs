@@ -23,18 +23,7 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     {
         base.OnNetworkSpawn();
         
-        if (IsOwner)
-        {
-            PlayerName.Value = ProfileGenerator.GetPlayerProfile().Name;
-        }
-
-        m_HumanCharacter.CharacterName = PlayerName.Value.Value;
         m_HumanCharacter.HealthManager.SetVisibility(true);
-
-        PlayerName.OnValueChanged += (value, newValue) =>
-        {
-            m_HumanCharacter.HealthManager.UpdateUIClientRpc();
-        };
     }
 
     // [ServerRpc(RequireOwnership = false)]

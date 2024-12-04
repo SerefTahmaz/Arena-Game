@@ -1,5 +1,6 @@
 using System;
 using _Main.Scripts.Gameplay;
+using ArenaGame;
 using ArenaGame.Utils;
 using DefaultNamespace;
 using DG.Tweening;
@@ -82,10 +83,11 @@ public class cPlayerStateMachineV2 : cStateMachine
             Dead.InitializeState("Dead", this);
             base.Start();
             
-            GameplayStatics.OwnerPlayer = transform;
+            GameplayStatics.OwnerPlayer = transform; 
             cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(Character);
             CameraManager.Instance.OnPlayerSpawn();
-           
+            
+            CharacterNetworkController.PlayerName.Value = ProfileGenerator.GetPlayerProfile().Name;
             
             Character.HealthManager.m_OnDied += () =>
             {

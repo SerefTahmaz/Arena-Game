@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Main.Scripts.Gameplay;
+using ArenaGame;
 using ArenaGame.Utils;
 using FiniteStateMachine;
 using UnityEngine;
@@ -66,6 +67,8 @@ namespace Gameplay.Character.NPCHuman
                 cScoreClientHolder.Instance.AddDead(m_LastDamager);
                 ChangeState(Dead);
             }; 
+            
+            CharacterNetworkController.PlayerName.Value = ProfileGenerator.LastGeneratedRandomProfile.Name;
             
             Character.SkinManager.ClearAllEquipment();
 
