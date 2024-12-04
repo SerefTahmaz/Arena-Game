@@ -11968,6 +11968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InputField: {fileID: 3144880805740797333}
+  m_UserNameEmpty: {fileID: 0}
   m_MenuNode: {fileID: 1057240918957833208}
 --- !u!114 &3144880805740797333 stripped
 MonoBehaviour:
@@ -13014,20 +13015,8 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7184761658649632551, guid: 41886af03f597e54898be8fed9184939,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 254646261904312239}
+      addedObject: {fileID: 4108814248494958694}
   m_SourcePrefab: {fileID: 100100000, guid: 41886af03f597e54898be8fed9184939, type: 3}
---- !u!114 &219528447846845829 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2516354139954489283, guid: 41886af03f597e54898be8fed9184939,
-    type: 3}
-  m_PrefabInstance: {fileID: 2440961133101918790}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4779849307052012897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabf44c91dedd6444a7db7dec7489ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1057240918957833208 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3408127830422065598, guid: 41886af03f597e54898be8fed9184939,
@@ -13052,7 +13041,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2440961133101918790}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &254646261904312239
+--- !u!114 &4108814248494958694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13061,13 +13050,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4779849307052012897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ee3a9f948ad6ac458b1d1227e0eb29f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3729a681f97f469cbe56195b0ce259fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_View: {fileID: 219528447846845829}
+  m_MenuNode: {fileID: 1057240918957833208}
   m_Button: {fileID: 5130045143143394481}
   m_RawImage: {fileID: 5725812474529213569}
-  m_LogOutButtonController: {fileID: 2809621897646463054}
 --- !u!1001 &2680431942851627917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21723,7 +21711,7 @@ PrefabInstance:
     - target: {fileID: 3660049729795993076, guid: cc35cb2f5b0ae364bbc0a7ac28f5e0f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 53.94
+      value: 53.93994
       objectReference: {fileID: 0}
     - target: {fileID: 3660049729795993076, guid: cc35cb2f5b0ae364bbc0a7ac28f5e0f4,
         type: 3}

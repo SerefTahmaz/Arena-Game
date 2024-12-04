@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ArenaGame;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.UI;
@@ -6,37 +6,22 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuProfileController : MonoBehaviour
+public class EditProfileController : MonoBehaviour
 {
-    [SerializeField] private cView m_View;
+    [SerializeField] protected cMenuNode m_MenuNode;
     [SerializeField] private Button m_Button; 
     [SerializeField] private RawImage m_RawImage;
-    [SerializeField] private cButton m_DismissButton;
     
     private Texture m_DefaultSprite;
-    private bool m_Dismissed;
  
-    private void Awake()
+    protected virtual void Awake()
     {
         m_DefaultSprite = m_RawImage.texture;
         
         m_Button.onClick.AddListener(HandleImageClick);
-        m_View.OnActivateEvent.AddListener(LoadProfile);
+        m_MenuNode.OnActivateEvent.AddListener(LoadProfile);
         LoadProfile();
         SaveGameHandler.OnChanged += LoadProfile;
-        
-        m_DismissButton.OnClickEvent.AddListener(HandleOnDismissed);
-    }
-
-    public async UniTask WaitForDismiss()
-    {
-        m_Dismissed = false;
-        UniTask.WaitUntil((() => m_Dismissed));
-    }
-
-    private void HandleOnDismissed()
-    {
-        m_Dismissed = true;
     }
 
     private void OnDestroy()

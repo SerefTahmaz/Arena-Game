@@ -16,6 +16,7 @@ public class AuthManager : cSingleton<AuthManager>
     [SerializeField] private FirebaseAuthManager m_FirebaseAuthManager;
     [SerializeField] private List<BaseAuthProvider> m_AuthProviders;
     [SerializeField] private List<cView> m_Views;
+    [SerializeField] private AuthProfileEditController m_AuthProfileEditController;
     
     public Action OnUserAuthenticated { get; set; }
 
@@ -60,22 +61,44 @@ public class AuthManager : cSingleton<AuthManager>
         else
         {
             OnUserAuthenticated?.Invoke();
-            foreach (var view in m_Views)
-            {
-                view.Deactivate();
-            }
             StartGame();
         }
-    }
+    } 
 
     private async UniTask StartGame()
     {
+        MiniLoadingScreen.Instance.ShowPage(this);
         SaveGameHandler.m_Loaded = false;
         await SaveGameHandler.Load();
         ItemSaveHandler.m_Loaded = false; 
         await ItemSaveHandler.Load();
         await CharacterSaveManager.Instance.Init();
+        
+        var isFirstTime = await CheckFirstTimeUser();
+        MiniLoadingScreen.Instance.HidePage(this);
+        if (isFirstTime)
+        {
+          
+            await m_AuthProfileEditController.Init();
+        }
+        foreach (var view in m_Views)
+        {
+            view.Deactivate();
+        }
         await cGameManager.Instance.StartMainScene();
+    }
+
+    private async UniTask<bool> CheckFirstTimeUser()
+    {
+        var user = await UserService.FetchUser(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+        if (user == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void SignOut()

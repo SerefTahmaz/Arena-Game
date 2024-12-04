@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using Firebase.Auth;
 using UnityEngine;
 
 public class LoginManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class LoginManager : MonoBehaviour
     [SerializeField] private cButton m_LoginButton;
     [SerializeField] private cButton m_DontHaveAccountButton;
     [SerializeField] private cMenuNode m_MenuNode;
+    [SerializeField] private GameObject m_LoginFailedWarning;
     
     private IAuthService m_AuthService;
     private bool m_LoginProcessing;
@@ -40,6 +42,7 @@ public class LoginManager : MonoBehaviour
 
     private async UniTask LoginUser()
     {
+        m_LoginFailedWarning.SetActive(false);
         MiniLoadingScreen.Instance.ShowPage(this);
         var result = await m_AuthService.SignInWithMailAndPassword(m_EmailField.Text, m_PasswordField.Text);
 
@@ -47,6 +50,7 @@ public class LoginManager : MonoBehaviour
         {
             case RequestResult.Failed:
                 Debug.Log("Login Failed!");
+                m_LoginFailedWarning.SetActive(true);
                 break;
             case RequestResult.Success:
                 Debug.Log("Login Successful!");
@@ -56,13 +60,13 @@ public class LoginManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
         MiniLoadingScreen.Instance.HidePage(this);
         m_LoginProcessing = false;
     }
 
     public void ActivateUI()
     {
+        m_LoginFailedWarning.SetActive(false);
         m_MenuNode.Activate();
     }
 }

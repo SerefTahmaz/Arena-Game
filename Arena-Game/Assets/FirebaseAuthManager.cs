@@ -91,7 +91,7 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
                 Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
                 requestResult = RequestResult.Failed;
                 return;
-            }
+            } 
             if (task.IsFaulted) {
                 Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
                 requestResult = RequestResult.Failed;
