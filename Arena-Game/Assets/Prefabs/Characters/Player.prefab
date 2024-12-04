@@ -15092,6 +15092,7 @@ GameObject:
   - component: {fileID: 2429274270307719355}
   - component: {fileID: 368970530281654065}
   - component: {fileID: 1935686690693353697}
+  - component: {fileID: 8294221999418028109}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -15600,6 +15601,20 @@ MonoBehaviour:
     TransitionDuration: 0.33171844
     TriggerNameHash: -2003975167
     TransitionIndex: 6
+  - IsCrossFadeExit: 0
+    Layer: 7
+    OriginatingState: -1253379948
+    DestinationState: 1120787796
+    TransitionDuration: 0.25
+    TriggerNameHash: 993830126
+    TransitionIndex: 7
+  - IsCrossFadeExit: 0
+    Layer: 7
+    OriginatingState: 1120787796
+    DestinationState: -1253379948
+    TransitionDuration: 0.25
+    TriggerNameHash: 1000076398
+    TransitionIndex: 0
   m_Animator: {fileID: 3362263177872555896}
 --- !u!114 &173343533555855086
 MonoBehaviour:
@@ -15676,6 +15691,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8355ff29644c41f429f55d9e68dc1d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8294221999418028109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8125119713141699224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab58fc156fe144649ad832c08b816fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SkinManager: {fileID: 1160515799806368890}
 --- !u!1 &8298145229488168972
 GameObject:
   m_ObjectHideFlags: 0
@@ -20641,9 +20669,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.35569885, y: 0.8947179, z: 0.117488906}
   m_RotationAtRest: {x: -6.1759486, y: 32.03694, z: 143.07423}
   m_TranslationOffsets:
-  - {x: -0.000026151538, y: -0.000061929226, z: -0.000004887581}
+  - {x: -0.00002618879, y: -0.00006210804, z: -0.000004887581}
   m_RotationOffsets:
-  - {x: 0, y: 90.00019, z: -90}
+  - {x: 0, y: 90.00018, z: -89.99999}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -20762,9 +20790,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.3663122, y: 0.89029175, z: 0.105284125}
   m_RotationAtRest: {x: -4.2653785, y: -28.019863, z: -151.99557}
   m_TranslationOffsets:
-  - {x: 0.000011205673, y: -0.000004827976, z: 0.00001692772}
+  - {x: 0.000011146069, y: -0.000005066395, z: 0.000017017126}
   m_RotationOffsets:
-  - {x: -0.00006574054, y: 0, z: 0.0000578431}
+  - {x: -0.00007513201, y: 0, z: 0.000060404396}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -21692,6 +21720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArpChar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3222761772301861976, guid: 66d4e6ed58599ef45884acd64694dd67,
+        type: 3}
+      propertyPath: m_InitAtStart
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

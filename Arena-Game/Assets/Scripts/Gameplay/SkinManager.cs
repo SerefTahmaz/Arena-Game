@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gameplay;
+using Gameplay.Character;
 using Gameplay.Item;
 using Item;
 using UnityEngine;
@@ -18,11 +19,15 @@ public class SkinManager : MonoBehaviour
     [SerializeField] private GameObject m_DefaultSet;
     [SerializeField] private GameObject m_HairGO;
     [SerializeField] private ArmorItemSO m_BasePant;
+    [SerializeField] private bool m_InitAtStart;
 
     private SkinArmor m_SpawnedHelm;
     private SkinArmor m_SpawnedChest;
     private SkinArmor m_SpawnedGauntlets;
     private SkinArmor m_SpawnedLegging;
+
+    public Action<ArmorType> m_OnClearEquip { get; set; }
+    public Action<ArmorItemSO> m_OnEquipItem { get; set; }
     
     [Serializable]
     public class SkinArmor
@@ -34,7 +39,10 @@ public class SkinManager : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        if (m_InitAtStart)
+        {
+            Init();
+        }
     }
 
     public void Init()
@@ -118,6 +126,8 @@ public class SkinManager : MonoBehaviour
         spawnHolder = new SkinArmor() { armorItemTemplate = itemSO, m_ArmorController = insArmor };
         m_ReferenceSkinnedMesh.material.SetTexture(maskKey, itemSO.ItemTemplate.BodyMask);
         if(itemSO.ItemTemplate.HideHair) m_HairGO.SetActive(false);
+        
+        m_OnEquipItem?.Invoke(itemSO);
         return spawnHolder;
     }
 
@@ -182,6 +192,7 @@ public class SkinManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(armorItemArmorType), armorItemArmorType, null);
         }
+        m_OnClearEquip?.Invoke(armorItemArmorType);
     }
 
     public void ClearAllEquipment()

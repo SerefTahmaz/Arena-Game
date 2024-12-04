@@ -65,7 +65,7 @@ namespace Gameplay.Character.NPCHuman
             {
                 cScoreClientHolder.Instance.AddDead(m_LastDamager);
                 ChangeState(Dead);
-            };
+            }; 
             
             Character.SkinManager.ClearAllEquipment();
 

@@ -21,15 +21,22 @@ public class cLobbyUI : cSingleton<cLobbyUI>
 
     private void Awake()
     {
-        cLobbyManager.Instance.m_OnLobbyUpdate += () =>
-        {
-            UpdateUI(cLobbyManager.Instance.JoinedLobby);
-        };
+        cLobbyManager.Instance.m_OnLobbyUpdate += UpdateUIWithLobby;
         
         m_MenuNode.OnActivateEvent.AddListener(EnableLobbyUI);
         m_ReturnButton.OnClickEvent.AddListener(LeaveLobby);
         
         m_ReadyButtonController.OnReadyStateChange += HandleReadyButtonStateChanged;
+    }
+
+    private void UpdateUIWithLobby()
+    {
+        UpdateUI(cLobbyManager.Instance.JoinedLobby);
+    }
+
+    private void OnDestroy()
+    {
+        if(cLobbyManager.Instance) cLobbyManager.Instance.m_OnLobbyUpdate -= UpdateUIWithLobby;
     }
 
     private void HandleReadyButtonStateChanged(bool isReady)
