@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Extensions.Unity.ImageLoader;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -14,13 +16,18 @@ public class cPlayerUnit : MonoBehaviour
 
     private Player m_Player;
     
-    public void UpdateUI(string playerName, int iconIndex, Player player, bool kickButton, bool isReady)
+    public async UniTask UpdateUI(string playerName, string ProfilePhotoURl, Player player, bool kickButton, bool isReady)
     {
         m_PlayerName.text = playerName;
-        m_Icon.sprite = cGameManager.Instance.PlayerIconList.PlayerIcons[iconIndex].Icon;
         m_Player = player;
         m_KickButton.SetActive(kickButton);
         m_IsReady.SetActive(isReady);
+
+        var pp = await ImageLoader.LoadSprite(ProfilePhotoURl);
+        if (m_Icon)
+        {
+            m_Icon.sprite = pp;
+        }
     }
 
     public void KickPlayer()

@@ -100,7 +100,7 @@ public class cLobbyUI : cSingleton<cLobbyUI>
                 kickButton = isHost;
             }
             
-            ins.UpdateUI(VARIABLE.Data["PlayerName"].Value, int.Parse(VARIABLE.Data["IconIndex"].Value), VARIABLE, kickButton,isReady);
+            ins.UpdateUI(VARIABLE.Data["PlayerName"].Value, VARIABLE.Data["ProfilePhoto"].Value, VARIABLE, kickButton,isReady);
         }
     }
 }

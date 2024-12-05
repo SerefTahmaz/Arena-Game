@@ -314,6 +314,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         {
             { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().Name) },
             { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, IconIndex) },
+            {"ProfilePhoto",  new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().ProfilePictureURL)},
             { "IsReady", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IsPlayerReady.ToString()) }
         });
     }

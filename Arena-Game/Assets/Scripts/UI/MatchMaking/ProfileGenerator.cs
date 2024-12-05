@@ -53,12 +53,14 @@ namespace ArenaGame
         {
             Name = saveData.m_Username;
             ProfilePicture = profilePicture;
+            ProfilePictureURL = saveData.m_ProfileImageUrl;
             ExpPoint = saveData.m_ExperiencePoint;
             WinsCount = saveData.m_WinsCount;
         }
 
         public string Name { get; set; }
         public Texture2D ProfilePicture { get; set; }
+        public string ProfilePictureURL { get; set; }
         public int ExpPoint { get; set; }
         public int Currency => GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
         public int WinsCount { get; set; }
