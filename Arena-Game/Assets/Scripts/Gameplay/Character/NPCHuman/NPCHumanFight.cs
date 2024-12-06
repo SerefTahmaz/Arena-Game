@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Main.Scripts.Gameplay;
+using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FiniteStateMachine;
 using UnityEngine;
@@ -44,6 +46,8 @@ namespace Gameplay.Character.NPCHuman
                 return;
             }
 
+            AvoidTargetAttackWithJump();
+
             Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
             dir.y = 0;
             Vector3 movementVector = m_MovementTransform.forward;
@@ -60,22 +64,21 @@ namespace Gameplay.Character.NPCHuman
             }
             
            
+            //
+            // if (m_IsAttackDelayFinished)
+            // {
+            //     if (!StateMachine.Character.CharacterStateMachine.IsLeftSwordDrawn && !StateMachine.Character.CharacterStateMachine.IsRightSwordDrawn)
+            //     {
+            //         if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
+            //         if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchRightSword();
+            //     }
+            //     else if (Attack(angle))
+            //     {
+            //         return;
+            //     }
+            // }
 
-            if (m_IsAttackDelayFinished)
-            {
-                if (!StateMachine.Character.CharacterStateMachine.IsLeftSwordDrawn && !StateMachine.Character.CharacterStateMachine.IsRightSwordDrawn)
-                {
-                    if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
-                    if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchRightSword();
-                }
-                else if (Attack(angle))
-                {
-                    m_IsAttackDelayFinished = false;
-                    return;
-                }
-            }
-
-            if (Random.Range(0, 1000) < 10)
+            if (Random.Range(0, 10000) < 10)
             {
                 if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
                 if(Random.value > 0.5f) StateMachine.Character.CharacterStateMachine.SwitchRightSword();
@@ -90,20 +93,13 @@ namespace Gameplay.Character.NPCHuman
                 
                 m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
                 {
-                    if (StateMachine.Character.CharacterStateMachine.IsRightSwordCharged || StateMachine.Character.CharacterStateMachine.IsLeftSwordCharged)
-                    {
-                        StateMachine.Character.CharacterStateMachine.Slash();
-                    }
-                    else
-                    {
-                        StateMachine.Character.CharacterStateMachine.Charge();
-                    }
-                    
-                    DOVirtual.DelayedCall(0.05f, () =>
-                    {
-                        m_IsAttackDelayFinished = true;
-                    });
+                    SlashSequence();
                 }, 5));
+                
+                m_MeleeActions.AddRange(Enumerable.Repeat<Action>(() =>
+                {
+                    JumpSequence();
+                }, 1));
             
                 if (m_MeleeActions.Any())
                 {
@@ -113,6 +109,130 @@ namespace Gameplay.Character.NPCHuman
             }
 
             return false;
+        } 
+
+        private void AvoidTargetAttackWithJump()
+        {
+            if (StateMachine.Target().parent.parent.TryGetComponent(out cCharacter cCharacter))
+            {
+                if (cCharacter.DamageManager.IsAttacking)
+                {
+                    DirectJumpSequence();
+                }
+            }
+        }
+
+        private async UniTask SlashSequence()
+        {
+            m_IsAttackDelayFinished = false;
+            
+            Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
+            dir.y = 0;
+            Vector3 movementVector = m_MovementTransform.forward;
+            movementVector.y = 0;
+            var angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+            
+            var targetAngle = (new List<int>() {5,10, 20, 30, 40, 50 }).RandomItem();
+            
+            float duration = Random.Range(0.0f, 0.2f);
+            while (duration>0 && angle > targetAngle)
+            {
+                if( StateMachine.Target() == null) return;
+                
+                dir = StateMachine.Target().position - m_MovementTransform.position;
+                dir.y = 0;
+                movementVector = m_MovementTransform.forward;
+                movementVector.y = 0;
+                angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+                
+                StateMachine.Character.MovementController.Move(dir.normalized/10);
+
+                duration -= Time.deltaTime;
+                await UniTask.DelayFrame(1);
+            }
+            
+            StateMachine.Character.CharacterStateMachine.Slash();
+                    
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                m_IsAttackDelayFinished = true;
+            });
+        }
+
+        private async UniTask JumpSequence()
+        {
+            m_IsAttackDelayFinished = false;
+            
+            Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
+            dir.y = 0;
+            Vector3 movementVector = m_MovementTransform.forward;
+            movementVector.y = 0;
+            var angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+
+            var targetAngle = (new List<int>() { 45, 90, 30, 60 }).RandomItem();
+            
+            float duration = 0.2f;
+            while (duration>0 && angle < targetAngle)
+            {
+                if (StateMachine.Target() == null)
+                {
+                    m_IsAttackDelayFinished = true;
+                    return;
+                }
+                
+                dir = StateMachine.Target().position - m_MovementTransform.position;
+                dir.y = 0;
+                movementVector = m_MovementTransform.forward;
+                movementVector.y = 0;
+                angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+                StateMachine.Character.MovementController.Move(-dir.normalized/10);
+
+                duration -= Time.deltaTime;
+                await UniTask.DelayFrame(1);
+            }
+            
+            StateMachine.Character.CharacterStateMachine.Jump();
+                    
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                m_IsAttackDelayFinished = true;
+            });
+        }
+        
+        private async UniTask DirectJumpSequence()
+        {
+            m_IsAttackDelayFinished = false;
+            
+            StateMachine.Character.CharacterStateMachine.Jump();
+            
+            Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
+            dir.y = 0;
+            Vector3 movementVector = m_MovementTransform.forward;
+            movementVector.y = 0;
+
+            float duration = 0.7f;
+            while (duration>0)
+            {
+                if (StateMachine.Target() == null)
+                {
+                    m_IsAttackDelayFinished = true;
+                    return;
+                }
+                
+                dir = StateMachine.Target().position - m_MovementTransform.position;
+                dir.y = 0;
+                movementVector = m_MovementTransform.forward;
+                movementVector.y = 0;
+                StateMachine.Character.MovementController.Move(-dir.normalized/10);
+
+                duration -= Time.deltaTime;
+                await UniTask.DelayFrame(1);
+            }
+                    
+            DOVirtual.DelayedCall(.7f, () =>
+            {
+                m_IsAttackDelayFinished = true;
+            });
         }
 
         public override void Exit()

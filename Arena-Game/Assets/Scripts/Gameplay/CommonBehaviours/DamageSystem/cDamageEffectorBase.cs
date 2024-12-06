@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -29,6 +30,9 @@ public abstract class cDamageEffectorBase : MonoBehaviour
         get => m_Character;
         set => m_Character = value;
     }
+    
+    public Action<bool> OnSetActiveDamage { get; set; }
+    public bool IsActive { get; set; }
 
     public void DamageIt(IDamagable damagable, DamageWrapper damageWrapper)
     {
@@ -37,5 +41,11 @@ public abstract class cDamageEffectorBase : MonoBehaviour
             damageWrapper.Instigator = Character;
             damagable.Damage(damageWrapper);
         }
+    }
+
+    public virtual void SetActiveDamage(bool value)
+    {
+        IsActive = value;
+        OnSetActiveDamage?.Invoke(value);
     }
 }

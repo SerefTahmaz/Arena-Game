@@ -201,6 +201,7 @@ public class SkinManager : MonoBehaviour
         ClearEquip(ArmorType.Chest);
         ClearEquip(ArmorType.Gauntlets);
         ClearEquip(ArmorType.Legging);
+        EquipItem(m_BasePant);
     }
     
     public bool IsItemEquiped(ArmorItemSO armorItemSo)

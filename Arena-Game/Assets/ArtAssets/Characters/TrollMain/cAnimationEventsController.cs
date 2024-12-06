@@ -30,9 +30,8 @@ public class cAnimationEventsController : MonoBehaviour
     
     [SerializeField] private List<AudioClip> m_StepAudioClips;
     
-    [SerializeField] private GameObject m_WeaponDamageEffector;
-    [SerializeField] private GameObject m_AreaDamageEffector;
-    [SerializeField] private cTrollCharacter m_TrollCharacter;
+    [SerializeField] private cDamageEffector m_WeaponDamageEffector;
+    [SerializeField] private cDamageEffector m_AreaDamageEffector;
 
     private AudioClip m_CurrentStep;
 
@@ -130,21 +129,21 @@ public class cAnimationEventsController : MonoBehaviour
     
     public void EnableWeaponDamageEffector()
     {
-        m_WeaponDamageEffector.SetActive(true);
+        m_WeaponDamageEffector.SetActiveDamage(true);
     }
     
     public void DisableWeaponDamageEffector()
     {
-        m_WeaponDamageEffector.SetActive(false);
+        m_WeaponDamageEffector.SetActiveDamage(false);
     }
     
     public void EnableAreaDamageEffector()
     {
-        m_AreaDamageEffector.SetActive(true);
+        m_AreaDamageEffector.SetActiveDamage(true);
     }
     
     public void DisableAreaDamageEffector()
     {
-        m_AreaDamageEffector.SetActive(false);
+        m_AreaDamageEffector.SetActiveDamage(false);
     }
 }

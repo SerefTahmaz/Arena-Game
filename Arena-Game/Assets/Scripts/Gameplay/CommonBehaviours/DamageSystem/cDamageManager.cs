@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using STNest.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,8 @@ public class cDamageManager : MonoBehaviour
 
     public List<cDamageReicever> m_DamageHandlers;
     public List<cDamageEffectorBase> m_DamageEffectors;
+    
+    public bool IsAttacking { get; set; }
 
     public void Init(int teamId)
     {
@@ -23,6 +26,19 @@ public class cDamageManager : MonoBehaviour
         foreach (var VARIABLE in m_DamageEffectors)
         {
             VARIABLE.Character = m_Character;
+            VARIABLE.OnSetActiveDamage += CheckAttacking;
+        }
+    }
+
+    private void CheckAttacking(bool obj)
+    {
+        IsAttacking = false;
+        foreach (var VARIABLE in m_DamageEffectors)
+        {
+            if (VARIABLE.IsActive)
+            {
+                IsAttacking = true;
+            }
         }
     }
 

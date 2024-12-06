@@ -30,8 +30,8 @@ public class cCreatureAnimationEventsController : MonoBehaviour
 
     [SerializeField] private ParticleSystem m_RollImpact;
 
-    [SerializeField] private GameObject m_RightDamageEffector;
-    [SerializeField] private GameObject m_LeftDamageEffector;
+    [SerializeField] private cDamageEffectorBase m_RightDamageEffector;
+    [SerializeField] private cDamageEffectorBase m_LeftDamageEffector;
 
     public void RolImpact()
     {
@@ -42,28 +42,28 @@ public class cCreatureAnimationEventsController : MonoBehaviour
     {
         m_RightTrailRenderer.emitting = true;
         // m_RightHandParticles.Play();
-        m_RightDamageEffector.SetActive(true);
+        m_RightDamageEffector.SetActiveDamage(true);
     }
     
     public void RightSlashEnd()
     {
         m_RightTrailRenderer.emitting = false;
         // m_RightHandParticles.Stop();
-        m_RightDamageEffector.SetActive(false);
+        m_RightDamageEffector.SetActiveDamage(false);
     }
     
     public void LeftSlashStart()
     {
         m_LeftTrailRenderer.emitting = true;
         // m_LeftHandParticles.Play();
-        m_LeftDamageEffector.SetActive(true);
+        m_LeftDamageEffector.SetActiveDamage(true);
     }
     
     public void LeftSlashEnd()
     {
         m_LeftTrailRenderer.emitting = false;
         // m_LeftHandParticles.Stop();
-        m_LeftDamageEffector.SetActive(false);
+        m_LeftDamageEffector.SetActiveDamage(false);
     }
     
     public void BothSlashStart()
