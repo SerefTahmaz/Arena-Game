@@ -67,6 +67,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CanvasGroup: {fileID: 2215661399103503834}
+  m_OnActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeActivateEvent:
+    m_PersistentCalls:
+      m_Calls: []
   m_IsActive: 0
 --- !u!114 &2825006365178768451
 MonoBehaviour:
@@ -85,9 +91,8 @@ MonoBehaviour:
     type: 3}
   m_Layout: {fileID: 7833140861075786782}
   m_View: {fileID: 7070201818953535818}
-  m_CreateLobbyUIController: {fileID: 7030856182590289477, guid: 51f84d461d2f4bc46bc3605ad58b48d6,
-    type: 3}
-  m_IsSinglePlayer: 0
+  m_LevelSelectUnits: []
+  m_SelectedLevelUnit: {fileID: 0}
 --- !u!1 &1811017072317371767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,6 +1368,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 754065021583327267, guid: d3114ae8622c5d448aafce89192ae56c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.011184692
       objectReference: {fileID: 0}
     - target: {fileID: 3521275967365305656, guid: d3114ae8622c5d448aafce89192ae56c,
         type: 3}
