@@ -68,11 +68,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
             enemyHuman.transform.rotation = lookRot;
             enemyHuman.transform.position = pos;
 
-            if (cGameManager.Instance.m_OwnerPlayer != null)
-            {
-                m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
-                if(!m_NPCNonActiveAtStart)  m_NPCHumanStateMachine.NpcTargetHelper.IsAggressive = true;
-            }
+            m_NPCHumanStateMachine = enemyHuman.GetComponent<NPCHumanStateMachine>();
+            if(!m_NPCNonActiveAtStart)  m_NPCHumanStateMachine.NpcTargetHelper.IsAggressive = true;
         } 
     }
     

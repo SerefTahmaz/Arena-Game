@@ -11,7 +11,7 @@ public interface IDamagable
 
 public class DamageWrapper
 {
-    public int amount;
+    public float amount;
     public Vector3 pos;
     public bool isHeavyDamage;
     public Transform damager;

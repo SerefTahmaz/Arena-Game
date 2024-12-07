@@ -6,6 +6,7 @@ using Authentication;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Firebase.Database;
+using Gameplay;
 using Gameplay.Item;
 using Item;
 using Newtonsoft.Json;
@@ -42,11 +43,13 @@ namespace  ArenaGame.Managers.SaveManager
         
         public string Guid { get; set; }
         public DatabaseReference DatabaseReference { get; set; }
+        public CharacterSO CharacterSo { get; set; }
 
-        public void Init(string guid)
+        public void Init(string guid, CharacterSO characterSo)
         {
             Guid = guid;
             DatabaseReference = CharacterService.FetchCharacter(AuthManager.Instance.Uid, Guid);
+            CharacterSo = characterSo;
             // DatabaseReference.ValueChanged += DatabaseReferenceOnValueChanged;
         }
         //
@@ -87,7 +90,7 @@ namespace  ArenaGame.Managers.SaveManager
             var json = snapshot.GetRawJsonValue();
             if (string.IsNullOrEmpty(json))
             {
-                m_Health = 25;
+                m_Health = CharacterSo.StartHealth;
                 Save();
                 return; 
             }

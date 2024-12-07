@@ -15,11 +15,15 @@ namespace Gameplay
 {
     [CreateAssetMenu(fileName = "Character", menuName = "Game/CharacterSSS", order = 0)]
     public class CharacterSO : SerializableScriptableObject
-    {
+    { 
+        [SerializeField] private int m_StartHealth;
+
+        public int StartHealth => m_StartHealth;
+
         public CharacterSaveController GetCharacterSave()
         {
             if (!CharacterSaveManager.Instance) return null;
-            return CharacterSaveManager.Instance.GetController(Guid.ToHexString());
+            return CharacterSaveManager.Instance.GetController(Guid.ToHexString(),this);
         }
     }
     

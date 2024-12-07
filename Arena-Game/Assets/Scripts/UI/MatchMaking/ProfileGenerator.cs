@@ -15,9 +15,16 @@ namespace ArenaGame
             var randomImage = Resources.Load<Texture2D>($"MatchMaking/PPs/PP ({Random.Range(1, 573)})");
             var randomName = Resources.Load<TextAsset>("MatchMaking/RandomProfileNames");
             var randomNames = randomName.text.Split("\n");
-            LastGeneratedRandomProfile = new PlayerDataModel(randomNames.RandomItem(), randomImage, Random.Range(50, 250));
+            var randomExp = SaveGameHandler.SaveData.m_ExperiencePoint;
+            randomExp = Mathf.FloorToInt(Random.Range(0.6f, 2.0f) * randomExp);
+            if (randomExp > 20)
+            {
+                var mod = randomExp % 20;
+                randomExp -= mod;
+            }
+            LastGeneratedRandomProfile = new PlayerDataModel(randomNames.RandomItem(), randomImage, randomExp);
             return LastGeneratedRandomProfile;
-        }
+        } 
 
         public static PlayerDataModel GetPlayerProfile()
         {

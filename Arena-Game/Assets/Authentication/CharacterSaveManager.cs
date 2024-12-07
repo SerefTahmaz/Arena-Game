@@ -32,12 +32,12 @@ namespace Authentication
             await UniTask.WhenAll(tasks);
         }
 
-        public CharacterSaveController GetController(string guid)
+        public CharacterSaveController GetController(string guid, CharacterSO characterSo)
         {
             if (!m_SaveControllers.ContainsKey(guid))
             {
                 var ins = new CharacterSaveController();
-                ins.Init(guid);
+                ins.Init(guid,characterSo);
                 m_SaveControllers.Add(guid,ins);
             }
 

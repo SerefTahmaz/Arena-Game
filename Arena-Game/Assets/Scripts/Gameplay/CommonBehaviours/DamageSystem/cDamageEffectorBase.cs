@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public abstract class cDamageEffectorBase : MonoBehaviour
 {
+    [SerializeField] protected float m_DamageAmount;
+    
     [SerializeField] private UnityEvent<DamageWrapper> m_OnDamage;
 
     private int m_TeamId;

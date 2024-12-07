@@ -10688,7 +10688,6 @@ MonoBehaviour:
   m_DamageEffectors:
   - {fileID: 5273937458149529583}
   - {fileID: 1508796179454089532}
-  m_DamageEvents: {fileID: 3771111526062400284}
 --- !u!114 &5010748933691660078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15486,6 +15485,7 @@ Transform:
   - {fileID: 2566883139185757574}
   - {fileID: 4800232599761510403}
   - {fileID: 7942932168802166475}
+  - {fileID: 1383123118388145041}
   m_Father: {fileID: 7331334396193765514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4827566816553758629
@@ -20341,7 +20341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_StateName: 
-  m_CooldownDurationRange: {x: 0.5, y: 5}
+  m_FightAISettings: {fileID: 11400000, guid: 6d218785582a015479f2fc72f1d9f2b1, type: 2}
   m_MeleeAttackDistance: 2
 --- !u!1 &8109245843217501376
 GameObject:
@@ -20433,6 +20433,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_StateName: 
+--- !u!1 &9097233041369525729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1383123118388145041}
+  - component: {fileID: 7526357238182690562}
+  m_Layer: 7
+  m_Name: TierManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1383123118388145041
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097233041369525729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7719210573593848731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7526357238182690562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097233041369525729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4396d0f765b44f2e8305a5911e5f759a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FightAISettingsList:
+  - {fileID: 11400000, guid: 6d218785582a015479f2fc72f1d9f2b1, type: 2}
+  - {fileID: 11400000, guid: 8d2159dbe4fd4384da3a970550b24f92, type: 2}
+  - {fileID: 11400000, guid: a6bf3aebd0ca6c14692e534312ae4ca0, type: 2}
+  - {fileID: 11400000, guid: 884bf00e5eb7e5442a75746104b63468, type: 2}
+  m_NpcHumanFightState: {fileID: 5934245175715338554}
 --- !u!1001 &448427347256829284
 PrefabInstance:
   m_ObjectHideFlags: 0

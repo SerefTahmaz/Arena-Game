@@ -39,6 +39,8 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
     public Action m_GameEnded = delegate {  };
+    public Action m_OnPlayerLose { get; set; }
+    public Action m_OnPlayerWin { get; set; }
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
 
@@ -274,6 +276,7 @@ public class cGameManager : cSingleton<cGameManager>
     public async UniTask HandleWin()
     {
         await GameEnd(); 
+        m_OnPlayerWin?.Invoke();
         cUIManager.Instance.ShowPage(Page.Win,this);
     }
 
@@ -286,6 +289,7 @@ public class cGameManager : cSingleton<cGameManager>
     public async UniTask HandleLose()
     {
         await GameEnd();
+        m_OnPlayerLose?.Invoke();
         cUIManager.Instance.ShowPage(Page.Lose,this);
     }
 
