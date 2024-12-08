@@ -645,7 +645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3411554724471301127
 RectTransform:
   m_ObjectHideFlags: 0
@@ -806,11 +806,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7058708868357900030, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8194564037002313391, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
         type: 3}
       propertyPath: m_Name
@@ -825,11 +820,11 @@ PrefabInstance:
       addedObject: {fileID: 3411554724471301127}
     - targetCorrespondingSourceObject: {fileID: 4460451402627383348, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
         type: 3}
-      insertIndex: -1
+      insertIndex: 6
       addedObject: {fileID: 7937345563484661396}
     - targetCorrespondingSourceObject: {fileID: 4460451402627383348, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
         type: 3}
-      insertIndex: -1
+      insertIndex: 7
       addedObject: {fileID: 8271576299336937731}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8194564037002313391, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
@@ -855,12 +850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f1c5417c9d7ab4b84e531f83f60a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3818782491759321718 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 578216652427740256, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
-    type: 3}
-  m_PrefabInstance: {fileID: 4393602881515709974}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3857041121793519121 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 684477857492355079, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
@@ -891,10 +880,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22feb8adbd58402b9026e49913bfcef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EquipedLayer: {fileID: 3818782491759321718}
+  m_EquipedLayer: {fileID: 6079002726168759058}
   m_Button: {fileID: 3857041121793519121}
   m_Image: {fileID: 770072097387661123}
   m_LevelText: {fileID: 585353430445893452}
   m_LevelIncrementText: {fileID: 3072294307433912703}
   m_LevelIncrementFill: {fileID: 7236015242405856490}
   itemTemplate: {fileID: 0}
+--- !u!1 &6079002726168759058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7540646797221031172, guid: 01adbf2b24f6e874eb13c2d94b030ad2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4393602881515709974}
+  m_PrefabAsset: {fileID: 0}
