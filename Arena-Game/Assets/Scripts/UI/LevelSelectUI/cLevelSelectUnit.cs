@@ -27,6 +27,7 @@ public class cLevelSelectUnit : MonoBehaviour
         SetSelected(false);
 
         m_Icon.sprite = levelSo.Icon;
+        m_Icon.color = new Color(1, 1, 1, levelSo.Alpha);
         m_NameText.text = $"{levelSo.NameText} {order.ToString()}";
     }
 
