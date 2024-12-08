@@ -32,6 +32,21 @@ public class PPView : MonoBehaviour
 
     private void UpdateUI()
     {
-        m_Image.texture = ProfileGenerator.GetPlayerProfile().ProfilePicture;
+        LoadProfile();
+    }
+    
+    private void LoadProfile()
+    {
+        var profile = ProfileGenerator.GetPlayerProfile();
+        
+        var PPTex = profile.ProfilePicture;
+        if (PPTex != null)
+        {
+            m_Image.texture = PPTex;
+        }
+        else
+        {
+            m_Image.texture = PrefabList.Get().DefaultPPIcon.texture;
+        }
     }
 }

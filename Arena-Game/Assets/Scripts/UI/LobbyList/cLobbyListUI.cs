@@ -13,7 +13,17 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
 {
     [SerializeField] private cLobbyUnit m_LobbyUnitPrefab;
     [SerializeField] private Transform m_LayoutTransform;
-    [SerializeField] private cView m_View;
+    [SerializeField] private cMenuNode m_MenuNode;
+
+    private void Awake()
+    {
+        m_MenuNode.OnActivateEvent.AddListener(PopulateList);
+    }
+
+    private void PopulateList()
+    {
+        PopulateList(null);
+    }
 
     [Command]
     public async void PopulateList(Action onUpdated=null)
@@ -55,18 +65,12 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
 
     public void OnCreateLobby()
     {
-        m_View.Deactivate();
-    }
-    
-    public void DisableLobbyListUI()
-    {
-        m_View.Deactivate(true);
+        m_MenuNode.Deactivate();
     }
  
     public void EnableLobbyListUI()
     {
-        m_View.Activate(true);
-        PopulateList();
+        m_MenuNode.Activate(true);
     }
 
     [SerializeField] private UnityEvent m_OnJoined;

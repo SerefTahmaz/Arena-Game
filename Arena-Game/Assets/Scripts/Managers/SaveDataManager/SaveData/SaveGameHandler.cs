@@ -50,6 +50,7 @@ namespace ArenaGame.Managers.SaveManager
                 if (user == null)
                 {
                     user = new User();
+                    m_ProfileImage = null;
                 }
                 SaveData = user;
                 if (!string.IsNullOrEmpty(SaveData.m_ProfileImageUrl))

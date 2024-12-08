@@ -56,6 +56,7 @@ public class ClientSkinManager : NetworkBehaviour
         }
         else 
         {
+            Debug.Log($"Equip guid: {newvalue.Value}");
             OnEquipItemClient(newvalue.Value);
         }
     }

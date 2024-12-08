@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -6,6 +7,11 @@ using UnityEngine;
 public class cRefreshLobbyButton : MonoBehaviour
 {
     [SerializeField] private cButton m_Button;
+ 
+    private void Awake()
+    {
+        m_Button.OnClickEvent.AddListener(RefreshLobby);
+    }
 
     public void RefreshLobby()
     {

@@ -29,9 +29,12 @@ public class cGameManager : cSingleton<cGameManager>
     [SerializeField] private cPvEManager m_PvEManager;
     [SerializeField] private cPvPSingleManager m_CPvPSingleManager;
     [SerializeField] private FreeroamGameMode m_FreeroamGameMode;
+    [SerializeField] private Sprite m_DefaultPP;
 
     private IGameModeHandler m_GameModeHandler;
     private eGameMode m_CurrentGameMode = eGameMode.PvE;
+    private bool m_IsServerDisconnectedClient;
+    private bool m_IsServerDisconnectedItself;
     
     public HumanCharacter m_OwnerPlayer;
     public int m_OwnerPlayerId;
@@ -63,9 +66,6 @@ public class cGameManager : cSingleton<cGameManager>
         get => m_IsOnlineGameplayActive;
         set => m_IsOnlineGameplayActive = value;
     }
-
-    private bool m_IsServerDisconnectedClient;
-    private bool m_IsServerDisconnectedItself;
 
     private void Awake()
     {

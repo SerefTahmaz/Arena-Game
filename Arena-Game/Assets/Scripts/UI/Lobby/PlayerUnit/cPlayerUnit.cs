@@ -15,18 +15,27 @@ public class cPlayerUnit : MonoBehaviour
     [SerializeField] private GameObject m_IsReady;
 
     private Player m_Player;
-    
+
     public async UniTask UpdateUI(string playerName, string ProfilePhotoURl, Player player, bool kickButton, bool isReady)
     {
         m_PlayerName.text = playerName;
         m_Player = player;
         m_KickButton.SetActive(kickButton);
         m_IsReady.SetActive(isReady);
+        
+        Debug.Log($"Profile url {ProfilePhotoURl}");
 
-        var pp = await ImageLoader.LoadSprite(ProfilePhotoURl);
-        if (m_Icon)
+        if (!string.IsNullOrEmpty(ProfilePhotoURl))
         {
-            m_Icon.sprite = pp;
+            var pp = await ImageLoader.LoadSprite(ProfilePhotoURl);
+            if (m_Icon)
+            {
+                m_Icon.sprite = pp;
+            }
+        }
+        else
+        {
+            m_Icon.sprite = PrefabList.Get().DefaultPPIcon;
         }
     }
 

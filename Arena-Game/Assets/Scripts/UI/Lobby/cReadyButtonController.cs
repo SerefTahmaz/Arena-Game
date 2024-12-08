@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class cReadyButtonController : MonoBehaviour
 {
-    [SerializeField] private Image m_Image;
+    [SerializeField] private GameObject m_SelectedOverlay;
+    [SerializeField] private cButton m_Button;
     
     private bool m_isReady = false;
 
     public Action<bool> OnReadyStateChange;
 
     public bool IsReady => m_isReady;
+
+    private void Awake()
+    {
+        m_Button.OnClickEvent.AddListener(OnClick);
+    }
 
     public void OnClick()
     {
@@ -34,13 +40,6 @@ public class cReadyButtonController : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (IsReady)
-        {
-            m_Image.color = Color.green;
-        }
-        else
-        {
-            m_Image.color = Color.gray;
-        }
+        m_SelectedOverlay.SetActive(IsReady);
     }
 }

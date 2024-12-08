@@ -1,8 +1,5 @@
-﻿using System;
-using ArenaGame;
+﻿using ArenaGame;
 using ArenaGame.Managers.SaveManager;
-using ArenaGame.UI;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +9,8 @@ public class EditProfileController : MonoBehaviour
     [SerializeField] private Button m_Button; 
     [SerializeField] private RawImage m_RawImage;
     
-    private Texture m_DefaultSprite;
- 
     protected virtual void Awake()
     {
-        m_DefaultSprite = m_RawImage.texture;
-        
         m_Button.onClick.AddListener(HandleImageClick);
         m_MenuNode.OnActivateEvent.AddListener(LoadProfile);
         LoadProfile();
@@ -40,7 +33,7 @@ public class EditProfileController : MonoBehaviour
         }
         else
         {
-            m_RawImage.texture = m_DefaultSprite;
+            m_RawImage.texture = PrefabList.Get().DefaultPPIcon.texture;
         }
     }
 
