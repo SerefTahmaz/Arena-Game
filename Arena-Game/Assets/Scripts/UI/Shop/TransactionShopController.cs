@@ -37,8 +37,8 @@ namespace UI.Shop
 
         private void OnDestroy()
         {
-            if(m_SourceCharacter) m_SourceCharacter.GetCharacterSave().OnChanged -= Refresh;
-            if(m_TargetCharacter) m_TargetCharacter.GetCharacterSave().OnChanged -= Refresh;
+            if(m_SourceCharacter != null && m_SourceCharacter.GetCharacterSave() != null ) m_SourceCharacter.GetCharacterSave().OnChanged -= Refresh;
+            if(m_TargetCharacter != null && m_TargetCharacter.GetCharacterSave() != null) m_TargetCharacter.GetCharacterSave().OnChanged -= Refresh;
         }
 
         public override void Refresh()

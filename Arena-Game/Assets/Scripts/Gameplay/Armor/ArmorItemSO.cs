@@ -20,8 +20,8 @@ public class ArmorItemSO : BaseItemSO, ISellableItem
     
     public int Level
     {
-        get => m_Level;
-        set => m_Level = value;
+        get => m_Level+1;
+        set => m_Level = value-1;
     }
 
     public ArmorItemTemplate ItemTemplate
