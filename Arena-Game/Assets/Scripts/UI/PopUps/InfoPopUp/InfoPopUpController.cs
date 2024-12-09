@@ -7,22 +7,22 @@ namespace ArenaGame.UI.PopUps.InfoPopUp
 {
     public class InfoPopUpController : PopUpController, IInfoPopUpController
     {
-        [SerializeField] private cView m_View;
-        [SerializeField] private cButton m_Button;
-        [SerializeField] private TMP_Text m_Text;
+        private cView View => m_PopUpReferenceHelper.View;
+        private cButton Button => m_PopUpReferenceHelper.YesButton;
+        private TMP_Text Text => m_PopUpReferenceHelper.Text;
         
         protected bool waitLock;
 
         private void Awake()
         {
-            m_Button.OnClickEvent.AddListener(HandleOK);
+            Button.OnClickEvent.AddListener(HandleOK);
         }
 
         public async UniTask Init(string value)
         {
-            m_View.Deactivate(true);
-            m_View.Activate();
-            m_Text.text = value;
+            View.Deactivate(true);
+            View.Activate();
+            Text.text = value;
             
             waitLock = true;
             await UniTask.WaitWhile((() => waitLock));

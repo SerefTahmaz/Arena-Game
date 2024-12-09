@@ -10,12 +10,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
     
-public class ChoicePopUpUIController : MonoBehaviour
+public class ChoicePopUpUIController : BasePopUp
 {
-    [SerializeField] private cView m_View;
-    [SerializeField] private TMP_Text m_Text;
-    [SerializeField] private cButton m_NoButton;
-    [SerializeField] private cButton m_YesButton;
+    private cView View => m_PopUpReferenceHelper.View;
+    private TMP_Text Text => m_PopUpReferenceHelper.Text;
+    private cButton NoButton => m_PopUpReferenceHelper.NoButton;
+    private cButton YesButton => m_PopUpReferenceHelper.YesButton;
         
     protected bool waitLock;
     protected bool isSuccessfully;
@@ -29,15 +29,15 @@ public class ChoicePopUpUIController : MonoBehaviour
     
     public async UniTask<bool> Init(string value)
     {
-        m_NoButton.OnClickEvent.AddListener(HandleNo);
-        m_YesButton.OnClickEvent.AddListener(HandleYes);
+        NoButton.OnClickEvent.AddListener(HandleNo);
+        YesButton.OnClickEvent.AddListener(HandleYes);
         
-        m_View.Deactivate(true);
-        m_View.Activate();
+        View.Deactivate(true);
+        View.Activate();
             
         waitLock = true;
     
-        m_Text.text = value;
+        Text.text = value;
     
         await UniTask.WaitWhile((() => waitLock));
     

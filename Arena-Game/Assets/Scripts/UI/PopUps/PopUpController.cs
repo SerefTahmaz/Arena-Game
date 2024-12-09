@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PopUpController : MonoBehaviour, IPopUpController
+public class PopUpController : BasePopUp, IPopUpController
 {
     
 }
