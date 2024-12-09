@@ -17,7 +17,7 @@ public class PurchasePopUpController : YesNoPopUpController, IPurchasePopUpContr
     {
         m_SourceChar = sourceChar;
         m_TargetChar = targetChar;
-        m_Amount = value;
+        m_Amount = value; 
         var purchaseString = $"Purchase {itemToPurchaseName.ColorHtmlString(m_Color)} for {m_Amount.ToString().ColorHtmlString(m_Color)}";
         var sellString =  $"Sell {itemToPurchaseName.ColorHtmlString(m_Color)} for {m_Amount.ToString().ColorHtmlString(m_Color)}";
         var result = await base.Init(isPlayerSelling ? sellString : purchaseString);
