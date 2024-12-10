@@ -10354,7 +10354,6 @@ MonoBehaviour:
   m_DamageEffectors:
   - {fileID: 1423013555562059500}
   - {fileID: 4474760854877370207}
-  m_DamageEvents: {fileID: 0}
 --- !u!114 &1465239102700484774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21883,16 +21882,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-        type: 3}
-      propertyPath: m_Colliders.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-        type: 3}
-      propertyPath: m_Colliders.Array.data[0]
-      value: 
-      objectReference: {fileID: 7033664094215566314}
     - target: {fileID: 4664118338820622086, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_Name
@@ -21984,12 +21973,6 @@ TrailRenderer:
 --- !u!4 &2717452250736225764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 6047416998346621854}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &7033664094215566314 stripped
-SphereCollider:
-  m_CorrespondingSourceObject: {fileID: 3634446141279400052, guid: 85f0aa2a90067094cb9c114d9966b8a0,
     type: 3}
   m_PrefabInstance: {fileID: 6047416998346621854}
   m_PrefabAsset: {fileID: 0}
@@ -22375,16 +22358,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-        type: 3}
-      propertyPath: m_Colliders.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-        type: 3}
-      propertyPath: m_Colliders.Array.data[0]
-      value: 
-      objectReference: {fileID: 5492874469883843161}
     - target: {fileID: 4664118338820622086, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_Name
@@ -22479,9 +22452,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &5492874469883843161 stripped
-SphereCollider:
-  m_CorrespondingSourceObject: {fileID: 3634446141279400052, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 9100290197836423725}
-  m_PrefabAsset: {fileID: 0}
