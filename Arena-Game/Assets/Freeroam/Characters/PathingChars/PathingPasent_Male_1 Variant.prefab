@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2813311718331261607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7209342275003312032}
+  m_Layer: 0
+  m_Name: foot.l.ref
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7209342275003312032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2813311718331261607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.111, z: -0.019}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5978009908205576916}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8412529751696875849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5300198608486690687}
+  m_Layer: 0
+  m_Name: foot.r.ref
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5300198608486690687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412529751696875849}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.1262, z: -0.0081}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9109856432958586138}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7415433024578071869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24,6 +86,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: 48dafa19e03f9a1458e2a152d848dcb9,
         type: 2}
+    - target: {fileID: 1749280114938225128, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_LeftFoot
+      value: 
+      objectReference: {fileID: 7209342275003312032}
+    - target: {fileID: 1749280114938225128, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_RightFoot
+      value: 
+      objectReference: {fileID: 5300198608486690687}
     - target: {fileID: 2000704725176343327, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_Name
@@ -84,6 +156,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_LeftFoot
+      value: 
+      objectReference: {fileID: 5978009908205576916}
+    - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_RightFoot
+      value: 
+      objectReference: {fileID: 9109856432958586138}
     - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_LeftFoot.m_Foot
@@ -185,7 +267,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7710544672056952159, guid: 841cdd7f42db64242b612839f163362b, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3865351666950723309, guid: 841cdd7f42db64242b612839f163362b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7209342275003312032}
+    - targetCorrespondingSourceObject: {fileID: 1819140488198457635, guid: 841cdd7f42db64242b612839f163362b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5300198608486690687}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 841cdd7f42db64242b612839f163362b, type: 3}
 --- !u!114 &163443007055724766 stripped

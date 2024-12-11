@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4445166242966304933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8785645423495561888}
+  m_Layer: 0
+  m_Name: foot.r.ref
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8785645423495561888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4445166242966304933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1097, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3861471899009009278}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8847828462518700759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5290399209457067054}
+  m_Layer: 0
+  m_Name: foot.l.ref
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5290399209457067054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8847828462518700759}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.106, z: -0.011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1804864030293334448}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1559446525487764264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18,6 +80,16 @@ PrefabInstance:
       propertyPath: m_YHelp
       value: -0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 1749280114938225128, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_LeftFoot
+      value: 
+      objectReference: {fileID: 5290399209457067054}
+    - target: {fileID: 1749280114938225128, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_RightFoot
+      value: 
+      objectReference: {fileID: 8785645423495561888}
     - target: {fileID: 2000704725176343327, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_Name
@@ -88,6 +160,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_LeftFoot
+      value: 
+      objectReference: {fileID: 1804864030293334448}
+    - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
+        type: 3}
+      propertyPath: m_RightFoot
+      value: 
+      objectReference: {fileID: 3861471899009009278}
     - target: {fileID: 8892649202345621863, guid: 5a445381b9194fd41b96a4140957dc16,
         type: 3}
       propertyPath: m_LeftFoot.m_Foot
@@ -191,7 +273,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2999519363270980410, guid: a6a5c7f82ab2dfa4389b6daba4188af3, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8576342027587788936, guid: a6a5c7f82ab2dfa4389b6daba4188af3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5290399209457067054}
+    - targetCorrespondingSourceObject: {fileID: 6602232919338123078, guid: a6a5c7f82ab2dfa4389b6daba4188af3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8785645423495561888}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6a5c7f82ab2dfa4389b6daba4188af3, type: 3}
 --- !u!4 &1245563928223535224 stripped

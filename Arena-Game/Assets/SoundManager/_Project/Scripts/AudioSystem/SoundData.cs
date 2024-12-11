@@ -32,5 +32,10 @@ namespace AudioSystem {
         public bool ignoreListenerPause;
         
         public AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic;
+
+        public SoundData Clone()
+        {
+            return this.MemberwiseClone() as SoundData;
+        }
     }
 }

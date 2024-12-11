@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 7d093c7aee2002846b4842db7df28057
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
@@ -59,7 +59,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.38014984
+        functionName: OnLeftStep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8838951
+        functionName: OnRightStep
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -72,6 +86,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -99,6 +114,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -637,12 +653,14 @@ ModelImporter:
     - name: mixamorig:Spine1
       parentName: mixamorig:Spine
       position: {x: -0, y: 0.13188899, z: -1.5789053e-10}
-      rotation: {x: -0.00000011920929, y: -0.0000000034325667, z: -0.0000000027415854, w: 1}
+      rotation: {x: -0.00000011920929, y: -0.0000000034325667, z: -0.0000000027415854,
+        w: 1}
       scale: {x: 1, y: 1.000001, z: 1.0000011}
     - name: mixamorig:Spine2
       parentName: mixamorig:Spine1
       position: {x: -0, y: 0.15073001, z: -8.296184e-11}
-      rotation: {x: -0.000000014901161, y: 0.0000000025074323, z: 0.000000002634398, w: 1}
+      rotation: {x: -0.000000014901161, y: 0.0000000025074323, z: 0.000000002634398,
+        w: 1}
       scale: {x: 0.99999994, y: 0.9999987, z: 0.9999996}
     - name: mixamorig:LeftShoulder
       parentName: mixamorig:Spine2
@@ -772,7 +790,8 @@ ModelImporter:
     - name: mixamorig:Head
       parentName: mixamorig:Neck
       position: {x: -0, y: 0.09001907, z: 0.02909252}
-      rotation: {x: -0.000000037252903, y: -0.0000000018626458, z: -0.0000000028521752, w: 1}
+      rotation: {x: -0.000000037252903, y: -0.0000000018626458, z: -0.0000000028521752,
+        w: 1}
       scale: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
     - name: mixamorig:HeadTop_End
       parentName: mixamorig:Head
@@ -967,6 +986,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

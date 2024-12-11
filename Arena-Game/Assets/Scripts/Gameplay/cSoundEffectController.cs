@@ -3,86 +3,59 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Utils;
+using AudioSystem;
+using RootMotion.FinalIK;
 using STNest.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class cSoundEffectController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody m_Rigidbody;
-
-    [SerializeField] private LayerMask m_LayerMask;
-
-    [SerializeField] private float m_UpperLimit;
-    [SerializeField] private float m_LowerLimit;
-    [SerializeField] private float m_StepVolume;
-
-    [SerializeField] private FootHelper m_LeftFoot;
-    [SerializeField] private FootHelper m_RightFoot;
-
+    [SerializeField] private LayerMask m_StepCheckLayerMask;
+    [SerializeField] private float m_StepRaycastThreshold;
+    [SerializeField] private float m_StepStartYPos;
+    [SerializeField] private float m_SphereSize;
+    [SerializeField] SoundData m_StepSoundData;
+    [SerializeField] private Transform m_LeftFoot;
+    [SerializeField] private Transform m_RightFoot; 
     [SerializeField] private List<AudioClip> m_StepClips;
 
-    [SerializeField] private AudioSource m_ChainMailRustle;
-    [SerializeField] private float m_VolumeStrenght;
-
-    [SerializeField] private AudioSource m_OneShotSource;
+    [SerializeField] SoundData m_BaseSoundData;
     [SerializeField] private AudioClip m_SwordDraw;
-
     [SerializeField] private AudioClip m_JumpSound;
     [SerializeField] private AudioClip m_ChargeSwordsSound;
     [SerializeField] private List<AudioClip> m_Grunts;
     [SerializeField] private AudioClip m_DeadSound;
 
-    [Serializable]
-    public class FootHelper
+    public void OnRightStep()
     {
-        public AudioSource m_AudioSource;
-        public Transform m_Foot;
-        public bool m_IsAbove;
+        Debug.Log("Test Right Step");
+        TestFoot(m_LeftFoot);
     }
-
-    [SerializeField] private float m_RustleThreshold;
     
-    private bool m_IsPlayingRustle = false;
-
-    private void Update()
+    public void OnLeftStep()
     {
-       TestFoot(m_LeftFoot);
-       TestFoot(m_RightFoot);
-       
-       var velocityMagnitude = m_Rigidbody.velocity.magnitude;
-
-       if (m_IsPlayingRustle == false && velocityMagnitude > m_RustleThreshold)
-       {
-           m_IsPlayingRustle = true;
-           m_ChainMailRustle.Play();
-       }
-       else if (m_IsPlayingRustle && velocityMagnitude <= m_RustleThreshold)
-       {
-           m_IsPlayingRustle = false;
-           m_ChainMailRustle.Stop();
-       }
-       
-       m_ChainMailRustle.volume = velocityMagnitude.Remap( 0, 3, 0, 1)*m_VolumeStrenght;
-       // m_ChainMailRustle.pitch = ExtensionMethods.Remap(velocityMagnitude, 0, 3, m_RustleLimits.x, m_RustleLimits.y);
+        Debug.Log("Test Left Step");
+        TestFoot(m_RightFoot);
     }
 
-    public void TestFoot(FootHelper footHelper)
+    private void TestFoot(Transform footRef)
     {
-        if (Physics.Raycast(footHelper.m_Foot.position, Vector3.down, out var hit, 2, m_LayerMask))
+        Vector3 end = footRef.position + Vector3.up * m_StepStartYPos + Vector3.down * m_StepRaycastThreshold;
+        if (Physics.SphereCast(new Ray(footRef.position + Vector3.up*m_StepStartYPos, Vector3.down),m_SphereSize, out var hit, m_StepRaycastThreshold, m_StepCheckLayerMask))
         {
-            if (hit.distance > m_UpperLimit)
-            {
-                footHelper.m_IsAbove = true;
-            }
-            
-            if (hit.distance < m_LowerLimit && footHelper.m_IsAbove)
-            {
-                footHelper.m_IsAbove = false;
-                footHelper.m_AudioSource.PlayOneShot(m_StepClips.OrderBy((clip => Random.Range(0,1000))).FirstOrDefault());
-                footHelper.m_AudioSource.volume = m_StepVolume;
-            }
+            end = hit.point;
+            m_StepSoundData.clip = m_StepClips.OrderBy((clip => Random.Range(0, 1000))).FirstOrDefault();
+            SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+                
+            soundBuilder
+                .WithRandomPitch()
+                .WithPosition(footRef.position)
+                .Play(m_StepSoundData);
         }
+        Debug.DrawLine(footRef.position + Vector3.up*m_StepStartYPos,end ,Color.red,0.1f);
     }
 
     public void PlaySwordDraw()
@@ -104,12 +77,22 @@ public class cSoundEffectController : MonoBehaviour
         PlayOneShot(m_FireChargeClips[trackIndex-1]);
     }
 
-    [SerializeField] private AudioSource m_AudioSourceLoop;
+    private SoundData m_CurrentLoopedFireSound;
 
     public void PlayFireChargeLoop(int trackIndex)
     {
-        m_AudioSourceLoop.clip = m_FireChargeClips[trackIndex - 1];
-        m_AudioSourceLoop.Play();
+        if(m_CurrentLoopedFireSound != null) return; 
+        
+        m_CurrentLoopedFireSound = m_BaseSoundData.Clone();
+        m_CurrentLoopedFireSound.clip= m_FireChargeClips[trackIndex - 1];
+        m_CurrentLoopedFireSound.loop = true;
+        
+        SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+
+        soundBuilder
+            .WithPosition(transform.position)
+            .WithParent(transform)
+            .Play(m_CurrentLoopedFireSound);
     }
     
     [SerializeField] private List<AudioClip> m_DualAttackClips;
@@ -129,14 +112,12 @@ public class cSoundEffectController : MonoBehaviour
         PlayOneShot(m_ChargeSwordsSound);
     }
     
-    [SerializeField] private AudioSource m_StretchingSource;
     [SerializeField] private AudioClip m_StretchingClip;
     public void PlayStretching()
     {
         PlayOneShot(m_StretchingClip);
     }
 
-    [SerializeField] private AudioSource m_VoiceSource;
     
     [SerializeField] private AudioClip m_HelloEveryone;
 
@@ -155,9 +136,13 @@ public class cSoundEffectController : MonoBehaviour
         PlayOneShot(m_DeadSound);
     }
     
-    public void PlayOneShot(AudioClip audioClip, float pitch = 1)
+    public void PlayOneShot(AudioClip audioClip)
     {
-        m_OneShotSource.pitch = pitch;
-        m_OneShotSource.PlayOneShot(audioClip);
+        m_StepSoundData.clip = audioClip;
+        SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+
+        soundBuilder
+            .WithPosition(transform.position)
+            .Play(m_StepSoundData);
     }
 }

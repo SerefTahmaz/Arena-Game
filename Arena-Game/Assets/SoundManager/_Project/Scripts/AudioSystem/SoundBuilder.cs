@@ -5,9 +5,11 @@ namespace AudioSystem {
         readonly SoundManager soundManager;
         Vector3 position = Vector3.zero;
         bool randomPitch;
+        private Transform parent;
 
         public SoundBuilder(SoundManager soundManager) {
             this.soundManager = soundManager;
+            parent = this.soundManager.transform;
         }
 
         public SoundBuilder WithPosition(Vector3 position) {
@@ -17,6 +19,12 @@ namespace AudioSystem {
 
         public SoundBuilder WithRandomPitch() {
             this.randomPitch = true;
+            return this;
+        }
+
+        public SoundBuilder WithParent(Transform parent)
+        {
+            this.parent = parent;
             return this;
         }
 
@@ -31,7 +39,7 @@ namespace AudioSystem {
             SoundEmitter soundEmitter = soundManager.Get();
             soundEmitter.Initialize(soundData);
             soundEmitter.transform.position = position;
-            soundEmitter.transform.parent = soundManager.transform;
+            soundEmitter.transform.parent = parent;
 
             if (randomPitch) {
                 soundEmitter.WithRandomPitch();

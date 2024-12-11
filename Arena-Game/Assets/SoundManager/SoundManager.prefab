@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1374406580192789845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1754450212294336495}
+  - component: {fileID: 3081439155176751186}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1754450212294336495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374406580192789845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3081439155176751186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374406580192789845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b24c4944e552674f80f602aa4ad5757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StepCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_StepRaycastThreshold: 1
+  m_StepStartYPos: 0.15
+  m_SphereSize: 0.05
+  m_StepSoundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+      type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 1
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 0.4
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 30
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  m_LeftFoot: {fileID: 0}
+  m_RightFoot: {fileID: 0}
+  m_StepClips:
+  - {fileID: 8300000, guid: fd8584757b909cb41a9993c36720fe80, type: 3}
+  - {fileID: 8300000, guid: 7f28213a12b7d404b80e3c99238037d8, type: 3}
+  - {fileID: 8300000, guid: 88a608611adcd7242b430ce7f6120102, type: 3}
+  - {fileID: 8300000, guid: b914e201a1db07044a78665b2c0998ed, type: 3}
+  - {fileID: 8300000, guid: 82533c0cb0438b74f80875e1086b069e, type: 3}
+  - {fileID: 8300000, guid: f1636acf695c1244abe79e2424f66ed9, type: 3}
+  m_BaseSoundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+      type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 30
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  m_SwordDraw: {fileID: 8300000, guid: 9998b24ee5090774f9395aece923b0c7, type: 3}
+  m_JumpSound: {fileID: 8300000, guid: 456064390df89e14696f49968270200c, type: 3}
+  m_ChargeSwordsSound: {fileID: 8300000, guid: 92fa1e0a6cc259b4d96bc3ca7cf5c3fa, type: 3}
+  m_Grunts:
+  - {fileID: 8300000, guid: 64a72294f982ff7428f22e38769fe60b, type: 3}
+  - {fileID: 8300000, guid: 8f689ffdc1b32a7458dfc0f4fde95baf, type: 3}
+  - {fileID: 8300000, guid: acf39e7560837644c83b222b0443efe6, type: 3}
+  - {fileID: 8300000, guid: 3486285fc64a18848b54585f734812fc, type: 3}
+  - {fileID: 8300000, guid: 4e0e635932fd31c449f79f737bfaac6d, type: 3}
+  m_DeadSound: {fileID: 8300000, guid: 292e70d674902af48a8c6b0fd3c161ba, type: 3}
+  m_DlashClips:
+  - {fileID: 8300000, guid: 5494482a37b18e9479ec4e5ec356ad6d, type: 3}
+  - {fileID: 8300000, guid: 52a6f348d4d982446a9bcd4169a3ee1c, type: 3}
+  - {fileID: 8300000, guid: e25ba2975cecc5547b964af5a8ed8192, type: 3}
+  - {fileID: 8300000, guid: 310a741d0e3900b4dae5e4a6ba402b15, type: 3}
+  - {fileID: 8300000, guid: 11fbea5066a62e84bb2562c175a57e9e, type: 3}
+  m_FireChargeClips:
+  - {fileID: 8300000, guid: ca7f47b128f1bbb4f86aa0ee8806f9c1, type: 3}
+  - {fileID: 8300000, guid: 17731969ea351a04ca792237b72fe728, type: 3}
+  - {fileID: 8300000, guid: eb3380160f67a47448284e1ae3a2937e, type: 3}
+  m_DualAttackClips:
+  - {fileID: 8300000, guid: 1c9a078364c3eda479505811c7cef639, type: 3}
+  - {fileID: 8300000, guid: 689ff2eb676e49c4788fee5a3bd63d06, type: 3}
+  - {fileID: 8300000, guid: 4e475e6a0717bbc4db6e63d1b8a58a3a, type: 3}
+  m_StretchingClip: {fileID: 8300000, guid: d9eaa7d3cf43a204487687474c093830, type: 3}
+  m_HelloEveryone: {fileID: 8300000, guid: 615f42365edacbc4f936056757e60626, type: 3}

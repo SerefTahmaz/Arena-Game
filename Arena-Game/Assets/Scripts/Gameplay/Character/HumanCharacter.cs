@@ -29,7 +29,7 @@ namespace Gameplay.Character
 
         public cSoundEffectController SoundEffectController => m_SoundEffectController;
 
-        public MovementController MovementController => m_MovementController;
+        public MovementController MovementController => m_MovementController; 
 
         public HumanCharacterStateMachine CharacterStateMachine => m_CharacterStateMachine;
 
