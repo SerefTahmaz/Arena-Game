@@ -47,7 +47,7 @@ public class cSoundEffectController : MonoBehaviour
         if (Physics.SphereCast(new Ray(footRef.position + Vector3.up*m_StepStartYPos, Vector3.down),m_SphereSize, out var hit, m_StepRaycastThreshold, m_StepCheckLayerMask))
         {
             end = hit.point;
-            m_StepSoundData.clip = m_StepClips.OrderBy((clip => Random.Range(0, 1000))).FirstOrDefault();
+            m_StepSoundData.clip = FootStepHelper.Instance.GetClips(hit.collider);
             SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
                 
             soundBuilder
