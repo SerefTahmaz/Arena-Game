@@ -41,8 +41,23 @@ public class cSoundEffectController : MonoBehaviour
         TestFoot(m_RightFoot);
     }
 
+    private Collider[] volumeCols = new Collider[5];
+    
     private void TestFoot(Transform footRef)
     {
+        var size = Physics.OverlapSphereNonAlloc(footRef.position + Vector3.up * m_StepStartYPos, m_SphereSize, volumeCols, m_StepCheckLayerMask);
+        if (size > 0)
+        {
+            m_StepSoundData.clip = FootStepHelper.Instance.GetClips(volumeCols[0]);
+            SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+                
+            soundBuilder
+                .WithRandomPitch()
+                .WithPosition(footRef.position)
+                .Play(m_StepSoundData);
+            return;
+        }
+        
         Vector3 end = footRef.position + Vector3.up * m_StepStartYPos + Vector3.down * m_StepRaycastThreshold;
         if (Physics.SphereCast(new Ray(footRef.position + Vector3.up*m_StepStartYPos, Vector3.down),m_SphereSize, out var hit, m_StepRaycastThreshold, m_StepCheckLayerMask))
         {
