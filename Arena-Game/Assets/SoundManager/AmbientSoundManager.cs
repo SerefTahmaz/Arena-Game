@@ -37,7 +37,6 @@ public class AmbientSoundManager : cSingleton<AmbientSoundManager>
             SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
                 
             var emitter = soundBuilder
-                .WithRandomPitch()
                 .WithPosition(transform.position)
                 .WithParent(transform)
                 .Play(m_SoundData);
