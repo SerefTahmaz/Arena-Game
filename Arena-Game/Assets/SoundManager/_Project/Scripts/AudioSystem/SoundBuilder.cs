@@ -28,13 +28,13 @@ namespace AudioSystem {
             return this;
         }
 
-        public void Play(SoundData soundData) {
+        public SoundEmitter Play(SoundData soundData) {
             if (soundData == null) {
                 Debug.LogError("SoundData is null");
-                return;
+                return null;
             }
             
-            if (!soundManager.CanPlaySound(soundData)) return;
+            if (!soundManager.CanPlaySound(soundData)) return null;
             
             SoundEmitter soundEmitter = soundManager.Get();
             soundEmitter.Initialize(soundData);
@@ -50,6 +50,7 @@ namespace AudioSystem {
             }
             
             soundEmitter.Play();
+            return soundEmitter;
         }
     }
 }

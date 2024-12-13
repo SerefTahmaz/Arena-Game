@@ -73,5 +73,10 @@ namespace AudioSystem {
         public void WithRandomPitch(float min = -0.05f, float max = 0.05f) {
             audioSource.pitch += Random.Range(min, max);
         }
+
+        public void SetVolume(float volumeScale)
+        {
+            audioSource.volume = Data.volume * volumeScale;
+        }
     }
 }
