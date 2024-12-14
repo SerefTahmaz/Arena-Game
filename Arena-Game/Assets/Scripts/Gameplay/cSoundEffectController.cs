@@ -27,7 +27,7 @@ public class cSoundEffectController : MonoBehaviour
     [SerializeField] private AudioClip m_JumpSound;
     [SerializeField] private AudioClip m_ChargeSwordsSound;
     [SerializeField] private List<AudioClip> m_Grunts;
-    [SerializeField] private AudioClip m_DeadSound;
+    [SerializeField] private List<AudioClip> m_DeadSounds;
 
     public void OnRightStep()
     {
@@ -148,7 +148,10 @@ public class cSoundEffectController : MonoBehaviour
     
     public void PlayDead()
     {
-        PlayOneShot(m_DeadSound);
+        foreach (var deathClip in m_DeadSounds)
+        {
+            PlayOneShot(deathClip);
+        }
     }
     
     public void PlayOneShot(AudioClip audioClip)
