@@ -44,16 +44,26 @@ public class AmbientSoundControllerV2 : MonoBehaviour
 
     private void Update()
     {
-        if(GameplayStatics.OwnerPlayer == null) return;
+        Transform targetTransform = null;
+        if (GameplayStatics.OwnerPlayer != null)
+        {
+            targetTransform = GameplayStatics.OwnerPlayer;
+        }
+        else if (Camera.main != null)
+        {
+            targetTransform = Camera.main.transform;
+        }
+        
+        if(targetTransform == null) return;
+        
         if (m_PlayerEnteranceCount > 0)
         {
-            m_SoundEmitter.transform.position = GameplayStatics.OwnerPlayer.position;
+            m_SoundEmitter.transform.position = targetTransform.position;
         }
         else
         {
-            
-            var closestPos = m_Cols.Select((collider1 => collider1.ClosestPoint(GameplayStatics.OwnerPlayer.position))).OrderBy((
-                vector3 => Vector3.Distance(GameplayStatics.OwnerPlayer.position, vector3))).FirstOrDefault();
+            var closestPos = m_Cols.Select((collider1 => collider1.ClosestPoint(targetTransform.position))).OrderBy((
+                vector3 => Vector3.Distance(targetTransform.position, vector3))).FirstOrDefault();
             
             m_SoundEmitter.transform.position = closestPos;
         }

@@ -17,7 +17,6 @@ public class FootStepHelper : cSingleton<FootStepHelper>
         {
             if (m_CachedSurfaces.TryGetValue(surfaceMat, out var surface))
             {
-                Debug.Log($"Surface Type {surface.name}");
                 return surface.AudioClips.RandomItem();
             }
             else
@@ -26,13 +25,10 @@ public class FootStepHelper : cSingleton<FootStepHelper>
                     surfaceCollider.attachedRigidbody.TryGetComponent(out GameSurface gameSurface))
                 {
                     m_CachedSurfaces.Add(surfaceMat, gameSurface.GameSurfaceData);
-                    Debug.Log($"Surface Type {gameSurface.GameSurfaceData.name}");
                     return gameSurface.GameSurfaceData.AudioClips.RandomItem();
                 }
             }
         }
-
-        Debug.Log($"Surface Type {m_DefeaultSurface.name}");
         return m_DefeaultSurface.AudioClips.RandomItem();
     }
 }

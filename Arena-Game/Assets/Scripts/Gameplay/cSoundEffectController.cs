@@ -31,13 +31,13 @@ public class cSoundEffectController : MonoBehaviour
 
     public void OnRightStep()
     {
-        Debug.Log("Test Right Step");
+        // Debug.Log("Test Right Step");
         TestFoot(m_LeftFoot);
     }
     
     public void OnLeftStep()
     {
-        Debug.Log("Test Left Step");
+        // Debug.Log("Test Left Step");
         TestFoot(m_RightFoot);
     }
 
