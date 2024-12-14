@@ -79,6 +79,7 @@ namespace AudioSystem {
                 soundEmitter.Node = null;
             }
             soundEmitter.gameObject.SetActive(false);
+            soundEmitter.transform.SetParent(transform);
             activeSoundEmitters.Remove(soundEmitter);
         }
 

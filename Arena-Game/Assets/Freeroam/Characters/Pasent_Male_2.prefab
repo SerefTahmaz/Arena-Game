@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5236490656361555981}
   - component: {fileID: 7974658243909898841}
+  - component: {fileID: 6584008466945239188}
   m_Layer: 0
   m_Name: Pasent_Male_2
   m_TagString: Untagged
@@ -50,8 +51,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerDetector: {fileID: 7620803926212997447}
   m_InteractableUI: {fileID: 3746515547257701555}
-  m_DialogueGraph: {fileID: 11400000, guid: dda7a05148dd50e43bf6f5b2bc542940, type: 2}
+  m_DialogueGraph: {fileID: 11400000, guid: b684f9dfaf1ada04494982509c9249d5, type: 2}
   m_DialogFocusPoint: {fileID: 4523545384964113889}
+--- !u!114 &6584008466945239188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2497755562080493034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1153b3b134d674e9cc9a01df22013d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractableNpc: {fileID: 7974658243909898841}
+  m_DialogueGraphs:
+  - {fileID: 11400000, guid: b684f9dfaf1ada04494982509c9249d5, type: 2}
+  - {fileID: 11400000, guid: d8041f7f4c8b8c54aa5535489f78db50, type: 2}
 --- !u!1 &5119510298749272007
 GameObject:
   m_ObjectHideFlags: 0

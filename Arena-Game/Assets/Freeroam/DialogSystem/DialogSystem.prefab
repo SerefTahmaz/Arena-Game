@@ -278,6 +278,30 @@ MonoBehaviour:
   m_Camera: {fileID: 8854443788259997361}
   m_CameraPivot: {fileID: 4093770503264116706}
   m_EventSystem: {fileID: 8000832756563289244}
+  m_SoundData:
+    clip: {fileID: 0}
+    mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+      type: 2}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!1 &2604106715575980899
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +338,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.00002360344}
-  m_SizeDelta: {x: 0, y: 385.91998}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3717015934029034966
 MonoBehaviour:
@@ -1004,7 +1028,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.000045776367}
-  m_SizeDelta: {x: 0, y: 417.6}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2124412714411210324
 MonoBehaviour:
@@ -1778,7 +1802,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6644074133352527583}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2196,8 +2220,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9145575309928546104}
   m_HandleRect: {fileID: 1959293851435870372}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.837622
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

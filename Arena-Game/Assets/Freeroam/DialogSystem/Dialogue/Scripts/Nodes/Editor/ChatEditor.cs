@@ -24,6 +24,8 @@ namespace Dialogue {
             GUILayout.Space(-30);
 
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("text"), GUIContent.none);
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"), GUIContent.none);
+            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("randomClips"), GUIContent.none);
             NodeEditorGUILayout.InstancePortList("answers", typeof(DialogueBaseNode), serializedObject, NodePort.IO.Output, Node.ConnectionType.Override);
 
             serializedObject.ApplyModifiedProperties();

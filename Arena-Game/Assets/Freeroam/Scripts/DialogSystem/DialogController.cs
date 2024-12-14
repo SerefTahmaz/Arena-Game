@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.UI;
+using AudioSystem;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
@@ -27,6 +28,7 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
     [SerializeField] private CinemachineVirtualCamera m_Camera;
     [SerializeField] private Transform m_CameraPivot;
     [SerializeField] private GameObject m_EventSystem;
+    [SerializeField] private SoundData m_SoundData;
 
     private RenderPipelineAsset m_PreviousURPSetting;
 
@@ -39,6 +41,7 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
     public async UniTask Init(DialogueGraph dialogueGraph, Transform dialogFocusPoint)
     {
         DialogueGraph = dialogueGraph;
+        ClearRuntimeData();
         RestartDialog();
         SetQualitySetting();
 
@@ -55,6 +58,18 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
 
         m_IsDialogShowing = true;
         await UniTask.WaitWhile((() => m_IsDialogShowing));
+        ClearRuntimeData();
+    }
+
+    private void ClearRuntimeData()
+    {
+        foreach (var VARIABLE in DialogueGraph.nodes)
+        {
+            if (VARIABLE is Chat chat)
+            {
+                chat.isAlreadyShown = false;
+            }
+        }
     }
 
     private void SetQualitySetting()
@@ -76,6 +91,8 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
 
         m_NpcDialogText.text = DialogueGraph.current.text;
 
+        if(!DialogueGraph.current.isAlreadyShown) HandleNpcVoice(DialogueGraph.current);
+
         foreach (var optionController in m_InsOptions)
         {
             Destroy(optionController.gameObject);
@@ -88,6 +105,35 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
             var insOption = Instantiate(m_PlayerDialogOptionControllerPrefab, m_PlayerOptionLayout);
             insOption.Init(option.text,index, this);
             m_InsOptions.Add(insOption);
+        }
+        DialogueGraph.current.isAlreadyShown = true;
+    }
+
+    private void HandleNpcVoice(Chat dialogueGraphCurrent)
+    {
+        Debug.Log("HandleNpcVoice");
+        AudioClip clipToPlay = null;
+        if (dialogueGraphCurrent.voiceClip != null)
+        {
+            clipToPlay = dialogueGraphCurrent.voiceClip;
+        }
+        else if (dialogueGraphCurrent.randomClips != null)
+        {
+            clipToPlay = dialogueGraphCurrent.randomClips.GetClip();
+        }
+        else
+        {
+            Debug.Log("Null ref");
+        } 
+
+        if (clipToPlay != null)
+        {
+            Debug.Log("Playing voice");
+            m_SoundData.clip = clipToPlay;
+            SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+            soundBuilder
+                .WithPosition(transform.position)
+                .Play(m_SoundData);
         }
     }
 

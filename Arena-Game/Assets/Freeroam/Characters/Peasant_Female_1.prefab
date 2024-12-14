@@ -69,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9182835836268533175}
   - component: {fileID: 6085193081814554912}
+  - component: {fileID: 4435645144052993698}
   m_Layer: 0
   m_Name: Peasant_Female_1
   m_TagString: Untagged
@@ -109,8 +110,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerDetector: {fileID: 3332371831155809072}
   m_InteractableUI: {fileID: 6752345826981697214}
-  m_DialogueGraph: {fileID: 11400000, guid: dda7a05148dd50e43bf6f5b2bc542940, type: 2}
+  m_DialogueGraph: {fileID: 11400000, guid: 584c9f68a3108a144b08482e4c20f843, type: 2}
   m_DialogFocusPoint: {fileID: 6914542040020121872}
+--- !u!114 &4435645144052993698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7308307836556417267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1153b3b134d674e9cc9a01df22013d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractableNpc: {fileID: 6085193081814554912}
+  m_DialogueGraphs:
+  - {fileID: 11400000, guid: dda7a05148dd50e43bf6f5b2bc542940, type: 2}
+  - {fileID: 11400000, guid: 584c9f68a3108a144b08482e4c20f843, type: 2}
 --- !u!1001 &7384443284544553644
 PrefabInstance:
   m_ObjectHideFlags: 0

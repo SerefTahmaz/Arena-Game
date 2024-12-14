@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SoundManagers.VOs;
 using UnityEngine;
 using XNode;
 
@@ -9,6 +10,9 @@ namespace Dialogue {
 
         public CharacterInfo character;
         [TextArea] public string text;
+        public AudioClip voiceClip;
+        public RandomVoiceClips randomClips;
+        [HideInInspector] public bool isAlreadyShown;
         [Output(instancePortList = true)] public List<Answer> answers = new List<Answer>();
 
         [System.Serializable] public class Answer {

@@ -14,6 +14,12 @@ namespace DefaultNamespace
 
         public override InteractionHelper<PlayerInteractionHelper> InteractionHelper => PlayerInteractionHelper.Instance;
 
+        public DialogueGraph DialogGraph
+        {
+            get => m_DialogueGraph;
+            set => m_DialogueGraph = value;
+        }
+
         protected override void HandleInteractionEvent()
         {
             if(FindObjectOfType<DialogController>()) return;
@@ -23,7 +29,7 @@ namespace DefaultNamespace
         protected override async UniTask HandleInteraction()
         {
             m_DialogController = DialogController.CreateInstanceDialog();
-            await m_DialogController.Init(m_DialogueGraph, m_DialogFocusPoint);
+            await m_DialogController.Init(DialogGraph, m_DialogFocusPoint);
         }
     }
 }
