@@ -4513,6 +4513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4358660255297300581}
   - component: {fileID: 3534547553461035207}
+  - component: {fileID: 1412986258958516144}
   m_Layer: 5
   m_Name: Start Menu Holder
   m_TagString: Untagged
@@ -4563,6 +4564,20 @@ MonoBehaviour:
   m_StartButton: {fileID: 2743929495885854325}
   m_ProfileView: {fileID: 8716519366658918818}
   m_FreeroamButton: {fileID: 5811625081482728071}
+--- !u!114 &1412986258958516144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5257109795934539782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a54dec866b4418c8e919f6ebdae7786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MainMenuMusicClip: {fileID: 8300000, guid: 89c956875ef0fe1418dcd399294dd0de, type: 3}
+  m_Volume: 0.18
 --- !u!1 &5430046142412311607
 GameObject:
   m_ObjectHideFlags: 0

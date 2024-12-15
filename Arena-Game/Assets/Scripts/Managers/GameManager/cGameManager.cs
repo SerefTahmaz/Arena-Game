@@ -42,6 +42,8 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
     public Action m_GameEnded = delegate {  };
+    public Action OnMainMenuEnter { get; set; }
+    public Action OnMainMenuExit { get; set; }
     public Action OnPlayerLose { get; set; }
     public Action OnPlayerWin { get; set; }
     
@@ -94,6 +96,7 @@ public class cGameManager : cSingleton<cGameManager>
         await SceneManager.LoadSceneAsync("TempMain",LoadSceneMode.Additive);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("TempMain"));
         LoadingScreen.Instance.HidePage(this);
+        OnMainMenuEnter?.Invoke();
     }
 
     private void HandleDisconnectionStates()
@@ -264,6 +267,7 @@ public class cGameManager : cSingleton<cGameManager>
         cPlayerManager.Instance.DestroyPlayers();
         
         cUIManager.Instance.ShowPage(Page.StartMenu,this);
+        OnMainMenuEnter?.Invoke();
         
         m_OnMainMenuButton.Invoke();
         m_GameEnded.Invoke();
@@ -328,6 +332,7 @@ public class cGameManager : cSingleton<cGameManager>
     public void HandleStartingRelay()
     {
         cUIManager.Instance.HidePage(Page.StartMenu,this);
+        OnMainMenuExit?.Invoke();
     }
 
     public async UniTask HandleSighOut()

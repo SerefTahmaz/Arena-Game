@@ -87,7 +87,7 @@ namespace AudioSystem {
             Destroy(soundEmitter.gameObject);
         }
 
-        public static void PlayOneShot2D(AudioClip audioClip, float volume = 1)
+        public static SoundEmitter PlayOneShot2D(AudioClip audioClip, float volume = 1)
         {
             var soundData = new SoundData
             {
@@ -95,7 +95,7 @@ namespace AudioSystem {
                 volume = volume
             };
             SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
-            soundBuilder.Play(soundData);
+            return soundBuilder.Play(soundData);
         }
     }
 }

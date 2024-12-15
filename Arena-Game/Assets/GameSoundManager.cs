@@ -14,8 +14,8 @@ public class GameSoundManager : MonoBehaviour
     [SerializeField] private AudioClip m_ExpChangeSound;
     [SerializeField] private float m_Volume;
 
-    private int LastCoinValue;
-    private int LastExpValue;
+    private int m_LastCoinValue;
+    private int m_LastExpValue;
        
     // Start is called before the first frame update
     void Start()
@@ -23,12 +23,12 @@ public class GameSoundManager : MonoBehaviour
         MultiplayerLocalHelper.Instance.OnMultiplayerGameStarted += HandleOnMultiplayerGameStarted;
         
         GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().OnChanged += HandleCoinChange;
-        LastCoinValue = GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
+        m_LastCoinValue = GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
 
         SaveGameHandler.OnChanged += HandleExpChange;
-        LastExpValue = ProfileGenerator.GetPlayerProfile().ExpPoint;
+        m_LastExpValue = ProfileGenerator.GetPlayerProfile().ExpPoint;
     }
-    
+
     private void OnDestroy()
     {
         if (MultiplayerLocalHelper.Instance)
@@ -48,9 +48,9 @@ public class GameSoundManager : MonoBehaviour
     private void HandleExpChange()
     {
         var expValue = ProfileGenerator.GetPlayerProfile().ExpPoint;
-        if (LastExpValue != expValue)
+        if (m_LastExpValue != expValue)
         {
-            LastExpValue = expValue;
+            m_LastExpValue = expValue;
             SoundManager.PlayOneShot2D(m_ExpChangeSound,m_Volume);
         }
     }
@@ -58,9 +58,9 @@ public class GameSoundManager : MonoBehaviour
     private void HandleCoinChange()
     {
         var coinValue = GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
-        if (LastCoinValue != coinValue)
+        if (m_LastCoinValue != coinValue)
         {
-            LastCoinValue = coinValue;
+            m_LastCoinValue = coinValue;
             SoundManager.PlayOneShot2D(m_CoinChangeSound,m_Volume);
         }
     }
