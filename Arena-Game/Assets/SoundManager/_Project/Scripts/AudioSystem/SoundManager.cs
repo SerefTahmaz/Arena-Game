@@ -86,5 +86,16 @@ namespace AudioSystem {
         void OnDestroyPoolObject(SoundEmitter soundEmitter) {
             Destroy(soundEmitter.gameObject);
         }
+
+        public static void PlayOneShot2D(AudioClip audioClip, float volume = 1)
+        {
+            var soundData = new SoundData
+            {
+                clip = audioClip,
+                volume = volume
+            };
+            SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+            soundBuilder.Play(soundData);
+        }
     }
 }

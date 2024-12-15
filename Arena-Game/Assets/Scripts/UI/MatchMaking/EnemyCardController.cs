@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame;
+using AudioSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class EnemyCardController : MonoBehaviour
     [SerializeField] private RawImage m_FirstOne;
     [SerializeField] private RawImage m_SecondOne;
     [SerializeField] private RawImage m_TargetOne;
+    [SerializeField] private AudioClip m_LoadingClip;
+    [SerializeField] private float m_Volume;
     
     [SerializeField] private float m_Duration;
     [SerializeField] private float m_Delay;
@@ -43,6 +46,7 @@ public class EnemyCardController : MonoBehaviour
 
         await UniTask.WaitForSeconds(m_Delay);
         
+        SoundManager.PlayOneShot2D(m_LoadingClip,m_Volume);
         await m_AnimHolder.DOLocalMove(Vector3.zero, m_Duration);
         m_ProfileCardController.SetProfile(selectedProfile);
         

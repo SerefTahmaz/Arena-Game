@@ -1,3 +1,4 @@
+using System;
 using ArenaGame.Utils;
 using DefaultNamespace;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
     private bool m_WaitingGameStart;
 
     public MultiplayerNetworkHelper NetworkHelper => m_MultiplayerNetworkHelper;
+    public Action OnMultiplayerGameStarted { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
         GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
+        OnMultiplayerGameStarted?.Invoke();
     }
 
     // Update is called once per frame

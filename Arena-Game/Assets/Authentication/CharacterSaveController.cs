@@ -26,6 +26,8 @@ namespace  ArenaGame.Managers.SaveManager
         private ArmorItemSO m_LeggingArmor;
 
         public Action OnChanged { get; set; }
+        public Action OnItemAddedInventory { get; set; }
+        public Action OnItemRemovedInventory { get; set; }
 
         public List<BaseItemSO> InventoryList
         {
@@ -202,6 +204,7 @@ namespace  ArenaGame.Managers.SaveManager
             
             InventoryList.Add(itemSO);
             Save();
+            OnItemAddedInventory?.Invoke();
         }
         
         public void RemoveInventory(BaseItemSO itemSO)
@@ -217,8 +220,8 @@ namespace  ArenaGame.Managers.SaveManager
             }
             
             InventoryList.Remove(itemSO);
-            
             Save();
+            OnItemRemovedInventory?.Invoke();
         }
 
         public void ClearEquipment()

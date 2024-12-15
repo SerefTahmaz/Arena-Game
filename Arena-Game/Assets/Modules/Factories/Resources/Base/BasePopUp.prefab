@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 8010657064763762118}
   - component: {fileID: 2357243403784704153}
   - component: {fileID: 4625520159752139329}
+  - component: {fileID: 7481228960564171104}
   m_Layer: 5
   m_Name: BasePopUp
   m_TagString: Untagged
@@ -314,6 +315,21 @@ MonoBehaviour:
   m_Text: {fileID: 1272161069062452146}
   m_NoButton: {fileID: 7594925769094962091}
   m_YesButton: {fileID: 7696781481803959647}
+--- !u!114 &7481228960564171104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2526849530965816248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462fac410ef9f194c8a767186dd99da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AudioClip: {fileID: 8300000, guid: 2a45e83b9b4a1cd42adf07034ed03268, type: 3}
+  m_Volume: 0.5
+  m_View: {fileID: 2357243403784704153}
 --- !u!1 &2890550557032782205
 GameObject:
   m_ObjectHideFlags: 0

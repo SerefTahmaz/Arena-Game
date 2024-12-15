@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AudioSystem;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using Gameplay;
@@ -12,6 +13,7 @@ namespace UI.Shop
         [SerializeField] private MarketItemController m_MarketItemPrefab;
         [SerializeField] private Transform m_LayoutParent;
         [SerializeField] protected MarketItemListSO m_MarketItemListSo;
+        [SerializeField] private AudioClip m_PurchaseClip;
         
         protected List<MarketItemController> m_MarketItemControllers = new List<MarketItemController>();
 
@@ -41,6 +43,7 @@ namespace UI.Shop
 
         public virtual void HandlePurchase(MarketItemController marketItemController)
         {
+            SoundManager.PlayOneShot2D(m_PurchaseClip);
         }
 
         public virtual void HandlePreview(MarketItemController marketItemController)

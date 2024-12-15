@@ -1,5 +1,6 @@
 ﻿using System;
 using ArenaGame.Utils;
+using AudioSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,7 +10,9 @@ public class cButton : MonoBehaviour
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private Image m_BGImage;
     [SerializeField] private UnityEvent m_OnClick;
-
+    [SerializeField] private AudioClip m_ClickClip;
+    [SerializeField] private float m_Volume;
+ 
     private Color m_StartColor;
 
     public UnityEvent OnClickEvent => m_OnClick;
@@ -36,5 +39,6 @@ public class cButton : MonoBehaviour
     public void OnClick()
     {
         OnClickEvent.Invoke();
+        SoundManager.PlayOneShot2D(m_ClickClip, m_Volume);
     }
 }
