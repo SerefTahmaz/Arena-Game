@@ -42,8 +42,8 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
     public Action m_GameEnded = delegate {  };
-    public Action m_OnPlayerLose { get; set; }
-    public Action m_OnPlayerWin { get; set; }
+    public Action OnPlayerLose { get; set; }
+    public Action OnPlayerWin { get; set; }
     
     public cPlayerIconList PlayerIconList => m_PlayerIconList;
 
@@ -222,7 +222,6 @@ public class cGameManager : cSingleton<cGameManager>
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        m_GameStarted.Invoke();
         GameModeHandler.StartGame();
         
         m_IsServerDisconnectedClient = false;
@@ -231,6 +230,7 @@ public class cGameManager : cSingleton<cGameManager>
     
     public void StartGameClient(bool isOnline = false)
     {
+        m_GameStarted.Invoke();
         IsGameplayActive = true;
         IsOnlineGameplayActive = isOnline;
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
@@ -276,7 +276,7 @@ public class cGameManager : cSingleton<cGameManager>
     public async UniTask HandleWin()
     {
         await GameEnd(); 
-        m_OnPlayerWin?.Invoke();
+        OnPlayerWin?.Invoke();
         cUIManager.Instance.ShowPage(Page.Win,this);
     }
 
@@ -289,7 +289,7 @@ public class cGameManager : cSingleton<cGameManager>
     public async UniTask HandleLose()
     {
         await GameEnd();
-        m_OnPlayerLose?.Invoke();
+        OnPlayerLose?.Invoke();
         cUIManager.Instance.ShowPage(Page.Lose,this);
     }
 

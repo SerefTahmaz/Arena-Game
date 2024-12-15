@@ -17,7 +17,7 @@ public class cScoreboardController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        cGameManager.Instance.m_GameStarted += OnRoundStart;
+        // cGameManager.Instance.m_GameStarted += OnRoundStart;
     }
 
     public void OnRoundStart()

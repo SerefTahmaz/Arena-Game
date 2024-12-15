@@ -11,15 +11,15 @@ public class PlayerTierManager : cSingleton<PlayerTierManager>
 
     private void Awake()
     {
-        cGameManager.Instance.m_OnPlayerWin += HandleWin;
-        cGameManager.Instance.m_OnPlayerLose += HandleLose;
+        cGameManager.Instance.OnPlayerWin += HandleWin;
+        cGameManager.Instance.OnPlayerLose += HandleLose;
     }
 
     private void OnDestroy()
     {
         if(cGameManager.Instance == null) return;
-        cGameManager.Instance.m_OnPlayerWin -= HandleWin;
-        cGameManager.Instance.m_OnPlayerLose -= HandleLose;
+        cGameManager.Instance.OnPlayerWin -= HandleWin;
+        cGameManager.Instance.OnPlayerLose -= HandleLose;
     }
 
     private void HandleLose()

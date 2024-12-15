@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.Utils;
+using AudioSystem;
 using DefaultNamespace;
 using Gameplay.Farming;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class PlantHolderController : MonoBehaviour
     [SerializeField] private Transform m_PlantHolderPivot;
     [SerializeField] private GameObject m_AvailableSpotVfx;
     [SerializeField] private GameObject m_CollectSpotVfx;
+    [SerializeField] private AudioClip m_PlantSoundClip;
      
     private PlantController m_InsPlantController;
     
@@ -24,6 +26,7 @@ public class PlantHolderController : MonoBehaviour
         insPlant.CreationDate = DateTime.Now;
         insPlant.Save();
         SpawnPlant(insPlant);
+        SoundManager.PlayOneShot2D(m_PlantSoundClip);
     }
 
     public void Init()

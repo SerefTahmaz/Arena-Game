@@ -35,7 +35,13 @@ public class GameSoundManager : MonoBehaviour
         {
             MultiplayerLocalHelper.Instance.OnMultiplayerGameStarted -= HandleOnMultiplayerGameStarted;
         }
-        GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().OnChanged -= HandleCoinChange;
+
+        var characterSaveController = GameplayStatics.GetPlayerCharacterSO().GetCharacterSave();
+        if (characterSaveController != null)
+        {
+            characterSaveController.OnChanged -= HandleCoinChange;
+        }
+            
         SaveGameHandler.OnChanged -= HandleExpChange;
     }
 
