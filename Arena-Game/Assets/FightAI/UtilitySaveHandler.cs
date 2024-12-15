@@ -11,6 +11,7 @@ namespace ArenaGame.Managers.SaveManager
         public int m_CurrentTierIndex;
         public int m_TierWins;
         public int m_TierLoses;
+        public int m_FreeroamPlayCount;
     }
     
     public static class UtilitySaveHandler

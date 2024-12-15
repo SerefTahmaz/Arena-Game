@@ -16,12 +16,16 @@ public class cScoreClientHolder : cSingleton<cScoreClientHolder>
 
     public void AddDead(DamageWrapper damageWrapper)
     {
+        return;
+        
         ClientScoreUnit.DeadCount.Value++;
         m_ScoreboardController.AddKillServerRpc(damageWrapper.Instigator.CharacterNetworkController.OwnerClientId);
     }
 
     public void AddKillClientRpc(ulong ownerId)
     {
+        return;
+        
         Debug.Log($"{ownerId} {ClientScoreUnit.OwnerClientId}");
         if (ownerId == ClientScoreUnit.OwnerClientId)
         {

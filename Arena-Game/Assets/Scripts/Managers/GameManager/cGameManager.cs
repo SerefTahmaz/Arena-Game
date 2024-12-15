@@ -42,6 +42,7 @@ public class cGameManager : cSingleton<cGameManager>
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
     public Action m_GameEnded = delegate {  };
+    public Action OnGameplayEnd { get; set; }
     public Action OnMainMenuEnter { get; set; }
     public Action OnMainMenuExit { get; set; }
     public Action OnPlayerLose { get; set; }
@@ -315,6 +316,7 @@ public class cGameManager : cSingleton<cGameManager>
         IsGameplayActive = false;
         IsOnlineGameplayActive = false;
         SetInput(false);
+        OnGameplayEnd?.Invoke();
     }
 
     public void SetInput(bool value)
@@ -337,6 +339,7 @@ public class cGameManager : cSingleton<cGameManager>
 
     public async UniTask HandleSighOut()
     {
+        OnMainMenuExit?.Invoke();
         LoadingScreen.Instance.ShowPage(this);
         await MapManager.Instance.RemoveCurrentLevel();
         await MapManager.Instance.UnloadFreeroam();

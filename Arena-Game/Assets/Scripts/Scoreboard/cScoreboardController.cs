@@ -38,7 +38,7 @@ public class cScoreboardController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ClearScoreDataDictClientRpc()
+    public void ClearScoreDataDictClientRpc() 
     {
         cScoreClientHolder.Instance.ClearDict();
     }
