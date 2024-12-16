@@ -7,7 +7,6 @@ public abstract class cCharacter: MonoBehaviour
     [SerializeField] private Transform m_MovementTransform;
     [SerializeField] private Animator m_Animator;
     [SerializeField] private cHealthManager m_HealthManager;
-    [SerializeField] private string m_CharacterName;
     [SerializeField] private int m_StartHealth;
     [SerializeField] private cDamageManager m_DamageManager;
     [SerializeField] private int m_TeamId;

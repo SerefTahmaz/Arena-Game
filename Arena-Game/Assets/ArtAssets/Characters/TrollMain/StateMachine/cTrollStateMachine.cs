@@ -12,11 +12,12 @@ namespace FiniteStateMachine
     public class cTrollStateMachine : cCharacterStateMachine
     {
         #region PritaveFields
-        
+         
         [SerializeField] private cTrollAnimationController.TrollAnimationState m_AvailableAttacks;
         [SerializeField] private Vector2 m_CooldownDurationRange;
         [SerializeField] private cTrollCharacter m_TrollCharacter;
         [SerializeField] private ParticleSystem m_BloodExpo;
+        [SerializeField] private string m_CharacterName;
 
         public cTrollAnimationController.TrollAnimationState AvailableAttacks => m_AvailableAttacks;
 
@@ -58,6 +59,8 @@ namespace FiniteStateMachine
             {
                 ChangeState(m_Death);
             };
+
+            TrollCharacter.TrollNetworkController.PlayerName.Value = m_CharacterName;
             
             TrollCharacter.TrollNetworkController.OnStartFightServerRpc();
             
