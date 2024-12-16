@@ -91,24 +91,6 @@ public class cSoundEffectController : MonoBehaviour
     {
         PlayOneShot(m_FireChargeClips[trackIndex-1]);
     }
-
-    private SoundData m_CurrentLoopedFireSound;
-
-    public void PlayFireChargeLoop(int trackIndex)
-    {
-        if(m_CurrentLoopedFireSound != null) return; 
-        
-        m_CurrentLoopedFireSound = m_BaseSoundData.Clone();
-        m_CurrentLoopedFireSound.clip= m_FireChargeClips[trackIndex - 1];
-        m_CurrentLoopedFireSound.loop = true;
-        
-        SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
-
-        soundBuilder
-            .WithPosition(transform.position)
-            .WithParent(transform)
-            .Play(m_CurrentLoopedFireSound);
-    }
     
     [SerializeField] private List<AudioClip> m_DualAttackClips;
 

@@ -50,6 +50,7 @@ public class MapController : MonoBehaviour
         if(m_AmbientMusicData.clip == null) return;
         var soundBuilder = SoundManager.Instance.CreateSoundBuilder();
         m_Emitter=soundBuilder.Play(m_AmbientMusicData);
+        m_Emitter.KillAutoRelease();
     }
 
     private void PlayStartMusic()

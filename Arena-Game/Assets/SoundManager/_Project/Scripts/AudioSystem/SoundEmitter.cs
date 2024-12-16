@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -77,6 +78,11 @@ namespace AudioSystem {
         public void SetVolume(float volumeScale)
         {
             audioSource.volume = Data.volume * volumeScale;
+        }
+
+        public void KillAutoRelease()
+        {
+            StopCoroutine(WaitForSoundToEnd());
         }
     }
 }

@@ -39,6 +39,6 @@ public class cButton : MonoBehaviour
     public void OnClick()
     {
         OnClickEvent.Invoke();
-        SoundManager.PlayOneShot2D(m_ClickClip, m_Volume);
+        SoundManager.PlayOneShot2DSFX(m_ClickClip, m_Volume);
     }
 }

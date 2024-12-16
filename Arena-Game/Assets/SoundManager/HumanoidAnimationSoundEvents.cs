@@ -32,11 +32,6 @@ namespace DefaultNamespace.SoundManager
             m_SoundEffectController.PlayFireCharge(trackIndex);
         }
         
-        public void PlayFireChargeLoop(int trackIndex)
-        {
-            m_SoundEffectController.PlayFireChargeLoop(trackIndex);
-        }
-        
         public void PlayDualAttack(int trackIndex)
         {
             m_SoundEffectController.PlayDualAttack(trackIndex);

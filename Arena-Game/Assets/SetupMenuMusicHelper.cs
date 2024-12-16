@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ArenaGame.UI;
 using AudioSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SetupMenuMusicHelper : MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class SetupMenuMusicHelper : MonoBehaviour
 
     private void MainMenuEnter()
     {
-        m_SetupMenuMusicEmitter = SoundManager.PlayOneShot2D(m_SetupMenuMusicClip, m_Volume);
+        m_SetupMenuMusicEmitter = SoundManager.PlayOneShot2DMusic(m_SetupMenuMusicClip, m_Volume);
+        m_SetupMenuMusicEmitter.KillAutoRelease();
     }
     
     private void MainMenuExit()

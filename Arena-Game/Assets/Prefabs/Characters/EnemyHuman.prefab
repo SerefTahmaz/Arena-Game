@@ -9905,12 +9905,60 @@ MonoBehaviour:
     m_NormalMat: {fileID: 2100000, guid: 20a711cc96dc8c7439cacec7b62074f3, type: 2}
     m_BurntMat: {fileID: 2100000, guid: c6681239599b68143a4f105b4d516f8e, type: 2}
     m_FlameParticle: {fileID: 5849489401745906048}
+    m_FlameSoundData:
+      clip: {fileID: 8300000, guid: 17731969ea351a04ca792237b72fe728, type: 3}
+      mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+        type: 2}
+      loop: 1
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 1
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 30
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 1
   m_RightSword:
     m_BackWeapon: {fileID: 6645940871553087560}
     m_HandWeapon: {fileID: 6908648359673822644}
     m_NormalMat: {fileID: 2100000, guid: 7ccf71eeb8173564198f6f3f5d3925da, type: 2}
     m_BurntMat: {fileID: 2100000, guid: 0cff798a9f3d8a349896820bf5817428, type: 2}
     m_FlameParticle: {fileID: 5849489400154830882}
+    m_FlameSoundData:
+      clip: {fileID: 8300000, guid: 17731969ea351a04ca792237b72fe728, type: 3}
+      mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+        type: 2}
+      loop: 1
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 1
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 30
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 1
   m_WildFire:
   - {fileID: 358312893443880184}
   - {fileID: 4134259757647056358}
@@ -9959,7 +10007,6 @@ MonoBehaviour:
   m_MovementTransform: {fileID: 6244019758496456597}
   m_Animator: {fileID: 5550091048574385923}
   m_HealthManager: {fileID: 7020205092193153343}
-  m_CharacterName: 
   m_StartHealth: 120
   m_DamageManager: {fileID: 4365408676103763014}
   m_TeamId: 0
@@ -10188,6 +10235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HumanCharacter: {fileID: 5845259781463838597}
+  m_InitAtStart: 1
 --- !u!114 &8988119492678753105
 MonoBehaviour:
   m_ObjectHideFlags: 0

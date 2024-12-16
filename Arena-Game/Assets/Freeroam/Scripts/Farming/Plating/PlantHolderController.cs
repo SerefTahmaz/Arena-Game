@@ -26,7 +26,7 @@ public class PlantHolderController : MonoBehaviour
         insPlant.CreationDate = DateTime.Now;
         insPlant.Save();
         SpawnPlant(insPlant);
-        SoundManager.PlayOneShot2D(m_PlantSoundClip);
+        SoundManager.PlayOneShot2DSFX(m_PlantSoundClip);
     }
 
     public void Init()

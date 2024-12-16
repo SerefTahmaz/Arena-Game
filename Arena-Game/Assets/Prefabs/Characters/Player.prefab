@@ -14588,8 +14588,8 @@ GameObject:
   - component: {fileID: 2429274270307719355}
   - component: {fileID: 368970530281654065}
   - component: {fileID: 1935686690693353697}
-  - component: {fileID: 8294221999418028109}
   - component: {fileID: 8336007003722870488}
+  - component: {fileID: 6665104770125969930}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -14852,12 +14852,60 @@ MonoBehaviour:
     m_NormalMat: {fileID: 2100000, guid: 20a711cc96dc8c7439cacec7b62074f3, type: 2}
     m_BurntMat: {fileID: 2100000, guid: c6681239599b68143a4f105b4d516f8e, type: 2}
     m_FlameParticle: {fileID: 8875635435313613720}
+    m_FlameSoundData:
+      clip: {fileID: 8300000, guid: 17731969ea351a04ca792237b72fe728, type: 3}
+      mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+        type: 2}
+      loop: 1
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 1
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 30
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 1
   m_RightSword:
     m_BackWeapon: {fileID: 8519184298076351056}
     m_HandWeapon: {fileID: 8494189038213246892}
     m_NormalMat: {fileID: 2100000, guid: 7ccf71eeb8173564198f6f3f5d3925da, type: 2}
     m_BurntMat: {fileID: 2100000, guid: 0cff798a9f3d8a349896820bf5817428, type: 2}
     m_FlameParticle: {fileID: 8875635435827817018}
+    m_FlameSoundData:
+      clip: {fileID: 8300000, guid: 17731969ea351a04ca792237b72fe728, type: 3}
+      mixerGroup: {fileID: 4796280562796518393, guid: 0648aff6a08d3f0468df28399773aba6,
+        type: 2}
+      loop: 1
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 1
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 30
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 1
   m_WildFire:
   - {fileID: 8785764765822997001}
   - {fileID: 8785764765644991436}
@@ -14919,7 +14967,6 @@ MonoBehaviour:
   m_MovementTransform: {fileID: 8981917196350737805}
   m_Animator: {fileID: 3362263177872555896}
   m_HealthManager: {fileID: 4237754230742690639}
-  m_CharacterName: 
   m_StartHealth: 120
   m_DamageManager: {fileID: 2429274270307719355}
   m_TeamId: 0
@@ -15114,6 +15161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HumanCharacter: {fileID: 8675972563741450863}
+  m_InitAtStart: 0
 --- !u!114 &1935686690693353697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15126,19 +15174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8355ff29644c41f429f55d9e68dc1d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8294221999418028109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8125119713141699224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab58fc156fe144649ad832c08b816fc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SkinManager: {fileID: 1160515799806368890}
 --- !u!114 &8336007003722870488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15152,6 +15187,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SoundEffectController: {fileID: 6365255717361881750}
+--- !u!114 &6665104770125969930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8125119713141699224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc1148fe84446778493dba0ef6f3b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanCharacterSM: {fileID: 368970530281654065}
 --- !u!1 &8298145229488168972
 GameObject:
   m_ObjectHideFlags: 0
@@ -20856,6 +20904,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4010591954057609405}
+    - targetCorrespondingSourceObject: {fileID: 2667788943629103633, guid: 66d4e6ed58599ef45884acd64694dd67,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5007127996972292024}
   m_SourcePrefab: {fileID: 100100000, guid: 66d4e6ed58599ef45884acd64694dd67, type: 3}
 --- !u!4 &561024659508319332 stripped
 Transform:
@@ -21370,6 +21422,19 @@ MonoBehaviour:
     spineStiffness: 0.5
     pullBodyVertical: 0.5
     pullBodyHorizontal: 0
+--- !u!114 &5007127996972292024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848329424292227635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab58fc156fe144649ad832c08b816fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SkinManager: {fileID: 1160515799806368890}
 --- !u!4 &2225931463308121702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2470064855809625668, guid: 66d4e6ed58599ef45884acd64694dd67,

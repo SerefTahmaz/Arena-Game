@@ -9,36 +9,45 @@ using Random = UnityEngine.Random;
 public class HumanCharacterStateMachine : MonoBehaviour
 {
     [SerializeField] private HumanCharacter m_HumanCharacter;
+    [SerializeField] private bool m_InitAtStart;
 
     private AnimationController AnimationController => m_HumanCharacter.AnimationController;
 
-    public bool IsLeftSwordDrawn => m_IsLeftSwordDrawn;
+    public bool IsLeftSwordDrawn { get; set; }
 
-    public bool IsRightSwordDrawn => m_IsRightSwordDrawn;
+    public bool IsRightSwordDrawn { get; set; }
 
-    public bool IsLeftSwordCharged => m_IsLeftSwordCharged;
+    public bool IsLeftSwordCharged { get; set; }
 
-    public bool IsRightSwordCharged => m_IsRightSwordCharged;
-
-    private bool m_IsLeftSwordDrawn = false;
-    private bool m_IsRightSwordDrawn = false;
-    private bool m_IsLeftSwordCharged = false;
-    private bool m_IsRightSwordCharged = false;
+    public bool IsRightSwordCharged { get; set; }
 
     private bool IsBusy;
     
+    public bool IsInitialized { get; set; }
+    
     private void Awake()
+    {
+        if (m_InitAtStart)
+        {
+            Init();
+        }
+    }
+
+    public void Init()
     {
         AnimationController.m_OnAttackEnd += () =>
         {
             IsBusy = false;
         };
+        IsInitialized = true;
     }
 
     //Abilities
     
     public void SwitchLeftSword()
     {
+        if(!IsInitialized) return;
+        
         if(IsBusy) return;
         
         if (IsLeftSwordDrawn)
@@ -53,6 +62,8 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     public void SwitchRightSword()
     {
+        if(!IsInitialized) return;
+        
         if(IsBusy) return;
         
         if (IsRightSwordDrawn)
@@ -67,28 +78,38 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     private void DrawSword(AnimationController.AnimationState sword)
     {
+        if(!IsInitialized) return;
+        
         AnimationController.SetTrigger(sword, resetable: true);
     }
         
     private void SheathSword(AnimationController.AnimationState sword)
     {
+        if(!IsInitialized) return;
+        
         AnimationController.SetTrigger(sword, resetable: true);
     }
 
     void LeftSlash()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.LeftSlash, resetable: true);
     }
         
     void RightSlash()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.Slash, resetable: true);
     }
         
     public void Slash()
     {
+        if(!IsInitialized) return;
+        
         if (IsLeftSwordDrawn && IsRightSwordDrawn)
         {
             HeavyAttack();
@@ -105,24 +126,32 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     private void HeavyAttack()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.HeavySlash, resetable: true);
     }
         
     private void OnChargeLeft()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.ChargeLeft, resetable: true);
     }
         
     private void OnChargeRight()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.ChargeRight, resetable: true);
     }
         
     public void Charge()
     {
+        if(!IsInitialized) return;
+        
         Debug.Log("Trying to charge!!");
         if (IsLeftSwordDrawn && IsRightSwordDrawn)
         {
@@ -140,17 +169,23 @@ public class HumanCharacterStateMachine : MonoBehaviour
         
     private void OnChargeBoth()
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(AnimationController.AnimationState.ChargeBoth, resetable: true);
     }
 
     public void Jump()
     {
+        if(!IsInitialized) return;
+        
         AnimationController.SetTrigger(AnimationController.AnimationState.Jump, resetable: true);
     }
 
     public void PlayTakeDamage(bool isHeavyDamage)
     {
+        if(!IsInitialized) return;
+        
         SetBusy();
         AnimationController.SetTrigger(isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
             resetable: true);
@@ -159,68 +194,116 @@ public class HumanCharacterStateMachine : MonoBehaviour
 
     private void SetBusy()
     {
+        if(!IsInitialized) return;
+        
         IsBusy = true;
     }
     
     //Animation Events
     
+    public Action OnSwitchLeftWeapon { get; set; }
+    public Action OnSwitchRightWeapon { get; set; }
+    
     public void SwitchLeftWeapon()
     {
-        AnimationController.LeftSword.m_BackWeapon.SetActive(!AnimationController.LeftSword.m_BackWeapon.activeSelf);
-        AnimationController.LeftSword.m_HandWeapon.SetActive(!AnimationController.LeftSword.m_HandWeapon.activeSelf);
+        if(!IsInitialized) return;
+        
+        IsLeftSwordDrawn = !IsLeftSwordDrawn;
+        SetLeftWeaponVisuals(IsLeftSwordDrawn);
         SetLeftFlame(0);
         
-        m_IsLeftSwordDrawn = !IsLeftSwordDrawn;
+        OnSwitchLeftWeapon?.Invoke();
     }
     
     public void SwitchRightWeapon()
     {
-        AnimationController.RightSword.m_BackWeapon.SetActive(!AnimationController.RightSword.m_BackWeapon.activeSelf);
-        AnimationController.RightSword.m_HandWeapon.SetActive(!AnimationController.RightSword.m_HandWeapon.activeSelf);
+        if(!IsInitialized) return;
+        
+        IsRightSwordDrawn = !IsRightSwordDrawn;
+        SetRightWeaponVisuals(IsRightSwordDrawn);
         SetRightFlame(0);
         
-        m_IsRightSwordDrawn = !IsRightSwordDrawn;
+        OnSwitchRightWeapon?.Invoke();
     }
+
+    public void SetLeftWeaponVisuals(bool value)
+    {
+        AnimationController.LeftSword.m_BackWeapon.SetActive(!value);
+        AnimationController.LeftSword.m_HandWeapon.SetActive(value);
+    }
+
+    public void SetRightWeaponVisuals(bool value)
+    {
+        AnimationController.RightSword.m_BackWeapon.SetActive(!value);
+        AnimationController.RightSword.m_HandWeapon.SetActive(value);
+    }
+    
+    public Action OnSetLeftFlame { get; set; }
+    public Action OnSetRightFlame { get; set; }
     
     public void SetLeftFlame(int state)
     {
-        m_IsLeftSwordCharged = state == 1 ? true : false;
-        SetFlame(AnimationController.LeftSword, state == 1 ? true : false);
+        if(!IsInitialized) return;
+        
+        IsLeftSwordCharged = state == 1 ? true : false;
+        SetLeftFlameVisuals(IsLeftSwordCharged);
+        
+        OnSetLeftFlame?.Invoke();
     }
     
     
     public void SetRightFlame(int state)
     {
-        m_IsRightSwordCharged = state == 1 ? true : false;
-        SetFlame(AnimationController.RightSword, state == 1 ? true : false);
+        if(!IsInitialized) return;
+        
+        IsRightSwordCharged = state == 1 ? true : false;
+        SetRightFlameVisuals(IsRightSwordCharged);
+        
+        OnSetRightFlame?.Invoke();
     }
     
-    private void SetFlame(AnimationController.SwordFlameHelper swordFlameHelper, bool state)
+    public void SetLeftFlameVisuals(bool value)
+    {
+        SetFlame(AnimationController.LeftSword, value);
+    }
+
+    public void SetRightFlameVisuals(bool value)
+    {
+        SetFlame(AnimationController.RightSword, value);
+    } 
+    
+    public void SetFlame(AnimationController.SwordFlameHelper swordFlameHelper, bool state)
     {
         if (state)
         {
             swordFlameHelper.m_FlameParticle.gameObject.SetActive(true);
             swordFlameHelper.m_FlameParticle.Play();
             swordFlameHelper.handWeaponRenderer.sharedMaterial = swordFlameHelper.m_BurntMat;
+            swordFlameHelper.SetFlameLoopSound(true);
         }
         else
         {
             swordFlameHelper.m_FlameParticle.gameObject.SetActive(false);
             swordFlameHelper.m_FlameParticle.Stop();
             swordFlameHelper.handWeaponRenderer.sharedMaterial = swordFlameHelper.m_NormalMat;
+            swordFlameHelper.SetFlameLoopSound(false);
         }
     }
 
     public void PlayStreach()
     {
+        if(!IsInitialized) return;
     }
 
     public void PlayHelloEverybody()
     {
+        if(!IsInitialized) return;
     }
 
     public void Die()
     {
+        if(!IsInitialized) return;
+        
         AnimationController.SetTrigger(AnimationController.AnimationState.Dead);
     }
 }

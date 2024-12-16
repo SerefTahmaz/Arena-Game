@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.Utils;
+using AudioSystem;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,7 +15,7 @@ namespace _Main.Scripts.Gameplay
         private Dictionary<AnimationState, string> animatorStates = new Dictionary<AnimationState, string>();
         private Dictionary<string, Action> animatorFinishEvents = new Dictionary<string, Action>();
         private Dictionary<string, Action> animatorStartEvents = new Dictionary<string, Action>();
-
+ 
         public AnimationState CurrentAnimation = AnimationState.Idle;
         
         public Action m_OnAttackEnd= delegate {  };
@@ -174,6 +175,32 @@ namespace _Main.Scripts.Gameplay
             public Material m_NormalMat;
             public Material m_BurntMat;
             public ParticleSystem m_FlameParticle;
+            public SoundData m_FlameSoundData;
+
+            private SoundEmitter m_CurrentFireLoop;
+ 
+            public void SetFlameLoopSound(bool value)
+            {
+                if (value)
+                {
+                    if(m_CurrentFireLoop != null) return;
+                    
+                    SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
+
+                    m_CurrentFireLoop= soundBuilder
+                        .WithPosition(m_HandWeapon.transform.position)
+                        .WithParent(m_HandWeapon.transform)
+                        .Play(m_FlameSoundData);
+                }
+                else
+                {
+                    if (m_CurrentFireLoop != null)
+                    {
+                        m_CurrentFireLoop.Stop();
+                        m_CurrentFireLoop = null;
+                    }
+                }
+            }
         }
     
    

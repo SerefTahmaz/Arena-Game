@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.UI;
 using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PVELevelSelectView : cSingleton<PVELevelSelectView>
@@ -57,25 +59,33 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
 
     public void OnStartSelected()
     {
-        OnStartSelectedSinglePlayer();
+        StartSinglePlayer();
     }
 
-    private void OnStartSelectedSinglePlayer()
+    private async UniTask StartSinglePlayer()
     {
-        LoadingScreen.Instance.ShowPage(this);
-        cLobbyManager.Instance.m_OnGameStarted += HandleOnGameStartedSingle;
-        
-        void Created()
-        {
-            cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(true);
-        }
-        cLobbyCreationManager.Instance.OnCreate(new cLobbyCreationManager.LobbyCreationSettingWrapper()
+        var result = await cLobbyCreationManager.Instance.OnCreate(new cLobbyCreationManager.LobbyCreationSettingWrapper()
         {
             m_LobbyName = "SinglePlayerLobby", 
             m_PlayerCount = 1, 
             m_IsPrivate = true, 
             m_GameMode = eGameMode.PvE
-        }, Created);
+        });
+
+        switch (result)
+        {
+            case RequestResult.Failed:
+                break;
+            case RequestResult.Success:
+                LoadingScreen.Instance.ShowPage(this);
+                cLobbyManager.Instance.m_OnGameStarted += HandleOnGameStartedSingle;
+                cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+      
     }
 
     private void HandleOnGameStartedSingle()

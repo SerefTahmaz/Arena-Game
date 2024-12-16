@@ -37,7 +37,7 @@ public class cPlayerUnit : MonoBehaviour
         {
             m_Icon.sprite = PrefabList.Get().DefaultPPIcon;
         }
-    }
+    } 
 
     public void KickPlayer()
     {

@@ -14,7 +14,7 @@ public class PlayOnStartHelper : MonoBehaviour
     {
         m_View.OnActivateEvent.AddListener((() =>
         {
-            SoundManager.PlayOneShot2D(m_AudioClip,m_Volume);
+            SoundManager.PlayOneShot2DSFX(m_AudioClip,m_Volume);
         }));
     }
 }

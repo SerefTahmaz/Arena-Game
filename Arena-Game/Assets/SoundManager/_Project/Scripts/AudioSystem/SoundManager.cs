@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Pool;
 
 namespace AudioSystem {
@@ -13,6 +14,10 @@ namespace AudioSystem {
         [SerializeField] int defaultCapacity = 10;
         [SerializeField] int maxPoolSize = 100;
         [SerializeField] int maxSoundInstances = 30;
+
+        [SerializeField] private AudioMixerGroup m_EnvGroup;
+        [SerializeField] private AudioMixerGroup m_MusicGroup;
+        [SerializeField] private AudioMixerGroup m_SFXGroup;
 
         void Start() {
             InitializePool();
@@ -86,14 +91,31 @@ namespace AudioSystem {
         void OnDestroyPoolObject(SoundEmitter soundEmitter) {
             Destroy(soundEmitter.gameObject);
         }
+        
+        public static SoundEmitter PlayOneShot2DMusic(AudioClip audioClip, float volume = 1)
+        {
+            return PlayOneShot2D(audioClip, volume, instance.m_MusicGroup);
+        }
+        
+        public static SoundEmitter PlayOneShot2DSFX(AudioClip audioClip, float volume = 1)
+        {
+            return PlayOneShot2D(audioClip, volume, instance.m_SFXGroup);
+        }
+        
+        public static SoundEmitter PlayOneShot2DEnvironment(AudioClip audioClip, float volume = 1)
+        {
+            return PlayOneShot2D(audioClip, volume, instance.m_EnvGroup);
+        }
 
-        public static SoundEmitter PlayOneShot2D(AudioClip audioClip, float volume = 1)
+        private static SoundEmitter PlayOneShot2D(AudioClip audioClip, float volume = 1, AudioMixerGroup audioMixerGroup = null)
         {
             var soundData = new SoundData
             {
                 clip = audioClip,
                 volume = volume
             };
+            if (audioMixerGroup != null) soundData.mixerGroup = audioMixerGroup;
+            
             SoundBuilder soundBuilder = SoundManager.Instance.CreateSoundBuilder();
             return soundBuilder.Play(soundData);
         }

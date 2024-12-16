@@ -46,7 +46,7 @@ public class EnemyCardController : MonoBehaviour
 
         await UniTask.WaitForSeconds(m_Delay);
         
-        SoundManager.PlayOneShot2D(m_LoadingClip,m_Volume);
+        SoundManager.PlayOneShot2DSFX(m_LoadingClip,m_Volume);
         await m_AnimHolder.DOLocalMove(Vector3.zero, m_Duration);
         m_ProfileCardController.SetProfile(selectedProfile);
         

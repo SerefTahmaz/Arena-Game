@@ -43,7 +43,7 @@ namespace UI.Shop
 
         public virtual void HandlePurchase(MarketItemController marketItemController)
         {
-            SoundManager.PlayOneShot2D(m_PurchaseClip);
+            SoundManager.PlayOneShot2DSFX(m_PurchaseClip);
         }
 
         public virtual void HandlePreview(MarketItemController marketItemController)

@@ -5,6 +5,7 @@ using System.Linq;
 using ArenaGame;
 using ArenaGame.Managers.SaveManager;
 using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using QFSW.QC;
 using Unity.Services.Authentication;
@@ -161,7 +162,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     // }
 
     [Command]
-    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, eGameMode gameMode, Action onCreated = null)
+    public async UniTask<RequestResult> CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, eGameMode gameMode)
     {
         try
         {
@@ -184,14 +185,13 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             JoinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers,createLobbyOptions);
 
             Debug.Log($"lobby name :{JoinedLobby.Name} max Player Count:{JoinedLobby.MaxPlayers} lobby id :{JoinedLobby.Id} lobby code:{JoinedLobby.LobbyCode}");
+            return RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            return RequestResult.Failed;
         }
-        
-        onCreated?.Invoke();
     }
 
     [Command]
@@ -249,7 +249,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     private LobbyEventCallbacks m_LobbyEventCallbacks = new LobbyEventCallbacks();
     
-    public async void JoinLobbyById(string lobbyCode, Action onJoined = null)
+    public async UniTask<RequestResult> JoinLobbyById(string lobbyCode)
     {
         try
         {
@@ -268,12 +268,12 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobby.Id, m_LobbyEventCallbacks);
             m_LobbyEventCallbacks.KickedFromLobby += OnKickedFromLobby;
             
-            onJoined?.Invoke();
+            return RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            return RequestResult.Failed;
         }
     }
 
@@ -422,17 +422,23 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     }
     
     [Command]
-    public async void KickPlayer(string id)
+    public async UniTask<RequestResult> KickPlayer(string id)
     {
+        var token = new object();
+        MiniLoadingScreen.Instance.ShowPage(token);
+        RequestResult result;
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(JoinedLobby.Id, id);
+            result = RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            result = RequestResult.Failed;
         }
+        MiniLoadingScreen.Instance.HidePage(token);
+        return result;
     }
 
     private async void MigrateLobby()

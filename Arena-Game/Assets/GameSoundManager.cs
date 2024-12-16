@@ -43,7 +43,7 @@ public class GameSoundManager : MonoBehaviour
         if (m_LastExpValue != expValue)
         {
             m_LastExpValue = expValue;
-            SoundManager.PlayOneShot2D(m_ExpChangeSound,m_Volume);
+            SoundManager.PlayOneShot2DSFX(m_ExpChangeSound,m_Volume);
         }
     } 
 
@@ -53,7 +53,7 @@ public class GameSoundManager : MonoBehaviour
         if (m_LastCoinValue != coinValue)
         {
             m_LastCoinValue = coinValue;
-            SoundManager.PlayOneShot2D(m_CoinChangeSound,m_Volume);
+            SoundManager.PlayOneShot2DSFX(m_CoinChangeSound,m_Volume);
         }
     }
 }

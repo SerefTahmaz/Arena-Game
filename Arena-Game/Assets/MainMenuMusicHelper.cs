@@ -36,6 +36,7 @@ public class MainMenuMusicHelper : MonoBehaviour
 
     private void MainMenuEnter()
     {
-        m_MainMenuMusicEmitter = SoundManager.PlayOneShot2D(m_MainMenuMusicClip, m_Volume);
+        m_MainMenuMusicEmitter = SoundManager.PlayOneShot2DMusic(m_MainMenuMusicClip, m_Volume);
+        m_MainMenuMusicEmitter.KillAutoRelease();
     }
 }

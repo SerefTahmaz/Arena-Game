@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -15,17 +16,16 @@ public class cRefreshLobbyButton : MonoBehaviour
 
     public void RefreshLobby()
     {
-        m_Button.DeActivate();
-        cLobbyListUI.Instance.PopulateList(OnRefresh);
+        RefreshLobbyAsync();
     }
-
-    public void OnRefresh()
+    
+    private async UniTask RefreshLobbyAsync()
     {
+        m_Button.DeActivate();
+        await cLobbyListUI.Instance.PopulateListAsync();
         Debug.Log("Updated Lobby");
-        DOVirtual.DelayedCall(1.5f, () =>
-        {
-            m_Button.Activate();
-        });
+        await UniTask.WaitForSeconds(1.5f);
+        m_Button.Activate();
     }
 }
  
