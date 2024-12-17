@@ -55,7 +55,7 @@ public class AuthManager : cSingleton<AuthManager>
             Debug.Log("No logged in user");
             foreach (var view in m_Views)
             {
-                view.Activate();
+                view.Activate(true);
             }
         }
         else

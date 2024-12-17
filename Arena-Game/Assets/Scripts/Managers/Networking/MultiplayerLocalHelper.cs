@@ -1,6 +1,8 @@
 using System;
 using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using Unity.Netcode;
 using UnityEngine;
 
 public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
@@ -16,6 +18,20 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
     void Start()
     {
         cPlayerManager.Instance.m_OwnerPlayerSpawn += OnOwnerPlayerSpawn;
+        NetworkManager.Singleton.OnClientConnectedCallback += SingletonOnOnClientConnectedCallback;
+    }
+
+    private void SingletonOnOnClientConnectedCallback(ulong obj)
+    {
+        HandleConnection();
+    }
+
+    private async UniTask HandleConnection()
+    {
+        var loadingToken = new object();
+        LoadingScreen.Instance.ShowPage(loadingToken,true);
+        await UniTask.WaitUntil((() => NetworkHelper.m_IsGameStarted.Value));
+        LoadingScreen.Instance.HidePage(loadingToken);
     }
 
     private void OnOwnerPlayerSpawn(cCharacter ownerPlayer)

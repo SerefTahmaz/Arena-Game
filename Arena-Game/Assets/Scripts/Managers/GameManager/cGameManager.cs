@@ -340,7 +340,7 @@ public class cGameManager : cSingleton<cGameManager>
     public async UniTask HandleSighOut()
     {
         OnMainMenuExit?.Invoke();
-        LoadingScreen.Instance.ShowPage(this);
+        LoadingScreen.Instance.ShowPage(this,true);
         await MapManager.Instance.RemoveCurrentLevel();
         await MapManager.Instance.UnloadFreeroam();
         await SceneManager.UnloadSceneAsync("TempMain");

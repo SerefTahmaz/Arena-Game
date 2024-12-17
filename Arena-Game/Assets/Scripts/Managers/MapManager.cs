@@ -29,7 +29,7 @@ public class MapManager : cSingleton<MapManager>
     public Action<int> OnMapLoaded { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         SaveGameHandler.Load();
         SetMap(SaveGameHandler.SaveData.m_CurrentMap);
@@ -37,7 +37,7 @@ public class MapManager : cSingleton<MapManager>
 
     public async UniTask SetMap(int levelIndex)
     {
-        LoadingScreen.Instance.ShowPage(this);
+        LoadingScreen.Instance.ShowPage(this, true);
         await RemoveCurrentLevel();
         await UnloadFreeroam();
         
@@ -52,7 +52,7 @@ public class MapManager : cSingleton<MapManager>
     
     public async UniTask SetMapNetwork(int levelIndex)
     {
-        LoadingScreen.Instance.ShowPage(this);
+        LoadingScreen.Instance.ShowPage(this,true);
         await RemoveCurrentLevel();
         await UnloadFreeroam();
         

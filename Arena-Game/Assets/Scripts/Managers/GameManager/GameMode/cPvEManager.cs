@@ -39,7 +39,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
-        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        cUIManager.Instance.ShowPage(Page.Gameplay,this, true);
         LoadingScreen.Instance.ShowPage(this);
         
         SaveGameHandler.Load();

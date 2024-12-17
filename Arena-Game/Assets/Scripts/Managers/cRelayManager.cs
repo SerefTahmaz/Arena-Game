@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -35,7 +36,7 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         try
         {
-            LoadingScreen.Instance.ShowPage(this);
+            LoadingScreen.Instance.ShowPage(this,true);
             cGameManager.Instance.HandleStartingRelay();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
@@ -64,10 +65,10 @@ public class cRelayManager : cSingleton<cRelayManager>
 
     private bool SceneVerification(int sceneindex, string scenename, LoadSceneMode loadscenemode)
     {
-        if (scenename == "Main")
-        {
-            return false;
-        }
+        // if (scenename == "Main")
+        // {
+        //     return false;
+        // }
 
         return true;
     }
@@ -86,9 +87,8 @@ public class cRelayManager : cSingleton<cRelayManager>
         try
         {
             cGameManager.Instance.HandleStartingRelay();
-            LoadingScreen.Instance.ShowPage(this);
+            LoadingScreen.Instance.ShowPage(this,true);
             cGameManager.Instance.StartGameClient(true);
-            // //TODO: make it async
             await MapManager.Instance.RemoveCurrentLevel();
             
             Debug.Log("Joined relay with " + joinCode);
@@ -115,6 +115,15 @@ public class cRelayManager : cSingleton<cRelayManager>
     {
         NetworkManager.Singleton.SceneManager.OnLoadComplete -= SceneManagerOnOnLoadComplete;
         LoadingScreen.Instance.HidePage(m_ClientLoadingLock);
-        MapManager.Instance.SetMapIndex(cLobbyManager.Instance.LastMapIndex);
+        LoadMap();
+    }
+
+    private async UniTask LoadMap()
+    {
+        await MapManager.Instance.SetMapIndex(cLobbyManager.Instance.LastMapIndex);
+        var loadingToken = new object();
+        LoadingScreen.Instance.ShowPage(loadingToken,true);
+        await UniTask.WaitUntil((() => NetworkManager.Singleton.IsConnectedClient));
+        LoadingScreen.Instance.HidePage(loadingToken);
     }
 }
