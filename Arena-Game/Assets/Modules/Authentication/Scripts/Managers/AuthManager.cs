@@ -72,8 +72,9 @@ public class AuthManager : cSingleton<AuthManager>
         await UserSaveHandler.Load();
         ItemSaveHandler.m_Loaded = false; 
         await ItemSaveHandler.Load();
-        await CharacterSaveManager.Instance.Init();
+        UtilitySaveHandler.m_Loaded = false;
         await UtilitySaveHandler.Load();
+        await CharacterSaveManager.Instance.Init();
         
         var isFirstTime = await CheckFirstTimeUser();
         MiniLoadingScreen.Instance.HidePage(this);

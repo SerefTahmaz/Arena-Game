@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.UI;
 using ArenaGame.Utils;
 using DefaultNamespace;
 using UnityEngine;
@@ -11,6 +12,7 @@ public abstract class SetMixerVolume : MonoBehaviour
     [SerializeField] private AudioMixer m_AudioMixer;
     [SerializeField] private string m_GroupName;
     [SerializeField] private cSlider m_Slider;
+    [SerializeField] private cMenuNode m_MenuNode;
     
     public abstract float TargetValue { get; set; }
     public abstract Action TargetChangeEvent { get; set; }
@@ -19,28 +21,26 @@ public abstract class SetMixerVolume : MonoBehaviour
     void Start()
     {
         m_Slider.OnValueChangedEvent.AddListener(HandleValueChanged);
-        
-        TargetChangeEvent += HandleOnChange;
-        HandleOnChange();
+        m_MenuNode.OnActivateEvent.AddListener(UpdateUI);
+        UpdateUI();
     }
-
-    private void HandleOnChange()
-    {
-        m_Slider.OnValueChangedEvent.RemoveListener(HandleValueChanged);
-        m_Slider.SetValue(TargetValue);
-        HandleValueChanged(TargetValue);
-        m_Slider.OnValueChangedEvent.AddListener(HandleValueChanged);
-    }
-
+    
     private void HandleValueChanged(float value)
     {
-       
-        var remapped = value.Remap(0, 1, 0.0001f, 1);
-        m_AudioMixer.SetFloat(m_GroupName, Mathf.Log10(remapped)*20);
-        
-        TargetChangeEvent -= HandleOnChange;
+        UpdateMixer(value);
         TargetValue = value;
-        TargetChangeEvent += HandleOnChange;
         Debug.Log("Volume adjusted");
     }
-}
+    
+    private void UpdateUI()
+    {
+        UpdateMixer(TargetValue);
+        m_Slider.SetValue(TargetValue);
+    }
+
+    private void UpdateMixer(float value)
+    {
+        var remapped = value.Remap(0, 1, 0.0001f, 1);
+        m_AudioMixer.SetFloat(m_GroupName, Mathf.Log10(remapped)*20);
+    }
+} 

@@ -9,7 +9,7 @@ namespace ArenaGame.Managers.SaveManager
         public int m_TierWins;
         public int m_TierLoses;
         public int m_FreeroamPlayCount;
-        public float m_MasterVolume=1;
+        public float m_MasterVolume=1; 
         public float m_SfxVolume=1;
         public float m_MusicVolume=1;
         public float m_VoiceVolume=1;

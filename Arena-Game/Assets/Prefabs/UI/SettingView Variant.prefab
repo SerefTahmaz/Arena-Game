@@ -1044,6 +1044,7 @@ MonoBehaviour:
   m_AudioMixer: {fileID: 24100000, guid: 0648aff6a08d3f0468df28399773aba6, type: 2}
   m_GroupName: voiceVolume
   m_Slider: {fileID: 2387333770641808420}
+  m_MenuNode: {fileID: 338694574338334963}
 --- !u!224 &6474686846663043099 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6666627440755744194, guid: aa1d1b8e8f9764547a9b56e86a1893c4,
@@ -1325,6 +1326,7 @@ MonoBehaviour:
   m_AudioMixer: {fileID: 24100000, guid: 0648aff6a08d3f0468df28399773aba6, type: 2}
   m_GroupName: musicVolume
   m_Slider: {fileID: 2573116495055948266}
+  m_MenuNode: {fileID: 338694574338334963}
 --- !u!224 &6579404850270485973 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6666627440755744194, guid: aa1d1b8e8f9764547a9b56e86a1893c4,
@@ -1553,6 +1555,18 @@ PrefabInstance:
       addedObject: {fileID: 4538916293278376451}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41886af03f597e54898be8fed9184939, type: 3}
+--- !u!114 &338694574338334963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3408127830422065598, guid: 41886af03f597e54898be8fed9184939,
+    type: 3}
+  m_PrefabInstance: {fileID: 3170343784041410893}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa855cb845616f4d8309cd32ad91aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3950867421580186250 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2101806787145802695, guid: 41886af03f597e54898be8fed9184939,
@@ -1822,6 +1836,7 @@ MonoBehaviour:
   m_AudioMixer: {fileID: 24100000, guid: 0648aff6a08d3f0468df28399773aba6, type: 2}
   m_GroupName: masterVolume
   m_Slider: {fileID: 6935309247923519083}
+  m_MenuNode: {fileID: 338694574338334963}
 --- !u!224 &1784583305722514004 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6666627440755744194, guid: aa1d1b8e8f9764547a9b56e86a1893c4,
@@ -2372,6 +2387,7 @@ MonoBehaviour:
   m_AudioMixer: {fileID: 24100000, guid: 0648aff6a08d3f0468df28399773aba6, type: 2}
   m_GroupName: sfxVolume
   m_Slider: {fileID: 4916019904316647137}
+  m_MenuNode: {fileID: 338694574338334963}
 --- !u!224 &4378061809531458270 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6666627440755744194, guid: aa1d1b8e8f9764547a9b56e86a1893c4,
