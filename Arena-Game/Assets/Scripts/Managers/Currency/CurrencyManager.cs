@@ -10,7 +10,7 @@ namespace ArenaGame.Currency
     {
         public static int Currency()
         {
-            SaveGameHandler.Load();
+            UserSaveHandler.Load();
             return GameplayStatics.GetPlayerCharacterSO().GetCharacterSave().Currency;
         }
         

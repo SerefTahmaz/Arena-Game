@@ -31,8 +31,8 @@ public class MapManager : cSingleton<MapManager>
     // Start is called before the first frame update
     void Awake()
     {
-        SaveGameHandler.Load();
-        SetMap(SaveGameHandler.SaveData.m_CurrentMap);
+        UserSaveHandler.Load();
+        SetMap(UserSaveHandler.SaveData.m_CurrentMap);
     }
 
     public async UniTask SetMap(int levelIndex)

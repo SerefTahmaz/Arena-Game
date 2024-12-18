@@ -45,8 +45,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
         LoadingScreen.Instance.ShowPage(this);
         
-        SaveGameHandler.Load();
-        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        UserSaveHandler.Load();
+        var currentMap = UserSaveHandler.SaveData.m_CurrentMap;
         await MapManager.Instance.SetMapNetwork(currentMap); 
         
         m_SpawnOffset = 0;

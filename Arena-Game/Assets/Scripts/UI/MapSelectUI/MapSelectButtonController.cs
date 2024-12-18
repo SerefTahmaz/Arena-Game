@@ -15,17 +15,17 @@ public class MapSelectButtonController : MonoBehaviour
     void Start()
     {
         RefreshUI();
-        SaveGameHandler.OnChanged += RefreshUI;
+        UserSaveHandler.OnChanged += RefreshUI;
     }
 
     private void OnDestroy()
     {
-        SaveGameHandler.OnChanged -= RefreshUI;
+        UserSaveHandler.OnChanged -= RefreshUI;
     }
 
     private void RefreshUI()
     {
-        var saveGame = SaveGameHandler.SaveData;
+        var saveGame = UserSaveHandler.SaveData;
 
         var currentMapSo = MapListSO.Get().MapSOs[saveGame.m_CurrentMap];
 

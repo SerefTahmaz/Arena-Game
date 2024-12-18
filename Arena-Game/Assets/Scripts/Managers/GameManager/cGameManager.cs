@@ -22,7 +22,6 @@ public enum eGameMode
 public class cGameManager : cSingleton<cGameManager>
 {
     [SerializeField] private cPlayerIconList m_PlayerIconList;
-    [SerializeField] private SaveManager m_InstanceSaveManager;
     [SerializeField] private NetworkObject m_NetworkObject;
     
     [SerializeField] private cPvPManager m_PvPManager;
@@ -184,8 +183,8 @@ public class cGameManager : cSingleton<cGameManager>
     public void SetClosedAppInGameplay(bool value)
     {
         Debug.Log($"Closed App In Gameplay {value}");
-        SaveGameHandler.SaveData.m_IsPlayerClosedAppInGameplay = value;
-        SaveGameHandler.Save();
+        UserSaveHandler.SaveData.m_IsPlayerClosedAppInGameplay = value;
+        UserSaveHandler.Save();
     }
 
     public void HandleNoInternet()
@@ -201,8 +200,8 @@ public class cGameManager : cSingleton<cGameManager>
     public void SetPlayerDisqualified()
     {
         Debug.Log("Disqualified!!!");
-        SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
-        SaveGameHandler.Save();
+        UserSaveHandler.SaveData.m_IsPlayerDisqualified = true;
+        UserSaveHandler.Save();
     }
 
     public void StartGame()

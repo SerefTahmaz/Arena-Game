@@ -23,7 +23,7 @@ public class MenuProfileController : MonoBehaviour
         m_Button.onClick.AddListener(HandleImageClick);
         m_View.OnActivateEvent.AddListener(LoadProfile);
         LoadProfile();
-        SaveGameHandler.OnChanged += LoadProfile;
+        UserSaveHandler.OnChanged += LoadProfile;
         
         m_DismissButton.OnClickEvent.AddListener(HandleOnDismissed);
     }
@@ -41,7 +41,7 @@ public class MenuProfileController : MonoBehaviour
 
     private void OnDestroy()
     {
-        SaveGameHandler.OnChanged -= LoadProfile;
+        UserSaveHandler.OnChanged -= LoadProfile;
     }
 
     private void LoadProfile()

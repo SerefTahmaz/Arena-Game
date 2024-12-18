@@ -15,7 +15,7 @@ namespace ArenaGame
             var randomImage = Resources.Load<Texture2D>($"MatchMaking/PPs/PP ({Random.Range(1, 573)})");
             var randomName = Resources.Load<TextAsset>("MatchMaking/RandomProfileNames");
             var randomNames = randomName.text.Split("\n");
-            var randomExp = SaveGameHandler.SaveData.m_ExperiencePoint;
+            var randomExp = UserSaveHandler.SaveData.m_ExperiencePoint;
             randomExp = Mathf.FloorToInt(Random.Range(0.6f, 2.0f) * randomExp);
             if (randomExp > 20)
             {
@@ -28,22 +28,22 @@ namespace ArenaGame
 
         public static PlayerDataModel GetPlayerProfile()
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
-            return new PlayerDataModel(savaData, SaveGameHandler.GetProfileImage());
+            UserSaveHandler.Load();
+            var savaData = UserSaveHandler.SaveData;
+            return new PlayerDataModel(savaData, UserSaveHandler.GetProfileImage());
         }
 
         public static void SaveProfileImage(Texture2D texture)
         {
-            SaveGameHandler.SaveProfileImage(texture);
+            UserSaveHandler.SaveProfileImage(texture);
         }
 
         public static void SaveProfileName(string newName)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
+            UserSaveHandler.Load();
+            var savaData = UserSaveHandler.SaveData;
             savaData.m_Username = newName;
-            SaveGameHandler.Save();
+            UserSaveHandler.Save();
         }
     }
 
@@ -56,7 +56,7 @@ namespace ArenaGame
             ExpPoint = expPoint;
         }
 
-        public PlayerDataModel(User saveData, Texture2D profilePicture)
+        public PlayerDataModel(UserData saveData, Texture2D profilePicture)
         {
             Name = saveData.m_Username;
             ProfilePicture = profilePicture;

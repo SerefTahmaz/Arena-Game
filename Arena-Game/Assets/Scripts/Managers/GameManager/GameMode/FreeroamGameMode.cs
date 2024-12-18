@@ -34,7 +34,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
         LoadingScreen.Instance.ShowPage(this);
         cPlayerManager.Instance.DestroyPlayers();
         
-        SaveGameHandler.Load();
+        UserSaveHandler.Load();
         await MapManager.Instance.LoadFreeroamLevel();
         
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)

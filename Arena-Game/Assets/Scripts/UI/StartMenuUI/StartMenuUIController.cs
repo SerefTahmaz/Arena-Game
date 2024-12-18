@@ -37,24 +37,24 @@ public class StartMenuUIController : MonoBehaviour
 
     private void CheckClosedGameInGameplay()
     {
-        SaveGameHandler.Load();
-        if (SaveGameHandler.SaveData.m_IsPlayerClosedAppInGameplay)
+        UserSaveHandler.Load();
+        if (UserSaveHandler.SaveData.m_IsPlayerClosedAppInGameplay)
         {
-            SaveGameHandler.SaveData.m_IsPlayerClosedAppInGameplay = false;
-            SaveGameHandler.SaveData.m_IsPlayerDisqualified = true;
+            UserSaveHandler.SaveData.m_IsPlayerClosedAppInGameplay = false;
+            UserSaveHandler.SaveData.m_IsPlayerDisqualified = true;
             Debug.Log("Closed in gameplay Disqualified !!");
-            SaveGameHandler.Save();
+            UserSaveHandler.Save();
         }
     }
 
     private void CheckDisqualifiedState()
     {
-        SaveGameHandler.Load(); 
-        if (SaveGameHandler.SaveData.m_IsPlayerDisqualified)
+        UserSaveHandler.Load(); 
+        if (UserSaveHandler.SaveData.m_IsPlayerDisqualified)
         {
             GlobalFactory.DisqualifyPopUpFactory.Create();
-            SaveGameHandler.SaveData.m_IsPlayerDisqualified = false;
-            SaveGameHandler.Save();
+            UserSaveHandler.SaveData.m_IsPlayerDisqualified = false;
+            UserSaveHandler.Save();
         }
     }
 }

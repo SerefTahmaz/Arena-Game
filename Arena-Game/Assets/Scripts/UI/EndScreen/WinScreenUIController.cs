@@ -45,9 +45,9 @@ namespace UI.EndScreen
             }
             m_SpawnedRewards.Clear();
         
-            SaveGameHandler.Load();
-            SaveGameHandler.SaveData.m_WinsCount += 1;
-            SaveGameHandler.Save();
+            UserSaveHandler.Load();
+            UserSaveHandler.SaveData.m_WinsCount += 1;
+            UserSaveHandler.Save();
             ExperienceManager.GainExperience(30);
             await UniTask.WaitForSeconds(0.5f);
 

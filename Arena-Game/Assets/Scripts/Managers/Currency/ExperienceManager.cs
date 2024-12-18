@@ -9,22 +9,22 @@ namespace ArenaGame.Experience
     {
         public static int Experience()
         {
-            SaveGameHandler.Load();
-            return SaveGameHandler.SaveData.m_ExperiencePoint;
+            UserSaveHandler.Load();
+            return UserSaveHandler.SaveData.m_ExperiencePoint;
         }
         
         public static void GainExperience(int amount)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
+            UserSaveHandler.Load();
+            var savaData = UserSaveHandler.SaveData;
             savaData.m_ExperiencePoint += amount;
-            SaveGameHandler.Save();
+            UserSaveHandler.Save();
         }
 
         public static void LoseExperience(int amount)
         {
-            SaveGameHandler.Load();
-            var savaData = SaveGameHandler.SaveData;
+            UserSaveHandler.Load();
+            var savaData = UserSaveHandler.SaveData;
             savaData.m_ExperiencePoint -= amount;
 
             if (savaData.m_ExperiencePoint < 0)
@@ -32,7 +32,7 @@ namespace ArenaGame.Experience
                 savaData.m_ExperiencePoint = 0;
                 Debug.Log("Currency cant be less than zero!!!!");
             }
-            SaveGameHandler.Save();
+            UserSaveHandler.Save();
         }
 
         public static bool HasEnoughExperience(int amount)

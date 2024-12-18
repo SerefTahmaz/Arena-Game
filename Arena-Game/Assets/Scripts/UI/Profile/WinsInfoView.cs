@@ -11,7 +11,7 @@ public class WinsInfoView : InfoView
     public override int TargetValue => ProfileGenerator.GetPlayerProfile().WinsCount;
     public override Action TargetChangeEvent
     {
-        get => SaveGameHandler.OnChanged;
-        set =>  SaveGameHandler.OnChanged = value;
+        get => UserSaveHandler.OnChanged;
+        set =>  UserSaveHandler.OnChanged = value;
     }
 }

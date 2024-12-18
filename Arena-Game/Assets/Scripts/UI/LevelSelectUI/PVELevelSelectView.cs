@@ -29,7 +29,7 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
         }
         m_LevelSelectUnits.Clear();
         
-        int currentLevel = SaveGameHandler.SaveData.m_CurrentPVELevel;
+        int currentLevel = UserSaveHandler.SaveData.m_CurrentPVELevel;
         m_CurrentIndex = currentLevel;
         for (var index = 0; index < m_LevelListSo.LevelList.Count; index++)
         {
@@ -103,10 +103,10 @@ public class PVELevelSelectView : cSingleton<PVELevelSelectView>
     public void SelectNext()
     {
         m_CurrentIndex++;
-        if (m_CurrentIndex > SaveGameHandler.SaveData.m_CurrentPVELevel)
+        if (m_CurrentIndex > UserSaveHandler.SaveData.m_CurrentPVELevel)
         {
-            SaveGameHandler.SaveData.m_CurrentPVELevel = m_CurrentIndex;
-            SaveGameHandler.Save();
+            UserSaveHandler.SaveData.m_CurrentPVELevel = m_CurrentIndex;
+            UserSaveHandler.Save();
         }
         
         OnSelect(m_LevelSelectUnits[m_CurrentIndex % m_LevelSelectUnits.Count]);

@@ -9,8 +9,8 @@ namespace ArenaGame.UI.Profile
         public override int TargetValue => ProfileGenerator.GetPlayerProfile().ExpPoint;
         public override Action TargetChangeEvent
         {
-            get => SaveGameHandler.OnChanged;
-            set =>  SaveGameHandler.OnChanged = value;
+            get => UserSaveHandler.OnChanged;
+            set =>  UserSaveHandler.OnChanged = value;
         }
     }
 }

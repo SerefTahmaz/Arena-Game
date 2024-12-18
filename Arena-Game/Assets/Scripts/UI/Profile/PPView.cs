@@ -16,13 +16,13 @@ public class PPView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SaveGameHandler.OnChanged += HandleOnChange;
+        UserSaveHandler.OnChanged += HandleOnChange;
         UpdateUI();
     }
 
     private void OnDestroy()
     {
-        SaveGameHandler.OnChanged -= HandleOnChange;
+        UserSaveHandler.OnChanged -= HandleOnChange;
     }
 
     private void HandleOnChange()

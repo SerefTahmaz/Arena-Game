@@ -83,8 +83,8 @@ public class MapSelectController : MonoBehaviour
         var isFirstLevel = CurrentMapIndex == 0;
         m_PreviousMapButton.gameObject.SetActive(!isFirstLevel);
         
-        SaveGameHandler.Load();
-        var experiencePoint = SaveGameHandler.SaveData.m_ExperiencePoint;
+        UserSaveHandler.Load();
+        var experiencePoint = UserSaveHandler.SaveData.m_ExperiencePoint;
 
         var isUnlocked = experiencePoint >= mapSO.RequiredExp;
         
@@ -94,10 +94,10 @@ public class MapSelectController : MonoBehaviour
 
     private void HandleMapSelectCLicked()
     {
-        SaveGameHandler.Load();
-        var savaData = SaveGameHandler.SaveData;
+        UserSaveHandler.Load();
+        var savaData = UserSaveHandler.SaveData;
         savaData.m_CurrentMap = CurrentMapIndex;
-        SaveGameHandler.Save();
+        UserSaveHandler.Save();
         
         m_ReturnButton.OnClickEvent.Invoke();
     }

@@ -166,8 +166,8 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     {
         try
         {
-            SaveGameHandler.Load();
-            var map = SaveGameHandler.SaveData.m_CurrentMap;
+            UserSaveHandler.Load();
+            var map = UserSaveHandler.SaveData.m_CurrentMap;
             
             m_GameStarted = false;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions()

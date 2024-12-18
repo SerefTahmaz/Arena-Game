@@ -20,7 +20,7 @@ namespace Gameplay
 
         public int StartHealth => m_StartHealth;
 
-        public CharacterSaveController GetCharacterSave()
+        public CharacterSaveHandler GetCharacterSave()
         {
             if (!CharacterSaveManager.Instance) return null;
             return CharacterSaveManager.Instance.GetController(Guid.ToHexString(),this);

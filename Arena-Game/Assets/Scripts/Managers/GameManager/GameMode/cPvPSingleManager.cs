@@ -44,8 +44,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         
-        SaveGameHandler.Load();
-        var currentMap = SaveGameHandler.SaveData.m_CurrentMap;
+        UserSaveHandler.Load();
+        var currentMap = UserSaveHandler.SaveData.m_CurrentMap;
         await MapManager.Instance.SetMap(currentMap);
         
         Transform player=null;

@@ -28,8 +28,8 @@ public class MapListSO : ScriptableObject
 
     public static MapSO GetCurrentMap()
     {
-        SaveGameHandler.Load();
-        var currentLevel = Get().m_MapSOs[SaveGameHandler.SaveData.m_CurrentMap];
+        UserSaveHandler.Load();
+        var currentLevel = Get().m_MapSOs[UserSaveHandler.SaveData.m_CurrentMap];
         return currentLevel;
     }
 }
