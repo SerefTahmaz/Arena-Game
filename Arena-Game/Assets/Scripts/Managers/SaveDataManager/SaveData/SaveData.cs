@@ -14,9 +14,6 @@ namespace ArenaGame.Managers.SaveManager
         public bool m_IsPlayerSetName;
         public int m_ExperiencePoint;
         public int m_WinsCount;
-        public bool m_AudioState = true;
-        public bool m_MusicState = true;
-        public bool m_HapticState = true;
         public int m_CurrentPVELevel;
         public int m_CurrentMap;
         public bool m_IsPlayerDisqualified;
