@@ -15,6 +15,7 @@ namespace ArenaGame.Managers.SaveManager
         public float m_MasterVolume=1;
         public float m_SfxVolume=1;
         public float m_MusicVolume=1;
+        public float m_VoiceVolume=1;
     }
     
     public static class UtilitySaveHandler

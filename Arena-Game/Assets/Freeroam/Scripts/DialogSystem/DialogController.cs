@@ -28,7 +28,7 @@ public class DialogController : MonoBehaviour, IPlayerDialogOptionHandler
     [SerializeField] private CinemachineVirtualCamera m_Camera;
     [SerializeField] private Transform m_CameraPivot;
     [SerializeField] private GameObject m_EventSystem;
-    [SerializeField] private SoundData m_SoundData;
+    [SerializeField] private SoundData m_SoundData; 
 
     private RenderPipelineAsset m_PreviousURPSetting;
 
