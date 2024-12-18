@@ -9,13 +9,22 @@ public class cSlider : MonoBehaviour
 {
     [SerializeField] private CanvasGroup m_CanvasGroup;
     [SerializeField] private Slider m_Slider;
+    [SerializeField] private cCellEventHandler m_CellEventHandler;
     [SerializeField] private UnityEvent<float> m_OnValueChanged;
+    [SerializeField] private UnityEvent<float> m_OnValueChangedEnded;
     
     public UnityEvent<float> OnValueChangedEvent => m_OnValueChanged;
+    public UnityEvent<float> OnValueChangedEndedEvent => m_OnValueChangedEnded;
 
     private void Awake()
     {
         m_Slider.onValueChanged.AddListener(OnValueChanged);
+        m_CellEventHandler.OnUp.AddListener(OnPointerUp);
+    }
+
+    private void OnPointerUp()
+    {
+        OnValueChangedEndedEvent.Invoke(m_Slider.value);
     }
 
     public void Activate()

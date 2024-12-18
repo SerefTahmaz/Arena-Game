@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1797554876627934792}
   - component: {fileID: 7133648070703797145}
+  - component: {fileID: 8673887238024502069}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -89,6 +90,33 @@ MonoBehaviour:
   m_WholeNumbers: 0
   m_Value: 0.516
   m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8673887238024502069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653243718014992465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f89b69df6bf57d4fba33ee0dbb6b290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnExit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnUp:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &1137174113149550494
@@ -310,7 +338,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CanvasGroup: {fileID: 2921078770317194714}
   m_Slider: {fileID: 7133648070703797145}
+  m_CellEventHandler: {fileID: 8673887238024502069}
   m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnValueChangedEnded:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &3790271017591343399

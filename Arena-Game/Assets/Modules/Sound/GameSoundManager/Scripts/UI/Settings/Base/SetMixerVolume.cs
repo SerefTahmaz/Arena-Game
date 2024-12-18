@@ -21,15 +21,19 @@ public abstract class SetMixerVolume : MonoBehaviour
     void Start()
     {
         m_Slider.OnValueChangedEvent.AddListener(HandleValueChanged);
+        m_Slider.OnValueChangedEndedEvent.AddListener(HandleValueChangedEnded);
         m_MenuNode.OnActivateEvent.AddListener(UpdateUI);
         UpdateUI();
     }
-    
+
+    private void HandleValueChangedEnded(float value)
+    {
+        TargetValue = value;
+    }
+
     private void HandleValueChanged(float value)
     {
         UpdateMixer(value);
-        TargetValue = value;
-        Debug.Log("Volume adjusted");
     }
     
     private void UpdateUI()
