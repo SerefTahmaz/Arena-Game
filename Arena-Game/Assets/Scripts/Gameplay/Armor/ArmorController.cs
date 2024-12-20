@@ -26,6 +26,13 @@ public class ArmorController : MonoBehaviour
             skinnedMeshRenderer.rootBone = m_Reference.rootBone;
         }
     }
+
+    public void AssignChildMeshes()
+    {
+        var meshes = transform.GetComponentsInChildren<SkinnedMeshRenderer>();
+        m_TargetRefs = meshes.ToList();
+        EditorUtility.SetDirty(this);
+    }
 }
 
 #if UNITY_EDITOR
@@ -38,6 +45,11 @@ public class ArmorControllerEditor : Editor
         if (GUILayout.Button("RemapSkinnedMeshes"))
         {
             (target as ArmorController).RemapSkinnedMeshes();
+        }
+        
+        if (GUILayout.Button("AssignChildMeshes"))
+        {
+            (target as ArmorController).AssignChildMeshes();
         }
     }
 }
