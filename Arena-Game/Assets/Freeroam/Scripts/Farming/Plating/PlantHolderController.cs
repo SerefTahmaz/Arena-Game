@@ -48,7 +48,7 @@ public class PlantHolderController : MonoBehaviour
             case PlantState.NewBorn:
                 break;
             case PlantState.FullyGrown:
-                m_CollectSpotVfx.SetActive(true);
+                // m_CollectSpotVfx.SetActive(true);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -61,6 +61,6 @@ public class PlantHolderController : MonoBehaviour
         m_InsPlantController = null;
         SeedItemSo = null;
         m_AvailableSpotVfx.SetActive(true);
-        m_CollectSpotVfx.SetActive(false);
+        // m_CollectSpotVfx.SetActive(false);
     }
 }
