@@ -15,7 +15,7 @@ public class AmbientSoundControllerV2 : MonoBehaviour
     [SerializeField] private SoundData m_SoundData;
 
     private SoundEmitter m_SoundEmitter;
-    private int m_PlayerEnteranceCount;
+    
     private AudioClip m_ClipToPlay;
 
     private List<Collider> m_Cols;
@@ -37,9 +37,6 @@ public class AmbientSoundControllerV2 : MonoBehaviour
             .WithParent(transform)
             .Play(m_SoundData);
         m_SoundEmitter = emitter;
-        
-        m_PlayerDetector.OnPlayerEntered += OnPlayerEntered;
-        m_PlayerDetector.OnPlayerExit += OnPlayerExit;
     }
 
     private void Update()
@@ -56,7 +53,7 @@ public class AmbientSoundControllerV2 : MonoBehaviour
         
         if(targetTransform == null) return;
         
-        if (m_PlayerEnteranceCount > 0)
+        if (m_PlayerDetector.IsPlayerInside)
         {
             m_SoundEmitter.transform.position = targetTransform.position;
         }
@@ -69,13 +66,5 @@ public class AmbientSoundControllerV2 : MonoBehaviour
         }
     }
 
-    private void OnPlayerEntered()
-    {
-        m_PlayerEnteranceCount++;
-    }
-    
-    private void OnPlayerExit()
-    {
-        m_PlayerEnteranceCount--;
-    }
+   
 }
