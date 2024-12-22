@@ -87,8 +87,6 @@ namespace FiniteStateMachine
             {
                 ChangeState(m_DragonDeath);
             };
-
-            Character.HeadLookAtIk.solver.target = Target();
  
             Character.CharacterNetworkController.PlayerName.Value = m_CharacterName;
             
@@ -112,6 +110,11 @@ namespace FiniteStateMachine
             if (Input.GetKeyDown(KeyCode.V))
             {
                 m_VKeyPressed = true;
+            }
+
+            if (Character.HeadLookAtIk)
+            {
+                Character.HeadLookAtIk.solver.target = Target();
             }
         }
         
