@@ -92,9 +92,8 @@ namespace  ArenaGame.Managers.SaveManager
             var json = snapshot.GetRawJsonValue();
             if (string.IsNullOrEmpty(json))
             {
-                m_Health = CharacterSo.StartHealth;
-                Save();
-                return; 
+                EquipStartItems();
+                return;
             }
             var character =  JsonConvert.DeserializeObject<CharacterData>(json);
             
@@ -105,6 +104,39 @@ namespace  ArenaGame.Managers.SaveManager
             LoadEquipmentList(character);
             LoadInventoryList(character);
             OnChanged?.Invoke();
+        }
+
+        private void EquipStartItems()
+        {
+            m_Health = CharacterSo.StartHealth;
+            if(CharacterSo.StartLeggingArmorSo != null) EquipFromTemplateItem(CharacterSo.StartLeggingArmorSo);
+            if(CharacterSo.StartGauntletsArmorSo != null) EquipFromTemplateItem(CharacterSo.StartGauntletsArmorSo);
+            if(CharacterSo.StartChestArmorSo != null) EquipFromTemplateItem(CharacterSo.StartChestArmorSo);
+            if(CharacterSo.StartHelmArmorSo != null) EquipFromTemplateItem(CharacterSo.StartHelmArmorSo);
+            foreach (var item in CharacterSo.StartInventory)
+            {
+                if (item != null)
+                {
+                    AddInventoryFromTemplateItem(item);
+                }
+            }
+            
+            Save();
+        }
+
+        private void AddInventoryFromTemplateItem(BaseItemSO itemSo)
+        {
+            var itemSO = itemSo.DuplicateUnique();
+            itemSO.Save();
+            AddInventory(itemSO);
+        }
+        
+        private void EquipFromTemplateItem(ArmorItemSO armorItemSo)
+        {
+            var insArmor = armorItemSo.DuplicateUnique();
+            insArmor.Save();
+            AddInventory(insArmor); 
+            EquipItem(insArmor);
         }
 
 
