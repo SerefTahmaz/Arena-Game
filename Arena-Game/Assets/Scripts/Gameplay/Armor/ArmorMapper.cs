@@ -17,6 +17,12 @@ public class ArmorMapper : MonoBehaviour
         {
             VARIABLE.bones = m_Reference.bones;
             VARIABLE.rootBone = m_Reference.rootBone;
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                EditorUtility.SetDirty(VARIABLE);
+            }
+#endif
         }
     }
 }

@@ -12,6 +12,7 @@ namespace AudioSystem {
 
         AudioSource audioSource;
         Coroutine playingCoroutine;
+        private bool isManualRelease;
 
         void Awake() {
             audioSource = gameObject.GetOrAdd<AudioSource>();
@@ -45,6 +46,7 @@ namespace AudioSystem {
             audioSource.ignoreListenerPause = data.ignoreListenerPause;
             
             audioSource.rolloffMode = data.rolloffMode;
+            isManualRelease = false;
         }
 
         public void Play() {
@@ -58,6 +60,7 @@ namespace AudioSystem {
 
         IEnumerator WaitForSoundToEnd() {
             yield return new WaitWhile(() => audioSource.isPlaying);
+            if(isManualRelease) yield break;
             Stop();
         }
 
@@ -82,7 +85,8 @@ namespace AudioSystem {
 
         public void KillAutoRelease()
         {
-            StopCoroutine(WaitForSoundToEnd());
+            isManualRelease = true;
+            StopCoroutine(playingCoroutine);
         }
     }
 }
