@@ -5,6 +5,7 @@ using ArenaGame.Managers.SaveManager;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gameplay.Character;
+using UI.EndScreen;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
             NetworkManager.Singleton.OnServerStopped += HandleServerStopped;
 
+            WinScreenUIController.Instance.RewardExp = 30;
+            
             m_IsActive = true;
             
             LoopStart();

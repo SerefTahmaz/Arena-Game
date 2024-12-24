@@ -7,11 +7,12 @@ using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using DG.Tweening;
 using Gameplay;
+using TMPro;
 using UnityEngine;
 
 namespace UI.EndScreen
 {
-    public class WinScreenUIController : MonoBehaviour
+    public class WinScreenUIController : cSingleton<WinScreenUIController>
     {
         [SerializeField] private cButton m_ContinueButton;
         [SerializeField] private cView m_View;
@@ -19,8 +20,11 @@ namespace UI.EndScreen
         [SerializeField] private CurrenyWinRewardSO m_CurrenyWinRewardSo;
         [SerializeField] private UpgradeWinRewardSO m_UpgradeWinRewardSo;
         [SerializeField] private CharacterSO m_PlayerChar;
+        [SerializeField] private TMP_Text m_ExpRewardText;
         
         private List<IWinReward> m_SpawnedRewards = new List<IWinReward>();
+        
+        public int RewardExp { get; set; }
 
         private void Awake()
         {
@@ -43,12 +47,16 @@ namespace UI.EndScreen
             {
                 Destroy(VARIABLE.transform.gameObject);
             }
-            m_SpawnedRewards.Clear();
+            m_SpawnedRewards.Clear(); 
         
             UserSaveHandler.Load();
             UserSaveHandler.SaveData.m_WinsCount += 1;
             UserSaveHandler.Save();
-            ExperienceManager.GainExperience(30);
+
+            var expRewawrd =RewardExp;
+            ExperienceManager.GainExperience(expRewawrd);
+            m_ExpRewardText.text = expRewawrd.ToString();
+            
             await UniTask.WaitForSeconds(0.5f);
 
             m_SpawnedRewards = GenerateRewards();

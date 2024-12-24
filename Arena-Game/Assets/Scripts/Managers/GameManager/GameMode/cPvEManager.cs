@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FiniteStateMachine;
 using Gameplay.Character.NPCHuman;
+using UI.EndScreen;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
+        
+        WinScreenUIController.Instance.RewardExp  = PVELevelSelectView.Instance.SelectedLevelUnit.LevelSo.ExpReward;
         
         m_IsActive = true;
             

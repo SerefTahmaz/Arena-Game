@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Gameplay.Character;
 using Gameplay.Character.NPCHuman;
+using UI.EndScreen;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,6 +30,8 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
+        
+        WinScreenUIController.Instance.RewardExp  = 30;
 
         m_IsActive = true;
             
