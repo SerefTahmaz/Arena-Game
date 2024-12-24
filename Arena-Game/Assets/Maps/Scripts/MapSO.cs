@@ -9,7 +9,6 @@ namespace DefaultNamespace
         [SerializeField] private string m_MapName;
         [SerializeField] private Sprite m_PreviewIcon;
         [SerializeField] private int m_RequiredExp;
-        [SerializeField] private int m_RewardExp;
         [SerializeField] private int m_RewardCurrency;
         [SerializeField] private int m_LoseExp;
         [SerializeField] private int m_LoseCurrency;
@@ -18,7 +17,6 @@ namespace DefaultNamespace
         public string MapName => m_MapName;
         public Sprite PreviewIcon => m_PreviewIcon;
         public int RequiredExp => m_RequiredExp;
-        public int RewardExp => m_RewardExp;
         public int RewardCurrency => m_RewardCurrency;
         public int LoseExp => m_LoseExp;
         public int LoseCurrency => m_LoseCurrency;
