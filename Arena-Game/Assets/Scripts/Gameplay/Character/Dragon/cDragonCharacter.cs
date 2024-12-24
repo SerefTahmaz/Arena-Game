@@ -1,4 +1,5 @@
-﻿using PlayerCharacter;
+﻿using System;
+using PlayerCharacter;
 using RootMotion.FinalIK;
 using UnityEngine;
 
@@ -21,4 +22,10 @@ public class cDragonCharacter : cCharacter
     public cDragonNetworkController DragonNetworkController => m_DragonNetworkController;
     public cDragonAnimationEvents DragonAnimationEvents => m_DragonAnimationEvents;
     public MovementController MovementController => m_MovementController;
+
+    public override Action OnActionEnded
+    {
+        get => DragonController.m_ActionEnd;
+        set => DragonController.m_ActionEnd = value;
+    }
 }

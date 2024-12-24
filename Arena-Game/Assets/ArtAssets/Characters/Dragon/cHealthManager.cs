@@ -16,7 +16,6 @@ public class cHealthManager : MonoBehaviour
     [SerializeField] private cCharacter m_Character;
     [SerializeField] private cHealthBar m_WorldHealthBar;
     [SerializeField] private cHealthController m_HealthController;
-    [SerializeField] private eHealthBarState m_HealthBarState;
 
     public NetworkVariable<FixedString128Bytes> PlayerName => m_Character.CharacterNetworkController.PlayerName;
     
@@ -32,8 +31,8 @@ public class cHealthManager : MonoBehaviour
 
     public eHealthBarState HealthBarState
     {
-        get => m_HealthBarState;
-        set => m_HealthBarState = value;
+        get => CharacterNetworkController.HealthBarState.Value;
+        set => CharacterNetworkController.HealthBarState.Value = value;
     }
 
     private cHealthBar m_HealthBar;
@@ -81,7 +80,7 @@ public class cHealthManager : MonoBehaviour
     {
         cHealthBar healthBar;
         if (cGameManager.Instance == null) HealthBarState = eHealthBarState.World;
-        switch (m_HealthBarState)
+        switch (HealthBarState)
         {
             case eHealthBarState.World:
                 m_HealthBar = m_WorldHealthBar;

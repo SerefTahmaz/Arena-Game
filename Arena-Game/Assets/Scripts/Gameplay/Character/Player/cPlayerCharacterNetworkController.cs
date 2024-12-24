@@ -22,6 +22,15 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            HealthBarState.Value = m_HumanCharacter.HealthBarState;
+        }
+        else
+        {
+            HealthBarState.Value = cHealthManager.eHealthBarState.World;
+        }
         
         m_HumanCharacter.HealthManager.SetVisibility(true);
     }

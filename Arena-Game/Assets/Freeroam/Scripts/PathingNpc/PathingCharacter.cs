@@ -3,6 +3,7 @@ using DefaultNamespace;
 using PlayerCharacter;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class PathingCharacter: MonoBehaviour
 {
@@ -21,4 +22,9 @@ public class PathingCharacter: MonoBehaviour
     public AgentController AgentController => m_AgentController;
     public Rigidbody Rigidbody => m_Rigidbody;
     public InteractableNPC InteractableNpc => m_InteractableNpc;
+
+    private void Start()
+    {
+        m_Animator.SetFloat("RandomOffset", Random.RandomRange(0.0f,1.0f));
+    }
 }

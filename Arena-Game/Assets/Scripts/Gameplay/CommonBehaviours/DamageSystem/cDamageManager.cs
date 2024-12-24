@@ -30,15 +30,23 @@ public class cDamageManager : MonoBehaviour
         }
     }
 
-    private void CheckAttacking(bool obj)
+    private void CheckAttacking(bool value)
     {
         IsAttacking = false;
-        foreach (var VARIABLE in m_DamageEffectors)
+        foreach (var damageEffector in m_DamageEffectors)
         {
-            if (VARIABLE.IsActive)
+            if (damageEffector.IsActive)
             {
                 IsAttacking = true;
             }
+        }
+    }
+    
+    public void SetActiveDamage(bool value)
+    {
+        foreach (var damageEffector in m_DamageEffectors)
+        {
+            damageEffector.SetActiveDamage(false);
         }
     }
 

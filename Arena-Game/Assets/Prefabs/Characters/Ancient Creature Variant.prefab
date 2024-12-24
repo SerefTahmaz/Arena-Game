@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1776251078777867411, guid: 27caa1a5a9c64d3479c4ab5b4b8ad5fb,
+        type: 3}
+      propertyPath: m_MeleeAttackDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767187384813378727, guid: 27caa1a5a9c64d3479c4ab5b4b8ad5fb,
+        type: 3}
+      propertyPath: m_StartHealth
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4516118352244988308, guid: 27caa1a5a9c64d3479c4ab5b4b8ad5fb,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -127,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7253059257712080819, guid: 27caa1a5a9c64d3479c4ab5b4b8ad5fb,
+        type: 3}
+      propertyPath: m_AnimSpeedMultiplier
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 7277497293365711625, guid: 27caa1a5a9c64d3479c4ab5b4b8ad5fb,
         type: 3}

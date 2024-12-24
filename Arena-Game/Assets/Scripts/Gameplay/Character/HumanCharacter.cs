@@ -19,6 +19,7 @@ namespace Gameplay.Character
         [SerializeField] private CharacterSO m_CharacterSo; 
         [SerializeField] private SkinManager m_SkinManager;
         [SerializeField] private GameObject m_SkinPivot;
+        [SerializeField] private cHealthManager.eHealthBarState m_HealthBarState;
 
         public AnimationController AnimationController => m_AnimationController;
         public override cCharacterNetworkController CharacterNetworkController => PlayerCharacterNetworkController;
@@ -34,6 +35,12 @@ namespace Gameplay.Character
         public HumanCharacterStateMachine CharacterStateMachine => m_CharacterStateMachine;
 
         public CharacterSO CharacterSo => m_CharacterSo;
+        
+        public override Action OnActionEnded
+        {
+            get => m_AnimationController.m_OnAttackEnd;
+            set => m_AnimationController.m_OnAttackEnd = value;
+        }
 
         public override int StartHealth
         {
@@ -45,6 +52,7 @@ namespace Gameplay.Character
         }
 
         public SkinManager SkinManager => m_SkinManager;
+        public cHealthManager.eHealthBarState HealthBarState => m_HealthBarState;
 
         public void OnDamageAnim()
         {

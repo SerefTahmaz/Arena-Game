@@ -22,8 +22,11 @@ public class cNpcSpawnerProxy : NetworkBehaviour
 
     public void SpawnNpc()
     {
-        NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
-        cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
+        if (!cNpcManager.Instance.ContainsToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab))
+        {
+            NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
+            cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
+        }
         if (IsHost)
         {
             GameObject go = Instantiate(m_NetworkPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);

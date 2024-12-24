@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public abstract class cCharacter: MonoBehaviour
 {
@@ -35,6 +36,8 @@ public abstract class cCharacter: MonoBehaviour
     public int TeamID => CharacterNetworkController.m_TeamId.Value;
 
     public int DefaultTeamId => m_TeamId;
+    
+    public abstract Action OnActionEnded { get; set; }
 
     private void Start()
     {
@@ -43,6 +46,13 @@ public abstract class cCharacter: MonoBehaviour
         {
             DamageManager.UpdateTeamId(TeamID);
         };
+
+        OnActionEnded += () =>
+        {
+            DamageManager.SetActiveDamage(false);
+        };
+        
+        m_Animator.SetFloat("RandomOffset", Random.RandomRange(0.0f,1.0f));
     }
     
     public void TakeDamage(DamageWrapper damageWrapper)
