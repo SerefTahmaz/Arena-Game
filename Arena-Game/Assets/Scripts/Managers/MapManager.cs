@@ -20,7 +20,7 @@ public class MapManager : cSingleton<MapManager>
     [SerializeField] private string m_FreeroamLevel;
     [SerializeField] private PrewarmHelper m_PreWarmObject;
      
-    private List<MapSO> Maps => MapListSO.Get().MapSOs;
+    public List<MapSO> Maps => MapListSO.Get().MapSOs;
 
     private int? m_CurrentLevel;
     private bool m_IsFreeroamLoaded;
@@ -132,6 +132,12 @@ public class MapManager : cSingleton<MapManager>
 
         OnMapLoaded?.Invoke(instanceLastMapIndex);
         LoadingScreen.Instance.HidePage(this);
+    }
+
+    public MapSO GetCurrentMap()
+    {
+        var currentMapIndex = UserSaveHandler.SaveData.m_CurrentMap;
+        return Maps[currentMapIndex];
     }
 }
 

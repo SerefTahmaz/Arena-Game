@@ -69,15 +69,6 @@ namespace Gameplay.Character.NPCHuman
             }; 
             
             CharacterNetworkController.PlayerName.Value = ProfileGenerator.LastGeneratedRandomProfile.Name;
-            
-            Character.SkinManager.ClearAllEquipment();
-
-            m_ArmorItemSos.Shuffle();
-            var randomItems = m_ArmorItemSos.Take(Random.Range(1,5));
-            foreach (var armorItemSo in randomItems)
-            {
-                Character.SkinManager.EquipItem(armorItemSo);
-            }
         }
 
         protected override void Update()

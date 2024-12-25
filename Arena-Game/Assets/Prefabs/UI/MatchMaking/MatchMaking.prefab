@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EventSystem: {fileID: 2926895943527986727}
   m_EnemyCardController: {fileID: 8878669791995725095}
+  m_RewardCurrencyText: {fileID: 5800984774388645197}
 --- !u!1 &6671522337593301310
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +179,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 293
   m_TargetDisplay: 0
 --- !u!114 &7221795120765520775
 MonoBehaviour:
@@ -616,6 +617,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 649594712346966961}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5800984774388645197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6449979403824514812, guid: 6ccaa64683d8c8f4b9f5267753b047df,
+    type: 3}
+  m_PrefabInstance: {fileID: 649594712346966961}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8878669791995725095 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8229358345896345238, guid: 6ccaa64683d8c8f4b9f5267753b047df,

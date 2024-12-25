@@ -30,6 +30,7 @@ namespace Gameplay.Character.NPCHuman
         }
 
         private bool m_IsAttackDelayFinished=true;
+        private bool m_IsBuffDecided;
         
         public override void Enter()
         {
@@ -41,6 +42,12 @@ namespace Gameplay.Character.NPCHuman
             else
             {
                 StateMachine.Character.CharacterStateMachine.SwitchLeftSword();
+            }
+
+            m_IsBuffDecided = false;
+            if(FightAISettings.BuffWithDistanceChance > Random.Range(0,100))
+            {
+                m_IsBuffDecided = true;
             }
         }
  
@@ -64,7 +71,7 @@ namespace Gameplay.Character.NPCHuman
             {
                 MoveToTargetWhenDistance();
 
-                if(FightAISettings.BuffWithDistanceChance > Random.Range(0,100))
+                if(m_IsBuffDecided)
                 {
                     BuffWithDistance();
                 }

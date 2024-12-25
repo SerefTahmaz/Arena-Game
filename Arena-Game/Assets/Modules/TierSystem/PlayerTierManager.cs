@@ -53,7 +53,7 @@ public class PlayerTierManager : cSingleton<PlayerTierManager>
         if (tierWinCount >= 4)
         {
             UtilitySaveHandler.SaveData.m_TierWins = 0;
-            UtilitySaveHandler.SaveData.m_CurrentTierIndex = Mathf.Min(3, CurrentTier + 1);
+            UtilitySaveHandler.SaveData.m_CurrentTierIndex = Mathf.Min(4, CurrentTier + 1);
         }
         else
         {
