@@ -60,7 +60,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         }
 
         await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
-        MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
+        MultiplayerLocalHelper.Instance.SetGameStarted(true);
         LoadingScreen.Instance.HidePage(this);
     }
     

@@ -13,6 +13,7 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
 
     public MultiplayerNetworkHelper NetworkHelper => m_MultiplayerNetworkHelper;
     public Action OnMultiplayerGameStarted { get; set; }
+    public bool DrawSwordOnStart { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -47,13 +48,13 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
         }
     }
     
-    public void StartGame()
+    private void StartGame()
     {
         if(cUIManager.Instance)  LoadingScreen.Instance.HidePage(this);
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
-        GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
+        if(DrawSwordOnStart) GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
         OnMultiplayerGameStarted?.Invoke();
     }
 
@@ -68,5 +69,11 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
                 m_WaitingGameStart = false;
             }
         }
+    }
+
+    public void SetGameStarted(bool value, bool drawSword = true)
+    {
+        DrawSwordOnStart = drawSword;
+        NetworkHelper.m_IsGameStarted.Value = value;
     }
 }

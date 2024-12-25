@@ -32,7 +32,7 @@ public class StartDebugModeGame : MonoBehaviour
             DOVirtual.DelayedCall(2, () =>
             {
 
-                MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
+                MultiplayerLocalHelper.Instance.SetGameStarted(true);
                 var playerSM = GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
             });
         });

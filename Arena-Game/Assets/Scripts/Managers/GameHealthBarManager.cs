@@ -60,5 +60,7 @@ public class GameHealthBarManager : cSingleton<GameHealthBarManager>
     {
         m_IsBossUIBeingUsed = false;
         m_IsPlayerUIBeingUsed = false;
+        m_BossUIHealthBar.SetVisibility(false);
+        m_PlayerUIHealthBar.SetVisibility(false);
     }
 }

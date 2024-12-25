@@ -89,7 +89,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         {
             m_ProjectSceneManager.UnloadScene();
             LoadingScreen.Instance.HidePage(this);
-            MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
+            MultiplayerLocalHelper.Instance.SetGameStarted(true);
             
             if (cGameManager.Instance.m_OwnerPlayer != null)
             {

@@ -62,7 +62,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
         if (m_IsActive)
         {
-            MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
+            MultiplayerLocalHelper.Instance.SetGameStarted(true);
                 
             var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
             var pos = new Vector3(0, 0, 5);

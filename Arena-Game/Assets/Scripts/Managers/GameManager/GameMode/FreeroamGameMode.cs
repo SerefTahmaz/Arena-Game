@@ -47,7 +47,7 @@ public class FreeroamGameMode : MonoBehaviour,IGameModeHandler
             if (m_IsActive)
             {
                 LoadingScreen.Instance.HidePage(this);
-                MultiplayerLocalHelper.Instance.NetworkHelper.m_IsGameStarted.Value = true;
+                MultiplayerLocalHelper.Instance.SetGameStarted(true,false);
                 var playerSM = cGameManager.Instance.m_OwnerPlayer.GetComponent<cPlayerStateMachineV2>();
             } 
         });
