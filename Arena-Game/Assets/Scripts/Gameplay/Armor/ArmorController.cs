@@ -31,7 +31,9 @@ public class ArmorController : MonoBehaviour
     {
         var meshes = transform.GetComponentsInChildren<SkinnedMeshRenderer>();
         m_TargetRefs = meshes.ToList();
+#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
+#endif
     }
 }
 
