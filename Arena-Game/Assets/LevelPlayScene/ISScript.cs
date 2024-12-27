@@ -63,6 +63,11 @@ public class ISScript : MonoBehaviour
     {
         IronSource.Agent.loadBanner(IronSourceBannerSize.BANNER, IronSourceBannerPosition.BOTTOM);
     }
+
+    public void DisplayBanner()
+    {
+        IronSource.Agent.displayBanner();
+    }
     
     public void DestroyBanner()
     {
