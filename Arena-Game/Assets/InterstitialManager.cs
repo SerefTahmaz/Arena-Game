@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Managers.SaveManager;
 using UnityEngine;
 
 public class InterstitialManager : MonoBehaviour
 {
     [SerializeField] private float m_InterInterval=120;
+    [SerializeField] private float m_FirstTimeInterInterval = 1200;
+    [SerializeField] private int m_IntervalMult;
     
     private float m_ShowTimer;
     private bool m_InterShowing;
     private bool m_PendingShowingInter;
+    private float m_FirstTimeDuration;
     
     // Start is called before the first frame update
     void Start()
@@ -17,6 +21,24 @@ public class InterstitialManager : MonoBehaviour
         MediationManager.Instance.MediationService.OnInterstitialStarted += HandleInterstitialStarted;
         MediationManager.Instance.MediationService.OnInterstitialEnded += HandleInterstitialEnded;
         cGameManager.Instance.m_GameEnded += HandleGameEnded;
+
+        var saveData = UtilitySaveHandler.SaveData;
+        if (saveData.m_InterstitialShownCount == 0)
+        {
+            m_InterInterval = m_FirstTimeInterInterval;
+        }
+        else
+        {
+            //First five level higher interval
+            var ftueMul = 6 - saveData.m_InterstitialShownCount;
+            ftueMul = Mathf.Max(1, ftueMul);
+            m_InterInterval *= ftueMul;
+
+            m_IntervalMult = ftueMul;
+        }
+        
+        saveData.m_InterstitialShownCount++;
+        UtilitySaveHandler.Save();
     }
 
     private void OnDestroy()
