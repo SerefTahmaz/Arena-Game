@@ -25,6 +25,7 @@ public class PrefabList : ScriptableObject
     [SerializeField] private DialogController m_DialogControllerPrefab;
     [SerializeField] private MatchMakingController m_MatchMakingController;
     [SerializeField] private ChoicePopUpUIController m_ChoicePopUpUIController;
+    [SerializeField] private FakeInterstitial m_FakeInterstitialPrefab;
     [SerializeField] private Sprite m_DefaultPPIcon;
    
     public PurchasePopUpController PurchasePopUpPrefab => m_PurchasePopUpPrefab;
@@ -41,6 +42,7 @@ public class PrefabList : ScriptableObject
     public MatchMakingController MatchMakingController => m_MatchMakingController;
     public ChoicePopUpUIController ChoicePopUpUIController => m_ChoicePopUpUIController;
     public Sprite DefaultPPIcon => m_DefaultPPIcon;
+    public FakeInterstitial FakeInterstitialPrefab => m_FakeInterstitialPrefab;
 
     private static PrefabList m_Instance;
     
