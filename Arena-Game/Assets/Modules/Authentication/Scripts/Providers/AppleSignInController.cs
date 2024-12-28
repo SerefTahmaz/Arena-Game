@@ -81,6 +81,7 @@ public class AppleSignInController : BaseAuthProvider
                 error =>
                 {
                     isAppleCallbackReceieved = true;
+                    Debug.Log(" Something went wrong");
                     // Something went wrong
                 });
 
