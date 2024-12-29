@@ -18,6 +18,12 @@ public class InterstitialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (UtilitySaveHandler.SaveData.m_NoAdsPurchased)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        
         MediationManager.Instance.MediationService.OnInterstitialStarted += HandleInterstitialStarted;
         MediationManager.Instance.MediationService.OnInterstitialEnded += HandleInterstitialEnded;
         cGameManager.Instance.m_GameEnded += HandleGameEnded;
@@ -63,6 +69,12 @@ public class InterstitialManager : MonoBehaviour
     
     private void HandleGameEnded()
     {
+        if (UtilitySaveHandler.SaveData.m_NoAdsPurchased)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        
         ShowInterstitial();
     }
 
@@ -76,7 +88,7 @@ public class InterstitialManager : MonoBehaviour
     }
     
     private void HandleInterstitialStarted()
-    {
+    { 
         m_InterShowing = true;
     }
     

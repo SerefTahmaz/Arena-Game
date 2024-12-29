@@ -31,14 +31,33 @@ public class IAPItemController : MonoBehaviour
             return;
         }
 
-        if (m_IAPItemSO.PurchaseCount() > 0 && m_DisableIfAlreadyPurchased)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
+        m_IAPItemSO.OnRewardGiven += HandleOnRewardGiven;
+        if (CheckDisableOnPurchase()) return;
          
         m_PriceText.SetText($"{m_Product.metadata.localizedPriceString}" +$" {m_Product.metadata.isoCurrencyCode}");
         m_Button.OnClickEvent.AddListener(HandleButtonClicked);
+    }
+
+    private void OnDestroy()
+    {
+        m_IAPItemSO.OnRewardGiven -= HandleOnRewardGiven;
+    }
+
+    private bool CheckDisableOnPurchase()
+    {
+        if (m_IAPItemSO.PurchaseCount() > 0 && m_DisableIfAlreadyPurchased)
+        {
+            gameObject.SetActive(false);
+            m_IAPItemSO.OnRewardGiven -= HandleOnRewardGiven;
+            return true;
+        }
+
+        return false;
+    }
+    
+    private void HandleOnRewardGiven()
+    {
+        if (CheckDisableOnPurchase()) return;
     }
 
     private void HandleButtonClicked()

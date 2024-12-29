@@ -26,6 +26,13 @@ public class ChoicePopUpUIController : BasePopUp
         // ins.Init();
         return ins;
     }
+
+    public static ChoicePopUpUIController CreateFromInstance(ChoicePopUpUIController choicePopUpUIController)
+    {
+        var ins = Instantiate(choicePopUpUIController,cUIManager.Instance.transform);
+        // ins.Init();
+        return ins;
+    }
     
     public async UniTask<bool> Init(string value)
     {

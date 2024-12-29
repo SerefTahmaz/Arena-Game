@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
 using DefaultNamespace;
 using UnityEditor.Purchasing;
@@ -16,6 +17,7 @@ namespace DefaultNamespace
         [HideInInspector] public string productId;
         
         public string DatabaseKey => productId.Replace('.', ',');
+        public Action OnRewardGiven { get; set; }
          
         public virtual void GiveReward()
         {
@@ -23,6 +25,7 @@ namespace DefaultNamespace
             UtilitySaveHandler.SaveData.m_Purchases[DatabaseKey]++;
             Debug.Log($"Product id {productId}");
             UtilitySaveHandler.Save();
+            OnRewardGiven?.Invoke();
         }
 
         public int PurchaseCount()
