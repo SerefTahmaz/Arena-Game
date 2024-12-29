@@ -17,6 +17,7 @@ public static class FirebaseRef
     public static DatabaseReference REF_CHARACTERS = DB_REF.Child("characters");
     public static DatabaseReference REF_ITEMS = DB_REF.Child("items");
     public static DatabaseReference REF_UTILITYSAVES = DB_REF.Child("utility");
+    public static DatabaseReference REF_UTILITYDICTSAVES = DB_REF.Child("utility_dict");
 }
 
 public class FirebaseAuthManager : MonoBehaviour,IAuthService

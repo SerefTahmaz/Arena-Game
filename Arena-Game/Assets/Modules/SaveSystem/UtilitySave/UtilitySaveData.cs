@@ -15,5 +15,6 @@ namespace ArenaGame.Managers.SaveManager
         public float m_MusicVolume=1;
         public float m_VoiceVolume=1;
         public int m_InterstitialShownCount;
+        public Dictionary<string, int> m_Purchases = new Dictionary<string, int>();
     }
 }

@@ -16,12 +16,4 @@ namespace DefaultNamespace
             return ins;
         }
     }
-
-    public class BaseWinRewardSO : ScriptableObject
-    {
-        public virtual IWinReward CreateRewardIns()
-        {
-            return null;
-        }
-    }
 }
