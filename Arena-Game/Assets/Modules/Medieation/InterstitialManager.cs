@@ -14,7 +14,13 @@ public class InterstitialManager : MonoBehaviour
     private bool m_InterShowing;
     private bool m_PendingShowingInter;
     private float m_FirstTimeDuration;
-    
+
+    public float InterInterval
+    {
+        get => m_InterInterval;
+        set => m_InterInterval = value;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,14 +37,14 @@ public class InterstitialManager : MonoBehaviour
         var saveData = UtilitySaveHandler.SaveData;
         if (saveData.m_InterstitialShownCount == 0)
         {
-            m_InterInterval = m_FirstTimeInterInterval;
+            InterInterval = m_FirstTimeInterInterval;
         }
         else
         {
             //First five level higher interval
             var ftueMul = 6 - saveData.m_InterstitialShownCount;
             ftueMul = Mathf.Max(1, ftueMul);
-            m_InterInterval *= ftueMul;
+            InterInterval *= ftueMul;
 
             m_IntervalMult = ftueMul;
         }
@@ -60,7 +66,7 @@ public class InterstitialManager : MonoBehaviour
         if(m_InterShowing || m_PendingShowingInter) return;
         
         m_ShowTimer += Time.deltaTime;
-        if (m_ShowTimer >= m_InterInterval)
+        if (m_ShowTimer >= InterInterval)
         {
             m_ShowTimer = 0;
             m_PendingShowingInter = true;
