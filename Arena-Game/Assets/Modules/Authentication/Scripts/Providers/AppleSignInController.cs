@@ -75,7 +75,7 @@ public class AppleSignInController : BaseAuthProvider
         {
             await FirstTimeSignInWithFirebase(); 
         }
-        
+         
         MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
         m_Button.Activate();
     }
@@ -92,13 +92,13 @@ public class AppleSignInController : BaseAuthProvider
         if (appleAuthManager != null)
         {
             bool isAppleCallbackReceieved = false;
-            ICredential appleCredential = null;
+            IAppleIDCredential appleCredential = null;
             appleAuthManager.LoginWithAppleId(
                 loginArgs,
                 credential =>
                 {
+                    appleCredential = credential as IAppleIDCredential;
                     isAppleCallbackReceieved = true;
-                    appleCredential = credential;
                 },
                 error =>
                 {
@@ -108,9 +108,9 @@ public class AppleSignInController : BaseAuthProvider
                 });
 
             UniTask.WaitUntil((() => isAppleCallbackReceieved));
-            if (appleCredential is IAppleIDCredential appleIdCredential)
+            if (appleCredential != null)
             {
-                await PerformFirebaseAuthenticationWithCredentials(appleIdCredential, rawNonce);
+                await PerformFirebaseAuthenticationWithCredentials(appleCredential, rawNonce);
             }
             else
             {
