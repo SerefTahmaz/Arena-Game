@@ -143,6 +143,7 @@ namespace Gameplay.Character.NPCHuman
                         m_GivingWay = true;
                         m_GivingWayTween = DOVirtual.DelayedCall(m_GivingWayDuration, () =>
                         {
+                            if(AgentController == null) return;
                             AgentController.SetObstacle(false);
                             m_GivingWay = false;
                         });

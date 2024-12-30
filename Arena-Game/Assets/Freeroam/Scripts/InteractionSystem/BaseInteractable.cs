@@ -13,10 +13,22 @@ public class BaseInteractable : MonoBehaviour
     
     public virtual InteractionHelper<PlayerInteractionHelper> InteractionHelper { get; set; }
         
-    private void Start()
+    protected virtual void Start()
     {
         m_PlayerDetector.OnPlayerEntered += HandleOnPlayerEntered;
         m_PlayerDetector.OnPlayerExit += HandleOnPlayerExit;
+
+        cGameManager.Instance.m_GameEnded += HandleGameEnded;
+    }
+    
+    protected virtual void OnDestroy()
+    {
+        if(cGameManager.Instance) cGameManager.Instance.m_GameEnded -= HandleGameEnded;
+    }
+
+    private void HandleGameEnded()
+    {
+        InteractionHelper.RemoveInteractionList(this);
     }
 
     protected virtual void HandleInteractionEvent()
