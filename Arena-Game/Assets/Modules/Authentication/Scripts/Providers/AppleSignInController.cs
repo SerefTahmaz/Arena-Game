@@ -91,6 +91,10 @@ public class AppleSignInController : BaseAuthProvider
                 await PerformFirebaseAuthentication(appleIdCredential, rawNonce);
             }
         }
+        else
+        {
+            Debug.Log("Apple auth manager is null!!!");
+        }
         
         MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
         m_Button.Activate();
