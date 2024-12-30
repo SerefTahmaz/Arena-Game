@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using ArenaGame.Managers.SaveManager;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using TMPro;
-using UnityEditor.Purchasing;
 using UnityEngine;
 using UnityEngine.Purchasing;
 

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using ArenaGame.Managers.SaveManager;
 using DefaultNamespace;
-using UnityEditor.Purchasing;
+
 using UnityEngine;
 using UnityEngine.Purchasing;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Purchasing;
 #endif
 
 namespace DefaultNamespace
