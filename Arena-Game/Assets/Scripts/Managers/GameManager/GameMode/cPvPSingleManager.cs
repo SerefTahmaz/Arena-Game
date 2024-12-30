@@ -97,7 +97,7 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
 
     private void CheckPvPSuccess()
     {
-        if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
+        if (cPlayerManager.Instance.CheckExistLastStandingPlayer() && m_IsActive)
         {
             // DOVirtual.DelayedCall(5, () =>
             // {

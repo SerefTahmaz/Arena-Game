@@ -113,6 +113,8 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     private void CheckSuccess()
     {
+        if(!m_IsActive) return;
+        
         if (cNpcManager.Instance.CheckIsAllNpcsDied())
         {
             PVELevelSelectView.Instance.SelectNext();

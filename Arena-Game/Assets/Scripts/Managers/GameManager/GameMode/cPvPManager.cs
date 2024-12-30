@@ -85,7 +85,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
 
     private void CheckLastStandingPlayer()
     {
-        if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
+        if (cPlayerManager.Instance.CheckExistLastStandingPlayer() && m_IsActive)
         {
             Debug.Log($"Game Ended");
 
