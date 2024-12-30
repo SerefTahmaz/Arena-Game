@@ -73,11 +73,7 @@ public class AppleSignInController : BaseAuthProvider
         }
         else
         {
-            var result = await PerformQuickLoginWithFirebase();
-            if (!result)
-            {
-                await FirstTimeSignInWithFirebase(); 
-            }
+            await FirstTimeSignInWithFirebase(); 
         }
         
         MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
@@ -90,7 +86,7 @@ public class AppleSignInController : BaseAuthProvider
         var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
 
         var loginArgs = new AppleAuthLoginArgs(
-            LoginOptions.IncludeEmail | LoginOptions.IncludeFullName,
+            LoginOptions.None,
             nonce);
 
         if (appleAuthManager != null)
