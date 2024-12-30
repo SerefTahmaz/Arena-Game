@@ -81,7 +81,7 @@ public class AppleSignInController : BaseAuthProvider
                 error =>
                 {
                     isAppleCallbackReceieved = true;
-                    Debug.Log(" Something went wrong");
+                    Debug.Log("Apple SignIn: Something went wrong");
                     // Something went wrong
                 });
 
@@ -89,6 +89,10 @@ public class AppleSignInController : BaseAuthProvider
             if (appleCredential is IAppleIDCredential appleIdCredential)
             {
                 await PerformFirebaseAuthentication(appleIdCredential, rawNonce);
+            }
+            else
+            {
+                Debug.Log("appleCredential is not IAppleIDCredential!!!");
             }
         }
         else
