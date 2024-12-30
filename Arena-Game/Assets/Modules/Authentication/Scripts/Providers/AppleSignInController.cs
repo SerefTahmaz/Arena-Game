@@ -48,7 +48,7 @@ public class AppleSignInController : BaseAuthProvider
             appleAuthManager.Update();
         }
     }
-    
+
     public void HandleButtonClicked()
     {
         PerformLoginWithAppleIdAndFirebase();
@@ -59,7 +59,19 @@ public class AppleSignInController : BaseAuthProvider
         m_Button.DeActivate(); 
         var appleAuthLoadingToken = new object();
         MiniLoadingScreen.Instance.ShowPage(appleAuthLoadingToken);
+
+        var result = await PerformQuickLoginWithFirebase();
+        if (!result)
+        {
+            await FirstTimeSignInWithFirebase();
+        }
         
+        MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
+        m_Button.Activate();
+    }
+
+    private async UniTask FirstTimeSignInWithFirebase()
+    {
         var rawNonce = GenerateRandomString(32);
         var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
 
@@ -99,9 +111,6 @@ public class AppleSignInController : BaseAuthProvider
         {
             Debug.Log("Apple auth manager is null!!!");
         }
-        
-        MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
-        m_Button.Activate();
     }
 
     private async UniTask PerformFirebaseAuthentication(IAppleIDCredential appleIdCredential, string rawNonce)
@@ -136,13 +145,16 @@ public class AppleSignInController : BaseAuthProvider
         MiniLoadingScreen.Instance.HidePage(loadingToken);
     }
     
-    public async UniTask PerformQuickLoginWithFirebase()
+    public async UniTask<bool> PerformQuickLoginWithFirebase()
     {
         var rawNonce = GenerateRandomString(32);
         var nonce = GenerateSHA256NonceFromRawNonce(rawNonce);
 
         var quickLoginArgs = new AppleAuthQuickLoginArgs(nonce);
 
+        bool isAppleCallbackReceieved = false;
+        bool signInResult = false;
+        IAppleIDCredential credentials=null;
         appleAuthManager.QuickLogin(
             quickLoginArgs,
             credential =>
@@ -150,13 +162,25 @@ public class AppleSignInController : BaseAuthProvider
                 var appleIdCredential = credential as IAppleIDCredential;
                 if (appleIdCredential != null)
                 {
-                    PerformFirebaseAuthentication(appleIdCredential, rawNonce);
+                    credentials = appleIdCredential;
+                    signInResult = true;
                 }
+                else
+                {
+                    signInResult = false;
+                }
+                isAppleCallbackReceieved = true;
             },
             error =>
             {
                 // Something went wrong
+                signInResult = false;
+                isAppleCallbackReceieved = true;
             });
+        
+        UniTask.WaitUntil((() => isAppleCallbackReceieved));
+        if (signInResult&&credentials != null) await PerformFirebaseAuthentication(credentials, rawNonce);
+        return signInResult;
     }
     
     private static string GenerateSHA256NonceFromRawNonce(string rawNonce)
