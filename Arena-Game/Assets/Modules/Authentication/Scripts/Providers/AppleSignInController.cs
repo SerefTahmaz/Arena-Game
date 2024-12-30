@@ -21,6 +21,10 @@ public class AppleSignInController : BaseAuthProvider
     [SerializeField] private cButton m_Button;
     private IAppleAuthManager appleAuthManager;
 
+    private string m_identityTokenKey = "AppleidentityToken";
+    private string m_authorizationCode = "AppleauthorizationCode";
+    private string AppleUserIdKey = "AppleUserId";
+
     public override async UniTask Init(IAuthService authService)
     {
         await base.Init(authService);
@@ -60,10 +64,20 @@ public class AppleSignInController : BaseAuthProvider
         var appleAuthLoadingToken = new object();
         MiniLoadingScreen.Instance.ShowPage(appleAuthLoadingToken);
 
-        var result = await PerformQuickLoginWithFirebase();
-        if (!result)
+        var appleId = PlayerPrefs.GetString(AppleUserIdKey);
+        var isValidUser = await CheckCredentialStatusForUserId(appleId);
+        
+        if (isValidUser)
         {
-            await FirstTimeSignInWithFirebase();
+            await AuthorizedLogIn();
+        }
+        else
+        {
+            var result = await PerformQuickLoginWithFirebase();
+            if (!result)
+            {
+                await FirstTimeSignInWithFirebase(); 
+            }
         }
         
         MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
@@ -100,7 +114,7 @@ public class AppleSignInController : BaseAuthProvider
             UniTask.WaitUntil((() => isAppleCallbackReceieved));
             if (appleCredential is IAppleIDCredential appleIdCredential)
             {
-                await PerformFirebaseAuthentication(appleIdCredential, rawNonce);
+                await PerformFirebaseAuthenticationWithCredentials(appleIdCredential, rawNonce);
             }
             else
             {
@@ -112,14 +126,72 @@ public class AppleSignInController : BaseAuthProvider
             Debug.Log("Apple auth manager is null!!!");
         }
     }
+    
+    private async UniTask<bool> CheckCredentialStatusForUserId(string appleUserId)
+    {
+        bool isAppleCallbackReceieved = false;
+        bool result = false;
+        // If there is an apple ID available, we should check the credential state
+        appleAuthManager.GetCredentialState(
+            appleUserId,
+            state =>
+            {
+                switch (state)
+                {
+                    // If it's authorized, login with that user id
+                    case CredentialState.Authorized:
+                        result = true;
+                        break;
+                    
+                    // If it was revoked, or not found, we need a new sign in with apple attempt
+                    // Discard previous apple user id
+                    case CredentialState.Revoked:
+                    case CredentialState.NotFound:
+                        result = false;
+                        PlayerPrefs.DeleteKey(AppleUserIdKey);
+                        break;
+                }
 
-    private async UniTask PerformFirebaseAuthentication(IAppleIDCredential appleIdCredential, string rawNonce)
+                isAppleCallbackReceieved = true;
+            },
+            error =>
+            {
+                var authorizationErrorCode = error.GetAuthorizationErrorCode();
+                Debug.LogWarning("Error while trying to get credential state " + authorizationErrorCode.ToString() + " " + error.ToString());
+                result = false;
+                isAppleCallbackReceieved = true;
+            });
+        
+        await UniTask.WaitUntil((() => isAppleCallbackReceieved));
+        return result;
+    }
+
+    private async UniTask AuthorizedLogIn()
+    {
+        var rawNonce = GenerateRandomString(32);
+        var identityToken = PlayerPrefs.GetString(m_identityTokenKey);
+        var authorizationCode = PlayerPrefs.GetString(m_authorizationCode);
+        await PerformFirebaseAuthentication(identityToken, authorizationCode, rawNonce);
+    }
+    
+    private async UniTask PerformFirebaseAuthenticationWithCredentials(IAppleIDCredential appleIdCredential, string rawNonce)
+    {
+        
+        var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken);
+        var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode);
+        
+        PlayerPrefs.SetString(AppleUserIdKey, appleIdCredential.User);
+        PlayerPrefs.SetString(m_identityTokenKey, identityToken);    
+        PlayerPrefs.SetString(m_authorizationCode, authorizationCode);
+        
+        await PerformFirebaseAuthentication(identityToken, authorizationCode, rawNonce);
+    }
+    
+    private async UniTask PerformFirebaseAuthentication(string identityToken, string authorizationCode, string rawNonce)
     {
         var loadingToken = new object();
         MiniLoadingScreen.Instance.ShowPage(loadingToken);
         
-        var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken);
-        var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode);
         var firebaseCredential = OAuthProvider.GetCredential(
             "apple.com",
             identityToken,
@@ -144,6 +216,38 @@ public class AppleSignInController : BaseAuthProvider
         
         MiniLoadingScreen.Instance.HidePage(loadingToken);
     }
+
+    // private async UniTask PerformFirebaseAuthentication(IAppleIDCredential appleIdCredential, string rawNonce)
+    // {
+    //     var loadingToken = new object();
+    //     MiniLoadingScreen.Instance.ShowPage(loadingToken);
+    //     
+    //     var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken);
+    //     var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode);
+    //     var firebaseCredential = OAuthProvider.GetCredential(
+    //         "apple.com",
+    //         identityToken,
+    //         rawNonce,
+    //         authorizationCode);
+    //
+    //     var task = m_AuthService.SignInWithCredentialAsync(firebaseCredential);
+    //     var user = await task;
+    //     
+    //     if (task.Status == UniTaskStatus.Canceled)
+    //     {
+    //         Debug.Log("Firebase auth was canceled");
+    //     }
+    //     else if (task.Status == UniTaskStatus.Faulted)
+    //     {
+    //         Debug.Log("Firebase auth failed");
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("Firebase auth completed | User ID:" + user.UserId);
+    //     }
+    //     
+    //     MiniLoadingScreen.Instance.HidePage(loadingToken);
+    // }
     
     public async UniTask<bool> PerformQuickLoginWithFirebase()
     {
@@ -179,7 +283,7 @@ public class AppleSignInController : BaseAuthProvider
             });
         
         UniTask.WaitUntil((() => isAppleCallbackReceieved));
-        if (signInResult&&credentials != null) await PerformFirebaseAuthentication(credentials, rawNonce);
+        if (signInResult&&credentials != null){ await PerformFirebaseAuthenticationWithCredentials(credentials, rawNonce);}
         return signInResult;
     }
     
