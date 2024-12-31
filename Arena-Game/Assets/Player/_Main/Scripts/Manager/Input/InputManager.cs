@@ -40,51 +40,51 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     {
         if (m_MobileInput)
         {
-            cMobileInputManager._onLeftLightAttackEvent += () =>
+            cMobileInputManager.Instance._onLeftLightAttackEvent += () =>
             {
                 _onLeftLightAttackEvent?.Invoke();
             };
-            cMobileInputManager._onRightLightAttackEvent += () =>
+            cMobileInputManager.Instance._onRightLightAttackEvent += () =>
             {
                 _onRightLightAttackEvent?.Invoke();
             };
-            cMobileInputManager._onJumpEvent += () =>
+            cMobileInputManager.Instance._onJumpEvent += () =>
             {
                 _onJumpEvent?.Invoke();
             };
-            cMobileInputManager._onDrawLeftItem += () =>
+            cMobileInputManager.Instance._onDrawLeftItem += () =>
             {
                 _onDrawLeftItem?.Invoke();
             };
-            cMobileInputManager._onDrawRightItem += () =>
+            cMobileInputManager.Instance._onDrawRightItem += () =>
             {
                 _onDrawRightItem?.Invoke();
             };
-            cMobileInputManager._onEnableRightHandBuffEvent += () =>
+            cMobileInputManager.Instance._onEnableRightHandBuffEvent += () =>
             {
                 _onEnableRightHandBuffEvent?.Invoke();
             };
-            cMobileInputManager._onEnableLeftHandBuffEvent += () =>
+            cMobileInputManager.Instance._onEnableLeftHandBuffEvent += () =>
             {
                 _onEnableLeftHandBuffEvent?.Invoke();
             };
-            cMobileInputManager._onWalkSpeedUpEvent += () =>
+            cMobileInputManager.Instance._onWalkSpeedUpEvent += () =>
             {
                 _onWalkSpeedUpEvent?.Invoke();
             };
-            cMobileInputManager._onWalkSpeedNormalEvent += () =>
+            cMobileInputManager.Instance._onWalkSpeedNormalEvent += () =>
             {
                 _onWalkSpeedNormalEvent?.Invoke();
             };
-            cMobileInputManager._onTwoHandedAttackEvent += () =>
+            cMobileInputManager.Instance._onTwoHandedAttackEvent += () =>
             {
                 _onTwoHandedAttackEvent?.Invoke();
             };
-            cMobileInputManager._onInteractionEvent += () =>
+            cMobileInputManager.Instance._onInteractionEvent += () =>
             {
                 _onInteractionEvent?.Invoke();
             };
-            cMobileInputManager._onFocusEvent += () =>
+            cMobileInputManager.Instance._onFocusEvent += () =>
             {
                 _onFocusCharEvent?.Invoke();
             };
@@ -105,8 +105,8 @@ public class InputManager : cSingleton<InputManager>, IInputManager
         
         if (m_MobileInput)
         {
-            _horizontalAxis = cMobileInputManager._input.x;
-            _verticalAxis = cMobileInputManager._input.y;
+            _horizontalAxis = cMobileInputManager.Instance._input.x;
+            _verticalAxis = cMobileInputManager.Instance._input.y;
         }
        
 
