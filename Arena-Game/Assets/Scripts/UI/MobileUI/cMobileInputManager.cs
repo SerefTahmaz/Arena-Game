@@ -1,25 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class cMobileInputManager : MonoBehaviour
+public class cMobileInputManager : cSingleton<cMobileInputManager>
 {
-    public static Action _onRightLightAttackEvent;
-    public static Action _onUnArmEvent;
-    public static Action _onJumpEvent;
-    public static Action _onLeftLightAttackEvent;
-    public static Action _onWalkSpeedUpEvent;
-    public static Action _onWalkSpeedNormalEvent;
-    public static Action _onDrawLeftItem;
-    public static Action _onDrawRightItem;
-    public static Action _onTwoHandedAttackEvent;
-    public static Action _onEnableRightHandBuffEvent;
-    public static Action _onEnableLeftHandBuffEvent;
-    public static Action _onFocusEvent;
-    public static Vector2 _input;
-    public static Action _onInteractionEvent;
+    public Action _onRightLightAttackEvent;
+    public Action _onUnArmEvent;
+    public Action _onJumpEvent;
+    public Action _onLeftLightAttackEvent;
+    public Action _onWalkSpeedUpEvent;
+    public Action _onWalkSpeedNormalEvent;
+    public Action _onDrawLeftItem;
+    public Action _onDrawRightItem;
+    public Action _onTwoHandedAttackEvent;
+    public Action _onEnableRightHandBuffEvent;
+    public Action _onEnableLeftHandBuffEvent;
+    public Action _onFocusEvent;
+    public Vector2 _input;
+    public Action _onInteractionEvent;
     
     public void OnRightLightAttackButton()
     {
