@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArenaGame.UI;
@@ -10,6 +11,7 @@ public class PauseMenuUIController : MonoBehaviour
     [SerializeField] private cButton m_ResumeButton;
     [SerializeField] private UnityEvent m_OnMainMenuButtonClicked;
     [SerializeField] private cView m_PaueMenuView;
+    [SerializeField] private cView m_PauseButtonView;
     
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,25 @@ public class PauseMenuUIController : MonoBehaviour
         m_MainMenuButton.OnClickEvent.AddListener(HandleMainMenuClicked);
         m_ResumeButton.OnClickEvent.AddListener(HandleResumeClicked);
         m_PaueMenuView.OnActivateEvent.AddListener(HandlePauseMenuActivate);
+
+        cGameManager.Instance.m_GameStarted += HandleGameStarted;
+    }
+
+    private void OnDestroy()
+    {
+        if(cGameManager.Instance) cGameManager.Instance.m_GameStarted -= HandleGameStarted;
+    }
+
+    private void HandleGameStarted()
+    {
+        if (cGameManager.Instance.CurrentGameMode == eGameMode.Freeroam)
+        {
+            m_PauseButtonView.Activate();
+        }
+        else
+        {
+            m_PauseButtonView.Deactivate();
+        }
     }
 
     private void HandleResumeClicked()
