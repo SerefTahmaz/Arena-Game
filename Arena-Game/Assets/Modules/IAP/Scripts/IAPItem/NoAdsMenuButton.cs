@@ -57,7 +57,15 @@ public class NoAdsMenuButton : MonoBehaviour
         var isSuccess = await popUp.Init("Remove Ads from the game");
         if (isSuccess)
         {
-            await HandlePurchase();
+            if (AuthManager.Instance.IsAnonymous())
+            {
+                var insInfoPopUp = GlobalFactory.InfoPopUpFactory.Create();
+                insInfoPopUp.Init("Guest users cannot use in app purchases, please login with other methods");
+            }
+            else
+            {
+                await HandlePurchase();
+            }
         }
         m_Button.enabled = true;
     }

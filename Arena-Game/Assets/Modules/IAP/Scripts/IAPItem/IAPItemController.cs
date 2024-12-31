@@ -58,6 +58,13 @@ public class IAPItemController : MonoBehaviour
 
     private void HandleButtonClicked()
     {
+        if (AuthManager.Instance.IsAnonymous())
+        {
+            var insInfoPopUp = GlobalFactory.InfoPopUpFactory.Create();
+            insInfoPopUp.Init("Guest users cannot use in app purchases, please login with other methods");
+            return;
+        }
+        
         HandlePurchase();
     }
 
