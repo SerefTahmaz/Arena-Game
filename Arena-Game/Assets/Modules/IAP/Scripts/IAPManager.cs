@@ -44,8 +44,8 @@ public class IAPManager : cSingleton<IAPManager>, IStoreListener
         ProductCatalog catalog = JsonUtility.FromJson<ProductCatalog>((request.asset as TextAsset).text);
         Debug.Log($"Loaded catalog with {catalog.allProducts.Count} items");
 
-        StandardPurchasingModule.Instance().useFakeStoreUIMode = FakeStoreUIMode.StandardUser;
-        StandardPurchasingModule.Instance().useFakeStoreAlways = true;
+        // StandardPurchasingModule.Instance().useFakeStoreUIMode = FakeStoreUIMode.StandardUser;
+        // StandardPurchasingModule.Instance().useFakeStoreAlways = true;
         
 #if UNITY_ANDROID
         ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance(AppStore.GooglePlay));

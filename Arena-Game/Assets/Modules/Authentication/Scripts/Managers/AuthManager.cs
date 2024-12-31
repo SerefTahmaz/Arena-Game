@@ -103,6 +103,11 @@ public class AuthManager : cSingleton<AuthManager>
         }
     }
 
+    public bool IsAnonymous()
+    {
+        return FirebaseAuth.DefaultInstance.CurrentUser.IsAnonymous;
+    }
+
     public void SignOut()
     { 
         AuthService.SignOut();
