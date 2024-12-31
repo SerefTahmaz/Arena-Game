@@ -68,6 +68,8 @@ public class AppleSignInController : BaseAuthProvider
          
         MiniLoadingScreen.Instance.HidePage(appleAuthLoadingToken);
         m_Button.Activate();
+        
+        AuthManager.Instance.AuthenticateUserAndConfigureUI();
     }
 
     private async UniTask FirstTimeSignInWithFirebase()
