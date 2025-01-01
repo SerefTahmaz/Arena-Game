@@ -18,6 +18,8 @@ public class cDragonNetworkController : cCharacterNetworkController
     [ClientRpc]
     public void OnStartFightClientRpc()
     {
+        m_DragonCharacter.HealthManager.HealthBarState =
+            m_DragonCharacter.CharacterNetworkController.HealthBarState.Value;
         m_DragonCharacter.HealthManager.SetVisibility(true);
         m_DragonCharacter.DragonSoundController.PlayBossMusicClientRpc();
         m_DragonCharacter.DragonSoundController.StopAmbient();

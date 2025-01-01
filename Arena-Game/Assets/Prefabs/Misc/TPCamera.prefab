@@ -206,7 +206,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8013157020504087165}
   - component: {fileID: 1945420450800300096}
-  - component: {fileID: 8096749401608946666}
   - component: {fileID: 5221915556749883574}
   m_Layer: 0
   m_Name: Old CM FocusCam
@@ -270,47 +269,6 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 9060567032825868991}
---- !u!114 &8096749401608946666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7870023862887838876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5410e06ffd0204aa9a116bcb8726e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  m_DistanceToPlayer: 5.14
-  m_Height: 1.96
-  m_Focus: {fileID: 6471747968022402313}
-  m_HeightScaler:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.01107404
-      value: -2.4152641
-      inSlope: 1.2130824
-      outSlope: 1.2130824
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.99813735
-      value: -1.217875
-      inSlope: 1.2130824
-      outSlope: 1.2130824
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_DistanceScaler: 0.1
 --- !u!114 &5221915556749883574
 MonoBehaviour:
   m_ObjectHideFlags: 0

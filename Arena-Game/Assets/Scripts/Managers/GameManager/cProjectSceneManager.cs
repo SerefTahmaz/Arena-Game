@@ -62,6 +62,7 @@ public class ProjectSceneManager : NetworkBehaviour
                     }
                     Debug.Log($"Loaded the {sceneEvent.SceneName} scene on " +
                         $"{clientOrServer}-({sceneEvent.ClientId}).");
+                    MultiplayerLocalHelper.Instance.NetworkHelper.IncreaseSceneLoadedCount();
                     break;
                 }
             case SceneEventType.UnloadComplete:

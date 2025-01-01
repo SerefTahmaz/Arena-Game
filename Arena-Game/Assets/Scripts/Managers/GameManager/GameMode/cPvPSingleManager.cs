@@ -30,8 +30,6 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
-        
-        WinScreenUIController.Instance.RewardExp  = 30;
 
         m_IsActive = true;
             
@@ -51,18 +49,16 @@ public class cPvPSingleManager : MonoBehaviour,IGameModeHandler
         var currentMap = UserSaveHandler.SaveData.m_CurrentMap;
         await MapManager.Instance.SetMap(currentMap);
         
-        Transform player=null;
-        
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
         {
-            player = OnClientConnected(VARIABLE.Key).transform;
+            OnClientConnected(VARIABLE.Key);
         }
 
         LoadingScreen.Instance.HidePage(this);
 
         if (m_IsActive)
         {
-            MultiplayerLocalHelper.Instance.SetGameStarted(true);
+            MultiplayerLocalHelper.Instance.SetGameStarted(true, 30);
                 
             var enemyHuman = cNpcSpawner.Instance.EnemyHuman();
             var pos = new Vector3(0, 0, 5);

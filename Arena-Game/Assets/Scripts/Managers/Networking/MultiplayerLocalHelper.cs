@@ -2,6 +2,7 @@ using System;
 using ArenaGame.Utils;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using UI.EndScreen;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,7 +14,6 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
 
     public MultiplayerNetworkHelper NetworkHelper => m_MultiplayerNetworkHelper;
     public Action OnMultiplayerGameStarted { get; set; }
-    public bool DrawSwordOnStart { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +54,8 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
         InputManager.Instance.SetInput(true);
         CameraManager.Instance.SetInput(true);
         CameraManager.Instance.FixLook();
-        if(DrawSwordOnStart) GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
+        WinScreenUIController.Instance.RewardExp = NetworkHelper.m_RewardExp.Value;
+        if(NetworkHelper.m_DrawSwordOnStart.Value) GameplayStatics.OwnerPlayer.GetComponent<cPlayerStateMachineV2>().DrawSword();
         OnMultiplayerGameStarted?.Invoke();
     }
 
@@ -71,9 +72,10 @@ public class MultiplayerLocalHelper : cSingleton<MultiplayerLocalHelper>
         }
     }
 
-    public void SetGameStarted(bool value, bool drawSword = true)
+    public void SetGameStarted(bool value, int rewardExpAmount,bool drawSword = true)
     {
-        DrawSwordOnStart = drawSword;
+        NetworkHelper.m_DrawSwordOnStart.Value = drawSword;
+        NetworkHelper.m_RewardExp.Value = rewardExpAmount;
         NetworkHelper.m_IsGameStarted.Value = value;
     }
 }

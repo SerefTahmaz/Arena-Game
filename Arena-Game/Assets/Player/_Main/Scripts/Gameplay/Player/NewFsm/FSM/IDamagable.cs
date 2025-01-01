@@ -7,7 +7,7 @@ public interface IDamagable
     public Transform FocusPoint { get; }
     public bool IsDead { get; }
     public Transform transform { get; }
-}
+} 
 
 public class DamageWrapper
 {

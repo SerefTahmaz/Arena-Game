@@ -27,6 +27,10 @@ public class cNpcSpawnerProxy : NetworkBehaviour
             NetworkManager.Singleton.AddNetworkPrefab(m_NetworkPrefab);
             cNpcManager.Instance.AddToBeRemovedAtEndNetworkPrefab(m_NetworkPrefab);
         }
+    }
+
+    public void SpawnIt()
+    {
         if (IsHost)
         {
             GameObject go = Instantiate(m_NetworkPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
@@ -44,6 +48,5 @@ public class cNpcSpawnerProxy : NetworkBehaviour
             gameObject.SetActive(false);
             // go.GetComponentInChildren<cStateMachine>().m_enemies.AddRange(FindObjectsOfType<cPlayerStateMachineV2>().Select((v2 => v2.transform)).ToList());
         }
-        
     }
 }

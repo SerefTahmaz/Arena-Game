@@ -19,9 +19,11 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     
     private int m_SpawnOffset;
     private bool m_IsActive;
+    private int m_ConnectedClientCounts;
 
     public void StartGame()
     {
+        m_ConnectedClientCounts = 0;
         cGameManager.Instance.StartGameClient(true);
         
         cGameManager.Instance.m_OnNpcDied = delegate { };
@@ -33,8 +35,6 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
         
-        WinScreenUIController.Instance.RewardExp  = PVELevelSelectView.Instance.SelectedLevelUnit.LevelSo.ExpReward;
-        
         m_IsActive = true;
             
         LoopStart();
@@ -42,6 +42,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
 
     private async UniTask LoopStart()
     {
+        var lobbyPlayerCount = cLobbyManager.Instance.JoinedLobby.Players.Count;
         cUIManager.Instance.ShowPage(Page.Gameplay,this, true);
         LoadingScreen.Instance.ShowPage(this);
         
@@ -57,16 +58,19 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
             OnClientConnected(VARIABLE.Key);
         }
         
-        //TODO: Start it when all clients ready
-        DOVirtual.DelayedCall(5, (() =>
-        {
-            if (m_IsActive)
-            {
-                StartNextGame();
-            }
-        }));
-    }
+        await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
+        LoadPVELevel();
 
+        await UniTask.WaitUntil((() =>
+            MultiplayerLocalHelper.Instance.NetworkHelper.m_NetworkPrefabRegisteredCount.Value >= lobbyPlayerCount));
+        foreach (var VARIABLE in FindObjectsOfType<cNpcSpawnerProxy>(true))
+        {
+            VARIABLE.SpawnIt();
+        }
+        m_ProjectSceneManager.UnloadScene();
+        StartGameplay();
+    }
+ 
     private void OnClientConnected(ulong obj)
     {
         Vector3 pos;
@@ -74,9 +78,10 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         cPlayerManager.Instance.SpawnPlayer(pos, Quaternion.identity,obj);
                     
         m_SpawnOffset++;
+        m_ConnectedClientCounts++;
     }
 
-    public void StartNextGame()
+    public void LoadPVELevel()
     {
         m_ProjectSceneManager.SpawnScene(PVELevelSelectView.Instance.SelectedLevelUnit.LevelSo.SceneName);
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnLoadCompleted;
@@ -85,24 +90,24 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
     private void OnLoadCompleted(string scenename, LoadSceneMode loadscenemode, List<ulong> clientscompleted, List<ulong> clientstimedout)
     {
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= OnLoadCompleted;
-        DOVirtual.DelayedCall(1, () =>
-        {
-            m_ProjectSceneManager.UnloadScene();
-            LoadingScreen.Instance.HidePage(this);
-            MultiplayerLocalHelper.Instance.SetGameStarted(true);
+    }
+
+    private void StartGameplay()
+    {
+        LoadingScreen.Instance.HidePage(this);
+        MultiplayerLocalHelper.Instance.SetGameStarted(true,PVELevelSelectView.Instance.SelectedLevelUnit.LevelSo.ExpReward);
             
-            if (cGameManager.Instance.m_OwnerPlayer != null)
+        if (cGameManager.Instance.m_OwnerPlayer != null)
+        {
+            foreach (var npcIns in cNpcManager.Instance.m_Npcs)
             {
-                foreach (var npcIns in cNpcManager.Instance.m_Npcs)
+                var npcSm = npcIns.GetComponentInChildren<cCharacterStateMachine>();
+                if (!m_NPCNonActiveAtStart)
                 {
-                    var npcSm = npcIns.GetComponentInChildren<cCharacterStateMachine>();
-                    if (!m_NPCNonActiveAtStart)
-                    {
-                        npcSm.NpcTargetHelper.IsAggressive = true;
-                    }
+                    npcSm.NpcTargetHelper.IsAggressive = true;
                 }
             }
-        });
+        }
     }
     
     private void HandlePlayerDied()
@@ -142,6 +147,7 @@ public class cPvEManager : MonoBehaviour,IGameModeHandler
         m_IsActive = false;
         cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        
         
         Debug.Log("GameEnded!!!!!!!!!!");
 
