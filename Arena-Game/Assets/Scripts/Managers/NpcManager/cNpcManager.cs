@@ -48,6 +48,7 @@ public class cNpcManager : cSingleton<cNpcManager>
         {
             NetworkManager.Singleton.RemoveNetworkPrefab(networkPrefab);
         }
+        m_ToBeRemovedEndGameEndPrefabs.Clear();
     }
 
     public bool ContainsToBeRemovedAtEndNetworkPrefab(GameObject networkPrefab)

@@ -81,7 +81,7 @@ public class cPlayerStateMachineV2 : cStateMachine
             FreeRoam.InitializeState("FreeRoam", this);
             Fight.InitializeState("Fight", this);
             Dead.InitializeState("Dead", this);
-            base.Start();
+            base.Start(); 
             
             GameplayStatics.OwnerPlayer = transform; 
             cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(Character);

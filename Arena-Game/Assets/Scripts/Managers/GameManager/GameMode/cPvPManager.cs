@@ -19,6 +19,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
     {
         if (NetworkManager.Singleton.IsHost)
         {
+            m_ConnectedClientCounts = 0;
             cGameManager.Instance.StartGameClient(true);
             
             cGameManager.Instance.m_OnPlayerDied = delegate { };
@@ -28,8 +29,6 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
             NetworkManager.Singleton.OnServerStopped += HandleServerStopped;
-
-            WinScreenUIController.Instance.RewardExp = 30;
             
             m_IsActive = true;
             
@@ -60,7 +59,7 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         }
 
         await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
-        MultiplayerLocalHelper.Instance.SetGameStarted(true);
+        MultiplayerLocalHelper.Instance.SetGameStarted(true, 30);
         LoadingScreen.Instance.HidePage(this);
     }
     

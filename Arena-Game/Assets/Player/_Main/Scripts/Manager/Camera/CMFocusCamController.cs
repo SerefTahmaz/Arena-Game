@@ -13,7 +13,7 @@ public class CMFocusCamController : GameCamera
     [SerializeField] private CinemachineVirtualCamera m_VirtualCamera;
     
     private cCharacter m_Player => cGameManager.Instance.m_OwnerPlayer;
-    public int m_PlayerId => cGameManager.Instance.m_OwnerPlayerId;
+    public int? m_PlayerId => cGameManager.Instance.OwnerPlayerId;
 
     private bool m_IsActive;
     private IDamagable target;
@@ -34,6 +34,12 @@ public class CMFocusCamController : GameCamera
 
     private void FindATarget()
     {
+        if (m_PlayerId == null)
+        {
+            CameraManager.Instance.EnableGameplayCam();
+            return;
+        }
+        
         target = FindObjectsOfType<MonoBehaviour>()
             .Where((behaviour => behaviour.TryGetComponent(out IDamagable damagable) && !damagable.IsDead && damagable.TeamID != m_PlayerId))
             .Select((behaviour =>behaviour.GetComponent<IDamagable>() )).

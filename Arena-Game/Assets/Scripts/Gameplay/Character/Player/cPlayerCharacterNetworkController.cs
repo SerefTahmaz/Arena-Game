@@ -25,11 +25,11 @@ public class cPlayerCharacterNetworkController:cCharacterNetworkController
 
         if (IsOwner)
         {
-            HealthBarState.Value = m_HumanCharacter.HealthBarState;
+            m_HumanCharacter.HealthManager.HealthBarState = m_HumanCharacter.HealthBarState;
         }
         else
         {
-            HealthBarState.Value = cHealthManager.eHealthBarState.World;
+            m_HumanCharacter.HealthManager.HealthBarState = cHealthManager.eHealthBarState.World;
         }
         
         m_HumanCharacter.HealthManager.SetVisibility(true);

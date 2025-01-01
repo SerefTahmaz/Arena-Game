@@ -39,7 +39,6 @@ public class MapManager : cSingleton<MapManager>
     {
         LoadingScreen.Instance.ShowPage(this, true);
         await RemoveCurrentLevel();
-        await UnloadFreeroam();
         
         m_CurrentLevel = levelIndex;
         await SceneManager.LoadSceneAsync(Maps[m_CurrentLevel.Value].SceneName, LoadSceneMode.Additive);
@@ -54,7 +53,6 @@ public class MapManager : cSingleton<MapManager>
     {
         LoadingScreen.Instance.ShowPage(this,true);
         await RemoveCurrentLevel();
-        await UnloadFreeroam();
         
         m_NetworkLoading = false;
         m_CurrentLevel = levelIndex;
@@ -75,13 +73,13 @@ public class MapManager : cSingleton<MapManager>
         m_NetworkLoading = true;
     }
 
-    private async Task PrewarmShaders(int index)
+    private async UniTask PrewarmShaders(int index)
     {
         var insPrewarm = Instantiate(m_PreWarmObject);
         await insPrewarm.PrewarmShaders(index);
     }
 
-    public async Task RemoveCurrentLevel()
+    public async UniTask RemoveCurrentLevel()
     {
         if (m_CurrentLevel != null)
         {
@@ -92,13 +90,13 @@ public class MapManager : cSingleton<MapManager>
             Resources.UnloadUnusedAssets();
             await UniTask.WaitForSeconds(1);
         }
+        await UnloadFreeroam();
     }
 
     public async UniTask LoadFreeroamLevel()
     {
         LoadingScreen.Instance.ShowPage(this);
         
-        await UnloadFreeroam();
         await RemoveCurrentLevel();
         
         m_IsFreeroamLoaded = true;

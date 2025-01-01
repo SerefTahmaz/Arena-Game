@@ -36,7 +36,15 @@ public class cGameManager : cSingleton<cGameManager>
     private bool m_IsServerDisconnectedItself;
     
     public HumanCharacter m_OwnerPlayer;
-    public int m_OwnerPlayerId;
+    public int? OwnerPlayerId
+    {
+        get
+        {
+            if (m_OwnerPlayer == null) return null;
+            else return m_OwnerPlayer.CharacterNetworkController.m_TeamId.Value;
+        }
+    }
+
     public Action m_OnNpcDied = delegate {  };
     public Action m_OnPlayerDied = delegate {  };
     public Action m_GameStarted = delegate {  };
@@ -85,7 +93,6 @@ public class cGameManager : cSingleton<cGameManager>
         
         cPlayerManager.Instance.m_OwnerPlayerSpawn += transform1 =>
         {
-            m_OwnerPlayerId = transform1.GetComponent<cCharacterNetworkController>().m_TeamId.Value;
             m_OwnerPlayer = transform1;
         };
     }
@@ -206,8 +213,6 @@ public class cGameManager : cSingleton<cGameManager>
 
     public void StartGame()
     {
-        GameHealthBarManager.Instance.ResetStates();
-        
         switch (m_CurrentGameMode)
         {
             case eGameMode.PvE:
@@ -236,6 +241,7 @@ public class cGameManager : cSingleton<cGameManager>
         m_GameStarted.Invoke();
         IsGameplayActive = true;
         IsOnlineGameplayActive = isOnline;
+        GameHealthBarManager.Instance.ResetStates();
         cUIManager.Instance.ShowPage(Page.Gameplay,this);
     }
     

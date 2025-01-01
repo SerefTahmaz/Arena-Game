@@ -18,6 +18,17 @@ public class cTrollNetworkController : cCharacterNetworkController
     [ClientRpc]
     public void OnStartFightClientRpc()
     {
+        // Debug.Log($"Creature healthbar state {m_TrollCharacter.CharacterNetworkController.HealthBarState.Value}");
+        UpdateHealthBar(cHealthManager.eHealthBarState.World, m_TrollCharacter.CharacterNetworkController.HealthBarState.Value);
+
+        m_TrollCharacter.CharacterNetworkController.HealthBarState.OnValueChanged += UpdateHealthBar;
+    }
+
+    private void UpdateHealthBar(cHealthManager.eHealthBarState previousvalue, cHealthManager.eHealthBarState newvalue)
+    {
+        m_TrollCharacter.HealthManager.DisableHealthBar();
+        m_TrollCharacter.HealthManager.HealthBarState =
+            m_TrollCharacter.CharacterNetworkController.HealthBarState.Value;
         m_TrollCharacter.HealthManager.SetVisibility(true);
     }
 

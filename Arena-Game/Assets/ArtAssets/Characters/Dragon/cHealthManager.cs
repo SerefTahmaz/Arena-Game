@@ -16,6 +16,8 @@ public class cHealthManager : MonoBehaviour
     [SerializeField] private cCharacter m_Character;
     [SerializeField] private cHealthBar m_WorldHealthBar;
     [SerializeField] private cHealthController m_HealthController;
+    
+    private eHealthBarState m_HealthBarState;
 
     public NetworkVariable<FixedString128Bytes> PlayerName => m_Character.CharacterNetworkController.PlayerName;
     
@@ -31,12 +33,12 @@ public class cHealthManager : MonoBehaviour
 
     public eHealthBarState HealthBarState
     {
-        get => CharacterNetworkController.HealthBarState.Value;
-        set => CharacterNetworkController.HealthBarState.Value = value;
+        get => m_HealthBarState;
+        set => m_HealthBarState = value;
     }
 
     private cHealthBar m_HealthBar;
-    
+
     public enum eHealthBarState
     {
         World,
@@ -112,7 +114,7 @@ public class cHealthManager : MonoBehaviour
         UpdateUIClientRpc();
     }
     
-    private void DisableHealthBar()
+    public void DisableHealthBar()
     {
         m_HealthBar.SetVisibility(false);
         m_HealthBar = m_WorldHealthBar;
