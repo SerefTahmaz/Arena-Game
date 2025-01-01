@@ -9898,6 +9898,7 @@ GameObject:
   - component: {fileID: 7297926399341711984}
   - component: {fileID: 7253059257712080819}
   - component: {fileID: 1252023866695142909}
+  - component: {fileID: 662711832885148999}
   - component: {fileID: 4926305348586763731}
   - component: {fileID: 3767187384813378727}
   - component: {fileID: 4058094379627410914}
@@ -10082,6 +10083,19 @@ MonoBehaviour:
   m_RollImpact: {fileID: 3249567518291136992}
   m_RightDamageEffector: {fileID: 4474760854877370207}
   m_LeftDamageEffector: {fileID: 1423013555562059500}
+--- !u!114 &662711832885148999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5575602511312586637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0480cdb9a0ed46c7821a6c5847319d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CreatureAnimationEventsController: {fileID: 1252023866695142909}
 --- !u!114 &4926305348586763731
 MonoBehaviour:
   m_ObjectHideFlags: 0
