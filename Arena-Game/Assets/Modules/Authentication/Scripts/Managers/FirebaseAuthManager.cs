@@ -46,7 +46,7 @@ public class FirebaseAuthManager : MonoBehaviour,IAuthService
                 AuthStateChanged(this, null);
                  
                 //TODO: ENABLE ON DEVICE
-                FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(false);
+                FirebaseDatabase.DefaultInstance.SetPersistenceEnabled(true);
 
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
             } else {
