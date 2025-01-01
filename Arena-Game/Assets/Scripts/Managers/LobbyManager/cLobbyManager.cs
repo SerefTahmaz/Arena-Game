@@ -40,18 +40,10 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     
     public int LastMapIndex { get; set; }
     public Action m_OnGameStarted { get; set; }
-    
-    
 
-    private async void Start()
+    public async UniTask Init()
     {
         m_IconIndex = Random.Range(0, 4).ToString();
-        m_PlayerName = "player" + Guid.NewGuid().ToString().Substring(0,20);
-        Debug.Log($"{PlayerName.Length} Player Name {PlayerName}");
-        var options = new InitializationOptions();
-        options.SetProfile(PlayerName);
-        await UnityServices.InitializeAsync(options);
-
         AuthenticationService.Instance.SignedIn += () =>
         {
             Debug.Log($"Signed in {AuthenticationService.Instance.PlayerId}");

@@ -19,7 +19,18 @@ namespace _Main.Scripts
 
         public IInfoPopUpController Create()
         {
-            var ins = GameObject.Instantiate(m_Prefab,cUIManager.Instance.transform);
+            //TODO: Fix this
+            Transform parent = null;
+            if (cUIManager.Instance)
+            {
+                parent = cUIManager.Instance.transform;
+            }
+            else
+            {
+                parent = SetupUIManager.instance.transform;
+            }
+            
+            var ins = GameObject.Instantiate(m_Prefab,parent);
             // ins.Init();
             return ins;
         }

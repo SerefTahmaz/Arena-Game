@@ -22,9 +22,14 @@ public class AnonymousSignInController : BaseAuthProvider
     
     private async UniTask AnonymousLogin()
     {
-        MiniLoadingScreen.Instance.ShowPage(this);
         m_Button.DeActivate();
 
+        var insInfoPopUp = GlobalFactory.InfoPopUpFactory.Create();
+        await insInfoPopUp.Init(
+            "Guest accounts are deleted after 30 days. If you want to save your progression, please user other sign in methods");
+
+        MiniLoadingScreen.Instance.ShowPage(this);
+        
         await LoginProcess();
         
         MiniLoadingScreen.Instance.HidePage(this);

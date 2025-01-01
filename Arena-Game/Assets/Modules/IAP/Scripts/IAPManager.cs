@@ -16,22 +16,9 @@ public class IAPManager : cSingleton<IAPManager>, IStoreListener
     private Action<RequestResult> m_OnPurchaseCompleted;
     private IStoreController m_StoreController;
     private IExtensionProvider m_ExtensionProvider;
-    
-    void Awake()
-    {
-        InitializePurchasing();
-    }
 
-    private async UniTask InitializePurchasing()
+    public async UniTask Init()
     {
-        InitializationOptions options = new InitializationOptions().SetEnvironmentName("production");
-// #if UNITY_EDITOR || DEVELOPMENT_BUILD
-//             .SetEnvironmentName("test");
-// #else
-//             .SetEnvironmentName("production");
-// #endif
-
-        await UnityServices.InitializeAsync(options);
         ResourceRequest operation = Resources.LoadAsync<TextAsset>("IAPProductCatalog");
         operation.completed += HandleIAPCatalogLoaded;
     }
