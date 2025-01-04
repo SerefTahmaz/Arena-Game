@@ -14996,6 +14996,7 @@ GameObject:
   - component: {fileID: 7177881264917544825}
   - component: {fileID: 211114692697353439}
   - component: {fileID: 5559810440923736136}
+  - component: {fileID: 7020879433294052375}
   - component: {fileID: 5771096420572015554}
   - component: {fileID: 7088165457731848143}
   - component: {fileID: 3203961506063621806}
@@ -15278,6 +15279,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 904a457ba6dea3849a80e97c18c309e2, type: 3}
   m_WeaponDamageEffector: {fileID: 6661171813642763330}
   m_AreaDamageEffector: {fileID: 5397633213900454968}
+--- !u!114 &7020879433294052375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6028557131865585024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762f364413c847bea51f153321e607e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnimationEventsController: {fileID: 5559810440923736136}
 --- !u!114 &5771096420572015554
 MonoBehaviour:
   m_ObjectHideFlags: 0
