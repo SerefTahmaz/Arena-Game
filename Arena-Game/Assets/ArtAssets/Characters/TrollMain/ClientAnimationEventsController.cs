@@ -36,72 +36,84 @@ namespace ArtAssets.Characters.TrollMain
         [ClientRpc]
         private void OnLeftStepEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnLeftStepAction();
         }
         
         [ClientRpc]
         private void OnRightStepEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnRightStepAction();
         }
         
         [ClientRpc]
         private void OnGroundAttackEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnGroundAttackAction();
         }
         
         [ClientRpc]
         private void OnInitSwordTrailClientRpc(string direction)
         {
+            if (IsHost) return;
             m_AnimationEventsController.InitSwordTrailAction(direction);
         }
         
         [ClientRpc]
         private void OnInitHammerCrackClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.InitHammerCrackAction();
         }
         
         [ClientRpc]
         private void OnAttack1StartEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnAttack1StartAction();
         }
         
         [ClientRpc]
         private void On360AttackStartEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.On360AttackStartAction();
         }
         
         [ClientRpc]
         private void OnHeavyAttack1StartEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnHeavyAttack1StartAction();
         }
         
         [ClientRpc]
         private void OnJumpAttackStartEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnJumpAttackStartAction();
         }
         
         [ClientRpc]
         private void OnRoarFrontFaceEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnRoarFrontFaceAction();
         }
         
         [ClientRpc]
         private void OnRoarEventClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.OnRoarAction();
         }
         
         [ClientRpc]
         private void OnStartDamageClientRpc()
         {
+            if (IsHost) return;
             m_AnimationEventsController.StartDamageAction();
         }
     }

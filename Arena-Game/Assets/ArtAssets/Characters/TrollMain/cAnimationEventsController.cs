@@ -129,7 +129,7 @@ public class cAnimationEventsController : MonoBehaviour
         InitHammerCrackAction();
         OnInitHammerCrack?.Invoke();
         
-        Debug.Log("Hammer crack!");
+        
     }
 
     public void InitHammerCrackAction()
@@ -139,6 +139,8 @@ public class cAnimationEventsController : MonoBehaviour
         m_HammerCrack.transform.position = pos;
         
         m_HammerCrack.Play();
+        
+        Debug.Log("Hammer crack!");
     }
 
     public void OnAttack1Start()
@@ -151,6 +153,7 @@ public class cAnimationEventsController : MonoBehaviour
     public void OnAttack1StartAction()
     {
         PlayOneShot(m_Attack1);
+        Debug.Log("OnAttack1StartAction");
     }
 
     public void On360AttackStart()
@@ -163,6 +166,7 @@ public class cAnimationEventsController : MonoBehaviour
     public void On360AttackStartAction()
     {
         PlayOneShot(m_360AttackClip);
+        Debug.Log("On360AttackStartAction");
     }
 
     public void OnHeavyAttack1Start()
@@ -175,6 +179,7 @@ public class cAnimationEventsController : MonoBehaviour
     public void OnHeavyAttack1StartAction()
     {
         PlayOneShot(m_HeavyAttack1Clip);
+        Debug.Log("OnHeavyAttack1StartAction");
     }
 
     public void OnJumpAttackStart()
