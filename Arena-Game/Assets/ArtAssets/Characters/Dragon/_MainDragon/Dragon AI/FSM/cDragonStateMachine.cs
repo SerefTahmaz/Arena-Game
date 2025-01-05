@@ -90,6 +90,8 @@ namespace FiniteStateMachine
  
             Character.CharacterNetworkController.PlayerName.Value = m_CharacterName;
             
+            Character.MovementController.Init();
+            
             base.Start();
         }
 

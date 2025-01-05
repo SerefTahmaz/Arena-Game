@@ -39,6 +39,8 @@ public class HumanCharacterStateMachine : MonoBehaviour
         {
             IsBusy = false;
         };
+        m_HumanCharacter.MovementController.Init();
+        
         IsInitialized = true;
     }
 

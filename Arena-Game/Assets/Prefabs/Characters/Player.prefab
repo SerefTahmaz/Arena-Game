@@ -14587,9 +14587,10 @@ GameObject:
   - component: {fileID: 173343533555855086}
   - component: {fileID: 2429274270307719355}
   - component: {fileID: 368970530281654065}
+  - component: {fileID: 6665104770125969930}
   - component: {fileID: 1935686690693353697}
   - component: {fileID: 8336007003722870488}
-  - component: {fileID: 6665104770125969930}
+  - component: {fileID: 5047961621872704147}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -14776,6 +14777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e020a3a36379446cbf930a82a2c7b33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InitAtStart: 0
   m_MovingTurnSpeed: 360
   m_StationaryTurnSpeed: 180
   m_JumpPower: 12
@@ -15163,6 +15165,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HumanCharacter: {fileID: 8675972563741450863}
   m_InitAtStart: 0
+--- !u!114 &6665104770125969930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8125119713141699224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbc1148fe84446778493dba0ef6f3b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanCharacterSM: {fileID: 368970530281654065}
 --- !u!114 &1935686690693353697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15187,8 +15202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82478011cdae4aa8a86d3b15646202cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_InitAtStart: 0
   m_SoundEffectController: {fileID: 6365255717361881750}
---- !u!114 &6665104770125969930
+--- !u!114 &5047961621872704147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15197,10 +15213,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8125119713141699224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc1148fe84446778493dba0ef6f3b37, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c0d6bd3d5a04257a1ba08a1c078efff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HumanCharacterSM: {fileID: 368970530281654065}
+  m_HumanoidAnimationSoundEvents: {fileID: 8336007003722870488}
 --- !u!1 &8298145229488168972
 GameObject:
   m_ObjectHideFlags: 0

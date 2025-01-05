@@ -52,6 +52,9 @@ namespace Gameplay.Character.NPCHuman
             Empty.InitializeState("Empty", this);
             Patrol.InitializeState("Patrol", this);
             Dialog.InitializeState("Dialog", this);
+            
+            Character.MovementController.Init();
+            
             base.Start();
         }
         protected override void Update()

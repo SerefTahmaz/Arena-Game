@@ -1,15 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using ArenaGame.Utils;
 using AudioSystem;
-using RootMotion.FinalIK;
-using STNest.Utils;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class cSoundEffectController : MonoBehaviour
 {
@@ -107,20 +99,6 @@ public class cSoundEffectController : MonoBehaviour
     public void PlayChargeSwordsSound()
     {
         PlayOneShot(m_ChargeSwordsSound);
-    }
-    
-    [SerializeField] private AudioClip m_StretchingClip;
-    public void PlayStretching()
-    {
-        PlayOneShot(m_StretchingClip);
-    }
-
-    
-    [SerializeField] private AudioClip m_HelloEveryone;
-
-    public void PlayHelloEveryone()
-    {
-        PlayOneShot(m_HelloEveryone);
     }
 
     public void PlayDamageGrunt()

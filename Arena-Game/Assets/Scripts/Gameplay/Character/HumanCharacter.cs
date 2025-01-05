@@ -46,7 +46,6 @@ namespace Gameplay.Character
         {
             get
             {
-                Debug.Log($"Characters Health {m_CharacterSo.GetCharacterSave().Health}");
                 return m_CharacterSo.GetCharacterSave().Health;
             }
         }

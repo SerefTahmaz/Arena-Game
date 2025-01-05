@@ -64,6 +64,8 @@ namespace FiniteStateMachine
             
             TrollCharacter.TrollNetworkController.OnStartFightServerRpc();
             
+            TrollCharacter.MovementController.Init();
+            
             base.Start();
         }
 
