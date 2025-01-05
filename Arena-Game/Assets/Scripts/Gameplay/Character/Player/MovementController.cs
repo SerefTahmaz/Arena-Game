@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 namespace PlayerCharacter
 {
 	public class MovementController : MonoBehaviour
-	{
+	{ 
+		[SerializeField] bool m_InitAtStart=true;
 		[SerializeField] float m_MovingTurnSpeed = 360;
 		[SerializeField] float m_StationaryTurnSpeed = 180;
 		[SerializeField] float m_JumpPower = 12f;
@@ -49,10 +50,21 @@ namespace PlayerCharacter
 		}
 
 		public bool m_EnableFlyingMode;
-
-
-		void Start()
+		
+		public bool IsInitialized { get; set; }
+        
+		private void Start()
+		{ 
+			if (m_InitAtStart)
+			{
+				Init();
+			}
+		}
+		
+		public void Init()
 		{
+			IsInitialized = true;
+			
 			m_CapsuleHeight = m_Capsule.height;
 			m_CapsuleCenter = m_Capsule.center;
 
@@ -77,6 +89,8 @@ namespace PlayerCharacter
 
 		private void FixedUpdate()
 		{
+			if(!IsInitialized) return;
+			
 			if (!m_DisableStepClimb)
 			{
 				if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
@@ -239,6 +253,8 @@ namespace PlayerCharacter
 
 		public void OnAnimatorMove()
 		{
+			if(!IsInitialized) return;
+			
 			switch (m_CharacterType)
 			{
 				case CharacterType.Ground: 
