@@ -48,6 +48,7 @@ public class cDragonSoundController : MonoBehaviour
     {
         m_AudioSource.pitch = 1;
         m_AudioSource.PlayOneShot(m_ShoutingClip);
+        Debug.Log("PlayShout");
     }
 
     public void PlayAttack2()
@@ -74,6 +75,7 @@ public class cDragonSoundController : MonoBehaviour
     {
         m_AudioSource.pitch = 1;
         m_AudioSource.PlayOneShot(m_Attack1Clip);
+        Debug.Log("PlayAttack1Action");
     }
 
     public void PlayFlyBreathingClip()
@@ -87,6 +89,7 @@ public class cDragonSoundController : MonoBehaviour
     {
         m_AudioSource.pitch = 1;
         m_AudioSource.PlayOneShot(m_FlyBreathingClip);
+        Debug.Log("FlyBreathing");
     }
 
     public void PlayMeleeAttackClip()
@@ -113,6 +116,7 @@ public class cDragonSoundController : MonoBehaviour
     {
         m_AudioSource.pitch = 1f;
         m_AudioSource.PlayOneShot(m_MeleeAttack2Clip);
+        Debug.Log("PlayMeleeAttack2ClipAction");
     }
 
     public void PlayDeathClip()

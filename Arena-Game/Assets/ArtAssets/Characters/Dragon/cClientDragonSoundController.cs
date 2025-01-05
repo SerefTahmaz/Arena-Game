@@ -36,72 +36,84 @@ namespace ArtAssets.Characters.Dragon
         [ClientRpc]
         private void OnPlayShoutClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayShoutAction();
         }
         
         [ClientRpc]
         private void OnPlayAttack2ClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayAttack2Action();
         }
         
         [ClientRpc]
         private void OnPlayAttack1ClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayAttack1Action();
         }
         
         [ClientRpc]
         private void OnPlayFlyBreathingClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayFlyBreathingClipAction();
         }
         
         [ClientRpc]
         private void OnPlayMeleeAttackClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayMeleeAttackClipAction();
         }
         
         [ClientRpc]
         private void OnPlayMeleeAttack2ClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayMeleeAttack2ClipAction();
         }
         
         [ClientRpc]
         private void OnPlayDeathClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayDeathClipAction();
         }
         
         [ClientRpc]
         private void OnPlayFlyIdleClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayFlyIdleClipAction();
         }
         
         [ClientRpc]
         private void OnPlayTransitionToFlyClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayTransitionToFlyClipAction();
         }
         
         [ClientRpc]
         private void OnPlayFlyToGroundClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayFlyToGroundClipAction();
         }
         
         [ClientRpc]
         private void OnPlayTurn360ClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayTurn360ClipAction();
         }
         
         [ClientRpc]
         private void OnPlayForwardJumpClipClientRpc()
         {
+            if (IsHost) return;
             m_DragonSoundController.PlayForwardJumpClipAction();
         }
     }

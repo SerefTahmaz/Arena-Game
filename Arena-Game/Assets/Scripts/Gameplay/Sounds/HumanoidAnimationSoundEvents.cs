@@ -46,15 +46,6 @@ namespace DefaultNamespace.SoundManager
         {
             m_SoundEffectController.PlayChargeSwordsSound();
         }
-        public void PlayStretching()
-        {
-            m_SoundEffectController.PlayStretching();
-        }
-        
-        public void PlayHelloEveryone()
-        {
-            m_SoundEffectController.PlayHelloEveryone();
-        }
         
         public void PlayDamageGrunt()
         {
