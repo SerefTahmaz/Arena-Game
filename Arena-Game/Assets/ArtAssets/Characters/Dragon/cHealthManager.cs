@@ -54,7 +54,6 @@ public class cHealthManager : MonoBehaviour
             CurrentHealth.OnValueChanged += (value, newValue) => { UpdateUIClientRpc(); };
             if (m_Character.CharacterNetworkController.IsOwner)
             {
-                Debug.Log($"StartHealth Health {StartHealth}");
                 CurrentHealth.Value = StartHealth;
             }
 
