@@ -148,10 +148,10 @@ RectTransform:
   - {fileID: 3067554026514771807}
   m_Father: {fileID: 6218221551084520056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 432.11, y: 189.71}
-  m_SizeDelta: {x: 964.3975, y: 449.0794}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -464.89, y: 189.71}
+  m_SizeDelta: {x: 964.39746, y: 449.0794}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2484698684240304576
 CanvasRenderer:
@@ -482,6 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2806378953777426809}
   - component: {fileID: 8854443788259997361}
+  - component: {fileID: 4180088127536903160}
   m_Layer: 0
   m_Name: DialogCam
   m_TagString: Untagged
@@ -544,6 +545,44 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4766016095216218024}
+--- !u!114 &4180088127536903160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246610592216003368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e9f83053e09744fb49041594ba4671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_VirtualCamera: {fileID: 8854443788259997361}
+  m_MyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1.333
+      value: -0.14
+      inSlope: -0.13195777
+      outSlope: -0.13195777
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.1666
+      value: -0.25
+      inSlope: -0.13195777
+      outSlope: -0.13195777
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_EnableUpdate: 0
 --- !u!1 &3254569158471483847
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,10 +882,10 @@ RectTransform:
   - {fileID: 8994831386207194609}
   m_Father: {fileID: 6218221551084520056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 427.89, y: -195.71}
-  m_SizeDelta: {x: 964.3975, y: 449.0794}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -469.11, y: -195.71}
+  m_SizeDelta: {x: 964.39746, y: 449.0794}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2640379454224288983
 CanvasRenderer:
