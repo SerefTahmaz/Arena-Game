@@ -17089,6 +17089,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &609419587903645611 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2629620266378956707, guid: a01ac613cb8b88e40b637fec36cf719c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3173734067745515528}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1300019106433087123 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4468070200153792155, guid: a01ac613cb8b88e40b637fec36cf719c,
@@ -17131,7 +17137,7 @@ MonoBehaviour:
   m_LobbyUnit: {fileID: 549196464145590157}
   m_PlayerUnit: {fileID: 1282405999578088564, guid: 31c9eaca8a2fdcc40b66304d35909718,
     type: 3}
-  m_LayoutTransform: {fileID: 0}
+  m_LayoutTransform: {fileID: 609419587903645611}
   m_ReadyButtonController: {fileID: 5097618323497340456}
   m_MenuNode: {fileID: 8556009742095840000}
   m_ReturnButton: {fileID: 1275870634006621683}
@@ -24164,12 +24170,12 @@ PrefabInstance:
     - target: {fileID: 664423372407153364, guid: 337f043e0e43d96478337356d86d10ad,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -88.8
+      value: -88.79999
       objectReference: {fileID: 0}
     - target: {fileID: 664423372407153364, guid: 337f043e0e43d96478337356d86d10ad,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 29.6
+      value: 29.599976
       objectReference: {fileID: 0}
     - target: {fileID: 664423372407153364, guid: 337f043e0e43d96478337356d86d10ad,
         type: 3}
