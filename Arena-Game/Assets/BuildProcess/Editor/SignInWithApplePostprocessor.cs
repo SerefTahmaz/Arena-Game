@@ -10,6 +10,8 @@ public static class SignInWithApplePostprocessor
     {
         if (target != BuildTarget.iOS)
             return;
+        
+#if UNITY_IOS
 
         var projectPath = PBXProject.GetPBXProjectPath(path);
         var project = new PBXProject();
@@ -17,5 +19,6 @@ public static class SignInWithApplePostprocessor
         var manager = new ProjectCapabilityManager(projectPath, "Entitlements.entitlements", null, project.GetUnityMainTargetGuid());
         manager.AddSignInWithAppleWithCompatibility();
         manager.WriteToFile();
+#endif
     }
 }
