@@ -3,6 +3,9 @@ apply plugin: 'com.android.library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.google.android.play:asset-delivery:2.1.0'
+    
 // Android Resolver Dependencies Start
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // Assets/LevelPlay/Editor/ISInMobiAdapterDependencies.xml:19
     implementation 'com.android.support:appcompat-v7:25.3.1' // Facebook.Unity.Editor.AndroidSupportLibraryResolver.addSupportLibraryDependency
