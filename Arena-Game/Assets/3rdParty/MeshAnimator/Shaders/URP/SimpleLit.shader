@@ -1,4 +1,4 @@
-﻿// Shader targeted for low end devices. Single Pass Forward Rendering.
+// Shader targeted for low end devices. Single Pass Forward Rendering.
 Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
 {
     // Keep properties of StandardSpecular shader for upgrade reasons.
@@ -111,6 +111,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
             #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
             #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
+            #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
             // -------------------------------------
@@ -164,7 +165,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
 
             // -------------------------------------
             // Material Keywords
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local _ALPHATEST_ON
             #pragma shader_feature_local_fragment _GLOSSINESS_FROM_BASE_ALPHA
 
             // -------------------------------------
@@ -284,7 +285,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
 
             // -------------------------------------
             // Material Keywords
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local _ALPHATEST_ON
             #pragma shader_feature_local_fragment _GLOSSINESS_FROM_BASE_ALPHA
 
             // -------------------------------------
@@ -375,7 +376,7 @@ Shader "Mesh Animator/Universal Render Pipeline/Simple Lit"
             // Material Keywords
             #pragma shader_feature_local_fragment _EMISSION
             #pragma shader_feature_local_fragment _SPECGLOSSMAP
-            #pragma shader_feature_local EDITOR_VISUALIZATION
+            #pragma shader_feature EDITOR_VISUALIZATION
 
             // -------------------------------------
             // Includes
