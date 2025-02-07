@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using RootMotion.FinalIK;
 using Unity.VisualScripting;
@@ -24,9 +24,9 @@ public class cDragonController : MonoBehaviour
     
     public void SnapToIdle()
     {
-        DOVirtual.Float(transform.localPosition.y, 0, .1f,
-            value => transform.localPosition =
-                new Vector3(transform.localPosition.x, value, transform.localPosition.z));
+        // DOVirtual.Float(transform.localPosition.y, 0, .1f,
+        //     value => transform.localPosition =
+        //         new Vector3(transform.localPosition.x, value, transform.localPosition.z));
     }
     
     

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DG.Tweening;
+using STNest.Utils;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,7 +18,7 @@ namespace FiniteStateMachine
         [SerializeField] private string m_CurrentStateName;
         [SerializeField] private string m_CurrentSubState;
 
-        public List<Transform> m_enemies = new List<Transform>();
+        public ObservableList<cCharacter> m_enemies = new ObservableList<cCharacter>();
 
         public bool m_ShowStates;
         
@@ -45,6 +47,11 @@ namespace FiniteStateMachine
         public cStateBase CurrentState { get; set; }
 
         #endregion
+
+        protected virtual void Awake()
+        {
+            
+        }
 
         protected virtual void Start()
         {
@@ -77,9 +84,16 @@ namespace FiniteStateMachine
 
         public virtual void OnDamage(DamageWrapper damageWrapper)
         {
-            if (m_enemies.Contains(damageWrapper.damager) == false)
+            if(damageWrapper.Instigator == null) return;
+            
+            if (m_enemies.Contains(damageWrapper.Instigator))
             {
-                m_enemies.Add(damageWrapper.damager);
+                m_enemies.Remove(damageWrapper.Instigator);
+            }
+            
+            if (m_enemies.Contains(damageWrapper.Instigator) == false)
+            {
+                m_enemies.Add(damageWrapper.Instigator);
             }
         }
     }

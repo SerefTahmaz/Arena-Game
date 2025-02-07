@@ -1,7 +1,11 @@
 using System;
-using DemoBlast.Utils;
+using _Main.Scripts.Gameplay;
+using ArenaGame;
+using ArenaGame.Utils;
+using DefaultNamespace;
 using DG.Tweening;
 using FiniteStateMachine;
+using Gameplay.Character;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -12,8 +16,9 @@ public class cPlayerStateMachineV2 : cStateMachine
 
         [SerializeField] private ParticleSystem m_DustExpo;
         [SerializeField] private ParticleSystem m_BloodExpo;
-        [SerializeField] private cPlayerCharacter m_Character;
+        [SerializeField] private HumanCharacter m_Character;
         [SerializeField] private cStatesBlackBoard m_BlackBoard;
+        [SerializeField] private bool m_DisableYCheck;
 
         // #region Properties
 
@@ -44,14 +49,15 @@ public class cPlayerStateMachineV2 : cStateMachine
 
         public cCharacterNetworkController CharacterNetworkController => Character.CharacterNetworkController;
 
-        public cPlayerCharacter Character => m_Character;
+        public HumanCharacter Character => m_Character;
 
         public override int TeamID => m_Character.TeamID;
 
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_InputManager = global::InputManager.Instance.GetComponent<IInputManager>();
             m_MovementUserController = GetComponentInChildren<MovementUserController>();
             m_MovementUserController.InputManager = m_InputManager;
@@ -68,6 +74,8 @@ public class cPlayerStateMachineV2 : cStateMachine
                 MovementUserController.enabled = false;
                 return;
             }
+
+            m_Character.OnDamage += OnDamage;
             
             Empty.InitializeState("Empty", this);
             FreeRoam.InitializeState("FreeRoam", this);
@@ -75,7 +83,11 @@ public class cPlayerStateMachineV2 : cStateMachine
             Dead.InitializeState("Dead", this);
             base.Start();
             
-            cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(this.transform);
+            GameplayStatics.OwnerPlayer = transform; 
+            cPlayerManager.Instance.m_OwnerPlayerSpawn.Invoke(Character);
+            CameraManager.Instance.OnPlayerSpawn();
+            
+            CharacterNetworkController.PlayerName.Value = ProfileGenerator.GetPlayerProfile().Name;
             
             Character.HealthManager.m_OnDied += () =>
             {
@@ -89,12 +101,15 @@ public class cPlayerStateMachineV2 : cStateMachine
             if(!CharacterNetworkController.IsOwner) return;
             base.Update();
 
-            if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
+            if (!m_DisableYCheck)
             {
-                if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                if (Physics.Raycast(transform.position + transform.up, -transform.up, out var hit,5, m_LayerMask))
                 {
-                    var pos = transform.position;
-                    transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    if (Mathf.Abs(transform.position.y - hit.point.y) > m_YDistance)
+                    {
+                        var pos = transform.position;
+                        transform.position = new Vector3(pos.x, hit.point.y, pos.z);
+                    }
                 }
             }
         }
@@ -106,26 +121,23 @@ public class cPlayerStateMachineV2 : cStateMachine
         
         private DamageWrapper m_LastDamager;
 
+        //TODO: Move it to character sm
         public override void OnDamage(DamageWrapper damageWrapper)
         {
             if(!CharacterNetworkController.IsOwner) return;
             
             if(CurrentState == Dead) return;
             
+            m_LastDamager = damageWrapper;
+            
             base.OnDamage(damageWrapper);
             Character.HealthManager.OnDamage(damageWrapper.amount);
-            m_LastDamager = damageWrapper;
             Character.PlayerCharacterNetworkController.TakeDamageServerRpc(damageWrapper.pos);
-
-            AnimationController.SetTrigger(damageWrapper.isHeavyDamage ? AnimationController.AnimationState.BackImpact : AnimationController.AnimationState.Damage, 
-                resetable: true);
-            AnimationController.SetTrigger(AnimationController.AnimationState.DamageAnimIndex, Random.Range(0, 2));
+            Character.CharacterStateMachine.PlayTakeDamage(damageWrapper.isHeavyDamage);
         }
 
-        public void OnDamageAnim()
+        public void DrawSword()
         {
-            m_BloodExpo.PlayWithClear();
-            Character.SoundEffectController.PlayDamageGrunt();
-            // m_DustExpo.PlayWithClear();
+            Character.CharacterStateMachine.SwitchRightSword();
         }
     }

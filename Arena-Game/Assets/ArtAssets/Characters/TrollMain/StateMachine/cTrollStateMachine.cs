@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using PlayerCharacter;
 using RootMotion.FinalIK;
@@ -8,15 +8,16 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace FiniteStateMachine
-{
+{ 
     public class cTrollStateMachine : cCharacterStateMachine
     {
         #region PritaveFields
-        
+         
         [SerializeField] private cTrollAnimationController.TrollAnimationState m_AvailableAttacks;
         [SerializeField] private Vector2 m_CooldownDurationRange;
         [SerializeField] private cTrollCharacter m_TrollCharacter;
         [SerializeField] private ParticleSystem m_BloodExpo;
+        [SerializeField] private string m_CharacterName;
 
         public cTrollAnimationController.TrollAnimationState AvailableAttacks => m_AvailableAttacks;
 
@@ -52,10 +53,14 @@ namespace FiniteStateMachine
             m_Empty.InitializeState("Empty", this);
             m_Death.InitializeState("Death", this);
 
+            TrollCharacter.OnDamage += OnDamage;
+            
             TrollCharacter.HealthManager.m_OnDied += () =>
             {
                 ChangeState(m_Death);
             };
+
+            TrollCharacter.TrollNetworkController.PlayerName.Value = m_CharacterName;
             
             TrollCharacter.TrollNetworkController.OnStartFightServerRpc();
             
@@ -83,6 +88,8 @@ namespace FiniteStateMachine
 
         public override void OnDamage(DamageWrapper damageWrapper)
         {
+            Debug.Log("Damagingg trol!!!!!");
+            
             if(CurrentState == m_Death) return;
             
             base.OnDamage(damageWrapper);

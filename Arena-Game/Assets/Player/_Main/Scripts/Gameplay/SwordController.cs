@@ -6,8 +6,8 @@ using UnityEngine;
 public class SwordController : cInventoryItem
 {
     [SerializeField] private cDamageEvents m_DamageEvents;
-    [SerializeField] private GameObject m_Colliders;
     [SerializeField] private bool m_IsRightSword;
+    [SerializeField] private cDamageEffector m_DamageEffector;
 
     private void Awake()
     {
@@ -15,22 +15,22 @@ public class SwordController : cInventoryItem
         {
             m_DamageEvents.m_OnDamageStart += () =>
             {
-                m_Colliders.SetActive(true);
+                m_DamageEffector.SetActiveDamage(true);
             };
             m_DamageEvents.m_OnDamageEnd += () =>
             {
-                m_Colliders.SetActive(false);
+                m_DamageEffector.SetActiveDamage(false);
             };
         }
         else
         {
             m_DamageEvents.m_OnDamageStartLeft += () =>
             {
-                m_Colliders.SetActive(true);
+                m_DamageEffector.SetActiveDamage(true);
             };
             m_DamageEvents.m_OnDamageEndLeft += () =>
             {
-                m_Colliders.SetActive(false);
+                m_DamageEffector.SetActiveDamage(false);
             };
         }
     }

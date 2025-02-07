@@ -13,6 +13,7 @@ namespace FiniteStateMachine
         [SerializeField] private cAnimationController.eAttackType m_AvailableAttacks;
         [SerializeField] private Vector2 m_CooldownDurationRange;
         [SerializeField] private cDragonCharacter m_DragonCharacter;
+        [SerializeField] private string m_CharacterName;
 
         private bool m_ZKeyPressed=false;
         private bool m_XKeyPressed = false;
@@ -80,12 +81,14 @@ namespace FiniteStateMachine
             m_DragonFly.InitializeState("DragonFly", this);
             m_DragonDeath.InitializeState("DragonDeath", this);
 
+            Character.OnDamage += OnDamage;
+            
             Character.HealthManager.m_OnDied += () =>
             {
                 ChangeState(m_DragonDeath);
             };
-
-            Character.HeadLookAtIk.solver.target = Target();
+ 
+            Character.CharacterNetworkController.PlayerName.Value = m_CharacterName;
             
             base.Start();
         }
@@ -107,6 +110,11 @@ namespace FiniteStateMachine
             if (Input.GetKeyDown(KeyCode.V))
             {
                 m_VKeyPressed = true;
+            }
+
+            if (Character.HeadLookAtIk)
+            {
+                Character.HeadLookAtIk.solver.target = Target();
             }
         }
         

@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.UI;
-using DemoBlast.Utils;
+using ArenaGame.UI;
+using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using QFSW.QC;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
@@ -13,11 +14,23 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
 {
     [SerializeField] private cLobbyUnit m_LobbyUnitPrefab;
     [SerializeField] private Transform m_LayoutTransform;
-    [SerializeField] private cView m_View;
+    [SerializeField] private cMenuNode m_MenuNode;
+
+    private void Awake()
+    {
+        m_MenuNode.OnActivateEvent.AddListener(PopulateList);
+    }
+
+    private void PopulateList()
+    {
+        PopulateListAsync();
+    }
 
     [Command]
-    public async void PopulateList(Action onUpdated=null)
+    public async UniTask PopulateListAsync()
     {
+        var token = new object();
+        MiniLoadingScreen.Instance.ShowPage(token);
         try
         {
             foreach (var VARIABLE in m_LayoutTransform.gameObject.GetChilds())
@@ -26,7 +39,7 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
             }
         
             QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions()
-            {
+            { 
                 Count = 25,
                 Filters = new List<QueryFilter>()
                 {
@@ -47,37 +60,45 @@ public class cLobbyListUI : cSingleton<cLobbyListUI>
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
         }
         
-        onUpdated?.Invoke();
+        MiniLoadingScreen.Instance.HidePage(token);
     }
 
     public void OnCreateLobby()
     {
-        m_View.Deactivate();
+        m_MenuNode.Deactivate();
     }
-    
-    public void DisableLobbyListUI()
-    {
-        m_View.Deactivate(true);
-    }
-
+ 
     public void EnableLobbyListUI()
     {
-        m_View.Activate(true);
-        PopulateList();
+        m_MenuNode.Activate(true);
     }
 
     [SerializeField] private UnityEvent m_OnJoined;
 
-    public void OnLobbySelected(Lobby lobby)
+    public async UniTask OnLobbySelected(Lobby lobby)
     {
-        void OnJoined()
-        {
-            m_OnJoined.Invoke();
-        }
+        var token = new object();
+        MiniLoadingScreen.Instance.ShowPage(token);
         Debug.Log(lobby.LobbyCode);
-        cLobbyManager.Instance.JoinLobbyById(lobby.Id, OnJoined);
+        var result = await cLobbyManager.Instance.JoinLobbyById(lobby.Id);
+        switch (result)
+        {
+            case RequestResult.Failed:
+                break;
+            case RequestResult.Success:
+                m_OnJoined.Invoke();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        MiniLoadingScreen.Instance.HidePage(token);
+    }
+
+    public void ReturnToList()
+    {
+        cLobbyUI.Instance.DisableLobbyUI();
+        EnableLobbyListUI();
     }
 }

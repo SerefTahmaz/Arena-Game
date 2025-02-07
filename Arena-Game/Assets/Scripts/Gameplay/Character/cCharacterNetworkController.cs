@@ -33,7 +33,16 @@ public abstract class cCharacterNetworkController : NetworkBehaviour
         set => m_OnSpawn = value;
     }
 
+    public NetworkVariable<cHealthManager.eHealthBarState> HealthBarState
+    {
+        get => m_HealthBarState;
+        set => m_HealthBarState = value;
+    }
+
     private NetworkVariable<float> m_CurrentHealth = new NetworkVariable<float>(100,NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner);
+    
+    private NetworkVariable<cHealthManager.eHealthBarState> m_HealthBarState = new NetworkVariable<cHealthManager.eHealthBarState>(cHealthManager.eHealthBarState.World,NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
     
     public NetworkVariable<int> m_TeamId = new NetworkVariable<int>(0,NetworkVariableReadPermission.Everyone,

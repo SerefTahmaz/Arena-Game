@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -17,7 +17,7 @@ public class cScoreboardController : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        cGameManager.Instance.m_GameStarted += OnRoundStart;
+        // cGameManager.Instance.m_GameStarted += OnRoundStart;
     }
 
     public void OnRoundStart()
@@ -38,7 +38,7 @@ public class cScoreboardController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void ClearScoreDataDictClientRpc()
+    public void ClearScoreDataDictClientRpc() 
     {
         cScoreClientHolder.Instance.ClearDict();
     }
@@ -77,14 +77,14 @@ public class cScoreboardController : NetworkBehaviour
     {
         foreach (var VARIABLE in m_GeneratedUIUnits)
         {
-            Destroy(VARIABLE.gameObject);
+            if(VARIABLE) Destroy(VARIABLE.gameObject);
         }
         m_GeneratedUIUnits.Clear();
 
         var orderedUnits = cScoreClientHolder.Instance.m_ClientScoreUnitsDic.Values.OrderByDescending((controller => controller.KillCount.Value)).ThenBy((controller => controller.DeadCount.Value));
         foreach (var VARIABLE in orderedUnits)
         {
-            var ins = Instantiate(m_ScoreboardUIUnitController, m_UITransform);
+            var ins = Instantiate(m_ScoreboardUIUnitController, FindObjectOfType<cGameplayMenuUIController>().ScoreBoardUITransform);
             ins.Init(VARIABLE.PlayerName.Value.Value, VARIABLE.KillCount.Value, VARIABLE.DeadCount.Value, VARIABLE.IconIndex.Value);
             m_GeneratedUIUnits.Add(ins);
         }

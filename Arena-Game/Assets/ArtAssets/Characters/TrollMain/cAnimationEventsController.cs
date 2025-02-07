@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
+using STNest.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class cAnimationEventsController : MonoBehaviour
 {
@@ -20,16 +23,21 @@ public class cAnimationEventsController : MonoBehaviour
     [SerializeField] private AudioClip m_HeavyAttack1Clip;
     [SerializeField] private AudioClip m_JumpAttackStartClip;
     [SerializeField] private AudioClip m_OnRoarFrontFaceClip;
+    [SerializeField] private AudioClip m_DamageSound;
     [SerializeField] private AudioSource m_AudioSource;
 
     [SerializeField] private AudioSource m_WalkSource;
     
     [SerializeField] private List<AudioClip> m_StepAudioClips;
     
-    [SerializeField] private GameObject m_WeaponDamageEffector;
-    [SerializeField] private GameObject m_AreaDamageEffector;
+    [SerializeField] private cDamageEffector m_WeaponDamageEffector;
+    [SerializeField] private cDamageEffector m_AreaDamageEffector;
 
     private AudioClip m_CurrentStep;
+
+    private void Awake()
+    {
+    }
 
     public void OnLeftStep()
     {
@@ -53,7 +61,7 @@ public class cAnimationEventsController : MonoBehaviour
     public void OnGroundAttack()
     {
         m_GroundCrackParticle.PlayWithClear();
-        FindObjectOfType<cCamShake>().ShakeCamera(10,5,.5f);
+        CameraManager.Instance.ShakeCamera(10,5,.5f);
     }
 
     public void InitSwordTrail(string direction)
@@ -78,28 +86,28 @@ public class cAnimationEventsController : MonoBehaviour
     }
 
     public void OnAttack1Start()
-    {
-        m_AudioSource.PlayOneShot(m_Attack1);
+    { 
+        PlayOneShot(m_Attack1);
     }
     
     public void On360AttackStart()
     {
-        m_AudioSource.PlayOneShot(m_360AttackClip);
+        PlayOneShot(m_360AttackClip);
     }
     
     public void OnHeavyAttack1Start()
     {
-        m_AudioSource.PlayOneShot(m_HeavyAttack1Clip);
+        PlayOneShot(m_HeavyAttack1Clip);
     }
     
     public void OnJumpAttackStart()
     {
-        m_AudioSource.PlayOneShot(m_JumpAttackStartClip);
+        PlayOneShot(m_JumpAttackStartClip);
     }
     
     public void OnRoarFrontFace()
     {
-        m_AudioSource.PlayOneShot(m_OnRoarFrontFaceClip);
+        PlayOneShot(m_OnRoarFrontFaceClip);
     }
     
     public void OnRoar()
@@ -107,23 +115,35 @@ public class cAnimationEventsController : MonoBehaviour
         m_RoarParticle.PlayWithClear();
     }
 
+    public void StartDamage()
+    {
+        m_AudioSource.Stop();
+        PlayOneShot(m_DamageSound, Helpers.RandomPentatonicPitch());
+    }
+
+    public void PlayOneShot(AudioClip audioClip, float pitch = 1)
+    {
+        m_AudioSource.pitch = pitch;
+        m_AudioSource.PlayOneShot(audioClip);
+    }
+    
     public void EnableWeaponDamageEffector()
     {
-        m_WeaponDamageEffector.SetActive(true);
+        m_WeaponDamageEffector.SetActiveDamage(true);
     }
     
     public void DisableWeaponDamageEffector()
     {
-        m_WeaponDamageEffector.SetActive(false);
+        m_WeaponDamageEffector.SetActiveDamage(false);
     }
     
     public void EnableAreaDamageEffector()
     {
-        m_AreaDamageEffector.SetActive(true);
+        m_AreaDamageEffector.SetActiveDamage(true);
     }
     
     public void DisableAreaDamageEffector()
     {
-        m_AreaDamageEffector.SetActive(false);
+        m_AreaDamageEffector.SetActiveDamage(false);
     }
 }

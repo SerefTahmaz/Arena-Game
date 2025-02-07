@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using DG.Tweening;
 using RootMotion.FinalIK;
+using STNest.Utils;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -84,7 +85,8 @@ public class cDragonDamageController : NetworkBehaviour
         }));
         DOVirtual.DelayedCall(m_InvincibleDuration, () => m_Punching = false);
         m_Punching = true;
-        
+
+        m_AudioSource.pitch = Helpers.RandomPentatonicPitch();
         m_AudioSource.PlayOneShot(m_DamageClip);
 
         var ins =Instantiate(m_DamageParticle, pos, Quaternion.identity);

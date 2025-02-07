@@ -14,6 +14,7 @@ namespace FiniteStateMachine
         {
             base.Enter();
             // StateMachine.Character.AnimationController.m_Animator.applyRootMotion = true;
+            StateMachine.Character.MovementController.m_EnableFlyingMode = true;
             StateMachine.Character.DragonController.m_ActionEnd += ChangeStateToWalk;
 
             m_Delay = false;
@@ -40,6 +41,7 @@ namespace FiniteStateMachine
         
         public override void Exit()
         {
+            StateMachine.Character.MovementController.m_EnableFlyingMode = false;
             StateMachine.Character.DragonController.m_ActionEnd -= ChangeStateToWalk;
             base.Exit();
         }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +9,8 @@ public class InputManager : cSingleton<InputManager>, IInputManager
 {
     [SerializeField] private bool m_MobileInput;
     [SerializeField] private bool m_PCInput;
+
+    private bool m_IsInput;
 
     public float HorizontalAxis => _horizontalAxis;
     public float VerticalAxis => _verticalAxis;
@@ -23,7 +25,6 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     private Action _onRightClickUpEvent;
     private Action _onWalkSpeedUpEvent;
     private Action _onWalkSpeedNormalEvent;
-    private Action _onEKeyDownEvent;
     private Action _onDrawRightItem;
     private Action _onDrawLeftItem;
     private Action _onNum3Event;
@@ -32,7 +33,8 @@ public class InputManager : cSingleton<InputManager>, IInputManager
     private Action _onTwoHandedAttackEvent;
     private Action _onEnableRightHandBuffEvent;
     private Action _onEnableLeftHandBuffEvent;
-    private Action _onFKeyDownEvent;
+    private Action _onFocusCharEvent;
+    public Action _onInteractionEvent;
 
     private void Start()
     {
@@ -78,13 +80,28 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             {
                 _onTwoHandedAttackEvent?.Invoke();
             };
+            cMobileInputManager._onInteractionEvent += () =>
+            {
+                _onInteractionEvent?.Invoke();
+            };
+            cMobileInputManager._onFocusEvent += () =>
+            {
+                _onFocusCharEvent?.Invoke();
+            };
         }
+    }
+
+    public void SetInput(bool value)
+    {
+        m_IsInput = value;
     }
 
     private void Update()
     {
         _horizontalAxis = 0;
         _verticalAxis = 0;
+        
+        if(!m_IsInput) return;
         
         if (m_MobileInput)
         {
@@ -124,7 +141,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _onEKeyDownEvent?.Invoke();
+                _onInteractionEvent?.Invoke();
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -164,7 +181,7 @@ public class InputManager : cSingleton<InputManager>, IInputManager
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                _onFKeyDownEvent?.Invoke();
+                _onFocusCharEvent?.Invoke();
             }
         }
         
@@ -294,13 +311,23 @@ public class InputManager : cSingleton<InputManager>, IInputManager
         _onEnableLeftHandBuffEvent -= listener;
     }
     
-    public void AddListenerToOnFKeyDownEvent(Action listener)
+    public void AddListenerToOnFocusCharEvent(Action listener)
     {
-        _onFKeyDownEvent += listener;
+        _onFocusCharEvent += listener;
     }
 
-    public void RemoveListenerToOnFKeyDownEvent(Action listener)
+    public void RemoveListenerToOnFocusCharEvent(Action listener)
     {
-        _onFKeyDownEvent -= listener;
+        _onFocusCharEvent -= listener;
+    }
+    
+    public void AddListenerToOnInteractionEvent(Action listener)
+    {
+        _onInteractionEvent += listener;
+    }
+
+    public void RemoveListenerToOnInteractionEvent(Action listener)
+    {
+        _onInteractionEvent -= listener;
     }
 }

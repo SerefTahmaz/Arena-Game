@@ -43,11 +43,12 @@ namespace FiniteStateMachine
 
             if (StateMachine.Target() == null)
             {
-                AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,0);
+                // AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,0);
+                StateMachine.Character.MovementController.Move(Vector3.zero);
                 return;
-            }
+            } 
             
-            AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,1);
+            // AnimationController.SetFloat(cAnimationController.eAnimationType.Forward,1);
 
             if (m_IsAttackDelayFinished)
             {
@@ -79,13 +80,21 @@ namespace FiniteStateMachine
                 }
             }
 
+            // Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
+            // var angle = Vector3.SignedAngle(m_MovementTransform.forward, dir.normalized, Vector3.up);
+            // m_MovementTransform.Translate(Vector3.forward * Time.deltaTime * m_WalkSpeed);
+            // var planeDir = dir.normalized;
+            // planeDir.y = 0;
+            // var lookRot = Quaternion.LookRotation(planeDir.normalized);
+            // m_MovementTransform.rotation = Quaternion.Slerp(m_MovementTransform.rotation, lookRot, Time.deltaTime * m_RotationSpeed);
+            
             Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
-            var angle = Vector3.SignedAngle(m_MovementTransform.forward, dir.normalized, Vector3.up);
-            m_MovementTransform.Translate(Vector3.forward * Time.deltaTime * m_WalkSpeed);
-            var planeDir = dir.normalized;
-            planeDir.y = 0;
-            var lookRot = Quaternion.LookRotation(planeDir.normalized);
-            m_MovementTransform.rotation = Quaternion.Slerp(m_MovementTransform.rotation, lookRot, Time.deltaTime * m_RotationSpeed);
+            dir.y = 0;
+            Vector3 movementVector = m_MovementTransform.forward;
+            movementVector.y = 0;
+            var angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
+
+            StateMachine.Character.MovementController.Move(dir);
 
             if (m_IsAttackDelayFinished)
             {

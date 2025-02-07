@@ -2,8 +2,8 @@
 using UnityEngine;
 
 namespace DefaultNamespace
-{
-    [CreateAssetMenu(fileName = "PlayerIconList", menuName = "PlayerIconList", order = 0)]
+{ 
+    [CreateAssetMenu(fileName = "PlayerIconList", menuName = "Game/Lobby/PlayerIconList", order = 0)]
     public class cPlayerIconList : ScriptableObject
     {
         [SerializeField] private List<cPlayerIcon> m_PlayerIcons;

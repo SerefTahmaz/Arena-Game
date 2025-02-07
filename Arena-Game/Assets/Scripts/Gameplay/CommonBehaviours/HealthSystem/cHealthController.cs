@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.UI;
-using DemoBlast.Utils;
+using ArenaGame.UI;
+using ArenaGame.Utils;
 using DG.Tweening;
 using TMPro;
 using Unity.Netcode;

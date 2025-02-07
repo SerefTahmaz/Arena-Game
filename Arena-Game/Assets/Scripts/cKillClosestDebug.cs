@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using UnityEngine;
 
 public class cKillClosestDebug : MonoBehaviour
@@ -11,7 +11,7 @@ public class cKillClosestDebug : MonoBehaviour
         selected.OnDamage(new DamageWrapper()
         {
             amount = 10000,
-            Character = null,
+            Instigator = null,
             damager = transform,
             isHeavyDamage = false,
             pos = transform.position

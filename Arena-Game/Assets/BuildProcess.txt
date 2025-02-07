@@ -1,0 +1,30 @@
+source 'https://cdn.cocoapods.org/'
+ platform :ios, '15.0'
+ target 'UnityFramework' do
+ pod 'FBSDKCoreKit', '~> 16.0.1'
+ pod 'FBSDKCoreKit_Basics', '~> 16.0.1'
+ pod 'FBSDKGamingServicesKit', '~> 16.0.1'
+ pod 'FBSDKLoginKit', '~> 16.0.1'
+ pod 'FBSDKShareKit', '~> 16.0.1'
+ pod 'Firebase/Auth', '9.6.0'
+ pod 'Firebase/Core', '9.6.0'
+ pod 'Firebase/Database', '9.6.0'
+ pod 'Firebase/Storage', '9.6.0'
+ pod 'GoogleSignIn', '4.0.2'
+ end
+ target 'Unity-iPhone' do
+ end
+ use_frameworks!
+
+
+
+ Firebase version 9.6.0 for google sign in
+ Google sign in version 4.0.2
+ Removed static linkeage for facebook
+ Minimum deployment for GTMOAuth2.0 is 13.0 ios
+ 
+ Before building for ios/android resolve external dependency manager
+ 
+ Add info.plist IOS 
+ "Additional settings for iOS"
+ https://developers.is.com/ironsource-mobile/unity/unity-plugin/#step-3

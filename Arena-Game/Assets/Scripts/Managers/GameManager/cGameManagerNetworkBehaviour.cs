@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class cGameManagerNetworkBehaviour : NetworkBehaviour
 {
-    [SerializeField] private cButton m_MainMenuButton;
-    
     [ClientRpc]
     public void OnHostLeaveClientRpc()
     {
-        if (IsHost==false)
-        {
-            m_MainMenuButton.OnClick();
-        }
+        // if (IsHost==false)
+        // {
+        //     m_MainMenuButton.OnClick();
+        // }
     }
 }

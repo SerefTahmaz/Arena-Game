@@ -1,44 +1,57 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Managers.SaveManager;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Gameplay.Character;
+using UI.EndScreen;
 using Unity.Netcode;
 using UnityEngine;
 
 public class cPvPManager : MonoBehaviour,IGameModeHandler
 {
     private int m_SpawnOffset;
-    private bool m_isActive;
-
-    private void OnMainMenuButton()
-    {
-        if (m_isActive)
-        {
-            m_isActive = false;
-            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
-            cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
-        }
-    }
+    private bool m_IsActive;
+    private int m_ConnectedClientCounts;
 
     public void StartGame()
     {
         if (NetworkManager.Singleton.IsHost)
         {
+            cGameManager.Instance.StartGameClient(true);
+            
             cGameManager.Instance.m_OnPlayerDied = delegate { };
-            cGameManager.Instance.m_OnPlayerDied += CheckPvPSuccess;
+            cGameManager.Instance.m_OnPlayerDied += HandlePlayerDied;
             
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             cGameManager.Instance.m_OnMainMenuButton += OnMainMenuButton;
 
-            m_isActive = true;
+            NetworkManager.Singleton.OnServerStopped += HandleServerStopped;
+
+            WinScreenUIController.Instance.RewardExp = 30;
+            
+            m_IsActive = true;
             
             LoopStart();
         }
     }
 
-    private void LoopStart()
+    private void HandleServerStopped(bool obj)
     {
-        cUIManager.Instance.ShowPage(Page.Loading);
+        // Debug.Log("Server Stopped!!!!!!!");
+    }
+
+    private async UniTask LoopStart()
+    {
+        var lobbyPlayerCount = cLobbyManager.Instance.JoinedLobby.Players.Count;
+        cUIManager.Instance.ShowPage(Page.Gameplay,this);
+        LoadingScreen.Instance.ShowPage(this);
+        
+        UserSaveHandler.Load();
+        var currentMap = UserSaveHandler.SaveData.m_CurrentMap;
+        await MapManager.Instance.SetMapNetwork(currentMap); 
+        
         m_SpawnOffset = 0;
         cPlayerManager.Instance.DestroyPlayers();
         foreach (var VARIABLE in NetworkManager.Singleton.ConnectedClients)
@@ -46,10 +59,9 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
             OnClientConnected(VARIABLE.Key);
         }
 
-        DOVirtual.DelayedCall(5, () =>
-        {
-            cUIManager.Instance.HidePage(Page.Loading);
-        });
+        await UniTask.WaitUntil((() => m_ConnectedClientCounts >= lobbyPlayerCount));
+        MultiplayerLocalHelper.Instance.SetGameStarted(true);
+        LoadingScreen.Instance.HidePage(this);
     }
     
     private void OnClientConnected(ulong obj)
@@ -60,22 +72,43 @@ public class cPvPManager : MonoBehaviour,IGameModeHandler
         Vector3 dir = Vector3.zero - pos;
         var lookRot = Quaternion.LookRotation(dir.normalized);
         go = cPlayerManager.Instance.SpawnPlayer(pos, lookRot, obj);
-        go.GetComponent<cPlayerCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
+        go.GetComponent<HumanCharacter>().CharacterNetworkController.m_TeamId.Value = 10 + m_SpawnOffset;
         m_SpawnOffset++;
+        m_ConnectedClientCounts++;
     }
 
-    private void CheckPvPSuccess()
+    private void HandlePlayerDied()
+    {
+        cPlayerManager.Instance.PlayerDied();
+        CheckLastStandingPlayer();
+    }
+
+    private void CheckLastStandingPlayer()
     {
         if (cPlayerManager.Instance.CheckExistLastStandingPlayer())
         {
-            DOVirtual.DelayedCall(5, () =>
-            {
-                if (m_isActive)
-                {
-                    LoopStart();
-                }
-            });
+            Debug.Log($"Game Ended");
+
+            OnGameEnd();
+            MultiplayerLocalHelper.Instance.NetworkHelper.CheckGameEndClientRpc();
         }
+    }
+
+    private void OnMainMenuButton()
+    {
+        if (m_IsActive)
+        {
+            OnGameEnd();
+        }
+    }
+    
+    private void OnGameEnd()
+    {
+        m_IsActive = false;
+        cGameManager.Instance.m_OnMainMenuButton -= OnMainMenuButton;
+        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        cUIManager.Instance.HidePage(Page.Gameplay,this);
+        Debug.Log("GameEnded!!!!!!!!!!");
     }
 }
 

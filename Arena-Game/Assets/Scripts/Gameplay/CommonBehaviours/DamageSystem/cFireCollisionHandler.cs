@@ -11,11 +11,13 @@ public class cFireCollisionHandler : cDamageEffectorBase
         {
             DamageIt(damagable, new DamageWrapper()
             {
-                amount = 10, 
+                amount = m_DamageAmount, 
                 pos = Vector3.zero, 
                 isHeavyDamage = false,
-                damager = transform
+                damager = transform,
+                Instigator = Character
             });
         }
     }
 }
+ 

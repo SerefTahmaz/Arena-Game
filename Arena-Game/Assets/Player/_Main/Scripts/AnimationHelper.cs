@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Main.Scripts.Gameplay;
 using UnityEngine;
 
 public class AnimationHelper : StateMachineBehaviour

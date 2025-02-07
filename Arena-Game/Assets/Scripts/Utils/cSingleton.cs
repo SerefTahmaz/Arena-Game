@@ -1,7 +1,7 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace DemoBlast.Utils
+namespace ArenaGame.Utils
 {
     public class cSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
@@ -21,9 +21,28 @@ namespace DemoBlast.Utils
             }
         }
     }
+    
+    public class BaseSingleton<T> : System.Object where T : new()
+    {
+        private static object _lock = new object();
+        private static T _instance;
+
+        public static T Instance
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (_instance == null) _instance = (T)new T();
+
+                    return _instance;
+                }
+            }
+        }
+    }
 }
 
-namespace DemoBlast.Utils
+namespace ArenaGame.Utils
 {
     public class cNetworkSingleton<T> : NetworkBehaviour where T : NetworkBehaviour
     {
