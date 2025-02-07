@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class cLobbyCreationManager : cSingleton<cLobbyCreationManager>
@@ -14,18 +15,16 @@ public class cLobbyCreationManager : cSingleton<cLobbyCreationManager>
         public eGameMode m_GameMode;
     }
 
-    public void OnCreate(LobbyCreationSettingWrapper setting, Action onCreated = null)
+    public async UniTask<RequestResult> OnCreate(LobbyCreationSettingWrapper setting)
     {
-        void Created()
-        {
-            onCreated?.Invoke();
-        }
-
+        var token = new object();
+        MiniLoadingScreen.Instance.ShowPage(token);
         Debug.Log("Main Change");
-        cLobbyManager.Instance.CreateLobby(setting.m_LobbyName
+        var result = await cLobbyManager.Instance.CreateLobby(setting.m_LobbyName
             , setting.m_PlayerCount, 
             setting.m_IsPrivate, 
-            setting.m_GameMode, 
-            Created);
+            setting.m_GameMode);
+        MiniLoadingScreen.Instance.HidePage(token);
+        return result;
     }
 }

@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 65e129b962eafa64080683030ef43598
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: -5931173850494274726
@@ -1362,13 +1362,6 @@ ModelImporter:
         floatParameter: 0
         intParameter: 1
         messageOptions: 0
-      - time: 0.0067264307
-        functionName: PlayFireChargeLoop
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 2
-        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -2182,6 +2175,7 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -2209,6 +2203,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -2806,12 +2801,14 @@ ModelImporter:
     - name: leg_twist.l
       parentName: leg_stretch.l
       position: {x: 0.00000016152859, y: 0.27875355, z: -0.000000044479965}
-      rotation: {x: 0.0000001494037, y: 0.000000022540188, z: -0.000000022119185, w: 1}
+      rotation: {x: 0.0000001494037, y: 0.000000022540188, z: -0.000000022119185,
+        w: 1}
       scale: {x: 1.0000004, y: 1.0000068, z: 1.0000008}
     - name: leg_twist_2.l
       parentName: leg_stretch.l
       position: {x: 0.00000015467405, y: 0.13937669, z: -0.000000020712614}
-      rotation: {x: 0.00000008376889, y: 0.000000085813575, z: -0.000000006985106, w: 1}
+      rotation: {x: 0.00000008376889, y: 0.000000085813575, z: -0.000000006985106,
+        w: 1}
       scale: {x: 1, y: 1.0000064, z: 1.0000001}
     - name: CC_Base_L_KneeShareBone
       parentName: leg_stretch.l
@@ -2821,12 +2818,14 @@ ModelImporter:
     - name: thigh_twist.l
       parentName: thigh_stretch.l
       position: {x: -0.000000015199184, y: -0.000000062584874, z: 0.000000022947788}
-      rotation: {x: -0.000000025320332, y: 0.0000000019572326, z: 0.000000018626451, w: 1}
+      rotation: {x: -0.000000025320332, y: 0.0000000019572326, z: 0.000000018626451,
+        w: 1}
       scale: {x: 1.0000001, y: 1.000004, z: 1.0000013}
     - name: thigh_twist_2.l
       parentName: thigh_stretch.l
       position: {x: 0.000000095665456, y: 0.15168741, z: 0.000000035464762}
-      rotation: {x: -0.000000025320332, y: 0.0000000019572326, z: 0.000000018626451, w: 1}
+      rotation: {x: -0.000000025320332, y: 0.0000000019572326, z: 0.000000018626451,
+        w: 1}
       scale: {x: 1, y: 1.0000042, z: 1.0000011}
     - name: thigh_stretch.r
       parentName: root.x
@@ -2881,7 +2880,8 @@ ModelImporter:
     - name: leg_twist.r
       parentName: leg_stretch.r
       position: {x: -0.0000006842613, y: 0.27875352, z: -0.000000011622905}
-      rotation: {x: 0.000000068966074, y: -0.00000005594758, z: 0.000000018859524, w: 1}
+      rotation: {x: 0.000000068966074, y: -0.00000005594758, z: 0.000000018859524,
+        w: 1}
       scale: {x: 1, y: 1.0000033, z: 1}
     - name: leg_twist_2.r
       parentName: leg_stretch.r
@@ -2896,12 +2896,14 @@ ModelImporter:
     - name: thigh_twist.r
       parentName: thigh_stretch.r
       position: {x: 0.00000002682209, y: 0.000000002980232, z: -0.000000022053719}
-      rotation: {x: 0.00000006251503, y: 0.0000000019099389, z: -0.000000018626451, w: 1}
+      rotation: {x: 0.00000006251503, y: 0.0000000019099389, z: -0.000000018626451,
+        w: 1}
       scale: {x: 0.9999992, y: 1.0000025, z: 1.0000017}
     - name: thigh_twist_2.r
       parentName: thigh_stretch.r
       position: {x: -0.0000005805492, y: 0.15168744, z: -0.00000005364418}
-      rotation: {x: 0.00000006251503, y: 0.0000000019099389, z: -0.000000018626451, w: 1}
+      rotation: {x: 0.00000006251503, y: 0.0000000019099389, z: -0.000000018626451,
+        w: 1}
       scale: {x: 0.99999875, y: 1.0000027, z: 1.0000017}
     - name: spine_01.x
       parentName: root.x
@@ -3131,7 +3133,8 @@ ModelImporter:
     - name: c_eye.r
       parentName: c_eye_offset.r
       position: {x: -5.9604643e-10, y: -0.000000005960464, z: 0.00000007435679}
-      rotation: {x: 0.00000011898189, y: -0.00000002793967, z: 0.000000023050228, w: 1}
+      rotation: {x: 0.00000011898189, y: -0.00000002793967, z: 0.000000023050228,
+        w: 1}
       scale: {x: 1.0000051, y: 1, z: 1.0000023}
     - name: eyelid_top.r
       parentName: c_eye_offset.r
@@ -3426,12 +3429,14 @@ ModelImporter:
     - name: arm_twist.r
       parentName: arm_stretch.r
       position: {x: 0.000000059604645, y: -0.00000015228986, z: 0.000000029802322}
-      rotation: {x: 0.00000044703484, y: 0.00000020861626, z: -0.000000007450581, w: 1}
+      rotation: {x: 0.00000044703484, y: 0.00000020861626, z: -0.000000007450581,
+        w: 1}
       scale: {x: 1.0000027, y: 1.0000052, z: 1.0000001}
     - name: arm_twist_2.r
       parentName: arm_stretch.r
       position: {x: 0.00000017523764, y: 0.08172832, z: -0.0000000756979}
-      rotation: {x: -0.000000059604645, y: 0.00000011920929, z: -0.00000008195639, w: 1}
+      rotation: {x: -0.000000059604645, y: 0.00000011920929, z: -0.00000008195639,
+        w: 1}
       scale: {x: 1.0000011, y: 1.0000018, z: 0.9999998}
     - name: ShoulderArmor_low
       parentName: arm_twist_2.r
@@ -3576,7 +3581,8 @@ ModelImporter:
     - name: arm_twist_2.l
       parentName: arm_stretch.l
       position: {x: -0.000000045597552, y: 0.08172874, z: -0.0000000891462}
-      rotation: {x: -0.000000119209275, y: -0.00000008940696, z: -0.00000008195638, w: 1}
+      rotation: {x: -0.000000119209275, y: -0.00000008940696, z: -0.00000008195638,
+        w: 1}
       scale: {x: 1.0000023, y: 1.0000015, z: 1.0000004}
     - name: ShoulderArmor_low.001
       parentName: arm_twist_2.l
@@ -3661,6 +3667,8 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

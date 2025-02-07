@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class cDamageEffector : cDamageEffectorBase
 {
+    [SerializeField] private List<GameObject> m_Colliders;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.attachedRigidbody && other.attachedRigidbody.TryGetComponent(out IDamagable damagable))
@@ -13,11 +15,21 @@ public class cDamageEffector : cDamageEffectorBase
             var collisionPoint = other.ClosestPoint(transform.position);
             DamageIt(damagable, new DamageWrapper()
             {
-                amount = 1, 
+                amount = m_DamageAmount, 
                 pos = collisionPoint, 
                 isHeavyDamage = false,
-                damager = transform
+                damager = transform,
+                Instigator = Character
             });
         }
+    }
+
+    public override void SetActiveDamage(bool value)
+    {
+        foreach (var VARIABLE in m_Colliders)
+        {
+            VARIABLE.SetActive(value);
+        }
+        base.SetActiveDamage(value);
     }
 }

@@ -1,4 +1,4 @@
-// Simplified version of the SDF Surface shader :
+﻿// Simplified version of the SDF Surface shader :
 // - No support for Bevel, Bump or envmap
 // - Diffuse only lighting
 // - Fully supports only 1 directional light. Other lights can affect it, but it will be per-vertex/SH.
@@ -61,7 +61,7 @@ SubShader {
 	CGPROGRAM
 	#pragma surface PixShader Lambert alpha:blend vertex:VertShader noforwardadd nolightmap nodirlightmap
 	#pragma target 3.0
-	#pragma shader_feature __ GLOW_ON
+	#pragma shader_feature_local __ GLOW_ON
 
 	#include "TMPro_Properties.cginc"
 	#include "TMPro.cginc"

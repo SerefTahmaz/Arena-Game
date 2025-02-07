@@ -13,21 +13,22 @@ public class cLevelSelectUnit : MonoBehaviour
     [SerializeField] private Image m_Icon;
     [SerializeField] private TMP_Text m_NameText;
 
-    private cLevelSO m_LevelSo;
+    public PVELevelSO m_LevelSo;
     
     public Action<cLevelSelectUnit> m_OnClick = delegate(cLevelSelectUnit unit) {  };
 
     public bool m_Locked = false;
 
-    public cLevelSO LevelSo => m_LevelSo;
+    public PVELevelSO LevelSo => m_LevelSo;
 
-    public void Init(cLevelSO levelSo, int order)
+    public void Init(PVELevelSO levelSo, int order)
     {
         m_LevelSo = levelSo;
         SetSelected(false);
 
         m_Icon.sprite = levelSo.Icon;
-        m_NameText.text = $"{levelSo.NameText} {order.ToString()}";
+        m_Icon.color = new Color(1, 1, 1, levelSo.Alpha);
+        m_NameText.text = $"Level {order.ToString()}";
     }
 
     public void SetSelected(bool state)

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ArenaGame.Utils;
+using RootMotion;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,37 +10,18 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class cNpcSpawner : MonoBehaviour
+public class cNpcSpawner : cSingleton<cNpcSpawner>
 {
-    [SerializeField] private GameObject m_Dragon;
-    [SerializeField] private GameObject m_Troll;
+    [SerializeField] private GameObject m_EnemyHuman;
+    
     [SerializeField] private Transform m_TrollSpawnPoint;
     [SerializeField] private Transform m_DragonSpawnPoint;
     
-    public void SpawnDragon()
+    public GameObject EnemyHuman()
     {
-        GameObject go = Instantiate(m_Dragon, m_DragonSpawnPoint.position, Quaternion.identity);
+        GameObject go = Instantiate(m_EnemyHuman, m_TrollSpawnPoint.position, Quaternion.identity);
         go.GetComponent<NetworkObject>().Spawn();
-    }
-    
-    public void SpawnTroll()
-    {
-        GameObject go = Instantiate(m_Troll, m_TrollSpawnPoint.position, Quaternion.identity);
-        go.GetComponent<NetworkObject>().Spawn();
-    }
-
-    private void Update()
-    {
-        if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.T))
-        {
-            SpawnDragon();
-            Destroy(gameObject);
-        }
-        if (NetworkManager.Singleton.IsHost&& Input.GetKeyDown(KeyCode.Y))
-        {
-            SpawnTroll();
-            Destroy(gameObject);
-        }
+        return go;
     }
 }
 
@@ -51,10 +34,6 @@ public class cNpcSpawnerEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        if (GUILayout.Button("Click"))
-        {
-            (target as cNpcSpawner).SpawnDragon();
-        }
     }
 }
 #endif

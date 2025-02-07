@@ -19,6 +19,7 @@ public class cMobileInputManager : MonoBehaviour
     public static Action _onEnableLeftHandBuffEvent;
     public static Action _onFocusEvent;
     public static Vector2 _input;
+    public static Action _onInteractionEvent;
     
     public void OnRightLightAttackButton()
     {
@@ -75,9 +76,14 @@ public class cMobileInputManager : MonoBehaviour
     {
         _onFocusEvent.Invoke();
     }
+    
+    public void OnInteractionEvent()
+    {
+        _onInteractionEvent.Invoke();
+    }
 
     private void Update()
     {
-        _input = cJoystickController.JoystickValue;
+        _input = cJoystickController.Instance.JoystickValue;
     }
 }

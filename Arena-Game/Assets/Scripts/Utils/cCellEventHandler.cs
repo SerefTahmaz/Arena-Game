@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace DemoBlast.Utils
+namespace ArenaGame.Utils
 {
-    public class cCellEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler, IPointerClickHandler
+    public class cCellEventHandler : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler, IPointerClickHandler, IPointerUpHandler
     {
         [SerializeField] private UnityEvent m_OnEnter;
         [SerializeField] private UnityEvent m_OnDown;
         [SerializeField] private UnityEvent m_OnClick;
         [SerializeField] private UnityEvent m_OnExit;
+        [SerializeField] private UnityEvent m_OnUp;
+
+        public UnityEvent OnUp => m_OnUp;
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -31,6 +34,11 @@ namespace DemoBlast.Utils
         public void OnPointerClick(PointerEventData eventData)
         {
             m_OnClick.Invoke();
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            OnUp.Invoke();
         }
     }
 }

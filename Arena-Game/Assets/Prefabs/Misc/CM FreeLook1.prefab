@@ -298,6 +298,8 @@ GameObject:
   - component: {fileID: 8421420728706831492}
   - component: {fileID: 8421420728706831495}
   - component: {fileID: 4151408768091766444}
+  - component: {fileID: 8794506043580010401}
+  - component: {fileID: 3080710686009656246}
   m_Layer: 0
   m_Name: CM FreeLook1
   m_TagString: Untagged
@@ -348,7 +350,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 50000
+    FarClipPlane: 2000
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -474,6 +476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HorizontalInput: Mouse X
   VerticalInput: Mouse Y
+  m_FingerInputSpeed: 0
 --- !u!114 &4151408768091766444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +490,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CinemachineVirtualCamera: {fileID: 0}
+--- !u!114 &8794506043580010401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421420728706831491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
+--- !u!114 &3080710686009656246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8421420728706831491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b8d27b9e5804c4f8a4812352c944e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Cam: {fileID: 8421420728706831491}
+  m_CameraShake: {fileID: 4151408768091766444}
 --- !u!1 &8421420728825370870
 GameObject:
   m_ObjectHideFlags: 0

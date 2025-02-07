@@ -36,16 +36,20 @@ namespace FiniteStateMachine
         public override void StateMachineUpdate()
         {
             base.StateMachineUpdate();
-            
-            if(StateMachine.Target == null) return;
 
-            Vector3 dir = StateMachine.Target.position - m_MovementTransform.position;
+            if (StateMachine.Target() == null)
+            {
+                StateMachine.TrollCharacter.MovementController.Move(Vector3.zero);
+                return;
+            }
+
+            Vector3 dir = StateMachine.Target().position - m_MovementTransform.position;
             dir.y = 0;
             Vector3 movementVector = m_MovementTransform.forward;
             movementVector.y = 0;
             var angle = Vector3.SignedAngle(movementVector, dir.normalized, Vector3.up);
 
-            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target.position) > m_MeleeAttackDistance)
+            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) > m_MeleeAttackDistance)
             {
                 StateMachine.TrollCharacter.MovementController.Move(dir);
             }
@@ -66,7 +70,7 @@ namespace FiniteStateMachine
 
         private bool Attack(float angle)
         {
-            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target.position) < m_MeleeAttackDistance)
+            if (Vector3.Distance(m_MovementTransform.position, StateMachine.Target().position) < m_MeleeAttackDistance)
             {
                 List<Action> m_MeleeActions = new List<Action>();
 

@@ -7,7 +7,7 @@ public class cCreateLobbyButton : MonoBehaviour
     public void CreateLobby()
     {
         cLobbyListUI.Instance.OnCreateLobby();
-        cLevelSelectView.Instance.Activate();
+        PVELevelSelectView.Instance.Activate();
     }
 
     public void OnCreated()

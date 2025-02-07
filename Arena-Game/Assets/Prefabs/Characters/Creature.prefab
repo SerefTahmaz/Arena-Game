@@ -10026,11 +10026,20 @@ MonoBehaviour:
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.5
   m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 0.25
+  m_GroundCheckDistance: 0.5
   m_PhysicMaterial: {fileID: 13400000, guid: 4c6cb8d1c179ca6478b75ed6c11ef750, type: 2}
   m_Rigidbody: {fileID: 6709115404066570955}
   m_Animator: {fileID: 3698630494902020446}
   m_Capsule: {fileID: 7297926399341711984}
+  m_YSpeedThreshold: 0
+  m_CharacterType: 0
+  m_DisableStepClimb: 0
+  m_StepRayLower: {fileID: 7996631170448277451}
+  m_StepHeight: 0.3
+  m_StepSmooth: 0.01
+  m_DebugStepClimb: 0
+  m_StepClimbCastDistance: 0.28
+  m_EnableFlyingMode: 0
   Layermask:
     serializedVersion: 2
     m_Bits: 1024
@@ -10071,8 +10080,8 @@ MonoBehaviour:
   m_RightTrailRenderer: {fileID: 708393949412973472}
   m_LeftTrailRenderer: {fileID: 2626368838632323603}
   m_RollImpact: {fileID: 3249567518291136992}
-  m_RightDamageEffector: {fileID: 2248403918083632621}
-  m_LeftDamageEffector: {fileID: 3645078354340007006}
+  m_RightDamageEffector: {fileID: 4474760854877370207}
+  m_LeftDamageEffector: {fileID: 1423013555562059500}
 --- !u!114 &4926305348586763731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10087,12 +10096,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentStateName: 
   m_CurrentSubState: 
-  m_enemies: []
+  m_enemies:
+    _list: []
   m_ShowStates: 0
   m_AvailableAttacks: -1
   m_CooldownDurationRange: {x: 0.1, y: 2}
   m_TrollCharacter: {fileID: 3767187384813378727}
   m_BloodExpo: {fileID: 761466886421812871}
+  m_CharacterName: Forest Creature
   m_Idle: {fileID: 7280810749451956535}
   m_Walk: {fileID: 1776251078777867411}
   m_Empty: {fileID: 723150528749251034}
@@ -10112,8 +10123,7 @@ MonoBehaviour:
   m_MovementTransform: {fileID: 5903405936648288368}
   m_Animator: {fileID: 3698630494902020446}
   m_HealthManager: {fileID: 4009807144931364073}
-  m_CharacterName: Creature
-  m_StartHealth: 20
+  m_StartHealth: 100
   m_DamageManager: {fileID: 485665121009816389}
   m_TeamId: 1
   m_NavMeshAgent: {fileID: 0}
@@ -10134,6 +10144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkAnimator: {fileID: 7141262360464684007}
+  m_TeamId:
+    m_InternalValue: 0
   m_TrollCharacter: {fileID: 3767187384813378727}
 --- !u!114 &7141262360464684007
 MonoBehaviour:
@@ -10307,6 +10319,8 @@ MonoBehaviour:
   m_OnDamage:
     m_PersistentCalls:
       m_Calls: []
+  m_FocusPoint: {fileID: 4516118352244988308}
+  m_Character: {fileID: 3767187384813378727}
 --- !u!114 &485665121009816389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10319,12 +10333,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70b5c27357604d488423fb248dffd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Character: {fileID: 3767187384813378727}
   m_OnDamage:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4926305348586763731}
-        m_TargetAssemblyTypeName: FiniteStateMachine.cTrollStateMachine, Assembly-CSharp
-        m_MethodName: OnDamage
+      - m_Target: {fileID: 3767187384813378727}
+        m_TargetAssemblyTypeName: cCharacter, Assembly-CSharp
+        m_MethodName: TakeDamage
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19998,6 +20013,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &7996631170448277451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 197860902042390309}
+  m_Layer: 0
+  m_Name: Lower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &197860902042390309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996631170448277451}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.258, z: 0.524}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6677664307540814985}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8619013572202231140
 GameObject:
   m_ObjectHideFlags: 0
@@ -21831,6 +21877,11 @@ PrefabInstance:
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 3369649916021158978}
+    - target: {fileID: 3634446141279400052, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4664118338820622086, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_Name
@@ -21839,7 +21890,7 @@ PrefabInstance:
     - target: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
@@ -21907,7 +21958,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6047416998346621854}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3645078354340007006}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}
@@ -21922,12 +21973,6 @@ TrailRenderer:
 --- !u!4 &2717452250736225764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 6047416998346621854}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3645078354340007006 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
     type: 3}
   m_PrefabInstance: {fileID: 6047416998346621854}
   m_PrefabAsset: {fileID: 0}
@@ -22008,6 +22053,10 @@ PrefabInstance:
     - {fileID: 5866666021909216657, guid: 96964b9da93ab1b42a868cf78a5c52fd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96964b9da93ab1b42a868cf78a5c52fd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 197860902042390309}
     - targetCorrespondingSourceObject: {fileID: 4436805663696350335, guid: 96964b9da93ab1b42a868cf78a5c52fd,
         type: 3}
       insertIndex: -1
@@ -22304,6 +22353,11 @@ PrefabInstance:
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 3980381784939011425}
+    - target: {fileID: 3634446141279400052, guid: 85f0aa2a90067094cb9c114d9966b8a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4664118338820622086, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_Name
@@ -22312,7 +22366,7 @@ PrefabInstance:
     - target: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8528385943406374522, guid: 85f0aa2a90067094cb9c114d9966b8a0,
         type: 3}
@@ -22386,19 +22440,13 @@ TrailRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 9100290197836423725}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2248403918083632621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7023740524879859648, guid: 85f0aa2a90067094cb9c114d9966b8a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 9100290197836423725}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4474760854877370207 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4635104457444267378, guid: 85f0aa2a90067094cb9c114d9966b8a0,
     type: 3}
   m_PrefabInstance: {fileID: 9100290197836423725}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2248403918083632621}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5abd5ab80a6fd7443bcb3ac09bd99bc5, type: 3}

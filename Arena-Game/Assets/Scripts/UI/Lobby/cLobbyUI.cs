@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DemoBlast.UI;
-using DemoBlast.Utils;
+using ArenaGame.UI;
+using ArenaGame.Utils;
+using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,33 +13,57 @@ public class cLobbyUI : cSingleton<cLobbyUI>
     [SerializeField] private cLobbyUnitUI m_LobbyUnit;
     [SerializeField] private cPlayerUnit m_PlayerUnit;
     [SerializeField] private Transform m_LayoutTransform;
-    [SerializeField] private cView m_View;
-    [SerializeField] private UnityEvent m_OnDisableLobby;
+    [SerializeField] private cReadyButtonController m_ReadyButtonController;
+    [SerializeField] private cMenuNode m_MenuNode;
+    [SerializeField] private cButton m_ReturnButton;
 
-    public bool m_Active => m_View.m_IsActive;
+    public bool m_Active;
 
     private void Awake()
     {
-        cLobbyManager.Instance.m_OnLobbyUpdate += () =>
-        {
-            UpdateUI(cLobbyManager.Instance.JoinedLobby);
-        };
+        cLobbyManager.Instance.m_OnLobbyUpdate += UpdateUIWithLobby;
+        
+        m_MenuNode.OnActivateEvent.AddListener(EnableLobbyUI);
+        m_ReturnButton.OnClickEvent.AddListener(LeaveLobby);
+        
+        m_ReadyButtonController.OnReadyStateChange += HandleReadyButtonStateChanged;
     }
 
-    public void EnableLobby()
+    private void UpdateUIWithLobby()
     {
-        m_View.Activate(true);
         UpdateUI(cLobbyManager.Instance.JoinedLobby);
     }
-    
-    public void DisableLobby()
+
+    private void OnDestroy()
     {
-        m_View.Deactivate(true);
+        if(cLobbyManager.Instance) cLobbyManager.Instance.m_OnLobbyUpdate -= UpdateUIWithLobby;
+    }
+
+    private void HandleReadyButtonStateChanged(bool isReady)
+    {
+        if(!m_Active) return;
+        
+        cLobbyManager.Instance.UpdateIsPlayerReadyRateLimited(isReady);
+        UpdateUI(cLobbyManager.Instance.JoinedLobby);
+    }
+
+    public void EnableLobbyUI()
+    {
+        UpdateUI(cLobbyManager.Instance.JoinedLobby);
+        m_Active = true;
+    }
+    
+    public void LeaveLobby()
+    {
+        cLobbyManager.Instance.LeaveLobby();
+        DisableLobbyUI();
     }
     
     public void DisableLobbyUI()
     {
-        m_OnDisableLobby.Invoke();
+        m_Active = false;
+        m_ReadyButtonController.ResetState();
+        m_MenuNode.Deactivate();
     }
 
     public void UpdateUI(Lobby lobby)
@@ -55,10 +80,27 @@ public class cLobbyUI : cSingleton<cLobbyUI>
         var gameMode = lobby.Data["GameMode"].Value;
         m_LobbyUnit.UpdateUI(lobbyName,playerCount,gameMode);
 
+        Debug.Log($"<color = green> players in lobby {lobby.Players.Count}");
         foreach (var VARIABLE in lobby.Players)
         {
             var ins = Instantiate(m_PlayerUnit, m_LayoutTransform);
-            ins.UpdateUI(VARIABLE.Data["PlayerName"].Value, int.Parse(VARIABLE.Data["IconIndex"].Value), VARIABLE, isHost);
+
+            bool isReady;
+            bool kickButton;
+
+            if (VARIABLE.Id ==  AuthenticationService.Instance.PlayerId)
+            {
+                isReady = m_ReadyButtonController.IsReady;
+                kickButton = false;
+            }
+            else
+            {
+                isReady=VARIABLE.Data["IsReady"].Value == "True";
+
+                kickButton = isHost;
+            }
+            
+            ins.UpdateUI(VARIABLE.Data["PlayerName"].Value, VARIABLE.Data["ProfilePhoto"].Value, VARIABLE, kickButton,isReady);
         }
     }
 }

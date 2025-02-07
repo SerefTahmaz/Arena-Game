@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using DemoBlast.Utils;
+using ArenaGame.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
 
-public class cCamShake : cSingleton<cCamShake>
+public class cCamShake : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCameraBase m_CinemachineVirtualCamera;
     private float m_ShakerTimer;

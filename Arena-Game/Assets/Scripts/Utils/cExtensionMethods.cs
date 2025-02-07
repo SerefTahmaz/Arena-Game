@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace DemoBlast.Utils
+namespace ArenaGame.Utils
 {
     public static class cExtensionMethods
     {
@@ -92,6 +92,11 @@ namespace DemoBlast.Utils
         {
             return enumeration.OrderBy((arg => Random.Range(0, 999999))).FirstOrDefault();
         }
+        
+        public static bool IsEmpty<T>(this IEnumerable<T> enumeration)
+        {
+            return !enumeration.Any();
+        }
 
         public static List<Transform> GetChilds(this GameObject target)
         {
@@ -142,6 +147,34 @@ namespace DemoBlast.Utils
                 colorToLerp.a = VARIABLE.color.a;
                 VARIABLE.DOColor(colorToLerp, .15f).SetLoops(2, LoopType.Yoyo);
             }
+        }
+        
+        public static string ColorHtmlString(this string text, Color color)
+        {
+            return "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">" + text + "</color>";
+        }
+        
+        public static Texture2D DuplicateTexture(this Texture2D source)
+        {
+            var width = 128;
+            var height = 128;
+        
+            RenderTexture renderTex = RenderTexture.GetTemporary(
+                width,
+                height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.sRGB);
+
+            Graphics.Blit(source, renderTex);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTex;
+            Texture2D readableText = new Texture2D(width, height);
+            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            readableText.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(renderTex);
+            return readableText;
         }
     }
 }

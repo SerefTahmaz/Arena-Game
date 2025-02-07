@@ -1,4 +1,5 @@
-﻿using FiniteStateMachine;
+﻿using System;
+using FiniteStateMachine;
 using PlayerCharacter;
 using RootMotion.FinalIK;
 using UnityEngine;
@@ -18,4 +19,10 @@ public class cTrollCharacter : cCharacter
     public cTrollNetworkController TrollNetworkController => m_TrollNetworkController;
 
     public cTrollStateMachine TrollStateMachine => m_TrollStateMachine;
+    
+    public override Action OnActionEnded
+    {
+        get => m_AnimationController.m_OnAttackEnd;
+        set => m_AnimationController.m_OnAttackEnd = value;
+    }
 }

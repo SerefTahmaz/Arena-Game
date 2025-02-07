@@ -2,7 +2,7 @@
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(fileName = "PlayerIcon", menuName = "PlayerIcon", order = 0)]
+    [CreateAssetMenu(fileName = "PlayerIcon", menuName = "Game/Lobby/PlayerIcon", order = 0)]
     public class cPlayerIcon : ScriptableObject
     {
         [SerializeField] private Sprite m_Icon;

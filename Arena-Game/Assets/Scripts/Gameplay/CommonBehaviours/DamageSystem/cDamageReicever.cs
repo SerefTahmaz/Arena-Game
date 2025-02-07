@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class cDamageReicever : MonoBehaviour,IDamagable
 {
     [SerializeField] private UnityEvent<DamageWrapper> m_OnDamage;
+    [SerializeField] private Transform m_FocusPoint;
+    [SerializeField] private cCharacter m_Character;
 
     private int m_TeamId;
     
     private bool m_Damaged = false;
 
-    public Transform FocusPoint => transform;
+    public Transform FocusPoint => m_FocusPoint;
+    public bool IsDead => !m_Character.HealthManager.HasHealth;
 
     public UnityEvent<DamageWrapper> OnDamage
     {

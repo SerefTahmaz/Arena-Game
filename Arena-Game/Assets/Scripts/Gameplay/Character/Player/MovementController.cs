@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PlayerCharacter
 {
@@ -17,7 +18,7 @@ namespace PlayerCharacter
 
 		[SerializeField] Rigidbody m_Rigidbody;
 		[SerializeField] Animator m_Animator;
-		bool m_IsGrounded;
+		// bool m_IsGrounded;
 		float m_OrigGroundCheckDistance;
 		const float k_Half = 0.5f;
 		float m_TurnAmount;
@@ -28,6 +29,26 @@ namespace PlayerCharacter
 		[SerializeField] CapsuleCollider m_Capsule;
 		bool m_Crouching;
 		private bool m_HasInput = false;
+
+		[SerializeField] private float m_YSpeedThreshold;
+		[SerializeField] private CharacterType m_CharacterType;
+		
+		[Header("Player Step Climb")] 
+		[SerializeField] private bool m_DisableStepClimb;
+		[SerializeField] private GameObject m_StepRayLower;
+		[SerializeField] private float m_StepHeight = .3f;
+		[SerializeField] private float m_StepSmooth = 0.1f;
+		[SerializeField] private bool m_DebugStepClimb;
+		[SerializeField] private float m_StepClimbCastDistance;
+		private Vector3 m_MoveInput;
+		
+		public enum CharacterType
+		{
+			Ground,
+			Fly
+		}
+
+		public bool m_EnableFlyingMode;
 
 
 		void Start()
@@ -49,9 +70,39 @@ namespace PlayerCharacter
 			// {
 			// 	m_Capsule.material = m_PhysicMaterial;
 			// }
+			
+			// Debug.Log($"{transform.name} Root Motion {m_Animator.applyRootMotion}");
+			// Move(Vector3.zero);
+		} 
+
+		private void FixedUpdate()
+		{
+			if (!m_DisableStepClimb)
+			{
+				if(m_DebugStepClimb) Debug.Log(m_MoveInput.magnitude);
+				if(m_MoveInput.magnitude > 0) StepClimb();
+			}
+		}
+		private void StepClimb()
+		{
+			StepClimbRaycast(transform.forward);
+			StepClimbRaycast(transform.TransformDirection(1.5f,0,1));
+			StepClimbRaycast(transform.TransformDirection(-1.5f,0,1)); 
 		}
 
-		public void Move(Vector3 move, bool crouch = false, bool jump = false)
+		private void StepClimbRaycast(Vector3 dir)
+		{
+			if (Physics.Raycast(m_StepRayLower.transform.position, dir, out var hitLower, m_StepClimbCastDistance+0.1f, Layermask))
+			{
+				if (!Physics.Raycast(m_StepRayLower.transform.position + Vector3.up*m_StepHeight, dir, out var hitUpper, m_StepClimbCastDistance+0.2f,Layermask))
+				{
+					m_Rigidbody.position -= new Vector3(0, -m_StepSmooth, 0);
+					if(m_DebugStepClimb) Debug.Log("Climbing step!!!!!!!!");
+				}
+			}
+		}
+
+		public void Move(Vector3 move, bool crouch = false, bool jump = false, bool forceValue = false)
 		{
 			// if (move.magnitude > 0)
 			// {
@@ -68,27 +119,23 @@ namespace PlayerCharacter
 			if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
-			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+			// move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+			// move.Normalize();
 			m_TurnAmount = Mathf.Atan2(move.x, move.z);
 			m_ForwardAmount = move.z;
+
+			m_MoveInput = move;
 
 			ApplyExtraTurnRotation();
 			
 			// control and velocity handling is different when grounded and airborne:
-			if (m_IsGrounded)
-			{
-				HandleGroundedMovement(crouch, jump);
-			}
-			else
-			{
-				HandleAirborneMovement();
-			}
+			HandleGroundedMovement(crouch, jump);
 
-			ScaleCapsuleForCrouching(crouch);
+			// ScaleCapsuleForCrouching(crouch);
 			PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
-			UpdateAnimator(move);
+			UpdateAnimator(forceValue);
 		}
 
 
@@ -118,30 +165,35 @@ namespace PlayerCharacter
 
 		void PreventStandingInLowHeadroom()
 		{
-			// prevent standing up in crouch-only zones
-			if (!m_Crouching)
-			{
-				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
-				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-				{
-					m_Crouching = true;
-				}
-			}
+			// // prevent standing up in crouch-only zones
+			// if (!m_Crouching)
+			// {
+			// 	Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
+			// 	float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
+			// 	if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+			// 	{
+			// 		m_Crouching = true;
+			// 	}
+			// }
 		}
 
 
-		void UpdateAnimator(Vector3 move)
+		void UpdateAnimator(bool forceValue)
 		{
 			// update the animator parameters
-			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
-			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+			if (!forceValue)
+			{
+				m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
+				m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+			}
+			else
+			{
+				m_Animator.SetFloat("Forward", m_ForwardAmount);
+				m_Animator.SetFloat("Turn", m_TurnAmount);
+			}
 			// m_Animator.SetBool("Crouch", m_Crouching);
 			// m_Animator.SetBool("OnGround", m_IsGrounded);
-			if (!m_IsGrounded)
-			{
-				// m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
-			}
+			
 
 			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
 			// (This code is reliant on the specific run cycle offset in our animations,
@@ -150,22 +202,8 @@ namespace PlayerCharacter
 				Mathf.Repeat(
 					m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + m_RunCycleLegOffset, 1);
 			float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
-			if (m_IsGrounded)
-			{
-				// m_Animator.SetFloat("JumpLeg", jumpLeg);
-			}
 
-			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
-			// which affects the movement speed because of the root motion.
-			if (m_IsGrounded && move.magnitude > 0)
-			{
-				m_Animator.speed = m_AnimSpeedMultiplier;
-			}
-			else
-			{
-				// don't use that while airborne
-				m_Animator.speed = 1;
-			}
+			m_Animator.speed = m_AnimSpeedMultiplier;
 		}
 
 
@@ -175,7 +213,7 @@ namespace PlayerCharacter
 			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
 			m_Rigidbody.AddForce(extraGravityForce);
 
-			m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+			// m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
 		}
 
 
@@ -186,7 +224,6 @@ namespace PlayerCharacter
 			{
 				// jump!
 				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
-				m_IsGrounded = false;
 				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.1f;
 			}
@@ -202,16 +239,80 @@ namespace PlayerCharacter
 
 		public void OnAnimatorMove()
 		{
+			switch (m_CharacterType)
+			{
+				case CharacterType.Ground: 
+					if (Time.deltaTime > 0)
+					{
+						Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+						
+						// we preserve the existing y part of the current velocity.
+						v.y = m_Rigidbody.velocity.y;
+						m_Rigidbody.velocity = v;
+					}
+					break;
+				case CharacterType.Fly:
+					
+					var physicVelocity = m_Rigidbody.velocity;
+					m_Animator.ApplyBuiltinRootMotion();
+					
+					//With boolean
+					if (!m_EnableFlyingMode)
+					{	
+						//Direct Set
+						// m_Rigidbody.velocity = physicVelocity;
+						
+						if (m_IsGrounded && Time.deltaTime > 0)
+						{
+							Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+						
+							// we preserve the existing y part of the current velocity.
+							v.y = m_Rigidbody.velocity.y;
+							m_Rigidbody.velocity = v;
+						}
+					}
+				
+					//With using physics threshold
+					//Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+					// if (!(Mathf.Abs(v.y) > m_YSpeedThreshold))
+					// {
+					// 	m_Rigidbody.velocity = physicVelocity;
+					// }
+					
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0)
-			{
-				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// if (m_IsGrounded && Time.deltaTime > 0)
+			// {
+			// 	Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// 	
+			//
+			// 	// we preserve the existing y part of the current velocity.
+			// 	// v.y = m_Rigidbody.velocity.y;
+			// 	m_Rigidbody.velocity = v;
+			// 	
+			// 	Debug.Log($"Delta posiiton {m_Animator.deltaPosition}");
+			// }
 
-				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
-			}
+			
+
+			
+
+			// if (m_IsGrounded && Time.deltaTime > 0)
+			// {
+			// 	Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+			// 	
+			//
+			// 	// we preserve the existing y part of the current velocity.
+			// 	v.y = m_Rigidbody.velocity.y;
+			// 	m_Rigidbody.velocity = v;
+			// 	
+			// 	Debug.Log($"Delta posiiton {m_Animator.deltaPosition}");
+			// }
 		}
 		
 		public void DisableRotation()
@@ -232,6 +333,8 @@ namespace PlayerCharacter
 			m_Animator.SetFloat("Forward", 0);
 		}
 
+		private bool m_IsGrounded;
+
 		public LayerMask Layermask;
 
 		void CheckGroundStatus()
@@ -247,13 +350,13 @@ namespace PlayerCharacter
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
-				m_Animator.applyRootMotion = true;
+				// m_Animator.applyRootMotion = true;
 			}
 			else
 			{
 				m_IsGrounded = false;
 				m_GroundNormal = Vector3.up;
-				m_Animator.applyRootMotion = false;
+				// m_Animator.applyRootMotion = false;
 			}
 		}
 	}

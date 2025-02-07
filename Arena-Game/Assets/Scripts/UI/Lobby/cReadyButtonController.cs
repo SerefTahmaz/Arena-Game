@@ -6,27 +6,40 @@ using UnityEngine.UI;
 
 public class cReadyButtonController : MonoBehaviour
 {
-    [SerializeField] private Image m_Image;
+    [SerializeField] private GameObject m_SelectedOverlay;
+    [SerializeField] private cButton m_Button;
     
     private bool m_isReady = false;
 
+    public Action<bool> OnReadyStateChange;
+
+    public bool IsReady => m_isReady;
+
+    private void Awake()
+    {
+        m_Button.OnClickEvent.AddListener(OnClick);
+    }
+
     public void OnClick()
     {
-        m_isReady = !m_isReady;
+        m_isReady = !IsReady;
         UpdateReadyState();
+    }
+
+    public void ResetState()
+    {
+        m_isReady = false;
+        UpdateUI();
     }
     
     private void UpdateReadyState()
     {
-        cLobbyManager.Instance.UpdateIsPlayerReady(m_isReady);
+        OnReadyStateChange?.Invoke(IsReady);
+        UpdateUI();
+    }
 
-        if (m_isReady)
-        {
-            m_Image.color = Color.green;
-        }
-        else
-        {
-            m_Image.color = Color.gray;
-        }
+    private void UpdateUI()
+    {
+        m_SelectedOverlay.SetActive(IsReady);
     }
 }

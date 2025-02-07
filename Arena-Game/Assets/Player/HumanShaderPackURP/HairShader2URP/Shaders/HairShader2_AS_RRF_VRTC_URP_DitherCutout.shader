@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.1.5
+﻿// Made with Amplify Shader Editor v1.9.1.5
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "RRF_HumanShaders/HairShader2/HairShader2_AS_RRF_VRTC_URP"
 {
@@ -1684,7 +1684,7 @@ Shader "RRF_HumanShaders/HairShader2/HairShader2_AS_RRF_VRTC_URP"
 			#pragma vertex vert
 			#pragma fragment frag
 
-			#pragma shader_feature EDITOR_VISUALIZATION
+			#pragma shader_feature_local EDITOR_VISUALIZATION
 
 			#define SHADERPASS SHADERPASS_META
 

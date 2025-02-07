@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DemoBlast.Utils;
+using ArenaGame;
+using ArenaGame.Managers.SaveManager;
+using ArenaGame.Utils;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using QFSW.QC;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using UnityEngine;
+using UnityEngine; 
 using Random = UnityEngine.Random;
 
 public class cLobbyManager : cSingleton<cLobbyManager>
@@ -34,12 +38,16 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     public Action m_OnLobbyUpdate= delegate {  };
     
+    public int LastMapIndex { get; set; }
+    public Action m_OnGameStarted { get; set; }
+    
     
 
     private async void Start()
     {
         m_IconIndex = Random.Range(0, 4).ToString();
-        m_PlayerName = "player" + Random.Range(10, 99);
+        m_PlayerName = "player" + Guid.NewGuid().ToString().Substring(0,20);
+        Debug.Log($"{PlayerName.Length} Player Name {PlayerName}");
         var options = new InitializationOptions();
         options.SetProfile(PlayerName);
         await UnityServices.InitializeAsync(options);
@@ -53,6 +61,9 @@ public class cLobbyManager : cSingleton<cLobbyManager>
 
     private void Update()
     {
+        // if(JoinedLobby == null) Debug.Log("Null lobby");
+        // else Debug.Log("Valid lobby");
+        
         LobbyHeartbeat();
         HandleLobbyPollForUpdates();
     }
@@ -145,16 +156,19 @@ public class cLobbyManager : cSingleton<cLobbyManager>
         Public
     }
     
-    public void CreateLobby(Action onCreated = null)
-    {
-        CreateLobby("myLobby", 4, false, eGameMode.PvP, onCreated);
-    }
+    // public void CreateLobby(Action onCreated = null)
+    // {
+    //     CreateLobby("myLobby", 4, false, eGameMode.PvP, onCreated);
+    // }
 
     [Command]
-    public async void CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, eGameMode gameMode, Action onCreated = null)
+    public async UniTask<RequestResult> CreateLobby(string lobbyName, int maxPlayers, bool isPrivate, eGameMode gameMode)
     {
         try
         {
+            UserSaveHandler.Load();
+            var map = UserSaveHandler.SaveData.m_CurrentMap;
+            
             m_GameStarted = false;
             CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions()
             {
@@ -164,21 +178,20 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                 {
                     {GAME_MODE, new DataObject(DataObject.VisibilityOptions.Public, gameMode.ToString(), DataObject.IndexOptions.S1)},
                     {KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")},
-                    {"Map", new DataObject(DataObject.VisibilityOptions.Public, "de_dust2")}
+                    {"Map", new DataObject(DataObject.VisibilityOptions.Public, map.ToString())}
                 }
             };
             
             JoinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers,createLobbyOptions);
 
             Debug.Log($"lobby name :{JoinedLobby.Name} max Player Count:{JoinedLobby.MaxPlayers} lobby id :{JoinedLobby.Id} lobby code:{JoinedLobby.LobbyCode}");
+            return RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            return RequestResult.Failed;
         }
-        
-        onCreated?.Invoke();
     }
 
     [Command]
@@ -223,7 +236,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             var lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode, joinLobbyByCodeOptions);
             JoinedLobby = lobby;
             Debug.Log("Joined Lobby with code " + lobbyCode);
-            PrintPlayers(JoinedLobby);
+            LobbyUpdated(JoinedLobby);
             
             onJoined?.Invoke();
         }
@@ -233,8 +246,10 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             throw;
         }
     }
+
+    private LobbyEventCallbacks m_LobbyEventCallbacks = new LobbyEventCallbacks();
     
-    public async void JoinLobbyById(string lobbyCode, Action onJoined = null)
+    public async UniTask<RequestResult> JoinLobbyById(string lobbyCode)
     {
         try
         {
@@ -248,15 +263,31 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             var lobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyCode, joinLobbyByCodeOptions);
             JoinedLobby = lobby;
             Debug.Log("Joined Lobby with code " + lobbyCode);
-            PrintPlayers(JoinedLobby);
+            LobbyUpdated(JoinedLobby);
+
+            await LobbyService.Instance.SubscribeToLobbyEventsAsync(lobby.Id, m_LobbyEventCallbacks);
+            m_LobbyEventCallbacks.KickedFromLobby += OnKickedFromLobby;
             
-            onJoined?.Invoke();
+            return RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            return RequestResult.Failed;
         }
+    }
+
+    private void OnKickedFromLobby()
+    {
+        m_LobbyEventCallbacks.KickedFromLobby -= OnKickedFromLobby;
+        ClearVariables();
+        cLobbyListUI.Instance.ReturnToList();
+    }
+
+    private void ClearVariables()
+    {
+        JoinedLobby = null;
+        m_LobbyEventCallbacks = new LobbyEventCallbacks();
     }
 
     [Command]
@@ -281,25 +312,22 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     {
         return new Player(data: new Dictionary<string, PlayerDataObject>()
         {
-            { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName) },
+            { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().Name) },
             { "IconIndex", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, IconIndex) },
+            {"ProfilePhoto",  new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().ProfilePictureURL)},
             { "IsReady", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, m_IsPlayerReady.ToString()) }
         });
     }
 
-    [Command]
-    private void PrintPlayers()
-    {
-        PrintPlayers(JoinedLobby);
-    }
-
-    private void PrintPlayers(Lobby lobby)
+    private void LobbyUpdated(Lobby lobby)
     {
         Debug.Log($"Players in lobby:{lobby.Name} Game Mode: {lobby.Data["GameMode"].Value} Map: {lobby.Data["Map"].Value}");
         foreach (var player in lobby.Players)
         {
             Debug.Log(player.Id +" " + player.Data["PlayerName"].Value);
         }
+        
+        LastMapIndex = int.Parse(JoinedLobby.Data["Map"].Value);
     }
 
     [Command]
@@ -314,7 +342,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
                     { "GameMode", new DataObject(DataObject.VisibilityOptions.Public, gameMode) }
                 }
             });
-            PrintPlayers(JoinedLobby);
+            LobbyUpdated(JoinedLobby);
         }
         catch (LobbyServiceException e)
         {
@@ -333,7 +361,7 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             {
                 Data = new Dictionary<string, PlayerDataObject>()
                 {
-                    { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerName)}
+                    { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, ProfileGenerator.GetPlayerProfile().Name)}
                 }
             });
         }
@@ -343,13 +371,26 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             throw;
         }
     }
+
+    private Tween m_LastIsPlayerReadyUpdate;
     
     [Command]
-    public async void UpdateIsPlayerReady(bool ready)
+    public async void UpdateIsPlayerReadyRateLimited(bool ready)
+    {
+        m_LastIsPlayerReadyUpdate.Kill();
+        m_LastIsPlayerReadyUpdate = DOVirtual.DelayedCall(0.5f, () =>
+        {
+            UpdateIsPlayerReady(ready);
+        });
+    }
+    
+    private async void UpdateIsPlayerReady(bool ready)
     {
         try
         {
             m_IsPlayerReady = ready;
+            if (JoinedLobby == null) return;
+
             await LobbyService.Instance.UpdatePlayerAsync(JoinedLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
             {
                 Data = new Dictionary<string, PlayerDataObject>()
@@ -366,11 +407,12 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     }
     
     [Command]
-    private async void LeaveLobby()
+    public async void LeaveLobby()
     {
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(JoinedLobby.Id, AuthenticationService.Instance.PlayerId);
+            ClearVariables();
         }
         catch (LobbyServiceException e)
         {
@@ -380,17 +422,23 @@ public class cLobbyManager : cSingleton<cLobbyManager>
     }
     
     [Command]
-    public async void KickPlayer(string id)
+    public async UniTask<RequestResult> KickPlayer(string id)
     {
+        var token = new object();
+        MiniLoadingScreen.Instance.ShowPage(token);
+        RequestResult result;
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(JoinedLobby.Id, id);
+            result = RequestResult.Success;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
-            throw;
+            result = RequestResult.Failed;
         }
+        MiniLoadingScreen.Instance.HidePage(token);
+        return result;
     }
 
     private async void MigrateLobby()
@@ -429,11 +477,13 @@ public class cLobbyManager : cSingleton<cLobbyManager>
             try
             {
                 Debug.Log("Start Game");
+                m_OnGameStarted?.Invoke();
 
                 string relayCode = await cRelayManager.Instance.CreateRelay();
                 
                 var lobby = await LobbyService.Instance.UpdateLobbyAsync(JoinedLobby.Id, new UpdateLobbyOptions()
                 {
+                    IsPrivate = true,
                     Data = new Dictionary<string, DataObject>()
                     {
                         { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode) }
